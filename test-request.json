@@ -1,0 +1,13 @@
+{
+  "title": "CurlTest",
+  "durationMinutes": 120,
+  "singleChoiceCount": 2,
+  "multipleChoiceCount": 1,
+  "trueFalseCount": 1,
+  "fillBlankCount": 1,
+  "shortAnswerCount": 1,
+  "programmingCount": 1,
+  "easyPercent": 30,
+  "mediumPercent": 50,
+  "hardPercent": 20
+}
