@@ -39,3 +39,7 @@ yarn-error.log*
 # OS
 .DS_Store
 Thumbs.db
+
+# Runtime (exam-system.sh)
+.backend.pid
+.frontend.pid
