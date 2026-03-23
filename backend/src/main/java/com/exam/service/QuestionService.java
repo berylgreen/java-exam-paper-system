@@ -4,6 +4,7 @@ import com.exam.dto.QuestionDTO;
 import com.exam.entity.Question;
 import com.exam.enums.Difficulty;
 import com.exam.enums.QuestionType;
+import com.exam.repository.PaperQuestionRepository;
 import com.exam.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.util.*;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final PaperQuestionRepository paperQuestionRepository;
 
     /** 分页条件查询 */
     public Page<QuestionDTO> findByFilters(QuestionType type, String chapter,
@@ -60,9 +62,10 @@ public class QuestionService {
         return toDTO(questionRepository.save(q));
     }
 
-    /** 删除题目 */
+    /** 删除题目（同时移除该题在所有试卷中的引用） */
     @Transactional
     public void delete(Long id) {
+        paperQuestionRepository.deleteByQuestionId(id);
         questionRepository.deleteById(id);
     }
 
@@ -113,6 +116,20 @@ public class QuestionService {
         stats.put("bySource", bySource);
 
         return stats;
+    }
+
+    /** 导出全部题目 */
+    public List<QuestionDTO> exportAll() {
+        return questionRepository.findAll().stream().map(this::toDTO).toList();
+    }
+
+    /** 导入题目 (清空后批量导入) */
+    @Transactional
+    public int importAll(List<QuestionDTO> dtos) {
+        questionRepository.deleteAll();
+        List<Question> questions = dtos.stream().map(this::toEntity).toList();
+        questionRepository.saveAll(questions);
+        return questions.size();
     }
 
     // ========== 转换方法 ==========

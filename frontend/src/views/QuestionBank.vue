@@ -2,7 +2,12 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
       <h2 class="page-title" style="margin-bottom:0">📚 题库管理</h2>
-      <el-button type="primary" @click="showAdd = true"><el-icon><Plus /></el-icon> 新增题目</el-button>
+      <div style="display:flex;gap:10px">
+        <el-button type="success" @click="exportQ"><el-icon><Download /></el-icon> 导出题库</el-button>
+        <el-button type="warning" @click="triggerImport"><el-icon><Upload /></el-icon> 导入题库</el-button>
+        <input ref="importInput" type="file" accept=".json" style="display:none" @change="importQ" />
+        <el-button type="primary" @click="showAdd = true"><el-icon><Plus /></el-icon> 新增题目</el-button>
+      </div>
     </div>
 
     <!-- 统计 -->
@@ -143,6 +148,7 @@ const total = ref(0)
 const showDetail = ref(false)
 const detailQ = ref({})
 const showAdd = ref(false)
+const importInput = ref(null)
 const newQ = reactive({ type:'SINGLE_CHOICE', chapter:'', difficulty:'EASY', content:'', options:'', answer:'', explanation:'', defaultScore:2, source:'网络2026年1月' })
 
 const loadQ = async () => {
@@ -167,13 +173,47 @@ const loadMeta = async () => {
 
 const viewQ = (row) => { detailQ.value = row; showDetail.value = true }
 const delQ = async (id) => {
-  await ElMessageBox.confirm('确定删除？','提示',{type:'warning'})
-  await questionApi.delete(id); ElMessage.success('已删除'); loadQ(); loadMeta()
+  try {
+    await ElMessageBox.confirm('确定删除？该题目将从所有试卷中移除。','提示',{type:'warning'})
+    await questionApi.delete(id); ElMessage.success('已删除'); loadQ(); loadMeta()
+  } catch (e) {
+    if (e !== 'cancel' && e !== 'close') {
+      ElMessage.error('删除失败: ' + (e.response?.data?.message || e.message))
+    }
+  }
 }
 const addQ = async () => {
   try {
     await questionApi.create(newQ); ElMessage.success('已添加'); showAdd.value = false; loadQ(); loadMeta()
   } catch (e) { ElMessage.error('添加失败: ' + (e.response?.data?.message||e.message)) }
+}
+
+const exportQ = () => {
+  window.open(questionApi.exportUrl, '_blank')
+}
+
+const triggerImport = () => {
+  importInput.value.click()
+}
+
+const importQ = async (event) => {
+  const file = event.target.files[0]
+  if (!file) return
+  try {
+    await ElMessageBox.confirm(
+      '导入将替换当前全部题库数据，确定继续？',
+      '⚠️ 导入题库',
+      { type: 'warning', confirmButtonText: '确定导入', cancelButtonText: '取消' }
+    )
+    const res = await questionApi.importFile(file)
+    ElMessage.success(res.data.message || '导入成功')
+    loadQ(); loadMeta()
+  } catch (e) {
+    if (e !== 'cancel' && e !== 'close') {
+      ElMessage.error('导入失败: ' + (e.response?.data?.message || e.message))
+    }
+  }
+  event.target.value = ''
 }
 
 onMounted(() => { loadQ(); loadMeta() })

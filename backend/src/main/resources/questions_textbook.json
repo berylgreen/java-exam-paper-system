@@ -1,0 +1,2462 @@
+[
+  {
+    "type": "FILL_BLANK",
+    "chapter": "Java概述",
+    "difficulty": "EASY",
+    "content": "Java语言最早诞生于1991年，起初被称为______语言。",
+    "options": null,
+    "answer": "Oak",
+    "explanation": "Java前身为Oak语言",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "Java概述",
+    "difficulty": "EASY",
+    "content": "Java的跨平台特性是通过在______中运行Java程序实现的。",
+    "options": null,
+    "answer": "Java虚拟机（JVM）",
+    "explanation": "JVM实现跨平台",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "Java概述",
+    "difficulty": "EASY",
+    "content": "Java运行环境简称为______。",
+    "options": null,
+    "answer": "JRE",
+    "explanation": "JRE=Java Runtime Environment",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "Java概述",
+    "difficulty": "EASY",
+    "content": "Java的源文件和字节码文件的扩展名分别是______和______。",
+    "options": null,
+    "answer": ".java;.class",
+    "explanation": "源文件.java，编译后.class",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "Java概述",
+    "difficulty": "EASY",
+    "content": "javac和java两个命令存放在JDK安装目录的______目录下。",
+    "options": null,
+    "answer": "bin",
+    "explanation": "JDK的bin目录存放工具",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "Java概述",
+    "difficulty": "EASY",
+    "content": "Java属于以下哪种语言？",
+    "options": [
+      {
+        "label": "A",
+        "text": "机器语言"
+      },
+      {
+        "label": "B",
+        "text": "汇编语言"
+      },
+      {
+        "label": "C",
+        "text": "高级语言"
+      },
+      {
+        "label": "D",
+        "text": "以上都不是"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Java是高级编程语言",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "Java概述",
+    "difficulty": "EASY",
+    "content": "简单来说，Java程序的运行机制分为编写、（ ）和运行3个过程。",
+    "options": [
+      {
+        "label": "A",
+        "text": "编辑"
+      },
+      {
+        "label": "B",
+        "text": "汇编"
+      },
+      {
+        "label": "C",
+        "text": "编码"
+      },
+      {
+        "label": "D",
+        "text": "编译"
+      }
+    ],
+    "answer": "D",
+    "explanation": "编写→编译→运行",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "Java概述",
+    "difficulty": "EASY",
+    "content": "下面哪种类型的文件可以在Java虚拟机中运行？",
+    "options": [
+      {
+        "label": "A",
+        "text": ".java"
+      },
+      {
+        "label": "B",
+        "text": ".jre"
+      },
+      {
+        "label": "C",
+        "text": ".exe"
+      },
+      {
+        "label": "D",
+        "text": ".class"
+      }
+    ],
+    "answer": "D",
+    "explanation": "JVM执行.class字节码文件",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "Java概述",
+    "difficulty": "MEDIUM",
+    "content": "安装好JDK后，java命令的作用相当于（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "Java文档制作工具"
+      },
+      {
+        "label": "B",
+        "text": "Java解释器"
+      },
+      {
+        "label": "C",
+        "text": "Java编译器"
+      },
+      {
+        "label": "D",
+        "text": "Java启动器"
+      }
+    ],
+    "answer": "B",
+    "explanation": "java命令解释执行字节码",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "Java概述",
+    "difficulty": "EASY",
+    "content": "用Java虚拟机执行类名为Hello的应用程序的正确命令是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "java Hello.class"
+      },
+      {
+        "label": "B",
+        "text": "java Hello.java"
+      },
+      {
+        "label": "C",
+        "text": "Hello.class"
+      },
+      {
+        "label": "D",
+        "text": "java Hello"
+      }
+    ],
+    "answer": "D",
+    "explanation": "java命令后跟类名不加扩展名",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "Java概述",
+    "difficulty": "MEDIUM",
+    "content": "简述Java语言的特点。",
+    "options": null,
+    "answer": "Java语言特点：简单性、面向对象、分布式、健壮性、安全性、体系结构中立（跨平台）、可移植性、解释执行、高性能、多线程、动态性。",
+    "explanation": "Java语言核心特性",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "Java概述",
+    "difficulty": "MEDIUM",
+    "content": "简述Java的3个技术平台及它们分别适合开发的应用。",
+    "options": null,
+    "answer": "Java SE（标准版，桌面应用）、Java EE（企业版，企业级网络应用）、Java ME（微型版，移动终端应用）。",
+    "explanation": "三大平台定位不同",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "Java概述",
+    "difficulty": "EASY",
+    "content": "简述什么是JRE和JDK。",
+    "options": null,
+    "answer": "JRE是Java运行环境，包含JVM和核心类库。JDK是Java开发工具包，包含JRE和开发工具（编译器、调试器等）。",
+    "explanation": "JDK⊃JRE⊃JVM",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "Java概述",
+    "difficulty": "MEDIUM",
+    "content": "简述Java的编译运行机制。",
+    "options": null,
+    "answer": "编译阶段：使用javac命令将.java源文件编译成.class字节码文件。运行阶段：使用java命令启动JVM，将字节码解释/即时编译并执行。",
+    "explanation": "先编译后解释执行",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "Java概述",
+    "difficulty": "EASY",
+    "content": "编写程序，实现在控制台显示\"路漫漫其修远兮，吾将上下而求索\"。",
+    "options": null,
+    "answer": "public class Poem {\n    public static void main(String[] args) {\n        System.out.println(\"路漫漫其修远兮，吾将上下而求索\");\n    }\n}",
+    "explanation": "基本输出语句",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "Java基础语法",
+    "difficulty": "EASY",
+    "content": "将两个数相加，生成一个值的语句称为______。",
+    "options": null,
+    "answer": "表达式",
+    "explanation": "表达式产生值",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "Java基础语法",
+    "difficulty": "EASY",
+    "content": "数据类型转换方式分为自动类型转换和______两种。",
+    "options": null,
+    "answer": "强制类型转换",
+    "explanation": "显式转换=强制类型转换",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "Java基础语法",
+    "difficulty": "EASY",
+    "content": "选择结构也称______，其根据条件的成立与否来决定要执行哪些语句。",
+    "options": null,
+    "answer": "分支结构",
+    "explanation": "分支=选择",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "Java基础语法",
+    "difficulty": "EASY",
+    "content": "通常称给定条件为循环条件，称反复执行的程序段为______。",
+    "options": null,
+    "answer": "循环体",
+    "explanation": "循环体是重复执行的代码",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "Java基础语法",
+    "difficulty": "EASY",
+    "content": "结构化程序中最简单的结构是______。",
+    "options": null,
+    "answer": "顺序结构",
+    "explanation": "顺序→分支→循环",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "Java基础语法",
+    "difficulty": "EASY",
+    "content": "do-while循环结构中的循环体执行的最少次数为（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "1"
+      },
+      {
+        "label": "B",
+        "text": "0"
+      },
+      {
+        "label": "C",
+        "text": "3"
+      },
+      {
+        "label": "D",
+        "text": "2"
+      }
+    ],
+    "answer": "A",
+    "explanation": "do-while至少执行一次",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "Java基础语法",
+    "difficulty": "MEDIUM",
+    "content": "已知y=2, z=3, n=4，则经过n=n-y*z/n运算后，n的值为（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "-12"
+      },
+      {
+        "label": "B",
+        "text": "-1"
+      },
+      {
+        "label": "C",
+        "text": "3"
+      },
+      {
+        "label": "D",
+        "text": "-3"
+      }
+    ],
+    "answer": "C",
+    "explanation": "整数除法：n=4-2*3/4=4-1=3",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "Java基础语法",
+    "difficulty": "MEDIUM",
+    "content": "已知a=2, b=3，则表达式a%b*4%b的值为（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "2"
+      },
+      {
+        "label": "B",
+        "text": "1"
+      },
+      {
+        "label": "C",
+        "text": "-1"
+      },
+      {
+        "label": "D",
+        "text": "-2"
+      }
+    ],
+    "answer": "A",
+    "explanation": "2%3=2, 2*4=8, 8%3=2",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "Java基础语法",
+    "difficulty": "MEDIUM",
+    "content": "语句\"while(!e)\"中的条件\"!e\"等价于（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "e==0"
+      },
+      {
+        "label": "B",
+        "text": "e!=1"
+      },
+      {
+        "label": "C",
+        "text": "e!=0"
+      },
+      {
+        "label": "D",
+        "text": "~e"
+      }
+    ],
+    "answer": "A",
+    "explanation": "!e等价于e为假",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "Java基础语法",
+    "difficulty": "EASY",
+    "content": "while循环，条件为（ ）时执行循环体。",
+    "options": [
+      {
+        "label": "A",
+        "text": "false"
+      },
+      {
+        "label": "B",
+        "text": "true"
+      },
+      {
+        "label": "C",
+        "text": "0"
+      },
+      {
+        "label": "D",
+        "text": "假或真"
+      }
+    ],
+    "answer": "B",
+    "explanation": "条件为true时循环",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "Java基础语法",
+    "difficulty": "MEDIUM",
+    "content": "请简述Java的8种基本数据类型及其所占内存大小。",
+    "options": null,
+    "answer": "byte(1字节), short(2字节), int(4字节), long(8字节), float(4字节), double(8字节), char(2字节), boolean(1位/通常1字节)。",
+    "explanation": "8种基本类型",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "Java基础语法",
+    "difficulty": "MEDIUM",
+    "content": "请简述数据类型转换的原理。",
+    "options": null,
+    "answer": "自动类型转换：容量小的自动转为容量大的。强制类型转换：大转小，可能精度损失，需显式括号。",
+    "explanation": "宽化vs窄化",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "Java基础语法",
+    "difficulty": "MEDIUM",
+    "content": "请简述&&和&的区别。",
+    "options": null,
+    "answer": "&&是短路与，左侧为false不再计算右侧；&是逻辑与，都会计算。在位运算中&也是按位与。",
+    "explanation": "短路与vs非短路与",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "Java基础语法",
+    "difficulty": "EASY",
+    "content": "请简述break和continue语句的区别。",
+    "options": null,
+    "answer": "break跳出当前整个循环或switch结构；continue跳过当前循环剩余语句，进入下一次迭代。",
+    "explanation": "break终止循环,continue跳过本次",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "Java基础语法",
+    "difficulty": "EASY",
+    "content": "编写程序，使用\"*\"输出直角三角形。",
+    "options": null,
+    "answer": "public class Triangle {\n    public static void main(String[] args) {\n        for (int i = 1; i <= 5; i++) {\n            for (int j = 1; j <= i; j++) {\n                System.out.print(\"*\");\n            }\n            System.out.println();\n        }\n    }\n}",
+    "explanation": "嵌套循环打印图形",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "Java基础语法",
+    "difficulty": "MEDIUM",
+    "content": "编写程序，计算字符数组中每个字符出现的次数。",
+    "options": null,
+    "answer": "import java.util.HashMap;\npublic class CharCount {\n    public static void main(String[] args) {\n        char[] chars = {'a','b','c','a','b','a'};\n        HashMap<Character,Integer> map = new HashMap<>();\n        for (char c : chars) map.put(c, map.getOrDefault(c,0)+1);\n        for (Character key : map.keySet()) System.out.println(key+\": \"+map.get(key));\n    }\n}",
+    "explanation": "HashMap统计字符频次",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "面向对象基础",
+    "difficulty": "EASY",
+    "content": "对象是对事物的抽象，而______是对对象的抽象和归纳。",
+    "options": null,
+    "answer": "类",
+    "explanation": "类是对象的模板",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "面向对象基础",
+    "difficulty": "EASY",
+    "content": "在类体中，变量定义部分所定义的变量称为类的______。",
+    "options": null,
+    "answer": "成员变量",
+    "explanation": "成员变量=实例变量",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "面向对象基础",
+    "difficulty": "EASY",
+    "content": "在Java中，可以使用关键字______来创建类的实例对象。",
+    "options": null,
+    "answer": "new",
+    "explanation": "new分配内存并调用构造方法",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "面向对象基础",
+    "difficulty": "EASY",
+    "content": "在关键字中能代表当前类或对象本身的是______。",
+    "options": null,
+    "answer": "this",
+    "explanation": "this引用当前对象",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "______指那些类定义代码被置于其他类定义中的类。",
+    "options": null,
+    "answer": "内部类",
+    "explanation": "内部类定义在其他类内部",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "面向对象基础",
+    "difficulty": "EASY",
+    "content": "类的定义必须包含在以下哪种符号之间？",
+    "options": "[{\"label\":\"A\",\"text\":\"小括号()\"},{\"label\":\"B\",\"text\":\"双引号\"\"\"},{\"label\":\"C\",\"text\":\"大括号{}\"},{\"label\":\"D\",\"text\":\"中括号[]\"}]",
+    "answer": "C",
+    "explanation": "类体用大括号包围",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "面向对象基础",
+    "difficulty": "EASY",
+    "content": "在以下哪种情况下，构造方法被调用？",
+    "options": [
+      {
+        "label": "A",
+        "text": "类定义时"
+      },
+      {
+        "label": "B",
+        "text": "创建对象时"
+      },
+      {
+        "label": "C",
+        "text": "使用对象的属性时"
+      },
+      {
+        "label": "D",
+        "text": "使用对象的方法时"
+      }
+    ],
+    "answer": "B",
+    "explanation": "new时自动调用构造方法",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "有一个类B，下面为其构造方法的声明，正确的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "b(int x) {}"
+      },
+      {
+        "label": "B",
+        "text": "void B(int x) {}"
+      },
+      {
+        "label": "C",
+        "text": "void b(int x) {}"
+      },
+      {
+        "label": "D",
+        "text": "B(int x) {}"
+      }
+    ],
+    "answer": "D",
+    "explanation": "构造方法名=类名，无返回类型",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "面向对象基础",
+    "difficulty": "EASY",
+    "content": "下面哪一种是正确的类声明？",
+    "options": [
+      {
+        "label": "A",
+        "text": "public class Qf{}"
+      },
+      {
+        "label": "B",
+        "text": "public void QF{}"
+      },
+      {
+        "label": "C",
+        "text": "public class void max{}"
+      },
+      {
+        "label": "D",
+        "text": "public class min(){}"
+      }
+    ],
+    "answer": "A",
+    "explanation": "正确的类声明格式",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "定义外部类时不能用到的关键字是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "final"
+      },
+      {
+        "label": "B",
+        "text": "public"
+      },
+      {
+        "label": "C",
+        "text": "protected"
+      },
+      {
+        "label": "D",
+        "text": "abstract"
+      }
+    ],
+    "answer": "C",
+    "explanation": "外部类不能用protected修饰",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "面向对象基础",
+    "difficulty": "EASY",
+    "content": "什么是面向对象？",
+    "options": null,
+    "answer": "面向对象是一种编程思想，将现实世界的事物抽象为对象，通过对象之间的交互来设计软件。具有封装、继承、多态三大特征。",
+    "explanation": "OOP核心思想",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "构造方法与普通成员方法的区别是什么？",
+    "options": null,
+    "answer": "1.构造方法名必须与类名相同；2.没有返回类型(连void都没有)；3.随对象实例化自动调用，普通方法需主动调用。",
+    "explanation": "构造方法的特殊性",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "什么是垃圾回收机制？",
+    "options": null,
+    "answer": "是JVM自动回收不可达对象所占内存空间的机制，减轻了程序员手动管理内存的负担，防止内存泄漏。",
+    "explanation": "GC自动回收内存",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "面向对象基础",
+    "difficulty": "EASY",
+    "content": "类与对象之间的关系是什么样的？",
+    "options": null,
+    "answer": "类是对象的抽象模板，对象是类的具体实例。类定义了对象的属性和行为。",
+    "explanation": "类是模板，对象是实例",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "面向对象基础",
+    "difficulty": "EASY",
+    "content": "书架上有30本书，箱子中有40本书，把书架上的书全部放进箱子，使用带参数的方法计算箱子里书的总数。",
+    "options": null,
+    "answer": "public class BookBox {\n    public int addBooks(int currentBoxBooks, int shelfBooks) {\n        return currentBoxBooks + shelfBooks;\n    }\n    public static void main(String[] args) {\n        BookBox box = new BookBox();\n        int total = box.addBooks(40, 30);\n        System.out.println(\"箱子里书的总数: \" + total);\n    }\n}",
+    "explanation": "带参数方法的使用",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "创建信用卡类，有两个成员变量卡号和密码。设计两个不同的构造方法，分别用于设置密码和未设置密码(默认\"123321\")两种情况。",
+    "options": null,
+    "answer": "public class CreditCard {\n    String cardNo;\n    String password;\n    public CreditCard(String cardNo, String password) {\n        this.cardNo = cardNo;\n        this.password = password;\n    }\n    public CreditCard(String cardNo) {\n        this.cardNo = cardNo;\n        this.password = \"123321\";\n    }\n}",
+    "explanation": "构造方法重载",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "面向对象基础",
+    "difficulty": "EASY",
+    "content": "设计手机类，手机有一个拨打电话的静态方法，此方法与手机的品牌和型号无关。",
+    "options": null,
+    "answer": "public class Phone {\n    public static void call() {\n        System.out.println(\"拨打电话\");\n    }\n}",
+    "explanation": "静态方法不依赖对象",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "继承与多态",
+    "difficulty": "EASY",
+    "content": "如果在子类中需要访问父类的被重写方法，可以通过______关键字来实现。",
+    "options": null,
+    "answer": "super",
+    "explanation": "super访问父类成员",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "继承与多态",
+    "difficulty": "EASY",
+    "content": "Java中使用______关键字来实现类的继承。",
+    "options": null,
+    "answer": "extends",
+    "explanation": "extends实现继承",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "继承与多态",
+    "difficulty": "EASY",
+    "content": "Java语言中______是所有类的根。",
+    "options": null,
+    "answer": "Object",
+    "explanation": "Object是根类",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "继承与多态",
+    "difficulty": "MEDIUM",
+    "content": "类成员的访问控制符有______、______、______和默认4种。",
+    "options": null,
+    "answer": "public;protected;private",
+    "explanation": "四种访问控制级别",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "继承与多态",
+    "difficulty": "EASY",
+    "content": "当一个类的修饰符为______时，说明该类不能被继承。",
+    "options": null,
+    "answer": "final",
+    "explanation": "final类不能有子类",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "继承与多态",
+    "difficulty": "EASY",
+    "content": "下列选项中，表示数据或方法只能被本类访问的修饰符是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "public"
+      },
+      {
+        "label": "B",
+        "text": "protected"
+      },
+      {
+        "label": "C",
+        "text": "private"
+      },
+      {
+        "label": "D",
+        "text": "final"
+      }
+    ],
+    "answer": "C",
+    "explanation": "private限本类访问",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "继承与多态",
+    "difficulty": "EASY",
+    "content": "关键字（ ）表明一个对象或变量在初始化后不能修改。",
+    "options": [
+      {
+        "label": "A",
+        "text": "extends"
+      },
+      {
+        "label": "B",
+        "text": "final"
+      },
+      {
+        "label": "C",
+        "text": "this"
+      },
+      {
+        "label": "D",
+        "text": "finalize"
+      }
+    ],
+    "answer": "B",
+    "explanation": "final表示不可修改",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "继承与多态",
+    "difficulty": "MEDIUM",
+    "content": "已知Employee是父类，Manager和Director是子类，则正确的语句是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "Employee e = new Manager();"
+      },
+      {
+        "label": "B",
+        "text": "Director d=new Manager();"
+      },
+      {
+        "label": "C",
+        "text": "Director d=new Employee();"
+      },
+      {
+        "label": "D",
+        "text": "Manager m=new Director();"
+      }
+    ],
+    "answer": "A",
+    "explanation": "父类引用可指向子类对象",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "继承与多态",
+    "difficulty": "MEDIUM",
+    "content": "关于Java中的继承，下列说法错误的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "继承是面向对象编程的核心特征之一"
+      },
+      {
+        "label": "B",
+        "text": "继承使得程序员可以在原有类的基础上设计新类"
+      },
+      {
+        "label": "C",
+        "text": "子类会自动拥有父类的属性和方法"
+      },
+      {
+        "label": "D",
+        "text": "Java中的类采用多重继承"
+      }
+    ],
+    "answer": "D",
+    "explanation": "Java类只支持单继承",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "继承与多态",
+    "difficulty": "EASY",
+    "content": "能作为类的修饰符，也能作为类成员的修饰符的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "public"
+      },
+      {
+        "label": "B",
+        "text": "extends"
+      },
+      {
+        "label": "C",
+        "text": "Float"
+      },
+      {
+        "label": "D",
+        "text": "static"
+      }
+    ],
+    "answer": "A",
+    "explanation": "public可修饰类和成员",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "继承与多态",
+    "difficulty": "EASY",
+    "content": "什么是继承？",
+    "options": null,
+    "answer": "继承是子类自动获得父类非私有属性和方法的机制，是代码复用的重要手段，体现is-a关系。",
+    "explanation": "继承实现代码复用",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "继承与多态",
+    "difficulty": "MEDIUM",
+    "content": "什么是多态？",
+    "options": null,
+    "answer": "多态是指同一行为具有多个不同表现形式的能力。通常体现为：父类引用指向子类对象，调用被重写的方法时表现出子类的行为。",
+    "explanation": "同一接口不同实现",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "继承与多态",
+    "difficulty": "MEDIUM",
+    "content": "请简述方法的重载与重写的区别。",
+    "options": null,
+    "answer": "重载(Overload)在同一个类中，方法名相同参数列表不同。重写(Override)发生在子父类中，方法签名相同，返回值和异常范围不大于父类，访问权限不小于父类。",
+    "explanation": "重载vs重写",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "继承与多态",
+    "difficulty": "EASY",
+    "content": "创建银行卡类，并设计两个子类：储蓄卡和信用卡。",
+    "options": null,
+    "answer": "class BankCard { }\nclass DebitCard extends BankCard { }\nclass CreditCardEx extends BankCard { }",
+    "explanation": "简单继承关系",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "继承与多态",
+    "difficulty": "MEDIUM",
+    "content": "定义交通工具类，设计火车和汽车子类，重写移动方法。",
+    "options": null,
+    "answer": "class Vehicle {\n    public void move() { System.out.println(\"交通工具可以移动\"); }\n}\nclass Train extends Vehicle {\n    @Override\n    public void move() { System.out.println(\"火车在铁轨上行驶\"); }\n}\nclass Car extends Vehicle {\n    @Override\n    public void move() { System.out.println(\"汽车在公路上行驶\"); }\n}",
+    "explanation": "方法重写演示多态",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "抽象类与接口",
+    "difficulty": "EASY",
+    "content": "Java中使用______关键字，来表示抽象的意思。",
+    "options": null,
+    "answer": "abstract",
+    "explanation": "abstract定义抽象",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "抽象类与接口",
+    "difficulty": "EASY",
+    "content": "Java中使用______关键字，来实现接口的继承。",
+    "options": null,
+    "answer": "implements",
+    "explanation": "implements实现接口",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "抽象类与接口",
+    "difficulty": "MEDIUM",
+    "content": "Java 8中引入了一个新的操作符\"->\"，可以称之为箭头操作符或者______操作符。",
+    "options": null,
+    "answer": "lambda",
+    "explanation": "Lambda表达式简化代码",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "抽象类与接口",
+    "difficulty": "EASY",
+    "content": "______类不能创建对象，必须产生其子类，由子类创建对象。",
+    "options": null,
+    "answer": "抽象",
+    "explanation": "抽象类不能实例化",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "抽象类与接口",
+    "difficulty": "MEDIUM",
+    "content": "定义接口时，接口体中只进行方法的声明，不允许提供方法的______。",
+    "options": null,
+    "answer": "实现（方法体）",
+    "explanation": "接口方法默认抽象",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "抽象类与接口",
+    "difficulty": "MEDIUM",
+    "content": "以下关于Java语言继承的说法，正确的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "Java中的类可以有多个直接父类"
+      },
+      {
+        "label": "B",
+        "text": "抽象类不能有子类"
+      },
+      {
+        "label": "C",
+        "text": "Java中的接口支持多继承"
+      },
+      {
+        "label": "D",
+        "text": "最终类可以作为其他类的父类"
+      }
+    ],
+    "answer": "C",
+    "explanation": "接口支持多继承",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "抽象类与接口",
+    "difficulty": "EASY",
+    "content": "现有两个类A、B，表示B继承A的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "class A extends B"
+      },
+      {
+        "label": "B",
+        "text": "class B implements A"
+      },
+      {
+        "label": "C",
+        "text": "class A implements B"
+      },
+      {
+        "label": "D",
+        "text": "class B extends A"
+      }
+    ],
+    "answer": "D",
+    "explanation": "B extends A表示B继承A",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "抽象类与接口",
+    "difficulty": "EASY",
+    "content": "下列选项中，用于定义接口的关键字是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "interface"
+      },
+      {
+        "label": "B",
+        "text": "implements"
+      },
+      {
+        "label": "C",
+        "text": "abstract"
+      },
+      {
+        "label": "D",
+        "text": "class"
+      }
+    ],
+    "answer": "A",
+    "explanation": "interface定义接口",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "抽象类与接口",
+    "difficulty": "EASY",
+    "content": "下列选项中，表示数据或方法只能被本类访问的修饰符是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "public"
+      },
+      {
+        "label": "B",
+        "text": "protected"
+      },
+      {
+        "label": "C",
+        "text": "private"
+      },
+      {
+        "label": "D",
+        "text": "final"
+      }
+    ],
+    "answer": "C",
+    "explanation": "private限本类访问",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "抽象类与接口",
+    "difficulty": "HARD",
+    "content": "关于\"@FunctionalInterface\"注解代表的含义，下列说法正确的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "主要用于编译级错误检查"
+      },
+      {
+        "label": "B",
+        "text": "主要用于简化Java开发"
+      },
+      {
+        "label": "C",
+        "text": "检查是否含有多个非抽象方法"
+      },
+      {
+        "label": "D",
+        "text": "当接口包含默认方法时编译报错"
+      }
+    ],
+    "answer": "A",
+    "explanation": "FunctionalInterface用于编译检查",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "抽象类与接口",
+    "difficulty": "HARD",
+    "content": "请简述抽象类和接口的区别。",
+    "options": null,
+    "answer": "1.抽象类用abstract修饰，接口用interface。2.抽象类可有普通方法和变量，接口只有抽象方法(Java8+有default)和常量。3.类只支持单继承抽象类，但可多实现接口。",
+    "explanation": "抽象类vs接口",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "抽象类与接口",
+    "difficulty": "MEDIUM",
+    "content": "接口中方法的修饰符都有哪些？属性的修饰符有哪些？",
+    "options": null,
+    "answer": "方法默认修饰符为public abstract；属性默认修饰符为public static final。",
+    "explanation": "接口成员默认修饰符",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "抽象类与接口",
+    "difficulty": "MEDIUM",
+    "content": "接口的作用是什么？简述接口与类的关系。",
+    "options": null,
+    "answer": "作用：定义规范、实现多重继承效果、解耦。类实现接口(implements)，必须实现所有抽象方法，一个类可实现多个接口。",
+    "explanation": "接口定义规范",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "抽象类与接口",
+    "difficulty": "MEDIUM",
+    "content": "设计一个名为Geometric的几何图形抽象类，包含color和filled属性，无参构造和有参构造。",
+    "options": null,
+    "answer": "abstract class Geometric {\n    String color;\n    boolean filled;\n    public Geometric() {}\n    public Geometric(String color, boolean filled) {\n        this.color = color;\n        this.filled = filled;\n    }\n}",
+    "explanation": "抽象类设计",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "异常处理",
+    "difficulty": "EASY",
+    "content": "Java语言的异常捕获结构由try、______和finally 3个部分组成。",
+    "options": null,
+    "answer": "catch",
+    "explanation": "try-catch-finally",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "异常处理",
+    "difficulty": "EASY",
+    "content": "抛出异常、生成异常对象都可以通过______语句实现。",
+    "options": null,
+    "answer": "throw",
+    "explanation": "throw抛出异常对象",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "异常处理",
+    "difficulty": "EASY",
+    "content": "捕获异常的统一出口通过______语句实现。",
+    "options": null,
+    "answer": "finally",
+    "explanation": "finally总是执行",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "异常处理",
+    "difficulty": "MEDIUM",
+    "content": "______异常是由于环境造成的，是捕获处理的重点，即表示是可以恢复的。",
+    "options": null,
+    "answer": "检查（Checked）",
+    "explanation": "受检异常需强制处理",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "异常处理",
+    "difficulty": "EASY",
+    "content": "Throwable类有两个子类，分别是______类和Exception类。",
+    "options": null,
+    "answer": "Error",
+    "explanation": "Throwable→Error+Exception",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "异常处理",
+    "difficulty": "EASY",
+    "content": "在异常处理中，释放资源、关闭文件等，由（ ）来完成。",
+    "options": [
+      {
+        "label": "A",
+        "text": "try子句"
+      },
+      {
+        "label": "B",
+        "text": "catch子句"
+      },
+      {
+        "label": "C",
+        "text": "finally子句"
+      },
+      {
+        "label": "D",
+        "text": "throw子句"
+      }
+    ],
+    "answer": "C",
+    "explanation": "finally用于资源清理",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "异常处理",
+    "difficulty": "EASY",
+    "content": "当方法遇到异常又不知如何处理时，应该（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "捕获异常"
+      },
+      {
+        "label": "B",
+        "text": "抛出异常"
+      },
+      {
+        "label": "C",
+        "text": "声明异常"
+      },
+      {
+        "label": "D",
+        "text": "嵌套异常"
+      }
+    ],
+    "answer": "B",
+    "explanation": "不知如何处理就抛出",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "异常处理",
+    "difficulty": "MEDIUM",
+    "content": "下列关于异常的说法，正确的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "异常是编译时出现的错误"
+      },
+      {
+        "label": "B",
+        "text": "异常是运行时出现的错误"
+      },
+      {
+        "label": "C",
+        "text": "程序错误就是异常"
+      },
+      {
+        "label": "D",
+        "text": "以上说法都不正确"
+      }
+    ],
+    "answer": "B",
+    "explanation": "异常是运行时错误",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "异常处理",
+    "difficulty": "MEDIUM",
+    "content": "下列有关throw和throws的说法，不正确的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "throw后面加异常类的对象"
+      },
+      {
+        "label": "B",
+        "text": "throws后面加异常类的类名"
+      },
+      {
+        "label": "C",
+        "text": "throws后面只能加自定义异常类"
+      },
+      {
+        "label": "D",
+        "text": "以上说法都不正确"
+      }
+    ],
+    "answer": "C",
+    "explanation": "throws可加任何异常类",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "异常处理",
+    "difficulty": "EASY",
+    "content": "关于异常，下列说法正确的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "异常是一种对象"
+      },
+      {
+        "label": "B",
+        "text": "一旦程序运行异常将被创建"
+      },
+      {
+        "label": "C",
+        "text": "为保证运行速度应避免异常控制"
+      },
+      {
+        "label": "D",
+        "text": "以上说法都不正确"
+      }
+    ],
+    "answer": "A",
+    "explanation": "异常是对象",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "异常处理",
+    "difficulty": "EASY",
+    "content": "请简述什么是异常。",
+    "options": null,
+    "answer": "异常是程序在运行期发生的不正常情况，它中断了正常的指令流。",
+    "explanation": "异常中断正常执行流",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "异常处理",
+    "difficulty": "MEDIUM",
+    "content": "请简述什么是必检异常，什么是免检异常。",
+    "options": null,
+    "answer": "必检异常(Checked)：Exception的直接子类，编译期必须捕获或声明。免检异常(Unchecked)：RuntimeException及子类、Error，编译期不强制。",
+    "explanation": "受检vs非受检异常",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "异常处理",
+    "difficulty": "MEDIUM",
+    "content": "请简述Error和Exception的区别。",
+    "options": null,
+    "answer": "Error指JVM无法解决的严重问题(如OOM)，程序无法处理；Exception指一般性问题，可通过代码捕获处理。",
+    "explanation": "Error严重,Exception可处理",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "异常处理",
+    "difficulty": "MEDIUM",
+    "content": "编写Circle类，提供InvalidRadiusException异常类，当半径为负数时抛出异常。",
+    "options": null,
+    "answer": "class InvalidRadiusException extends Exception { }\nclass Circle {\n    double radius;\n    public Circle() {}\n    public Circle(double radius) throws InvalidRadiusException {\n        setRadius(radius);\n    }\n    public void setRadius(double radius) throws InvalidRadiusException {\n        if (radius < 0) throw new InvalidRadiusException();\n        this.radius = radius;\n    }\n}",
+    "explanation": "自定义异常类",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "异常处理",
+    "difficulty": "HARD",
+    "content": "编写Triangle类，创建IllegalTriangleException异常类，构造方法中验证三角形边长规则。",
+    "options": null,
+    "answer": "class IllegalTriangleException extends Exception { }\nclass Triangle {\n    public Triangle(double a, double b, double c) throws IllegalTriangleException {\n        if (a+b<=c || a+c<=b || b+c<=a) throw new IllegalTriangleException();\n    }\n}",
+    "explanation": "三角形边长校验异常",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "集合框架",
+    "difficulty": "EASY",
+    "content": "______接口是List, Set和Queue等接口的父接口。",
+    "options": null,
+    "answer": "Collection",
+    "explanation": "Collection是集合顶级接口",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "集合框架",
+    "difficulty": "EASY",
+    "content": "______集合中元素是有序且可重复的，相当于数学里面的数列。",
+    "options": null,
+    "answer": "List",
+    "explanation": "List有序可重复",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "集合框架",
+    "difficulty": "EASY",
+    "content": "______集合中元素是无序、不可重复的。",
+    "options": null,
+    "answer": "Set",
+    "explanation": "Set无序不重复",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "集合框架",
+    "difficulty": "MEDIUM",
+    "content": "______接口未继承Collection接口，用于存储键值对形式的元素。",
+    "options": null,
+    "answer": "Map",
+    "explanation": "Map存储key-value",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "集合框架",
+    "difficulty": "HARD",
+    "content": "Java 8提供了______方法进行遍历，遍历时输出剩余元素且只能用一次。",
+    "options": null,
+    "answer": "forEachRemaining",
+    "explanation": "Iterator的forEachRemaining",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "集合框架",
+    "difficulty": "EASY",
+    "content": "在Java中，（ ）类对象可以使用值对的形式保存数据。",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "LinkedList"
+      },
+      {
+        "label": "D",
+        "text": "HashMap"
+      }
+    ],
+    "answer": "D",
+    "explanation": "HashMap存储键值对",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "集合框架",
+    "difficulty": "MEDIUM",
+    "content": "下列属于线程安全的类是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "Vector"
+      },
+      {
+        "label": "C",
+        "text": "HashMap"
+      },
+      {
+        "label": "D",
+        "text": "HashSet"
+      }
+    ],
+    "answer": "B",
+    "explanation": "Vector线程安全",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "集合框架",
+    "difficulty": "MEDIUM",
+    "content": "\"ArrayList list=new ArrayList(20);\"，list扩容了几次？",
+    "options": [
+      {
+        "label": "A",
+        "text": "0次"
+      },
+      {
+        "label": "B",
+        "text": "1次"
+      },
+      {
+        "label": "C",
+        "text": "2次"
+      },
+      {
+        "label": "D",
+        "text": "3次"
+      }
+    ],
+    "answer": "A",
+    "explanation": "指定初始容量不扩容",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "集合框架",
+    "difficulty": "EASY",
+    "content": "下面哪个Map是排序的？",
+    "options": [
+      {
+        "label": "A",
+        "text": "TreeMap"
+      },
+      {
+        "label": "B",
+        "text": "HashMap"
+      },
+      {
+        "label": "C",
+        "text": "WeakHashMap"
+      },
+      {
+        "label": "D",
+        "text": "LinkedHashMap"
+      }
+    ],
+    "answer": "A",
+    "explanation": "TreeMap自然排序",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "集合框架",
+    "difficulty": "MEDIUM",
+    "content": "下列关于Stream的描述中，不正确的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "Stream用于处理集合及数组"
+      },
+      {
+        "label": "B",
+        "text": "Stream不会存储元素"
+      },
+      {
+        "label": "C",
+        "text": "Stream可以改变源对象"
+      },
+      {
+        "label": "D",
+        "text": "Stream操作是延迟执行的"
+      }
+    ],
+    "answer": "C",
+    "explanation": "Stream不改变源对象",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "集合框架",
+    "difficulty": "EASY",
+    "content": "简述Set和List有哪些区别。",
+    "options": null,
+    "answer": "Set是不重复、无序的集合；List是可重复、有序的集合(有索引)。",
+    "explanation": "Set无序不重复,List有序可重复",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "集合框架",
+    "difficulty": "MEDIUM",
+    "content": "简述Collection与Collections的区别。",
+    "options": null,
+    "answer": "Collection是集合框架的顶级接口；Collections是集合操作的工具类，提供排序、查找等静态方法。",
+    "explanation": "接口vs工具类",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "集合框架",
+    "difficulty": "MEDIUM",
+    "content": "简述Iterator和ListIterator的区别。",
+    "options": null,
+    "answer": "Iterator可遍历List和Set，单向遍历；ListIterator是Iterator子接口，专供List，支持双向遍历、修改和添加。",
+    "explanation": "单向vs双向迭代器",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "集合框架",
+    "difficulty": "MEDIUM",
+    "content": "简述使用泛型的好处。",
+    "options": null,
+    "answer": "1.编译时强类型检查；2.避免强制类型转换；3.提高代码重用性和可读性。",
+    "explanation": "泛型=类型安全",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "集合框架",
+    "difficulty": "EASY",
+    "content": "将26个英文字母正序和逆序输出。",
+    "options": null,
+    "answer": "public class Alphabet {\n    public static void main(String[] args) {\n        for (char c = 'A'; c <= 'Z'; c++) System.out.print(c + \" \");\n        System.out.println();\n        for (char c = 'Z'; c >= 'A'; c--) System.out.print(c + \" \");\n    }\n}",
+    "explanation": "字符循环遍历",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "集合框架",
+    "difficulty": "MEDIUM",
+    "content": "使用Map接口实现类，输出西北省份及其主要城市。",
+    "options": null,
+    "answer": "import java.util.*;\npublic class ProvinceCity {\n    public static void main(String[] args) {\n        Map<String,String> map = new HashMap<>();\n        map.put(\"陕西省\",\"西安市\"); map.put(\"甘肃省\",\"兰州市\");\n        map.put(\"青海省\",\"西宁市\"); map.put(\"宁夏回族自治区\",\"银川市\");\n        map.put(\"新疆维吾尔自治区\",\"乌鲁木齐市\");\n        for (Map.Entry<String,String> e : map.entrySet()) System.out.println(e.getKey()+\": \"+e.getValue());\n    }\n}",
+    "explanation": "HashMap使用示例",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "I/O流",
+    "difficulty": "EASY",
+    "content": "I/O流按操作数据单位可分为______和______，按流向可分为______和______。",
+    "options": null,
+    "answer": "字节流;字符流;输入流;输出流",
+    "explanation": "四种分类",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "I/O流",
+    "difficulty": "EASY",
+    "content": "Java的I/O中针对字节传输操作提供的流，统称为______。",
+    "options": null,
+    "answer": "字节流",
+    "explanation": "字节流处理二进制数据",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "I/O流",
+    "difficulty": "MEDIUM",
+    "content": "字符流中带缓冲区的流分别是______类和______类。",
+    "options": null,
+    "answer": "BufferedReader;BufferedWriter",
+    "explanation": "带缓冲的字符流",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "I/O流",
+    "difficulty": "MEDIUM",
+    "content": "File类中提供的______方法用来遍历目录下所有文件。",
+    "options": null,
+    "answer": "listFiles()",
+    "explanation": "listFiles返回文件数组",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "I/O流",
+    "difficulty": "HARD",
+    "content": "Java提供了______类，支持\"随机访问\"方式读写文件。",
+    "options": null,
+    "answer": "RandomAccessFile",
+    "explanation": "随机访问文件类",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "I/O流",
+    "difficulty": "EASY",
+    "content": "下面哪个流类属于面向字符的输入流？",
+    "options": [
+      {
+        "label": "A",
+        "text": "BufferedWriter"
+      },
+      {
+        "label": "B",
+        "text": "FileInputStream"
+      },
+      {
+        "label": "C",
+        "text": "ObjectInputStream"
+      },
+      {
+        "label": "D",
+        "text": "InputStreamReader"
+      }
+    ],
+    "answer": "D",
+    "explanation": "InputStreamReader是字符输入流",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "I/O流",
+    "difficulty": "MEDIUM",
+    "content": "新建流对象，下面哪个选项的代码是错误的？",
+    "options": "[{\"label\":\"A\",\"text\":\"new BufferedWriter(new FileWriter(\"a.txt\"))\"},{\"label\":\"B\",\"text\":\"new BufferedReader(new FileInputStream(\"a.dat\"))\"},{\"label\":\"C\",\"text\":\"new GZIPOutputStream(new FileOutputStream(\"a.zip\"))\"},{\"label\":\"D\",\"text\":\"new ObjectInputStream(new FileInputStream(\"a.dat\"))\"}]",
+    "answer": "B",
+    "explanation": "BufferedReader参数应为Reader",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "I/O流",
+    "difficulty": "EASY",
+    "content": "Java I/O程序设计中，下列描述正确的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "OutputStream用于写操作"
+      },
+      {
+        "label": "B",
+        "text": "InputStream用于写操作"
+      },
+      {
+        "label": "C",
+        "text": "只有字节流可以进行读操作"
+      },
+      {
+        "label": "D",
+        "text": "I/O库不支持文件读写API"
+      }
+    ],
+    "answer": "A",
+    "explanation": "OutputStream写,InputStream读",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "I/O流",
+    "difficulty": "EASY",
+    "content": "下列哪个不是合法的字符编码？",
+    "options": [
+      {
+        "label": "A",
+        "text": "UTF-8"
+      },
+      {
+        "label": "B",
+        "text": "ISO8858-1"
+      },
+      {
+        "label": "C",
+        "text": "GBL"
+      },
+      {
+        "label": "D",
+        "text": "ASCII"
+      }
+    ],
+    "answer": "C",
+    "explanation": "GBL不是标准字符编码",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "I/O流",
+    "difficulty": "MEDIUM",
+    "content": "File file1=new File(\"e:\\\\xxx\\\\yyy\"); file1.mkdir(); 的功能是（ ）",
+    "options": "[{\"label\":\"A\",\"text\":\"在当前目录下生成子目录\"},{\"label\":\"B\",\"text\":\"生成目录e:\\xxx\\yyy\"},{\"label\":\"C\",\"text\":\"在当前目录下生成文件\"},{\"label\":\"D\",\"text\":\"以上说法都不对\"}]",
+    "answer": "B",
+    "explanation": "mkdir创建最后一级目录",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "I/O流",
+    "difficulty": "EASY",
+    "content": "Java中有几种类型的流？",
+    "options": null,
+    "answer": "按流向分：输入流和输出流；按数据单位分：字节流和字符流；按功能分：节点流和处理流。",
+    "explanation": "三种维度分类",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "I/O流",
+    "difficulty": "MEDIUM",
+    "content": "什么是Java序列化？",
+    "options": null,
+    "answer": "Java序列化是将Java对象转换为字节序列的过程，以便于存储或网络传输。",
+    "explanation": "对象→字节序列",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "I/O流",
+    "difficulty": "MEDIUM",
+    "content": "如何实现Java序列化？",
+    "options": null,
+    "answer": "让对象所属的类实现java.io.Serializable接口，然后使用ObjectOutputStream写入对象。",
+    "explanation": "实现Serializable接口",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "I/O流",
+    "difficulty": "EASY",
+    "content": "什么是标准的I/O流？",
+    "options": null,
+    "answer": "标准I/O流包括System.in（标准输入）、System.out（标准输出）、System.err（标准错误输出）。",
+    "explanation": "三个标准流",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "I/O流",
+    "difficulty": "EASY",
+    "content": "利用程序在D盘新建文件\"test.txt\"，写入\"我写的代码没bug\"。",
+    "options": null,
+    "answer": "import java.io.FileWriter;\npublic class WriteTest {\n    public static void main(String[] args) throws Exception {\n        FileWriter fw = new FileWriter(\"D:\\\\test.txt\");\n        fw.write(\"我写的代码没bug\");\n        fw.close();\n    }\n}",
+    "explanation": "FileWriter写文件",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "I/O流",
+    "difficulty": "MEDIUM",
+    "content": "利用转换流复制\"test.txt\"为\"my.txt\"。",
+    "options": null,
+    "answer": "import java.io.*;\npublic class CopyTest {\n    public static void main(String[] args) throws Exception {\n        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(\"D:\\\\test.txt\")));\n        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(\"D:\\\\my.txt\")));\n        String line;\n        while ((line = br.readLine()) != null) bw.write(line);\n        br.close(); bw.close();\n    }\n}",
+    "explanation": "转换流+缓冲复制文件",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "GUI编程",
+    "difficulty": "EASY",
+    "content": "AWT有两个抽象基类，分别为______、______。",
+    "options": null,
+    "answer": "Component;Container",
+    "explanation": "AWT基础类",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "GUI编程",
+    "difficulty": "MEDIUM",
+    "content": "Java提供的______是专门处理窗体事件的监听接口。",
+    "options": null,
+    "answer": "WindowListener",
+    "explanation": "窗体事件监听",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "GUI编程",
+    "difficulty": "EASY",
+    "content": "______类属于流式布局管理器。",
+    "options": null,
+    "answer": "FlowLayout",
+    "explanation": "流式布局",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "GUI编程",
+    "difficulty": "HARD",
+    "content": "______和Swing都可以处理GUI，前者需要在Eclipse中安装______插件。",
+    "options": null,
+    "answer": "SWT;WindowBuilder",
+    "explanation": "SWT和Eclipse插件",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "GUI编程",
+    "difficulty": "MEDIUM",
+    "content": "AWT事件处理中，主要涉及3个对象：______、______、______。",
+    "options": null,
+    "answer": "事件源;事件;事件处理者",
+    "explanation": "事件三要素",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "GUI编程",
+    "difficulty": "EASY",
+    "content": "在Java中，要使用布局管理器，必须导入（ ）包。",
+    "options": [
+      {
+        "label": "A",
+        "text": "java.awt.*"
+      },
+      {
+        "label": "B",
+        "text": "java.awt.layout.*"
+      },
+      {
+        "label": "C",
+        "text": "javax.swing.layout.*"
+      },
+      {
+        "label": "D",
+        "text": "javax.swing.*"
+      }
+    ],
+    "answer": "A",
+    "explanation": "布局管理器在java.awt",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "GUI编程",
+    "difficulty": "MEDIUM",
+    "content": "Swing与AWT的区别不包括（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "Swing是纯Java实现的轻量级构件"
+      },
+      {
+        "label": "B",
+        "text": "Swing没有本地代码"
+      },
+      {
+        "label": "C",
+        "text": "Swing不依赖操作系统"
+      },
+      {
+        "label": "D",
+        "text": "Swing支持图形用户界面"
+      }
+    ],
+    "answer": "D",
+    "explanation": "两者都支持GUI",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "GUI编程",
+    "difficulty": "MEDIUM",
+    "content": "编写Java applet程序时，事件响应需导入（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "java.awt.*"
+      },
+      {
+        "label": "B",
+        "text": "java.applet.*"
+      },
+      {
+        "label": "C",
+        "text": "java.io.*"
+      },
+      {
+        "label": "D",
+        "text": "java.awt.event.*"
+      }
+    ],
+    "answer": "D",
+    "explanation": "事件处理在awt.event包",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "GUI编程",
+    "difficulty": "EASY",
+    "content": "下列不属于容器的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "Window"
+      },
+      {
+        "label": "B",
+        "text": "TextBox"
+      },
+      {
+        "label": "C",
+        "text": "JPanel"
+      },
+      {
+        "label": "D",
+        "text": "JScrollPane"
+      }
+    ],
+    "answer": "B",
+    "explanation": "TextBox是文本框非容器",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "GUI编程",
+    "difficulty": "MEDIUM",
+    "content": "当Frame改变大小时，要使按钮大小不变，应使用（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "FlowLayout"
+      },
+      {
+        "label": "B",
+        "text": "CardLayout"
+      },
+      {
+        "label": "C",
+        "text": "BorderLayout"
+      },
+      {
+        "label": "D",
+        "text": "GridLayout"
+      }
+    ],
+    "answer": "A",
+    "explanation": "FlowLayout不改变组件大小",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "GUI编程",
+    "difficulty": "MEDIUM",
+    "content": "简述AWT和Swing的区别。",
+    "options": null,
+    "answer": "AWT依赖操作系统本地组件(重量级)；Swing用纯Java编写(轻量级)，跨平台性更好，组件更丰富。",
+    "explanation": "重量级vs轻量级",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "GUI编程",
+    "difficulty": "EASY",
+    "content": "java.awt包中提供的布局管理器有哪些？",
+    "options": null,
+    "answer": "FlowLayout, BorderLayout, GridLayout, CardLayout, GridBagLayout。",
+    "explanation": "五种布局管理器",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "GUI编程",
+    "difficulty": "MEDIUM",
+    "content": "简述事件处理机制中所涉及的概念。",
+    "options": null,
+    "answer": "事件源(产生事件的组件)、事件(用户操作封装对象)、事件监听器(处理事件的方法)。",
+    "explanation": "事件三要素",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "多线程",
+    "difficulty": "EASY",
+    "content": "______是Java程序的并发机制，它能同步共享数据、处理不同事件。",
+    "options": null,
+    "answer": "多线程",
+    "explanation": "多线程并发机制",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "多线程",
+    "difficulty": "EASY",
+    "content": "线程有新建、就绪、运行、______和死亡5种状态。",
+    "options": null,
+    "answer": "阻塞",
+    "explanation": "线程五种状态",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "多线程",
+    "difficulty": "EASY",
+    "content": "JDK 5.0以前，线程的创建有两种方法：实现______接口和继承Thread类。",
+    "options": null,
+    "answer": "Runnable",
+    "explanation": "两种创建线程方式",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "多线程",
+    "difficulty": "MEDIUM",
+    "content": "多线程程序设计的含义是可以将程序任务分成几个______的子任务。",
+    "options": null,
+    "answer": "并行",
+    "explanation": "并行执行子任务",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "多线程",
+    "difficulty": "MEDIUM",
+    "content": "在多线程系统中，多个线程之间有______和互斥两种关系。",
+    "options": null,
+    "answer": "同步",
+    "explanation": "同步与互斥",
+    "defaultScore": 4,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "多线程",
+    "difficulty": "EASY",
+    "content": "线程调用了sleep()方法后，该线程将进入（ ）状态。",
+    "options": [
+      {
+        "label": "A",
+        "text": "可运行"
+      },
+      {
+        "label": "B",
+        "text": "运行"
+      },
+      {
+        "label": "C",
+        "text": "阻塞"
+      },
+      {
+        "label": "D",
+        "text": "终止"
+      }
+    ],
+    "answer": "C",
+    "explanation": "sleep使线程阻塞",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "多线程",
+    "difficulty": "MEDIUM",
+    "content": "关于Java线程，下面说法错误的是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "线程是以CPU为主体的行为"
+      },
+      {
+        "label": "B",
+        "text": "Java利用线程使系统异步"
+      },
+      {
+        "label": "C",
+        "text": "继承Thread类可创建线程"
+      },
+      {
+        "label": "D",
+        "text": "新线程创建后自动开始运行"
+      }
+    ],
+    "answer": "D",
+    "explanation": "需调用start()才运行",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "多线程",
+    "difficulty": "MEDIUM",
+    "content": "线程控制方法中，yield()的作用是（ ）",
+    "options": [
+      {
+        "label": "A",
+        "text": "返回当前线程的引用"
+      },
+      {
+        "label": "B",
+        "text": "使优先级比其他的线程执行"
+      },
+      {
+        "label": "C",
+        "text": "强行终止线程"
+      },
+      {
+        "label": "D",
+        "text": "只让给同优先级线程执行"
+      }
+    ],
+    "answer": "D",
+    "explanation": "yield让出CPU给同优先级",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "多线程",
+    "difficulty": "EASY",
+    "content": "当（ ）方法终止时，线程进入死亡状态。",
+    "options": [
+      {
+        "label": "A",
+        "text": "run()"
+      },
+      {
+        "label": "B",
+        "text": "setPriority()"
+      },
+      {
+        "label": "C",
+        "text": "yield()"
+      },
+      {
+        "label": "D",
+        "text": "sleep()"
+      }
+    ],
+    "answer": "A",
+    "explanation": "run结束则线程死亡",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "多线程",
+    "difficulty": "EASY",
+    "content": "线程通过（ ）方法可以改变优先级。",
+    "options": [
+      {
+        "label": "A",
+        "text": "run()"
+      },
+      {
+        "label": "B",
+        "text": "setPriority()"
+      },
+      {
+        "label": "C",
+        "text": "yield()"
+      },
+      {
+        "label": "D",
+        "text": "sleep()"
+      }
+    ],
+    "answer": "B",
+    "explanation": "setPriority改变优先级",
+    "defaultScore": 2,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "多线程",
+    "difficulty": "EASY",
+    "content": "什么是线程？什么是进程？",
+    "options": null,
+    "answer": "进程是操作系统分配资源的最小单位；线程是CPU调度的最小单位，是进程内的一条执行路径。",
+    "explanation": "进程vs线程",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "多线程",
+    "difficulty": "MEDIUM",
+    "content": "Java有哪几种创建线程的方式？",
+    "options": null,
+    "answer": "1.继承Thread类；2.实现Runnable接口；3.实现Callable接口配合FutureTask；4.使用线程池。",
+    "explanation": "四种创建线程方式",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "SHORT_ANSWER",
+    "chapter": "多线程",
+    "difficulty": "MEDIUM",
+    "content": "什么是线程的生命周期？",
+    "options": null,
+    "answer": "线程从创建到消亡的过程：新建(New)→就绪(Runnable)→运行(Running)→阻塞(Blocked)→死亡(Dead)。",
+    "explanation": "五种生命周期状态",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "多线程",
+    "difficulty": "MEDIUM",
+    "content": "利用多线程同时输出10以内的奇数和偶数及线程名称，输出完毕后输出\"end\"。",
+    "options": null,
+    "answer": "public class ThreadTest {\n    public static void main(String[] args) {\n        Thread odd = new Thread(() -> {\n            for (int i=1;i<=10;i+=2) System.out.println(Thread.currentThread().getName()+\": \"+i);\n        }, \"奇数线程\");\n        Thread even = new Thread(() -> {\n            for (int i=2;i<=10;i+=2) System.out.println(Thread.currentThread().getName()+\": \"+i);\n        }, \"偶数线程\");\n        odd.start(); even.start();\n        try { odd.join(); even.join(); } catch (Exception e) {}\n        System.out.println(\"end\");\n    }\n}",
+    "explanation": "多线程基本用法",
+    "defaultScore": 10,
+    "source": "课后习题原题"
+  }
+]

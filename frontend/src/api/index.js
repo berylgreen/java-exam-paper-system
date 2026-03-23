@@ -12,6 +12,14 @@ export const questionApi = {
     chapters: () => api.get('/questions/chapters'),
     sources: () => api.get('/questions/sources'),
     stats: () => api.get('/questions/stats'),
+    exportUrl: '/api/questions/export',
+    importFile: (file) => {
+        const formData = new FormData()
+        formData.append('file', file)
+        return api.post('/questions/import', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        })
+    },
 }
 
 // ===== 试卷 API =====
