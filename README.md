@@ -12,6 +12,19 @@
 
 ## 快速启动
 
+### 一键脚本（推荐）
+
+```bash
+./exam-system.sh start     # 启动后端和前端
+./exam-system.sh stop      # 停止所有服务
+./exam-system.sh restart   # 重启所有服务
+./exam-system.sh status    # 查看服务状态
+```
+
+日志文件：`backend.log` / `frontend.log`
+
+### 手动启动
+
 ```bash
 # 1. 启动后端 (首次会自动下载Maven依赖)
 cd backend
