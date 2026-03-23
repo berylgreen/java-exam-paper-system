@@ -19,11 +19,13 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("SELECT q FROM Question q WHERE " +
            "(:type IS NULL OR q.type = :type) AND " +
            "(:chapter IS NULL OR q.chapter = :chapter) AND " +
-           "(:difficulty IS NULL OR q.difficulty = :difficulty)")
+           "(:difficulty IS NULL OR q.difficulty = :difficulty) AND " +
+           "(:source IS NULL OR q.source = :source)")
     Page<Question> findByFilters(
             @Param("type") QuestionType type,
             @Param("chapter") String chapter,
             @Param("difficulty") Difficulty difficulty,
+            @Param("source") String source,
             Pageable pageable);
 
     /** 按题型+章节+难度查询 (自动组卷用) */
@@ -35,9 +37,18 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     List<Question> findByTypeAndChapter(QuestionType type, String chapter);
 
+    /** 按题型+来源查询 (自动组卷用) */
+    List<Question> findByTypeAndSource(QuestionType type, String source);
+
+    List<Question> findByTypeAndChapterAndSource(QuestionType type, String chapter, String source);
+
     /** 获取所有章节 (去重) */
     @Query("SELECT DISTINCT q.chapter FROM Question q ORDER BY q.chapter")
     List<String> findAllChapters();
+
+    /** 获取所有来源 (去重) */
+    @Query("SELECT DISTINCT q.source FROM Question q WHERE q.source IS NOT NULL ORDER BY q.source")
+    List<String> findAllSources();
 
     /** 按题型统计数量 */
     @Query("SELECT q.type, COUNT(q) FROM Question q GROUP BY q.type")
@@ -50,4 +61,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     /** 按难度统计数量 */
     @Query("SELECT q.difficulty, COUNT(q) FROM Question q GROUP BY q.difficulty")
     List<Object[]> countByDifficulty();
+
+    /** 按来源统计数量 */
+    @Query("SELECT q.source, COUNT(q) FROM Question q GROUP BY q.source")
+    List<Object[]> countBySource();
 }

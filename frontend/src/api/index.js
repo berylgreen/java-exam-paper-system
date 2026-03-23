@@ -10,6 +10,7 @@ export const questionApi = {
     update: (id, data) => api.put(`/questions/${id}`, data),
     delete: (id) => api.delete(`/questions/${id}`),
     chapters: () => api.get('/questions/chapters'),
+    sources: () => api.get('/questions/sources'),
     stats: () => api.get('/questions/stats'),
 }
 

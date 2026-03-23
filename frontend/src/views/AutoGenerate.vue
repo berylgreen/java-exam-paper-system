@@ -28,9 +28,24 @@
         <div class="config-item"><label>困难 {{ form.hardPercent }}%</label><el-slider v-model="form.hardPercent" :max="100"/></div>
       </div>
 
+      <h3 style="color:#fff;margin:20px 0 12px;font-size:15px">📗 来源比例</h3>
+      <div class="config-grid">
+        <div class="config-item"><label>📖 课后习题原题 {{ form.textbookPercent }}%</label><el-slider v-model="form.textbookPercent" :max="100" @input="onTextbookChange"/></div>
+        <div class="config-item"><label>🌐 网络来源 {{ form.networkPercent }}%</label><el-slider v-model="form.networkPercent" :max="100" @input="onNetworkChange"/></div>
+      </div>
+      <div style="color:#999;font-size:12px;margin-bottom:16px">来源比例总和应为100%，当前总和：{{ form.textbookPercent + form.networkPercent }}%</div>
+
       <h3 style="color:#fff;margin:20px 0 12px;font-size:15px">📖 章节范围</h3>
       <div style="margin-bottom:24px">
-        <el-checkbox-group v-model="form.chapters">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.1)">
+          <el-checkbox
+            v-model="checkAll"
+            :indeterminate="isIndeterminate"
+            @change="handleCheckAllChange"
+            style="color:#bbb"
+          >全选</el-checkbox>
+        </div>
+        <el-checkbox-group v-model="form.chapters" @change="handleChapterChange">
           <el-checkbox v-for="c in chapters" :key="c" :label="c" :value="c" style="color:#bbb;margin-bottom:6px"/>
         </el-checkbox-group>
         <div style="margin-top:8px;color:#999;font-size:12px">不选则从全部章节抽取</div>
@@ -58,7 +73,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { paperApi, questionApi } from '../api'
 import { ElMessage } from 'element-plus'
 
@@ -70,8 +85,24 @@ const form = reactive({
   title: '', durationMinutes: 120,
   singleChoiceCount: 10, multipleChoiceCount: 5, trueFalseCount: 5,
   fillBlankCount: 5, shortAnswerCount: 2, programmingCount: 1,
-  chapters: [], easyPercent: 30, mediumPercent: 50, hardPercent: 20
+  chapters: [], easyPercent: 30, mediumPercent: 50, hardPercent: 20,
+  textbookPercent: 40, networkPercent: 60
 })
+
+const onTextbookChange = (val) => { form.networkPercent = Math.max(0, 100 - val) }
+const onNetworkChange = (val) => { form.textbookPercent = Math.max(0, 100 - val) }
+
+const checkAll = ref(false)
+const isIndeterminate = computed(() => {
+  const len = form.chapters.length
+  return len > 0 && len < chapters.value.length
+})
+const handleCheckAllChange = (val) => {
+  form.chapters = val ? [...chapters.value] : []
+}
+const handleChapterChange = (val) => {
+  checkAll.value = val.length === chapters.value.length
+}
 
 const generate = async () => {
   if (!form.title) { ElMessage.warning('请输入试卷标题'); return }

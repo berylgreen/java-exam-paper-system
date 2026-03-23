@@ -18,4 +18,5 @@ public class QuestionDTO {
     private String answer;
     private String explanation;
     private Integer defaultScore;
+    private String source;
 }

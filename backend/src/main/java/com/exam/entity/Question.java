@@ -52,4 +52,8 @@ public class Question {
     /** 默认分值 */
     @Column(nullable = false)
     private Integer defaultScore;
+
+    /** 题目来源 */
+    @Column(length = 50)
+    private String source;
 }

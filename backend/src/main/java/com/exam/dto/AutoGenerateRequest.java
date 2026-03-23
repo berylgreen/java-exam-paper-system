@@ -39,4 +39,8 @@ public class AutoGenerateRequest {
     private Integer easyPercent = 30;
     private Integer mediumPercent = 50;
     private Integer hardPercent = 20;
+
+    /** 来源比例 (百分比，总和应为100) */
+    private Integer textbookPercent = 0;
+    private Integer networkPercent = 100;
 }

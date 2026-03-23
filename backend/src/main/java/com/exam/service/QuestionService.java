@@ -24,8 +24,8 @@ public class QuestionService {
 
     /** 分页条件查询 */
     public Page<QuestionDTO> findByFilters(QuestionType type, String chapter,
-                                           Difficulty difficulty, Pageable pageable) {
-        return questionRepository.findByFilters(type, chapter, difficulty, pageable)
+                                           Difficulty difficulty, String source, Pageable pageable) {
+        return questionRepository.findByFilters(type, chapter, difficulty, source, pageable)
                 .map(this::toDTO);
     }
 
@@ -56,6 +56,7 @@ public class QuestionService {
         q.setAnswer(dto.getAnswer());
         q.setExplanation(dto.getExplanation());
         q.setDefaultScore(dto.getDefaultScore());
+        q.setSource(dto.getSource());
         return toDTO(questionRepository.save(q));
     }
 
@@ -68,6 +69,11 @@ public class QuestionService {
     /** 获取所有章节 */
     public List<String> getAllChapters() {
         return questionRepository.findAllChapters();
+    }
+
+    /** 获取所有来源 */
+    public List<String> getAllSources() {
+        return questionRepository.findAllSources();
     }
 
     /** 题库统计 */
@@ -98,6 +104,14 @@ public class QuestionService {
         }
         stats.put("byDifficulty", byDifficulty);
 
+        // 按来源统计
+        Map<String, Long> bySource = new LinkedHashMap<>();
+        for (Object[] row : questionRepository.countBySource()) {
+            String src = row[0] != null ? (String) row[0] : "未知";
+            bySource.put(src, (Long) row[1]);
+        }
+        stats.put("bySource", bySource);
+
         return stats;
     }
 
@@ -114,6 +128,7 @@ public class QuestionService {
         dto.setAnswer(q.getAnswer());
         dto.setExplanation(q.getExplanation());
         dto.setDefaultScore(q.getDefaultScore());
+        dto.setSource(q.getSource());
         return dto;
     }
 
@@ -127,6 +142,7 @@ public class QuestionService {
                 .answer(dto.getAnswer())
                 .explanation(dto.getExplanation())
                 .defaultScore(dto.getDefaultScore())
+                .source(dto.getSource())
                 .build();
     }
 }

@@ -13,6 +13,9 @@
       <div class="stat-card" v-for="(v,k) in stats.byType" :key="k">
         <div class="stat-value">{{ v }}</div><div class="stat-label">{{ k }}</div>
       </div>
+      <div class="stat-card" v-for="(v,k) in stats.bySource" :key="'src-'+k" style="border-top:2px solid #4ecdc4">
+        <div class="stat-value">{{ v }}</div><div class="stat-label">{{ k }}</div>
+      </div>
     </div>
 
     <!-- 筛选 -->
@@ -26,6 +29,9 @@
       <el-select v-model="filter.difficulty" placeholder="难度" clearable style="width:110px" @change="loadQ">
         <el-option label="简单" value="EASY"/><el-option label="中等" value="MEDIUM"/><el-option label="困难" value="HARD"/>
       </el-select>
+      <el-select v-model="filter.source" placeholder="来源" clearable style="width:160px" @change="loadQ">
+        <el-option v-for="s in sources" :key="s" :label="s" :value="s" />
+      </el-select>
     </div>
 
     <!-- 题目列表 -->
@@ -38,7 +44,10 @@
       <el-table-column label="难度" width="75" align="center">
         <template #default="{row}"><el-tag :type="diffColor(row.difficulty)" size="small" effect="dark">{{ diffLabel(row.difficulty) }}</el-tag></template>
       </el-table-column>
-      <el-table-column label="题目内容" prop="content" min-width="280">
+      <el-table-column label="来源" prop="source" width="130">
+        <template #default="{row}"><el-tag size="small" :type="row.source==='课后习题原题'?'warning':'info'" effect="plain">{{ row.source || '未知' }}</el-tag></template>
+      </el-table-column>
+      <el-table-column label="题目内容" prop="content" min-width="250">
         <template #default="{row}"><span style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.6">{{ row.content }}</span></template>
       </el-table-column>
       <el-table-column label="分值" prop="defaultScore" width="55" align="center"/>
@@ -56,7 +65,7 @@
     <!-- 查看详情对话框 -->
     <el-dialog v-model="showDetail" :title="detailQ.content?.substring(0,30)+'...'" width="600px">
       <div v-if="detailQ.id">
-        <p><b>题型：</b>{{ typeLabel(detailQ.type) }} | <b>章节：</b>{{ detailQ.chapter }} | <b>难度：</b>{{ diffLabel(detailQ.difficulty) }}</p>
+        <p><b>题型：</b>{{ typeLabel(detailQ.type) }} | <b>章节：</b>{{ detailQ.chapter }} | <b>难度：</b>{{ diffLabel(detailQ.difficulty) }} | <b>来源：</b>{{ detailQ.source || '未知' }}</p>
         <p style="margin:12px 0"><b>题目：</b>{{ detailQ.content }}</p>
         <div v-if="detailQ.options" style="margin:8px 0">
           <b>选项：</b>
@@ -83,6 +92,11 @@
         <el-form-item label="难度">
           <el-select v-model="newQ.difficulty" style="width:100%">
             <el-option label="简单" value="EASY"/><el-option label="中等" value="MEDIUM"/><el-option label="困难" value="HARD"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="来源">
+          <el-select v-model="newQ.source" style="width:100%" filterable allow-create>
+            <el-option v-for="s in sources" :key="s" :label="s" :value="s"/>
           </el-select>
         </el-form-item>
         <el-form-item label="题目"><el-input v-model="newQ.content" type="textarea" :rows="3"/></el-form-item>
@@ -120,15 +134,16 @@ const parseOpts = (s) => { try { return JSON.parse(s) } catch { return [] } }
 const questions = ref([])
 const loading = ref(false)
 const chapters = ref([])
+const sources = ref([])
 const stats = ref({})
-const filter = reactive({ type: null, chapter: null, difficulty: null })
+const filter = reactive({ type: null, chapter: null, difficulty: null, source: null })
 const page = ref(1)
 const pageSize = 20
 const total = ref(0)
 const showDetail = ref(false)
 const detailQ = ref({})
 const showAdd = ref(false)
-const newQ = reactive({ type:'SINGLE_CHOICE', chapter:'', difficulty:'EASY', content:'', options:'', answer:'', explanation:'', defaultScore:2 })
+const newQ = reactive({ type:'SINGLE_CHOICE', chapter:'', difficulty:'EASY', content:'', options:'', answer:'', explanation:'', defaultScore:2, source:'网络2026年1月' })
 
 const loadQ = async () => {
   loading.value = true
@@ -145,6 +160,7 @@ const loadQ = async () => {
 const loadMeta = async () => {
   try {
     chapters.value = (await questionApi.chapters()).data
+    sources.value = (await questionApi.sources()).data
     stats.value = (await questionApi.stats()).data
   } catch {}
 }

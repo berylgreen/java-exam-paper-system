@@ -246,7 +246,7 @@ public class ExamPaperService {
     // ========== 自动组卷辅助方法 ==========
 
     /**
-     * 按题型和难度比例从题库随机抽取指定数量的题目
+     * 按题型和难度/来源比例从题库随机抽取指定数量的题目
      */
     private int pickQuestions(List<PaperQuestion> result, QuestionType type,
                               int count, int scorePerQuestion,
@@ -268,22 +268,43 @@ public class ExamPaperService {
             throw new RuntimeException("题库中 [" + type.getLabel() + "] 题目不足，无法组卷");
         }
 
-        // 按难度分组
-        Map<Difficulty, List<Question>> byDifficulty = candidates.stream()
-                .collect(Collectors.groupingBy(Question::getDifficulty));
+        // ===== 按来源比例分组抽取 =====
+        int textbookPercent = req.getTextbookPercent() != null ? req.getTextbookPercent() : 0;
+        int networkPercent = req.getNetworkPercent() != null ? req.getNetworkPercent() : 100;
 
-        // 按比例计算各难度数量
-        int easyCount = Math.round(count * req.getEasyPercent() / 100f);
-        int hardCount = Math.round(count * req.getHardPercent() / 100f);
-        int mediumCount = count - easyCount - hardCount;
+        // 按来源分组
+        Map<String, List<Question>> bySource = candidates.stream()
+                .collect(Collectors.groupingBy(q -> q.getSource() != null ? q.getSource() : "网络2026年1月"));
 
-        // 随机抽取
+        List<Question> textbookPool = bySource.getOrDefault("课后习题原题", new ArrayList<>());
+        // 非课后习题的都算网络来源
+        List<Question> networkPool = new ArrayList<>();
+        for (Map.Entry<String, List<Question>> entry : bySource.entrySet()) {
+            if (!"课后习题原题".equals(entry.getKey())) {
+                networkPool.addAll(entry.getValue());
+            }
+        }
+
+        // 按比例计算各来源数量
+        int textbookCount = Math.round(count * textbookPercent / 100f);
+        int networkCount = count - textbookCount;
+
+        // 从各来源池中按难度比例抽取
         List<Question> picked = new ArrayList<>();
-        picked.addAll(randomPick(byDifficulty.getOrDefault(Difficulty.EASY, new ArrayList<>()), easyCount));
-        picked.addAll(randomPick(byDifficulty.getOrDefault(Difficulty.MEDIUM, new ArrayList<>()), mediumCount));
-        picked.addAll(randomPick(byDifficulty.getOrDefault(Difficulty.HARD, new ArrayList<>()), hardCount));
 
-        // 如果某难度不足，从其他难度补充
+        // 抽取课后习题
+        if (textbookCount > 0) {
+            List<Question> tbPicked = pickByDifficulty(textbookPool, textbookCount, req);
+            picked.addAll(tbPicked);
+        }
+
+        // 抽取网络来源
+        if (networkCount > 0) {
+            List<Question> nwPicked = pickByDifficulty(networkPool, networkCount, req);
+            picked.addAll(nwPicked);
+        }
+
+        // 如果某来源不足，从所有候选中补充
         if (picked.size() < count) {
             Set<Long> pickedIds = picked.stream().map(Question::getId).collect(Collectors.toSet());
             List<Question> remaining = candidates.stream()
@@ -306,6 +327,38 @@ public class ExamPaperService {
         }
 
         return currentOrder;
+    }
+
+    /**
+     * 从题目池中按难度比例随机抽取
+     */
+    private List<Question> pickByDifficulty(List<Question> pool, int count, AutoGenerateRequest req) {
+        if (pool.isEmpty() || count <= 0) return new ArrayList<>();
+
+        Map<Difficulty, List<Question>> byDifficulty = pool.stream()
+                .collect(Collectors.groupingBy(Question::getDifficulty));
+
+        int easyCount = Math.round(count * req.getEasyPercent() / 100f);
+        int hardCount = Math.round(count * req.getHardPercent() / 100f);
+        int mediumCount = count - easyCount - hardCount;
+
+        List<Question> picked = new ArrayList<>();
+        picked.addAll(randomPick(byDifficulty.getOrDefault(Difficulty.EASY, new ArrayList<>()), easyCount));
+        picked.addAll(randomPick(byDifficulty.getOrDefault(Difficulty.MEDIUM, new ArrayList<>()), mediumCount));
+        picked.addAll(randomPick(byDifficulty.getOrDefault(Difficulty.HARD, new ArrayList<>()), hardCount));
+
+        // 如果某难度不足，从池中其他题补充
+        if (picked.size() < count) {
+            Set<Long> pickedIds = picked.stream().map(Question::getId).collect(Collectors.toSet());
+            List<Question> remaining = pool.stream()
+                    .filter(q -> !pickedIds.contains(q.getId()))
+                    .collect(Collectors.toList());
+            Collections.shuffle(remaining);
+            int need = count - picked.size();
+            picked.addAll(remaining.subList(0, Math.min(need, remaining.size())));
+        }
+
+        return picked;
     }
 
     /** 从列表中随机抽取 n 个元素 */

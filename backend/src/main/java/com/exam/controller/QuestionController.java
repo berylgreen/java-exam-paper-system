@@ -30,9 +30,10 @@ public class QuestionController {
             @RequestParam(value = "type", required = false) QuestionType type,
             @RequestParam(value = "chapter", required = false) String chapter,
             @RequestParam(value = "difficulty", required = false) Difficulty difficulty,
+            @RequestParam(value = "source", required = false) String source,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "20") int size) {
-        return questionService.findByFilters(type, chapter, difficulty,
+        return questionService.findByFilters(type, chapter, difficulty, source,
                 PageRequest.of(page, size, Sort.by("id")));
     }
 
@@ -65,6 +66,12 @@ public class QuestionController {
     @GetMapping("/chapters")
     public List<String> chapters() {
         return questionService.getAllChapters();
+    }
+
+    /** 获取所有来源 */
+    @GetMapping("/sources")
+    public List<String> sources() {
+        return questionService.getAllSources();
     }
 
     /** 题库统计 */

@@ -23,6 +23,9 @@ public class DataInitializer implements CommandLineRunner {
     private final ExamPaperRepository paperRepo;
     private final PaperQuestionRepository pqRepo;
 
+    private static final String SRC_NET = "网络2026年1月";
+    private static final String SRC_TB = "课后习题原题";
+
     @Override
     public void run(String... args) {
         if (qRepo.count() > 0) {
@@ -37,35 +40,56 @@ public class DataInitializer implements CommandLineRunner {
         all.addAll(chapter7()); all.addAll(chapter8());
         all.addAll(chapter9()); all.addAll(chapter10());
         qRepo.saveAll(all);
-        log.info("题库初始化完成，共 {} 道题", all.size());
+        log.info("题库初始化完成(网络来源)，共 {} 道题", all.size());
         initPapers(all);
         log.info("预置试卷初始化完成");
+        List<Question> tbAll = initTextbookQuestions();
+        qRepo.saveAll(tbAll);
+        log.info("课后习题原题初始化完成，共 {} 道题", tbAll.size());
     }
 
     // ===== 快捷构建方法 =====
     private Question sc(String ch, Difficulty d, String content, String opts, String ans, String exp) {
+        return sc(ch, d, content, opts, ans, exp, SRC_NET);
+    }
+    private Question sc(String ch, Difficulty d, String content, String opts, String ans, String exp, String src) {
         return Question.builder().type(QuestionType.SINGLE_CHOICE).chapter(ch).difficulty(d)
-                .content(content).options(opts).answer(ans).explanation(exp).defaultScore(2).build();
+                .content(content).options(opts).answer(ans).explanation(exp).defaultScore(2).source(src).build();
     }
     private Question mc(String ch, Difficulty d, String content, String opts, String ans, String exp) {
+        return mc(ch, d, content, opts, ans, exp, SRC_NET);
+    }
+    private Question mc(String ch, Difficulty d, String content, String opts, String ans, String exp, String src) {
         return Question.builder().type(QuestionType.MULTIPLE_CHOICE).chapter(ch).difficulty(d)
-                .content(content).options(opts).answer(ans).explanation(exp).defaultScore(4).build();
+                .content(content).options(opts).answer(ans).explanation(exp).defaultScore(4).source(src).build();
     }
     private Question tf(String ch, Difficulty d, String content, String ans, String exp) {
+        return tf(ch, d, content, ans, exp, SRC_NET);
+    }
+    private Question tf(String ch, Difficulty d, String content, String ans, String exp, String src) {
         return Question.builder().type(QuestionType.TRUE_FALSE).chapter(ch).difficulty(d)
-                .content(content).answer(ans).explanation(exp).defaultScore(2).build();
+                .content(content).answer(ans).explanation(exp).defaultScore(2).source(src).build();
     }
     private Question fb(String ch, Difficulty d, String content, String ans, String exp) {
+        return fb(ch, d, content, ans, exp, SRC_NET);
+    }
+    private Question fb(String ch, Difficulty d, String content, String ans, String exp, String src) {
         return Question.builder().type(QuestionType.FILL_BLANK).chapter(ch).difficulty(d)
-                .content(content).answer(ans).explanation(exp).defaultScore(4).build();
+                .content(content).answer(ans).explanation(exp).defaultScore(4).source(src).build();
     }
     private Question sa(String ch, Difficulty d, String content, String ans, String exp) {
+        return sa(ch, d, content, ans, exp, SRC_NET);
+    }
+    private Question sa(String ch, Difficulty d, String content, String ans, String exp, String src) {
         return Question.builder().type(QuestionType.SHORT_ANSWER).chapter(ch).difficulty(d)
-                .content(content).answer(ans).explanation(exp).defaultScore(10).build();
+                .content(content).answer(ans).explanation(exp).defaultScore(10).source(src).build();
     }
     private Question pg(String ch, Difficulty d, String content, String ans, String exp) {
+        return pg(ch, d, content, ans, exp, SRC_NET);
+    }
+    private Question pg(String ch, Difficulty d, String content, String ans, String exp, String src) {
         return Question.builder().type(QuestionType.PROGRAMMING).chapter(ch).difficulty(d)
-                .content(content).answer(ans).explanation(exp).defaultScore(10).build();
+                .content(content).answer(ans).explanation(exp).defaultScore(10).source(src).build();
     }
     private String opts(String a, String b, String c, String d) {
         return String.format("[{\"label\":\"A\",\"text\":\"%s\"},{\"label\":\"B\",\"text\":\"%s\"},{\"label\":\"C\",\"text\":\"%s\"},{\"label\":\"D\",\"text\":\"%s\"}]",a,b,c,d);
@@ -335,5 +359,185 @@ public class DataInitializer implements CommandLineRunner {
     private void addPQ(ExamPaper paper, Question q, int order, int score) {
         pqRepo.save(PaperQuestion.builder()
                 .paper(paper).question(q).questionOrder(order).score(score).build());
+    }
+
+    // ===== 课后习题原题 =====
+    private static final String TB1="Java概述",TB2="Java基础语法",TB3="面向对象基础",TB4="继承与多态",
+        TB5="抽象类与接口",TB6="异常处理",TB7="集合框架",TB8="I/O流",TB9="GUI编程",TB10="多线程";
+
+    private List<Question> initTextbookQuestions() {
+        List<Question> q = new ArrayList<>();
+        // ===== 第1章 Java概述 =====
+        q.add(fb(TB1,Difficulty.EASY,"Java语言最早诞生于1991年，起初被称为______语言。","Oak","Java前身为Oak语言",SRC_TB));
+        q.add(fb(TB1,Difficulty.EASY,"Java的跨平台特性是通过在______中运行Java程序实现的。","Java虚拟机（JVM）","JVM实现跨平台",SRC_TB));
+        q.add(fb(TB1,Difficulty.EASY,"Java运行环境简称为______。","JRE","JRE=Java Runtime Environment",SRC_TB));
+        q.add(fb(TB1,Difficulty.EASY,"Java的源文件和字节码文件的扩展名分别是______和______。",".java;.class","源文件.java，编译后.class",SRC_TB));
+        q.add(fb(TB1,Difficulty.EASY,"javac和java两个命令存放在JDK安装目录的______目录下。","bin","JDK的bin目录存放工具",SRC_TB));
+        q.add(sc(TB1,Difficulty.EASY,"Java属于以下哪种语言？",opts("机器语言","汇编语言","高级语言","以上都不是"),"C","Java是高级编程语言",SRC_TB));
+        q.add(sc(TB1,Difficulty.EASY,"简单来说，Java程序的运行机制分为编写、（ ）和运行3个过程。",opts("编辑","汇编","编码","编译"),"D","编写→编译→运行",SRC_TB));
+        q.add(sc(TB1,Difficulty.EASY,"下面哪种类型的文件可以在Java虚拟机中运行？",opts(".java",".jre",".exe",".class"),"D","JVM执行.class字节码文件",SRC_TB));
+        q.add(sc(TB1,Difficulty.MEDIUM,"安装好JDK后，java命令的作用相当于（ ）",opts("Java文档制作工具","Java解释器","Java编译器","Java启动器"),"B","java命令解释执行字节码",SRC_TB));
+        q.add(sc(TB1,Difficulty.EASY,"用Java虚拟机执行类名为Hello的应用程序的正确命令是（ ）",opts("java Hello.class","java Hello.java","Hello.class","java Hello"),"D","java命令后跟类名不加扩展名",SRC_TB));
+        q.add(sa(TB1,Difficulty.MEDIUM,"简述Java语言的特点。","Java语言特点：简单性、面向对象、分布式、健壮性、安全性、体系结构中立（跨平台）、可移植性、解释执行、高性能、多线程、动态性。","Java语言核心特性",SRC_TB));
+        q.add(sa(TB1,Difficulty.MEDIUM,"简述Java的3个技术平台及它们分别适合开发的应用。","Java SE（标准版，桌面应用）、Java EE（企业版，企业级网络应用）、Java ME（微型版，移动终端应用）。","三大平台定位不同",SRC_TB));
+        q.add(sa(TB1,Difficulty.EASY,"简述什么是JRE和JDK。","JRE是Java运行环境，包含JVM和核心类库。JDK是Java开发工具包，包含JRE和开发工具（编译器、调试器等）。","JDK⊃JRE⊃JVM",SRC_TB));
+        q.add(sa(TB1,Difficulty.MEDIUM,"简述Java的编译运行机制。","编译阶段：使用javac命令将.java源文件编译成.class字节码文件。运行阶段：使用java命令启动JVM，将字节码解释/即时编译并执行。","先编译后解释执行",SRC_TB));
+        q.add(pg(TB1,Difficulty.EASY,"编写程序，实现在控制台显示\"路漫漫其修远兮，吾将上下而求索\"。","public class Poem {\n    public static void main(String[] args) {\n        System.out.println(\"路漫漫其修远兮，吾将上下而求索\");\n    }\n}","基本输出语句",SRC_TB));
+
+        // ===== 第2章 Java基础语法 =====
+        q.add(fb(TB2,Difficulty.EASY,"将两个数相加，生成一个值的语句称为______。","表达式","表达式产生值",SRC_TB));
+        q.add(fb(TB2,Difficulty.EASY,"数据类型转换方式分为自动类型转换和______两种。","强制类型转换","显式转换=强制类型转换",SRC_TB));
+        q.add(fb(TB2,Difficulty.EASY,"选择结构也称______，其根据条件的成立与否来决定要执行哪些语句。","分支结构","分支=选择",SRC_TB));
+        q.add(fb(TB2,Difficulty.EASY,"通常称给定条件为循环条件，称反复执行的程序段为______。","循环体","循环体是重复执行的代码",SRC_TB));
+        q.add(fb(TB2,Difficulty.EASY,"结构化程序中最简单的结构是______。","顺序结构","顺序→分支→循环",SRC_TB));
+        q.add(sc(TB2,Difficulty.EASY,"do-while循环结构中的循环体执行的最少次数为（ ）",opts("1","0","3","2"),"A","do-while至少执行一次",SRC_TB));
+        q.add(sc(TB2,Difficulty.MEDIUM,"已知y=2, z=3, n=4，则经过n=n-y*z/n运算后，n的值为（ ）",opts("-12","-1","3","-3"),"C","整数除法：n=4-2*3/4=4-1=3",SRC_TB));
+        q.add(sc(TB2,Difficulty.MEDIUM,"已知a=2, b=3，则表达式a%b*4%b的值为（ ）",opts("2","1","-1","-2"),"A","2%3=2, 2*4=8, 8%3=2",SRC_TB));
+        q.add(sc(TB2,Difficulty.MEDIUM,"语句\"while(!e)\"中的条件\"!e\"等价于（ ）",opts("e==0","e!=1","e!=0","~e"),"A","!e等价于e为假",SRC_TB));
+        q.add(sc(TB2,Difficulty.EASY,"while循环，条件为（ ）时执行循环体。",opts("false","true","0","假或真"),"B","条件为true时循环",SRC_TB));
+        q.add(sa(TB2,Difficulty.MEDIUM,"请简述Java的8种基本数据类型及其所占内存大小。","byte(1字节), short(2字节), int(4字节), long(8字节), float(4字节), double(8字节), char(2字节), boolean(1位/通常1字节)。","8种基本类型",SRC_TB));
+        q.add(sa(TB2,Difficulty.MEDIUM,"请简述数据类型转换的原理。","自动类型转换：容量小的自动转为容量大的。强制类型转换：大转小，可能精度损失，需显式括号。","宽化vs窄化",SRC_TB));
+        q.add(sa(TB2,Difficulty.MEDIUM,"请简述&&和&的区别。","&&是短路与，左侧为false不再计算右侧；&是逻辑与，都会计算。在位运算中&也是按位与。","短路与vs非短路与",SRC_TB));
+        q.add(sa(TB2,Difficulty.EASY,"请简述break和continue语句的区别。","break跳出当前整个循环或switch结构；continue跳过当前循环剩余语句，进入下一次迭代。","break终止循环,continue跳过本次",SRC_TB));
+        q.add(pg(TB2,Difficulty.EASY,"编写程序，使用\"*\"输出直角三角形。","public class Triangle {\n    public static void main(String[] args) {\n        for (int i = 1; i <= 5; i++) {\n            for (int j = 1; j <= i; j++) {\n                System.out.print(\"*\");\n            }\n            System.out.println();\n        }\n    }\n}","嵌套循环打印图形",SRC_TB));
+        q.add(pg(TB2,Difficulty.MEDIUM,"编写程序，计算字符数组中每个字符出现的次数。","import java.util.HashMap;\npublic class CharCount {\n    public static void main(String[] args) {\n        char[] chars = {'a','b','c','a','b','a'};\n        HashMap<Character,Integer> map = new HashMap<>();\n        for (char c : chars) map.put(c, map.getOrDefault(c,0)+1);\n        for (Character key : map.keySet()) System.out.println(key+\": \"+map.get(key));\n    }\n}","HashMap统计字符频次",SRC_TB));
+
+        // ===== 第3章 面向对象基础 =====
+        q.add(fb(TB3,Difficulty.EASY,"对象是对事物的抽象，而______是对对象的抽象和归纳。","类","类是对象的模板",SRC_TB));
+        q.add(fb(TB3,Difficulty.EASY,"在类体中，变量定义部分所定义的变量称为类的______。","成员变量","成员变量=实例变量",SRC_TB));
+        q.add(fb(TB3,Difficulty.EASY,"在Java中，可以使用关键字______来创建类的实例对象。","new","new分配内存并调用构造方法",SRC_TB));
+        q.add(fb(TB3,Difficulty.EASY,"在关键字中能代表当前类或对象本身的是______。","this","this引用当前对象",SRC_TB));
+        q.add(fb(TB3,Difficulty.MEDIUM,"______指那些类定义代码被置于其他类定义中的类。","内部类","内部类定义在其他类内部",SRC_TB));
+        q.add(sc(TB3,Difficulty.EASY,"类的定义必须包含在以下哪种符号之间？",opts("小括号()","双引号\"\"","大括号{}","中括号[]"),"C","类体用大括号包围",SRC_TB));
+        q.add(sc(TB3,Difficulty.EASY,"在以下哪种情况下，构造方法被调用？",opts("类定义时","创建对象时","使用对象的属性时","使用对象的方法时"),"B","new时自动调用构造方法",SRC_TB));
+        q.add(sc(TB3,Difficulty.MEDIUM,"有一个类B，下面为其构造方法的声明，正确的是（ ）",opts("b(int x) {}","void B(int x) {}","void b(int x) {}","B(int x) {}"),"D","构造方法名=类名，无返回类型",SRC_TB));
+        q.add(sc(TB3,Difficulty.EASY,"下面哪一种是正确的类声明？",opts("public class Qf{}","public void QF{}","public class void max{}","public class min(){}"),"A","正确的类声明格式",SRC_TB));
+        q.add(sc(TB3,Difficulty.MEDIUM,"定义外部类时不能用到的关键字是（ ）",opts("final","public","protected","abstract"),"C","外部类不能用protected修饰",SRC_TB));
+        q.add(sa(TB3,Difficulty.EASY,"什么是面向对象？","面向对象是一种编程思想，将现实世界的事物抽象为对象，通过对象之间的交互来设计软件。具有封装、继承、多态三大特征。","OOP核心思想",SRC_TB));
+        q.add(sa(TB3,Difficulty.MEDIUM,"构造方法与普通成员方法的区别是什么？","1.构造方法名必须与类名相同；2.没有返回类型(连void都没有)；3.随对象实例化自动调用，普通方法需主动调用。","构造方法的特殊性",SRC_TB));
+        q.add(sa(TB3,Difficulty.MEDIUM,"什么是垃圾回收机制？","是JVM自动回收不可达对象所占内存空间的机制，减轻了程序员手动管理内存的负担，防止内存泄漏。","GC自动回收内存",SRC_TB));
+        q.add(sa(TB3,Difficulty.EASY,"类与对象之间的关系是什么样的？","类是对象的抽象模板，对象是类的具体实例。类定义了对象的属性和行为。","类是模板，对象是实例",SRC_TB));
+        q.add(pg(TB3,Difficulty.EASY,"书架上有30本书，箱子中有40本书，把书架上的书全部放进箱子，使用带参数的方法计算箱子里书的总数。","public class BookBox {\n    public int addBooks(int currentBoxBooks, int shelfBooks) {\n        return currentBoxBooks + shelfBooks;\n    }\n    public static void main(String[] args) {\n        BookBox box = new BookBox();\n        int total = box.addBooks(40, 30);\n        System.out.println(\"箱子里书的总数: \" + total);\n    }\n}","带参数方法的使用",SRC_TB));
+        q.add(pg(TB3,Difficulty.MEDIUM,"创建信用卡类，有两个成员变量卡号和密码。设计两个不同的构造方法，分别用于设置密码和未设置密码(默认\"123321\")两种情况。","public class CreditCard {\n    String cardNo;\n    String password;\n    public CreditCard(String cardNo, String password) {\n        this.cardNo = cardNo;\n        this.password = password;\n    }\n    public CreditCard(String cardNo) {\n        this.cardNo = cardNo;\n        this.password = \"123321\";\n    }\n}","构造方法重载",SRC_TB));
+        q.add(pg(TB3,Difficulty.EASY,"设计手机类，手机有一个拨打电话的静态方法，此方法与手机的品牌和型号无关。","public class Phone {\n    public static void call() {\n        System.out.println(\"拨打电话\");\n    }\n}","静态方法不依赖对象",SRC_TB));
+
+        // ===== 第4章 继承与多态 =====
+        q.add(fb(TB4,Difficulty.EASY,"如果在子类中需要访问父类的被重写方法，可以通过______关键字来实现。","super","super访问父类成员",SRC_TB));
+        q.add(fb(TB4,Difficulty.EASY,"Java中使用______关键字来实现类的继承。","extends","extends实现继承",SRC_TB));
+        q.add(fb(TB4,Difficulty.EASY,"Java语言中______是所有类的根。","Object","Object是根类",SRC_TB));
+        q.add(fb(TB4,Difficulty.MEDIUM,"类成员的访问控制符有______、______、______和默认4种。","public;protected;private","四种访问控制级别",SRC_TB));
+        q.add(fb(TB4,Difficulty.EASY,"当一个类的修饰符为______时，说明该类不能被继承。","final","final类不能有子类",SRC_TB));
+        q.add(sc(TB4,Difficulty.EASY,"下列选项中，表示数据或方法只能被本类访问的修饰符是（ ）",opts("public","protected","private","final"),"C","private限本类访问",SRC_TB));
+        q.add(sc(TB4,Difficulty.EASY,"关键字（ ）表明一个对象或变量在初始化后不能修改。",opts("extends","final","this","finalize"),"B","final表示不可修改",SRC_TB));
+        q.add(sc(TB4,Difficulty.MEDIUM,"已知Employee是父类，Manager和Director是子类，则正确的语句是（ ）",opts("Employee e = new Manager();","Director d=new Manager();","Director d=new Employee();","Manager m=new Director();"),"A","父类引用可指向子类对象",SRC_TB));
+        q.add(sc(TB4,Difficulty.MEDIUM,"关于Java中的继承，下列说法错误的是（ ）",opts("继承是面向对象编程的核心特征之一","继承使得程序员可以在原有类的基础上设计新类","子类会自动拥有父类的属性和方法","Java中的类采用多重继承"),"D","Java类只支持单继承",SRC_TB));
+        q.add(sc(TB4,Difficulty.EASY,"能作为类的修饰符，也能作为类成员的修饰符的是（ ）",opts("public","extends","Float","static"),"A","public可修饰类和成员",SRC_TB));
+        q.add(sa(TB4,Difficulty.EASY,"什么是继承？","继承是子类自动获得父类非私有属性和方法的机制，是代码复用的重要手段，体现is-a关系。","继承实现代码复用",SRC_TB));
+        q.add(sa(TB4,Difficulty.MEDIUM,"什么是多态？","多态是指同一行为具有多个不同表现形式的能力。通常体现为：父类引用指向子类对象，调用被重写的方法时表现出子类的行为。","同一接口不同实现",SRC_TB));
+        q.add(sa(TB4,Difficulty.MEDIUM,"请简述方法的重载与重写的区别。","重载(Overload)在同一个类中，方法名相同参数列表不同。重写(Override)发生在子父类中，方法签名相同，返回值和异常范围不大于父类，访问权限不小于父类。","重载vs重写",SRC_TB));
+        q.add(pg(TB4,Difficulty.EASY,"创建银行卡类，并设计两个子类：储蓄卡和信用卡。","class BankCard { }\nclass DebitCard extends BankCard { }\nclass CreditCardEx extends BankCard { }","简单继承关系",SRC_TB));
+        q.add(pg(TB4,Difficulty.MEDIUM,"定义交通工具类，设计火车和汽车子类，重写移动方法。","class Vehicle {\n    public void move() { System.out.println(\"交通工具可以移动\"); }\n}\nclass Train extends Vehicle {\n    @Override\n    public void move() { System.out.println(\"火车在铁轨上行驶\"); }\n}\nclass Car extends Vehicle {\n    @Override\n    public void move() { System.out.println(\"汽车在公路上行驶\"); }\n}","方法重写演示多态",SRC_TB));
+
+        // ===== 第5章 抽象类与接口 =====
+        q.add(fb(TB5,Difficulty.EASY,"Java中使用______关键字，来表示抽象的意思。","abstract","abstract定义抽象",SRC_TB));
+        q.add(fb(TB5,Difficulty.EASY,"Java中使用______关键字，来实现接口的继承。","implements","implements实现接口",SRC_TB));
+        q.add(fb(TB5,Difficulty.MEDIUM,"Java 8中引入了一个新的操作符\"->\"，可以称之为箭头操作符或者______操作符。","lambda","Lambda表达式简化代码",SRC_TB));
+        q.add(fb(TB5,Difficulty.EASY,"______类不能创建对象，必须产生其子类，由子类创建对象。","抽象","抽象类不能实例化",SRC_TB));
+        q.add(fb(TB5,Difficulty.MEDIUM,"定义接口时，接口体中只进行方法的声明，不允许提供方法的______。","实现（方法体）","接口方法默认抽象",SRC_TB));
+        q.add(sc(TB5,Difficulty.MEDIUM,"以下关于Java语言继承的说法，正确的是（ ）",opts("Java中的类可以有多个直接父类","抽象类不能有子类","Java中的接口支持多继承","最终类可以作为其他类的父类"),"C","接口支持多继承",SRC_TB));
+        q.add(sc(TB5,Difficulty.EASY,"现有两个类A、B，表示B继承A的是（ ）",opts("class A extends B","class B implements A","class A implements B","class B extends A"),"D","B extends A表示B继承A",SRC_TB));
+        q.add(sc(TB5,Difficulty.EASY,"下列选项中，用于定义接口的关键字是（ ）",opts("interface","implements","abstract","class"),"A","interface定义接口",SRC_TB));
+        q.add(sc(TB5,Difficulty.EASY,"下列选项中，表示数据或方法只能被本类访问的修饰符是（ ）",opts("public","protected","private","final"),"C","private限本类访问",SRC_TB));
+        q.add(sc(TB5,Difficulty.HARD,"关于\"@FunctionalInterface\"注解代表的含义，下列说法正确的是（ ）",opts("主要用于编译级错误检查","主要用于简化Java开发","检查是否含有多个非抽象方法","当接口包含默认方法时编译报错"),"A","FunctionalInterface用于编译检查",SRC_TB));
+        q.add(sa(TB5,Difficulty.HARD,"请简述抽象类和接口的区别。","1.抽象类用abstract修饰，接口用interface。2.抽象类可有普通方法和变量，接口只有抽象方法(Java8+有default)和常量。3.类只支持单继承抽象类，但可多实现接口。","抽象类vs接口",SRC_TB));
+        q.add(sa(TB5,Difficulty.MEDIUM,"接口中方法的修饰符都有哪些？属性的修饰符有哪些？","方法默认修饰符为public abstract；属性默认修饰符为public static final。","接口成员默认修饰符",SRC_TB));
+        q.add(sa(TB5,Difficulty.MEDIUM,"接口的作用是什么？简述接口与类的关系。","作用：定义规范、实现多重继承效果、解耦。类实现接口(implements)，必须实现所有抽象方法，一个类可实现多个接口。","接口定义规范",SRC_TB));
+        q.add(pg(TB5,Difficulty.MEDIUM,"设计一个名为Geometric的几何图形抽象类，包含color和filled属性，无参构造和有参构造。","abstract class Geometric {\n    String color;\n    boolean filled;\n    public Geometric() {}\n    public Geometric(String color, boolean filled) {\n        this.color = color;\n        this.filled = filled;\n    }\n}","抽象类设计",SRC_TB));
+
+        // ===== 第6章 异常处理 =====
+        q.add(fb(TB6,Difficulty.EASY,"Java语言的异常捕获结构由try、______和finally 3个部分组成。","catch","try-catch-finally",SRC_TB));
+        q.add(fb(TB6,Difficulty.EASY,"抛出异常、生成异常对象都可以通过______语句实现。","throw","throw抛出异常对象",SRC_TB));
+        q.add(fb(TB6,Difficulty.EASY,"捕获异常的统一出口通过______语句实现。","finally","finally总是执行",SRC_TB));
+        q.add(fb(TB6,Difficulty.MEDIUM,"______异常是由于环境造成的，是捕获处理的重点，即表示是可以恢复的。","检查（Checked）","受检异常需强制处理",SRC_TB));
+        q.add(fb(TB6,Difficulty.EASY,"Throwable类有两个子类，分别是______类和Exception类。","Error","Throwable→Error+Exception",SRC_TB));
+        q.add(sc(TB6,Difficulty.EASY,"在异常处理中，释放资源、关闭文件等，由（ ）来完成。",opts("try子句","catch子句","finally子句","throw子句"),"C","finally用于资源清理",SRC_TB));
+        q.add(sc(TB6,Difficulty.EASY,"当方法遇到异常又不知如何处理时，应该（ ）",opts("捕获异常","抛出异常","声明异常","嵌套异常"),"B","不知如何处理就抛出",SRC_TB));
+        q.add(sc(TB6,Difficulty.MEDIUM,"下列关于异常的说法，正确的是（ ）",opts("异常是编译时出现的错误","异常是运行时出现的错误","程序错误就是异常","以上说法都不正确"),"B","异常是运行时错误",SRC_TB));
+        q.add(sc(TB6,Difficulty.MEDIUM,"下列有关throw和throws的说法，不正确的是（ ）",opts("throw后面加异常类的对象","throws后面加异常类的类名","throws后面只能加自定义异常类","以上说法都不正确"),"C","throws可加任何异常类",SRC_TB));
+        q.add(sc(TB6,Difficulty.EASY,"关于异常，下列说法正确的是（ ）",opts("异常是一种对象","一旦程序运行异常将被创建","为保证运行速度应避免异常控制","以上说法都不正确"),"A","异常是对象",SRC_TB));
+        q.add(sa(TB6,Difficulty.EASY,"请简述什么是异常。","异常是程序在运行期发生的不正常情况，它中断了正常的指令流。","异常中断正常执行流",SRC_TB));
+        q.add(sa(TB6,Difficulty.MEDIUM,"请简述什么是必检异常，什么是免检异常。","必检异常(Checked)：Exception的直接子类，编译期必须捕获或声明。免检异常(Unchecked)：RuntimeException及子类、Error，编译期不强制。","受检vs非受检异常",SRC_TB));
+        q.add(sa(TB6,Difficulty.MEDIUM,"请简述Error和Exception的区别。","Error指JVM无法解决的严重问题(如OOM)，程序无法处理；Exception指一般性问题，可通过代码捕获处理。","Error严重,Exception可处理",SRC_TB));
+        q.add(pg(TB6,Difficulty.MEDIUM,"编写Circle类，提供InvalidRadiusException异常类，当半径为负数时抛出异常。","class InvalidRadiusException extends Exception { }\nclass Circle {\n    double radius;\n    public Circle() {}\n    public Circle(double radius) throws InvalidRadiusException {\n        setRadius(radius);\n    }\n    public void setRadius(double radius) throws InvalidRadiusException {\n        if (radius < 0) throw new InvalidRadiusException();\n        this.radius = radius;\n    }\n}","自定义异常类",SRC_TB));
+        q.add(pg(TB6,Difficulty.HARD,"编写Triangle类，创建IllegalTriangleException异常类，构造方法中验证三角形边长规则。","class IllegalTriangleException extends Exception { }\nclass Triangle {\n    public Triangle(double a, double b, double c) throws IllegalTriangleException {\n        if (a+b<=c || a+c<=b || b+c<=a) throw new IllegalTriangleException();\n    }\n}","三角形边长校验异常",SRC_TB));
+
+        // ===== 第7章 集合框架 =====
+        q.add(fb(TB7,Difficulty.EASY,"______接口是List, Set和Queue等接口的父接口。","Collection","Collection是集合顶级接口",SRC_TB));
+        q.add(fb(TB7,Difficulty.EASY,"______集合中元素是有序且可重复的，相当于数学里面的数列。","List","List有序可重复",SRC_TB));
+        q.add(fb(TB7,Difficulty.EASY,"______集合中元素是无序、不可重复的。","Set","Set无序不重复",SRC_TB));
+        q.add(fb(TB7,Difficulty.MEDIUM,"______接口未继承Collection接口，用于存储键值对形式的元素。","Map","Map存储key-value",SRC_TB));
+        q.add(fb(TB7,Difficulty.HARD,"Java 8提供了______方法进行遍历，遍历时输出剩余元素且只能用一次。","forEachRemaining","Iterator的forEachRemaining",SRC_TB));
+        q.add(sc(TB7,Difficulty.EASY,"在Java中，（ ）类对象可以使用值对的形式保存数据。",opts("ArrayList","HashSet","LinkedList","HashMap"),"D","HashMap存储键值对",SRC_TB));
+        q.add(sc(TB7,Difficulty.MEDIUM,"下列属于线程安全的类是（ ）",opts("ArrayList","Vector","HashMap","HashSet"),"B","Vector线程安全",SRC_TB));
+        q.add(sc(TB7,Difficulty.MEDIUM,"\"ArrayList list=new ArrayList(20);\"，list扩容了几次？",opts("0次","1次","2次","3次"),"A","指定初始容量不扩容",SRC_TB));
+        q.add(sc(TB7,Difficulty.EASY,"下面哪个Map是排序的？",opts("TreeMap","HashMap","WeakHashMap","LinkedHashMap"),"A","TreeMap自然排序",SRC_TB));
+        q.add(sc(TB7,Difficulty.MEDIUM,"下列关于Stream的描述中，不正确的是（ ）",opts("Stream用于处理集合及数组","Stream不会存储元素","Stream可以改变源对象","Stream操作是延迟执行的"),"C","Stream不改变源对象",SRC_TB));
+        q.add(sa(TB7,Difficulty.EASY,"简述Set和List有哪些区别。","Set是不重复、无序的集合；List是可重复、有序的集合(有索引)。","Set无序不重复,List有序可重复",SRC_TB));
+        q.add(sa(TB7,Difficulty.MEDIUM,"简述Collection与Collections的区别。","Collection是集合框架的顶级接口；Collections是集合操作的工具类，提供排序、查找等静态方法。","接口vs工具类",SRC_TB));
+        q.add(sa(TB7,Difficulty.MEDIUM,"简述Iterator和ListIterator的区别。","Iterator可遍历List和Set，单向遍历；ListIterator是Iterator子接口，专供List，支持双向遍历、修改和添加。","单向vs双向迭代器",SRC_TB));
+        q.add(sa(TB7,Difficulty.MEDIUM,"简述使用泛型的好处。","1.编译时强类型检查；2.避免强制类型转换；3.提高代码重用性和可读性。","泛型=类型安全",SRC_TB));
+        q.add(pg(TB7,Difficulty.EASY,"将26个英文字母正序和逆序输出。","public class Alphabet {\n    public static void main(String[] args) {\n        for (char c = 'A'; c <= 'Z'; c++) System.out.print(c + \" \");\n        System.out.println();\n        for (char c = 'Z'; c >= 'A'; c--) System.out.print(c + \" \");\n    }\n}","字符循环遍历",SRC_TB));
+        q.add(pg(TB7,Difficulty.MEDIUM,"使用Map接口实现类，输出西北省份及其主要城市。","import java.util.*;\npublic class ProvinceCity {\n    public static void main(String[] args) {\n        Map<String,String> map = new HashMap<>();\n        map.put(\"陕西省\",\"西安市\"); map.put(\"甘肃省\",\"兰州市\");\n        map.put(\"青海省\",\"西宁市\"); map.put(\"宁夏回族自治区\",\"银川市\");\n        map.put(\"新疆维吾尔自治区\",\"乌鲁木齐市\");\n        for (Map.Entry<String,String> e : map.entrySet()) System.out.println(e.getKey()+\": \"+e.getValue());\n    }\n}","HashMap使用示例",SRC_TB));
+
+        // ===== 第8章 I/O流 =====
+        q.add(fb(TB8,Difficulty.EASY,"I/O流按操作数据单位可分为______和______，按流向可分为______和______。","字节流;字符流;输入流;输出流","四种分类",SRC_TB));
+        q.add(fb(TB8,Difficulty.EASY,"Java的I/O中针对字节传输操作提供的流，统称为______。","字节流","字节流处理二进制数据",SRC_TB));
+        q.add(fb(TB8,Difficulty.MEDIUM,"字符流中带缓冲区的流分别是______类和______类。","BufferedReader;BufferedWriter","带缓冲的字符流",SRC_TB));
+        q.add(fb(TB8,Difficulty.MEDIUM,"File类中提供的______方法用来遍历目录下所有文件。","listFiles()","listFiles返回文件数组",SRC_TB));
+        q.add(fb(TB8,Difficulty.HARD,"Java提供了______类，支持\"随机访问\"方式读写文件。","RandomAccessFile","随机访问文件类",SRC_TB));
+        q.add(sc(TB8,Difficulty.EASY,"下面哪个流类属于面向字符的输入流？",opts("BufferedWriter","FileInputStream","ObjectInputStream","InputStreamReader"),"D","InputStreamReader是字符输入流",SRC_TB));
+        q.add(sc(TB8,Difficulty.MEDIUM,"新建流对象，下面哪个选项的代码是错误的？",opts("new BufferedWriter(new FileWriter(\"a.txt\"))","new BufferedReader(new FileInputStream(\"a.dat\"))","new GZIPOutputStream(new FileOutputStream(\"a.zip\"))","new ObjectInputStream(new FileInputStream(\"a.dat\"))"),"B","BufferedReader参数应为Reader",SRC_TB));
+        q.add(sc(TB8,Difficulty.EASY,"Java I/O程序设计中，下列描述正确的是（ ）",opts("OutputStream用于写操作","InputStream用于写操作","只有字节流可以进行读操作","I/O库不支持文件读写API"),"A","OutputStream写,InputStream读",SRC_TB));
+        q.add(sc(TB8,Difficulty.EASY,"下列哪个不是合法的字符编码？",opts("UTF-8","ISO8858-1","GBL","ASCII"),"C","GBL不是标准字符编码",SRC_TB));
+        q.add(sc(TB8,Difficulty.MEDIUM,"File file1=new File(\"e:\\\\xxx\\\\yyy\"); file1.mkdir(); 的功能是（ ）",opts("在当前目录下生成子目录","生成目录e:\\xxx\\yyy","在当前目录下生成文件","以上说法都不对"),"B","mkdir创建最后一级目录",SRC_TB));
+        q.add(sa(TB8,Difficulty.EASY,"Java中有几种类型的流？","按流向分：输入流和输出流；按数据单位分：字节流和字符流；按功能分：节点流和处理流。","三种维度分类",SRC_TB));
+        q.add(sa(TB8,Difficulty.MEDIUM,"什么是Java序列化？","Java序列化是将Java对象转换为字节序列的过程，以便于存储或网络传输。","对象→字节序列",SRC_TB));
+        q.add(sa(TB8,Difficulty.MEDIUM,"如何实现Java序列化？","让对象所属的类实现java.io.Serializable接口，然后使用ObjectOutputStream写入对象。","实现Serializable接口",SRC_TB));
+        q.add(sa(TB8,Difficulty.EASY,"什么是标准的I/O流？","标准I/O流包括System.in（标准输入）、System.out（标准输出）、System.err（标准错误输出）。","三个标准流",SRC_TB));
+        q.add(pg(TB8,Difficulty.EASY,"利用程序在D盘新建文件\"test.txt\"，写入\"我写的代码没bug\"。","import java.io.FileWriter;\npublic class WriteTest {\n    public static void main(String[] args) throws Exception {\n        FileWriter fw = new FileWriter(\"D:\\\\test.txt\");\n        fw.write(\"我写的代码没bug\");\n        fw.close();\n    }\n}","FileWriter写文件",SRC_TB));
+        q.add(pg(TB8,Difficulty.MEDIUM,"利用转换流复制\"test.txt\"为\"my.txt\"。","import java.io.*;\npublic class CopyTest {\n    public static void main(String[] args) throws Exception {\n        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(\"D:\\\\test.txt\")));\n        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(\"D:\\\\my.txt\")));\n        String line;\n        while ((line = br.readLine()) != null) bw.write(line);\n        br.close(); bw.close();\n    }\n}","转换流+缓冲复制文件",SRC_TB));
+
+        // ===== 第9章 GUI编程 =====
+        q.add(fb(TB9,Difficulty.EASY,"AWT有两个抽象基类，分别为______、______。","Component;Container","AWT基础类",SRC_TB));
+        q.add(fb(TB9,Difficulty.MEDIUM,"Java提供的______是专门处理窗体事件的监听接口。","WindowListener","窗体事件监听",SRC_TB));
+        q.add(fb(TB9,Difficulty.EASY,"______类属于流式布局管理器。","FlowLayout","流式布局",SRC_TB));
+        q.add(fb(TB9,Difficulty.HARD,"______和Swing都可以处理GUI，前者需要在Eclipse中安装______插件。","SWT;WindowBuilder","SWT和Eclipse插件",SRC_TB));
+        q.add(fb(TB9,Difficulty.MEDIUM,"AWT事件处理中，主要涉及3个对象：______、______、______。","事件源;事件;事件处理者","事件三要素",SRC_TB));
+        q.add(sc(TB9,Difficulty.EASY,"在Java中，要使用布局管理器，必须导入（ ）包。",opts("java.awt.*","java.awt.layout.*","javax.swing.layout.*","javax.swing.*"),"A","布局管理器在java.awt",SRC_TB));
+        q.add(sc(TB9,Difficulty.MEDIUM,"Swing与AWT的区别不包括（ ）",opts("Swing是纯Java实现的轻量级构件","Swing没有本地代码","Swing不依赖操作系统","Swing支持图形用户界面"),"D","两者都支持GUI",SRC_TB));
+        q.add(sc(TB9,Difficulty.MEDIUM,"编写Java applet程序时，事件响应需导入（ ）",opts("java.awt.*","java.applet.*","java.io.*","java.awt.event.*"),"D","事件处理在awt.event包",SRC_TB));
+        q.add(sc(TB9,Difficulty.EASY,"下列不属于容器的是（ ）",opts("Window","TextBox","JPanel","JScrollPane"),"B","TextBox是文本框非容器",SRC_TB));
+        q.add(sc(TB9,Difficulty.MEDIUM,"当Frame改变大小时，要使按钮大小不变，应使用（ ）",opts("FlowLayout","CardLayout","BorderLayout","GridLayout"),"A","FlowLayout不改变组件大小",SRC_TB));
+        q.add(sa(TB9,Difficulty.MEDIUM,"简述AWT和Swing的区别。","AWT依赖操作系统本地组件(重量级)；Swing用纯Java编写(轻量级)，跨平台性更好，组件更丰富。","重量级vs轻量级",SRC_TB));
+        q.add(sa(TB9,Difficulty.EASY,"java.awt包中提供的布局管理器有哪些？","FlowLayout, BorderLayout, GridLayout, CardLayout, GridBagLayout。","五种布局管理器",SRC_TB));
+        q.add(sa(TB9,Difficulty.MEDIUM,"简述事件处理机制中所涉及的概念。","事件源(产生事件的组件)、事件(用户操作封装对象)、事件监听器(处理事件的方法)。","事件三要素",SRC_TB));
+
+        // ===== 第10章 多线程 =====
+        q.add(fb(TB10,Difficulty.EASY,"______是Java程序的并发机制，它能同步共享数据、处理不同事件。","多线程","多线程并发机制",SRC_TB));
+        q.add(fb(TB10,Difficulty.EASY,"线程有新建、就绪、运行、______和死亡5种状态。","阻塞","线程五种状态",SRC_TB));
+        q.add(fb(TB10,Difficulty.EASY,"JDK 5.0以前，线程的创建有两种方法：实现______接口和继承Thread类。","Runnable","两种创建线程方式",SRC_TB));
+        q.add(fb(TB10,Difficulty.MEDIUM,"多线程程序设计的含义是可以将程序任务分成几个______的子任务。","并行","并行执行子任务",SRC_TB));
+        q.add(fb(TB10,Difficulty.MEDIUM,"在多线程系统中，多个线程之间有______和互斥两种关系。","同步","同步与互斥",SRC_TB));
+        q.add(sc(TB10,Difficulty.EASY,"线程调用了sleep()方法后，该线程将进入（ ）状态。",opts("可运行","运行","阻塞","终止"),"C","sleep使线程阻塞",SRC_TB));
+        q.add(sc(TB10,Difficulty.MEDIUM,"关于Java线程，下面说法错误的是（ ）",opts("线程是以CPU为主体的行为","Java利用线程使系统异步","继承Thread类可创建线程","新线程创建后自动开始运行"),"D","需调用start()才运行",SRC_TB));
+        q.add(sc(TB10,Difficulty.MEDIUM,"线程控制方法中，yield()的作用是（ ）",opts("返回当前线程的引用","使优先级比其他的线程执行","强行终止线程","只让给同优先级线程执行"),"D","yield让出CPU给同优先级",SRC_TB));
+        q.add(sc(TB10,Difficulty.EASY,"当（ ）方法终止时，线程进入死亡状态。",opts("run()","setPriority()","yield()","sleep()"),"A","run结束则线程死亡",SRC_TB));
+        q.add(sc(TB10,Difficulty.EASY,"线程通过（ ）方法可以改变优先级。",opts("run()","setPriority()","yield()","sleep()"),"B","setPriority改变优先级",SRC_TB));
+        q.add(sa(TB10,Difficulty.EASY,"什么是线程？什么是进程？","进程是操作系统分配资源的最小单位；线程是CPU调度的最小单位，是进程内的一条执行路径。","进程vs线程",SRC_TB));
+        q.add(sa(TB10,Difficulty.MEDIUM,"Java有哪几种创建线程的方式？","1.继承Thread类；2.实现Runnable接口；3.实现Callable接口配合FutureTask；4.使用线程池。","四种创建线程方式",SRC_TB));
+        q.add(sa(TB10,Difficulty.MEDIUM,"什么是线程的生命周期？","线程从创建到消亡的过程：新建(New)→就绪(Runnable)→运行(Running)→阻塞(Blocked)→死亡(Dead)。","五种生命周期状态",SRC_TB));
+        q.add(pg(TB10,Difficulty.MEDIUM,"利用多线程同时输出10以内的奇数和偶数及线程名称，输出完毕后输出\"end\"。","public class ThreadTest {\n    public static void main(String[] args) {\n        Thread odd = new Thread(() -> {\n            for (int i=1;i<=10;i+=2) System.out.println(Thread.currentThread().getName()+\": \"+i);\n        }, \"奇数线程\");\n        Thread even = new Thread(() -> {\n            for (int i=2;i<=10;i+=2) System.out.println(Thread.currentThread().getName()+\": \"+i);\n        }, \"偶数线程\");\n        odd.start(); even.start();\n        try { odd.join(); even.join(); } catch (Exception e) {}\n        System.out.println(\"end\");\n    }\n}","多线程基本用法",SRC_TB));
+
+        return q;
     }
 }
