@@ -35,6 +35,25 @@ is_running() {
     return 1
 }
 
+# 清理指定端口上的残留进程
+cleanup_port() {
+    local name="$1"
+    local port="$2"
+    local pids
+    pids=$(lsof -ti :"$port" 2>/dev/null | grep -v "^$")
+    if [ -n "$pids" ]; then
+        log_warn "${name}端口 $port 仍有残留进程，正在清理..."
+        echo "$pids" | xargs kill 2>/dev/null
+        sleep 2
+        pids=$(lsof -ti :"$port" 2>/dev/null | grep -v "^$")
+        if [ -n "$pids" ]; then
+            log_warn "残留进程未响应，强制终止..."
+            echo "$pids" | xargs kill -9 2>/dev/null
+        fi
+        log_info "${name}端口 $port 已清理"
+    fi
+}
+
 # 启动后端
 start_backend() {
     if is_running "$BACKEND_PID_FILE"; then
@@ -44,7 +63,7 @@ start_backend() {
 
     log_info "正在启动后端服务..."
     cd "$BACKEND_DIR"
-    nohup mvn spring-boot:run > "$BACKEND_LOG" 2>&1 &
+    setsid nohup mvn spring-boot:run > "$BACKEND_LOG" 2>&1 &
     local pid=$!
     echo "$pid" > "$BACKEND_PID_FILE"
 
@@ -86,7 +105,7 @@ start_frontend() {
         npm install >> "$FRONTEND_LOG" 2>&1
     fi
 
-    nohup npm run dev -- --host 0.0.0.0 > "$FRONTEND_LOG" 2>&1 &
+    setsid nohup npm run dev -- --host 0.0.0.0 > "$FRONTEND_LOG" 2>&1 &
     local pid=$!
     echo "$pid" > "$FRONTEND_PID_FILE"
 
@@ -111,23 +130,34 @@ start_frontend() {
     return 1
 }
 
-# 停止服务 (递归终止子进程)
+# 停止服务 (递归终止子进程 + 端口兜底)
 stop_service() {
     local name="$1"
     local pid_file="$2"
+    local port="$3"
 
     if ! is_running "$pid_file"; then
         log_warn "${name}服务未在运行"
         rm -f "$pid_file"
+        # PID 文件无效时，通过端口兜底清理
+        if [ -n "$port" ]; then
+            cleanup_port "$name" "$port"
+        fi
         return 0
     fi
 
     local pid=$(cat "$pid_file")
     log_info "正在停止${name}服务 (PID: $pid)..."
 
-    # 先终止子进程树，再终止主进程
-    pkill -P "$pid" 2>/dev/null
-    kill "$pid" 2>/dev/null
+    # 获取进程组 ID，终止整个进程组
+    local pgid
+    pgid=$(ps -o pgid= -p "$pid" 2>/dev/null | tr -d ' ')
+    if [ -n "$pgid" ] && [ "$pgid" != "0" ]; then
+        kill -- -"$pgid" 2>/dev/null
+    else
+        pkill -P "$pid" 2>/dev/null
+        kill "$pid" 2>/dev/null
+    fi
 
     # 等待进程退出 (最多 10 秒)
     local count=0
@@ -135,6 +165,10 @@ stop_service() {
         if ! kill -0 "$pid" 2>/dev/null; then
             log_info "${name}服务已停止"
             rm -f "$pid_file"
+            # 确认端口已释放
+            if [ -n "$port" ]; then
+                cleanup_port "$name" "$port"
+            fi
             return 0
         fi
         sleep 1
@@ -143,10 +177,19 @@ stop_service() {
 
     # 强制终止
     log_warn "${name}服务未响应，强制终止..."
-    pkill -9 -P "$pid" 2>/dev/null
-    kill -9 "$pid" 2>/dev/null
+    if [ -n "$pgid" ] && [ "$pgid" != "0" ]; then
+        kill -9 -- -"$pgid" 2>/dev/null
+    else
+        pkill -9 -P "$pid" 2>/dev/null
+        kill -9 "$pid" 2>/dev/null
+    fi
     rm -f "$pid_file"
     log_info "${name}服务已强制停止"
+
+    # 最终端口清理
+    if [ -n "$port" ]; then
+        cleanup_port "$name" "$port"
+    fi
 }
 
 # 查看状态
@@ -183,13 +226,13 @@ case "$1" in
         ;;
     stop)
         log_info "========== 停止出题组卷系统 =========="
-        stop_service "前端" "$FRONTEND_PID_FILE"
-        stop_service "后端" "$BACKEND_PID_FILE"
+        stop_service "前端" "$FRONTEND_PID_FILE" 5173
+        stop_service "后端" "$BACKEND_PID_FILE" 8080
         ;;
     restart)
         log_info "========== 重启出题组卷系统 =========="
-        stop_service "前端" "$FRONTEND_PID_FILE"
-        stop_service "后端" "$BACKEND_PID_FILE"
+        stop_service "前端" "$FRONTEND_PID_FILE" 5173
+        stop_service "后端" "$BACKEND_PID_FILE" 8080
         sleep 2
         start_backend
         start_frontend

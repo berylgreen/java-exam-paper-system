@@ -18,8 +18,8 @@ import java.util.*;
 /**
  * 数据初始化器 — 首次启动时从 JSON 文件加载题库和预置试卷
  *
- * 题库数据存放在 resources/questions_net.json 和 resources/questions_textbook.json
- * 修改题目后重启即可重新初始化。
+ * 题库数据存放在 resources/questions.json
+ * 可直接使用导出的 JSON 文件替换此文件来更新题库，重启即可重新初始化。
  */
 @Slf4j
 @Component
@@ -39,16 +39,12 @@ public class DataInitializer implements CommandLineRunner {
         }
         log.info("开始从 JSON 文件初始化题库...");
 
-        List<Question> netQuestions = loadQuestions("questions_net.json");
-        qRepo.saveAll(netQuestions);
-        log.info("网络来源题目初始化完成，共 {} 道题", netQuestions.size());
+        List<Question> allQuestions = loadQuestions("questions.json");
+        qRepo.saveAll(allQuestions);
+        log.info("题库初始化完成，共 {} 道题", allQuestions.size());
 
-        initPapers(netQuestions);
+        initPapers(allQuestions);
         log.info("预置试卷初始化完成");
-
-        List<Question> tbQuestions = loadQuestions("questions_textbook.json");
-        qRepo.saveAll(tbQuestions);
-        log.info("课后习题原题初始化完成，共 {} 道题", tbQuestions.size());
     }
 
     /**
