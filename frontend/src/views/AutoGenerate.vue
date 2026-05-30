@@ -21,6 +21,7 @@
         <div class="config-item"><label>判断题数量</label><el-input-number v-model="form.trueFalseCount" :min="0" :max="20" size="small"/></div>
         <div class="config-item"><label>填空题数量</label><el-input-number v-model="form.fillBlankCount" :min="0" :max="20" size="small"/></div>
         <div class="config-item"><label>简答题数量</label><el-input-number v-model="form.shortAnswerCount" :min="0" :max="10" size="small"/></div>
+        <div class="config-item"><label>程序分析题数量</label><el-input-number v-model="form.codeReadingCount" :min="0" :max="5" size="small"/></div>
         <div class="config-item"><label>编程题数量</label><el-input-number v-model="form.programmingCount" :min="0" :max="5" size="small"/></div>
       </div>
 
@@ -127,7 +128,7 @@ const generateDefaultTitle = () => {
 const form = reactive({
   title: generateDefaultTitle(), durationMinutes: 120,
   singleChoiceCount: 10, multipleChoiceCount: 0, trueFalseCount: 0,
-  fillBlankCount: 5, shortAnswerCount: 2, programmingCount: 1,
+  fillBlankCount: 5, shortAnswerCount: 2, codeReadingCount: 2, programmingCount: 1,
   chapters: [], easyPercent: 30, mediumPercent: 50, hardPercent: 20,
   textbookPercent: 80, networkPercent: 20
 })
@@ -141,6 +142,7 @@ const currentTotalScore = computed(() => {
          (form.trueFalseCount || 0) * 2 +
          (form.fillBlankCount || 0) * 4 +
          (form.shortAnswerCount || 0) * 10 +
+         (form.codeReadingCount || 0) * 10 +
          (form.programmingCount || 0) * 10
 })
 
@@ -157,9 +159,9 @@ const handleChapterChange = (val) => {
 }
 
 // 题型分组预览
-const typeOrder = ['SINGLE_CHOICE','MULTIPLE_CHOICE','TRUE_FALSE','FILL_BLANK','SHORT_ANSWER','PROGRAMMING']
-const typeLabels = { SINGLE_CHOICE:'单选题', MULTIPLE_CHOICE:'多选题', TRUE_FALSE:'判断题', FILL_BLANK:'填空题', SHORT_ANSWER:'简答题', PROGRAMMING:'编程题' }
-const sectionNums = ['一','二','三','四','五','六']
+const typeOrder = ['SINGLE_CHOICE','MULTIPLE_CHOICE','TRUE_FALSE','FILL_BLANK','SHORT_ANSWER','CODE_READING','PROGRAMMING']
+const typeLabels = { SINGLE_CHOICE:'单选题', MULTIPLE_CHOICE:'多选题', TRUE_FALSE:'判断题', FILL_BLANK:'填空题', SHORT_ANSWER:'简答题', CODE_READING:'程序分析题', PROGRAMMING:'编程题' }
+const sectionNums = ['一','二','三','四','五','六','七']
 const sectionNum = (i) => i < sectionNums.length ? sectionNums[i] : String(i + 1)
 
 const previewSections = computed(() => {

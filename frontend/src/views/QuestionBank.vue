@@ -128,10 +128,10 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 const types = [
   {value:'SINGLE_CHOICE',label:'单选题'},{value:'MULTIPLE_CHOICE',label:'多选题'},
   {value:'TRUE_FALSE',label:'判断题'},{value:'FILL_BLANK',label:'填空题'},
-  {value:'SHORT_ANSWER',label:'简答题'},{value:'PROGRAMMING',label:'编程题'}
+  {value:'SHORT_ANSWER',label:'简答题'},{value:'CODE_READING',label:'程序分析题'},{value:'PROGRAMMING',label:'编程题'}
 ]
 const typeLabel = (t) => types.find(x=>x.value===t)?.label || t
-const typeClass = (t) => t==='SINGLE_CHOICE'?'tag-easy':t==='MULTIPLE_CHOICE'?'tag-medium':t==='PROGRAMMING'?'tag-hard':'tag-easy'
+const typeClass = (t) => t==='SINGLE_CHOICE'?'tag-easy':t==='MULTIPLE_CHOICE'?'tag-medium':(t==='PROGRAMMING'||t==='CODE_READING')?'tag-hard':'tag-easy'
 const diffLabel = (d) => ({EASY:'简单',MEDIUM:'中等',HARD:'困难'})[d] || d
 const diffColor = (d) => ({EASY:'success',MEDIUM:'warning',HARD:'danger'})[d] || ''
 const parseOpts = (s) => {

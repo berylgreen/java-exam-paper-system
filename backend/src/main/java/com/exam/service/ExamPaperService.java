@@ -99,6 +99,8 @@ public class ExamPaperService {
                 req.getShortAnswerCount(), 10, req, order);
         order = pickQuestions(selectedQuestions, QuestionType.PROGRAMMING,
                 req.getProgrammingCount(), 10, req, order);
+        order = pickQuestions(selectedQuestions, QuestionType.CODE_READING,
+                req.getCodeReadingCount() != null ? req.getCodeReadingCount() : 0, 10, req, order);
 
         // 计算总分
         int totalScore = selectedQuestions.stream()
@@ -151,6 +153,8 @@ public class ExamPaperService {
                 req.getShortAnswerCount(), 10, req, order);
         order = pickQuestions(selectedQuestions, QuestionType.PROGRAMMING,
                 req.getProgrammingCount(), 10, req, order);
+        order = pickQuestions(selectedQuestions, QuestionType.CODE_READING,
+                req.getCodeReadingCount() != null ? req.getCodeReadingCount() : 0, 10, req, order);
 
         // 计算总分
         int totalScore = selectedQuestions.stream()
@@ -258,13 +262,13 @@ public class ExamPaperService {
                             Collectors.toList()));
 
             // 大题序号
-            String[] sectionNums = {"一", "二", "三", "四", "五", "六"};
+            String[] sectionNums = {"一", "二", "三", "四", "五", "六", "七"};
             int sectionIdx = 0;
             // 定义题型显示顺序
             QuestionType[] typeOrder = {
                 QuestionType.SINGLE_CHOICE, QuestionType.MULTIPLE_CHOICE,
                 QuestionType.TRUE_FALSE, QuestionType.FILL_BLANK,
-                QuestionType.SHORT_ANSWER, QuestionType.PROGRAMMING
+                QuestionType.SHORT_ANSWER, QuestionType.CODE_READING, QuestionType.PROGRAMMING
             };
 
             for (QuestionType type : typeOrder) {
@@ -335,8 +339,8 @@ public class ExamPaperService {
                         }
                     }
 
-                    // 编程题/简答题留空行
-                    if (type == QuestionType.SHORT_ANSWER || type == QuestionType.PROGRAMMING) {
+                    // 编程题/简答题/程序分析题留空行
+                    if (type == QuestionType.SHORT_ANSWER || type == QuestionType.CODE_READING || type == QuestionType.PROGRAMMING) {
                         for (int i = 0; i < 5; i++) {
                             doc.createParagraph().createRun().setText("");
                         }

@@ -32,6 +32,9 @@ public class AutoGenerateRequest {
     /** 编程题数量 */
     private Integer programmingCount = 1;
 
+    /** 程序分析题数量 */
+    private Integer codeReadingCount = 2;
+
     /** 章节范围 (为空则从全部章节抽取) */
     private List<String> chapters;
 

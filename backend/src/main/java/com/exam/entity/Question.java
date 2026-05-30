@@ -21,7 +21,7 @@ public class Question {
 
     /** 题型 */
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, columnDefinition = "VARCHAR(50)")
     private QuestionType type;
 
     /** 所属章节 */

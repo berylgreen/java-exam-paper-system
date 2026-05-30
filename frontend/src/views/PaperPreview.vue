@@ -49,9 +49,9 @@ const paper = ref(null)
 const loading = ref(false)
 const showAnswer = ref(false)
 
-const typeOrder = ['SINGLE_CHOICE','MULTIPLE_CHOICE','TRUE_FALSE','FILL_BLANK','SHORT_ANSWER','PROGRAMMING']
-const typeLabels = { SINGLE_CHOICE:'单选题', MULTIPLE_CHOICE:'多选题', TRUE_FALSE:'判断题', FILL_BLANK:'填空题', SHORT_ANSWER:'简答题', PROGRAMMING:'编程题' }
-const sectionNums = ['一','二','三','四','五','六']
+const typeOrder = ['SINGLE_CHOICE','MULTIPLE_CHOICE','TRUE_FALSE','FILL_BLANK','SHORT_ANSWER','CODE_READING','PROGRAMMING']
+const typeLabels = { SINGLE_CHOICE:'单选题', MULTIPLE_CHOICE:'多选题', TRUE_FALSE:'判断题', FILL_BLANK:'填空题', SHORT_ANSWER:'简答题', CODE_READING:'程序分析题', PROGRAMMING:'编程题' }
+const sectionNums = ['一','二','三','四','五','六','七']
 const sectionNum = (i) => i < sectionNums.length ? sectionNums[i] : String(i + 1)
 const parseOpts = (s) => {
   if (!s) return []

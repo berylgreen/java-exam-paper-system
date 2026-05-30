@@ -9,7 +9,8 @@ public enum QuestionType {
     TRUE_FALSE("判断题"),
     FILL_BLANK("填空题"),
     SHORT_ANSWER("简答题"),
-    PROGRAMMING("编程题");
+    PROGRAMMING("编程题"),
+    CODE_READING("程序分析题");
 
     private final String label;
 
