@@ -52,6 +52,9 @@
       </div>
 
       <div style="text-align:center">
+        <div style="margin-bottom:16px;color:#6dd49e;font-size:16px;font-weight:bold;">
+          预计总分：{{ currentTotalScore }} 分
+        </div>
         <el-button type="primary" size="large" :loading="generating" @click="generate" style="padding:12px 48px;font-size:16px">
           <el-icon><MagicStick /></el-icon> 一键组卷
         </el-button>
@@ -117,14 +120,23 @@ const savedResult = ref(null)
 
 const form = reactive({
   title: '', durationMinutes: 120,
-  singleChoiceCount: 10, multipleChoiceCount: 5, trueFalseCount: 5,
+  singleChoiceCount: 10, multipleChoiceCount: 0, trueFalseCount: 0,
   fillBlankCount: 5, shortAnswerCount: 2, programmingCount: 1,
   chapters: [], easyPercent: 30, mediumPercent: 50, hardPercent: 20,
-  textbookPercent: 40, networkPercent: 60
+  textbookPercent: 80, networkPercent: 20
 })
 
 const onTextbookChange = (val) => { form.networkPercent = Math.max(0, 100 - val) }
 const onNetworkChange = (val) => { form.textbookPercent = Math.max(0, 100 - val) }
+
+const currentTotalScore = computed(() => {
+  return (form.singleChoiceCount || 0) * 2 +
+         (form.multipleChoiceCount || 0) * 4 +
+         (form.trueFalseCount || 0) * 2 +
+         (form.fillBlankCount || 0) * 4 +
+         (form.shortAnswerCount || 0) * 10 +
+         (form.programmingCount || 0) * 10
+})
 
 const checkAll = ref(false)
 const isIndeterminate = computed(() => {

@@ -378,8 +378,8 @@ public class ExamPaperService {
         }
 
         // ===== 按来源比例分组抽取 =====
-        int textbookPercent = req.getTextbookPercent() != null ? req.getTextbookPercent() : 0;
-        int networkPercent = req.getNetworkPercent() != null ? req.getNetworkPercent() : 100;
+        int textbookPercent = req.getTextbookPercent() != null ? req.getTextbookPercent() : 80;
+        int networkPercent = req.getNetworkPercent() != null ? req.getNetworkPercent() : 20;
 
         // 按来源分组
         Map<String, List<Question>> bySource = candidates.stream()

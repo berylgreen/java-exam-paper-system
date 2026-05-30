@@ -18,10 +18,10 @@ public class AutoGenerateRequest {
     private Integer singleChoiceCount = 10;
 
     /** 多选题数量 */
-    private Integer multipleChoiceCount = 5;
+    private Integer multipleChoiceCount = 0;
 
     /** 判断题数量 */
-    private Integer trueFalseCount = 5;
+    private Integer trueFalseCount = 0;
 
     /** 填空题数量 */
     private Integer fillBlankCount = 5;
@@ -41,6 +41,6 @@ public class AutoGenerateRequest {
     private Integer hardPercent = 20;
 
     /** 来源比例 (百分比，总和应为100) */
-    private Integer textbookPercent = 0;
-    private Integer networkPercent = 100;
+    private Integer textbookPercent = 80;
+    private Integer networkPercent = 20;
 }
