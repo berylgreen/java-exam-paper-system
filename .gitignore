@@ -43,3 +43,6 @@ Thumbs.db
 # Runtime (exam-system.sh)
 .backend.pid
 .frontend.pid
+
+# H2 Database files
+**/db/

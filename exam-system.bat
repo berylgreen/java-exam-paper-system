@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul
 setlocal EnableDelayedExpansion
 
 set "JAVA_HOME=C:\Program Files\Java\jdk-17.0.2"
