@@ -28,6 +28,8 @@ export const paperApi = {
     getById: (id) => api.get(`/papers/${id}`),
     create: (data) => api.post('/papers', data),
     autoGenerate: (data) => api.post('/papers/auto-generate', data),
+    previewGenerate: (data) => api.post('/papers/preview-generate', data),
+    saveGenerated: (data) => api.post('/papers/save-generated', data),
     delete: (id) => api.delete(`/papers/${id}`),
     exportUrl: (id) => `/api/papers/${id}/export`,
 }

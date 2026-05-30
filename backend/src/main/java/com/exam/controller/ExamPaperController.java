@@ -68,6 +68,45 @@ public class ExamPaperController {
         }
     }
 
+    /** 自动组卷预览 (不保存到数据库) */
+    @PostMapping("/preview-generate")
+    public ResponseEntity<Object> previewGenerate(@RequestBody AutoGenerateRequest request) {
+        log.info("[API] POST /api/papers/preview-generate 开始, title={}", request.getTitle());
+        try {
+            PaperDTO result = paperService.previewGenerate(request);
+            log.info("[API] POST /api/papers/preview-generate 完成, 共{}题", 
+                    result.getQuestions() != null ? result.getQuestions().size() : 0);
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            mapper.findAndRegisterModules();
+            String json = mapper.writeValueAsString(result);
+            return ResponseEntity.ok()
+                    .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                    .body(json);
+        } catch (Exception e) {
+            log.error("[API] preview-generate 异常", e);
+            return ResponseEntity.status(500).body(java.util.Map.of("error", e.getMessage()));
+        }
+    }
+
+    /** 保存自动组卷结果到数据库 */
+    @PostMapping("/save-generated")
+    public ResponseEntity<Object> saveGenerated(@RequestBody SaveGeneratedRequest request) {
+        log.info("[API] POST /api/papers/save-generated 开始, title={}", request.getTitle());
+        try {
+            PaperDTO result = paperService.saveGenerated(request);
+            log.info("[API] POST /api/papers/save-generated 完成, paperId={}", result.getId());
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            mapper.findAndRegisterModules();
+            String json = mapper.writeValueAsString(result);
+            return ResponseEntity.ok()
+                    .contentType(org.springframework.http.MediaType.APPLICATION_JSON)
+                    .body(json);
+        } catch (Exception e) {
+            log.error("[API] save-generated 异常", e);
+            return ResponseEntity.status(500).body(java.util.Map.of("error", e.getMessage()));
+        }
+    }
+
     /** 删除试卷 */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {

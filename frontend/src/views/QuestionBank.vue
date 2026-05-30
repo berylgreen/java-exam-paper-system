@@ -134,7 +134,18 @@ const typeLabel = (t) => types.find(x=>x.value===t)?.label || t
 const typeClass = (t) => t==='SINGLE_CHOICE'?'tag-easy':t==='MULTIPLE_CHOICE'?'tag-medium':t==='PROGRAMMING'?'tag-hard':'tag-easy'
 const diffLabel = (d) => ({EASY:'简单',MEDIUM:'中等',HARD:'困难'})[d] || d
 const diffColor = (d) => ({EASY:'success',MEDIUM:'warning',HARD:'danger'})[d] || ''
-const parseOpts = (s) => { try { return JSON.parse(s) } catch { return [] } }
+const parseOpts = (s) => {
+  if (!s) return []
+  try {
+    let parsed = JSON.parse(s)
+    if (typeof parsed === 'string') {
+      parsed = JSON.parse(parsed)
+    }
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
+}
 
 const questions = ref([])
 const loading = ref(false)

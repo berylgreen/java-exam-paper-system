@@ -58,16 +58,48 @@
       </div>
     </div>
 
-    <!-- 预览 -->
-    <div v-if="result" class="glass-card" style="margin-top:24px">
+    <!-- 预览区域 -->
+    <div v-if="previewData" class="glass-card" style="margin-top:24px">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <h3 style="color:#6dd49e">✅ 组卷成功！</h3>
+        <h3 style="color:#6dd49e;margin:0">✅ 组卷完成！以下为预览（尚未保存）</h3>
+        <div style="display:flex;gap:8px">
+          <el-button type="warning" @click="generate" :loading="generating">
+            <el-icon><RefreshRight /></el-icon> 重新组卷
+          </el-button>
+          <el-button type="success" @click="savePaper" :loading="saving">
+            <el-icon><FolderChecked /></el-icon> 保存到数据库
+          </el-button>
+        </div>
+      </div>
+
+      <p style="color:#aaa;margin-bottom:16px">
+        试卷：{{ previewData.title }} | 总分：{{ previewData.totalScore }}分 | 共{{ previewData.questions?.length }}题
+      </p>
+
+      <!-- 内嵌题目预览 -->
+      <div class="preview-sections">
+        <div v-for="(section, idx) in previewSections" :key="idx" style="margin-bottom:16px">
+          <div style="color:#667eea;font-weight:bold;font-size:14px;margin-bottom:8px">
+            {{ sectionNum(idx) }}、{{ section.typeLabel }} (共{{ section.questions.length }}题，共{{ section.totalScore }}分)
+          </div>
+          <div v-for="(pq, qi) in section.questions" :key="qi"
+               style="color:#ccc;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
+            <span>{{ qi + 1 }}. ({{ pq.score }}分) {{ pq.question.content }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 已保存结果 -->
+    <div v-if="savedResult" class="glass-card" style="margin-top:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+        <h3 style="color:#6dd49e">💾 已保存到数据库！</h3>
         <div>
-          <el-button type="primary" @click="$router.push(`/papers/${result.id}`)">预览试卷</el-button>
+          <el-button type="primary" @click="$router.push(`/papers/${savedResult.id}`)">预览试卷</el-button>
           <el-button type="success" @click="exportPaper">导出Word</el-button>
         </div>
       </div>
-      <p style="color:#aaa">试卷：{{ result.title }} | 总分：{{ result.totalScore }}分 | 共{{ result.questions?.length }}题</p>
+      <p style="color:#aaa">试卷：{{ savedResult.title }} | 总分：{{ savedResult.totalScore }}分 | 共{{ savedResult.questions?.length }}题</p>
     </div>
   </div>
 </template>
@@ -79,7 +111,9 @@ import { ElMessage } from 'element-plus'
 
 const chapters = ref([])
 const generating = ref(false)
-const result = ref(null)
+const saving = ref(false)
+const previewData = ref(null)
+const savedResult = ref(null)
 
 const form = reactive({
   title: '', durationMinutes: 120,
@@ -104,20 +138,69 @@ const handleChapterChange = (val) => {
   checkAll.value = val.length === chapters.value.length
 }
 
+// 题型分组预览
+const typeOrder = ['SINGLE_CHOICE','MULTIPLE_CHOICE','TRUE_FALSE','FILL_BLANK','SHORT_ANSWER','PROGRAMMING']
+const typeLabels = { SINGLE_CHOICE:'单选题', MULTIPLE_CHOICE:'多选题', TRUE_FALSE:'判断题', FILL_BLANK:'填空题', SHORT_ANSWER:'简答题', PROGRAMMING:'编程题' }
+const sectionNums = ['一','二','三','四','五','六']
+const sectionNum = (i) => i < sectionNums.length ? sectionNums[i] : String(i + 1)
+
+const previewSections = computed(() => {
+  if (!previewData.value?.questions) return []
+  const grouped = {}
+  for (const pq of previewData.value.questions) {
+    const t = pq.question.type
+    if (!grouped[t]) grouped[t] = []
+    grouped[t].push(pq)
+  }
+  return typeOrder.filter(t => grouped[t]).map(t => ({
+    type: t,
+    typeLabel: typeLabels[t],
+    questions: grouped[t],
+    totalScore: grouped[t].reduce((s, pq) => s + pq.score, 0)
+  }))
+})
+
+/** 组卷预览 (不保存) */
 const generate = async () => {
   if (!form.title) { ElMessage.warning('请输入试卷标题'); return }
   generating.value = true
+  savedResult.value = null
   try {
     const data = { ...form, chapters: form.chapters.length ? form.chapters : null }
-    result.value = (await paperApi.autoGenerate(data)).data
-    ElMessage.success('组卷成功！')
+    previewData.value = (await paperApi.previewGenerate(data)).data
+    ElMessage.success('组卷完成，请预览确认后点击"保存到数据库"')
   } catch (e) {
-    ElMessage.error('组卷失败: ' + (e.response?.data?.message || e.message))
+    ElMessage.error('组卷失败: ' + (e.response?.data?.error || e.response?.data?.message || e.message))
   }
   generating.value = false
 }
 
-const exportPaper = () => { if (result.value) window.open(paperApi.exportUrl(result.value.id), '_blank') }
+/** 确认保存到数据库 */
+const savePaper = async () => {
+  if (!previewData.value) return
+  saving.value = true
+  try {
+    // 从预览数据构建保存请求
+    const saveReq = {
+      title: previewData.value.title,
+      durationMinutes: previewData.value.durationMinutes,
+      description: previewData.value.description,
+      questions: previewData.value.questions.map(pq => ({
+        questionId: pq.question.id,
+        questionOrder: pq.questionOrder,
+        score: pq.score
+      }))
+    }
+    savedResult.value = (await paperApi.saveGenerated(saveReq)).data
+    previewData.value = null
+    ElMessage.success('试卷已保存到数据库！')
+  } catch (e) {
+    ElMessage.error('保存失败: ' + (e.response?.data?.error || e.response?.data?.message || e.message))
+  }
+  saving.value = false
+}
+
+const exportPaper = () => { if (savedResult.value) window.open(paperApi.exportUrl(savedResult.value.id), '_blank') }
 
 onMounted(async () => {
   try { chapters.value = (await questionApi.chapters()).data } catch {}

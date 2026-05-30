@@ -53,7 +53,18 @@ const typeOrder = ['SINGLE_CHOICE','MULTIPLE_CHOICE','TRUE_FALSE','FILL_BLANK','
 const typeLabels = { SINGLE_CHOICE:'单选题', MULTIPLE_CHOICE:'多选题', TRUE_FALSE:'判断题', FILL_BLANK:'填空题', SHORT_ANSWER:'简答题', PROGRAMMING:'编程题' }
 const sectionNums = ['一','二','三','四','五','六']
 const sectionNum = (i) => i < sectionNums.length ? sectionNums[i] : String(i + 1)
-const parseOpts = (s) => { try { return JSON.parse(s) } catch { return [] } }
+const parseOpts = (s) => {
+  if (!s) return []
+  try {
+    let parsed = JSON.parse(s)
+    if (typeof parsed === 'string') {
+      parsed = JSON.parse(parsed)
+    }
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
+}
 
 const sections = computed(() => {
   if (!paper.value?.questions) return []

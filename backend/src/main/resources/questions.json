@@ -2920,7 +2920,19 @@
   "chapter" : "面向对象基础",
   "difficulty" : "EASY",
   "content" : "类的定义必须包含在以下哪种符号之间？",
-  "options" : "[{\"label\":\"A\",\"text\":\"小括号()\"},{\"label\":\"B\",\"text\":\"双引号\"\"\"},{\"label\":\"C\",\"text\":\"大括号{}\"},{\"label\":\"D\",\"text\":\"中括号[]\"}]",
+  "options" : [ {
+    "label" : "A",
+    "text" : "小括号()"
+  }, {
+    "label" : "B",
+    "text" : "双引号\"\""
+  }, {
+    "label" : "C",
+    "text" : "大括号{}"
+  }, {
+    "label" : "D",
+    "text" : "中括号[]"
+  } ],
   "answer" : "C",
   "explanation" : "类体用大括号包围",
   "defaultScore" : 2,
@@ -3948,7 +3960,19 @@
   "chapter" : "I/O流",
   "difficulty" : "MEDIUM",
   "content" : "新建流对象，下面哪个选项的代码是错误的？",
-  "options" : "[{\"label\":\"A\",\"text\":\"new BufferedWriter(new FileWriter(\"a.txt\"))\"},{\"label\":\"B\",\"text\":\"new BufferedReader(new FileInputStream(\"a.dat\"))\"},{\"label\":\"C\",\"text\":\"new GZIPOutputStream(new FileOutputStream(\"a.zip\"))\"},{\"label\":\"D\",\"text\":\"new ObjectInputStream(new FileInputStream(\"a.dat\"))\"}]",
+  "options" : [ {
+    "label" : "A",
+    "text" : "new BufferedWriter(new FileWriter(\"a.txt\"))"
+  }, {
+    "label" : "B",
+    "text" : "new BufferedReader(new FileInputStream(\"a.dat\"))"
+  }, {
+    "label" : "C",
+    "text" : "new GZIPOutputStream(new FileOutputStream(\"a.zip\"))"
+  }, {
+    "label" : "D",
+    "text" : "new ObjectInputStream(new FileInputStream(\"a.dat\"))"
+  } ],
   "answer" : "B",
   "explanation" : "BufferedReader参数应为Reader",
   "defaultScore" : 2,
@@ -4002,7 +4026,19 @@
   "chapter" : "I/O流",
   "difficulty" : "MEDIUM",
   "content" : "File file1=new File(\"e:\\\\xxx\\\\yyy\"); file1.mkdir(); 的功能是（ ）",
-  "options" : "[{\"label\":\"A\",\"text\":\"在当前目录下生成子目录\"},{\"label\":\"B\",\"text\":\"生成目录e:\\xxx\\yyy\"},{\"label\":\"C\",\"text\":\"在当前目录下生成文件\"},{\"label\":\"D\",\"text\":\"以上说法都不对\"}]",
+  "options" : [ {
+    "label" : "A",
+    "text" : "在当前目录下生成子目录"
+  }, {
+    "label" : "B",
+    "text" : "生成目录e:\\xxx\\yyy"
+  }, {
+    "label" : "C",
+    "text" : "在当前目录下生成文件"
+  }, {
+    "label" : "D",
+    "text" : "以上说法都不对"
+  } ],
   "answer" : "B",
   "explanation" : "mkdir创建最后一级目录",
   "defaultScore" : 2,

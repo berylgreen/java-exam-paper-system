@@ -130,6 +130,92 @@ public class ExamPaperService {
         return toFullDTO(paper);
     }
 
+    /**
+     * 自动组卷预览 — 只执行抽题算法，返回预览 DTO，不持久化到数据库
+     */
+    @Transactional(readOnly = true)
+    public PaperDTO previewGenerate(AutoGenerateRequest req) {
+        List<PaperQuestion> selectedQuestions = new ArrayList<>();
+        int order = 0;
+
+        // 按题型依次抽取
+        order = pickQuestions(selectedQuestions, QuestionType.SINGLE_CHOICE,
+                req.getSingleChoiceCount(), 2, req, order);
+        order = pickQuestions(selectedQuestions, QuestionType.MULTIPLE_CHOICE,
+                req.getMultipleChoiceCount(), 4, req, order);
+        order = pickQuestions(selectedQuestions, QuestionType.TRUE_FALSE,
+                req.getTrueFalseCount(), 2, req, order);
+        order = pickQuestions(selectedQuestions, QuestionType.FILL_BLANK,
+                req.getFillBlankCount(), 4, req, order);
+        order = pickQuestions(selectedQuestions, QuestionType.SHORT_ANSWER,
+                req.getShortAnswerCount(), 10, req, order);
+        order = pickQuestions(selectedQuestions, QuestionType.PROGRAMMING,
+                req.getProgrammingCount(), 10, req, order);
+
+        // 计算总分
+        int totalScore = selectedQuestions.stream()
+                .mapToInt(PaperQuestion::getScore)
+                .sum();
+
+        // 组装预览 DTO (不持久化)
+        String title = req.getTitle() != null ? req.getTitle()
+                : "自动生成试卷 - " + LocalDateTime.now().toString().substring(0, 16);
+
+        PaperDTO dto = new PaperDTO();
+        dto.setTitle(title);
+        dto.setTotalScore(totalScore);
+        dto.setDurationMinutes(req.getDurationMinutes());
+        dto.setDescription("自动组卷生成");
+        dto.setQuestions(selectedQuestions.stream()
+                .map(pq -> {
+                    PaperDTO.PaperQuestionDTO pqDto = new PaperDTO.PaperQuestionDTO();
+                    pqDto.setQuestionOrder(pq.getQuestionOrder());
+                    pqDto.setScore(pq.getScore());
+                    pqDto.setQuestion(questionService.toDTO(pq.getQuestion()));
+                    return pqDto;
+                })
+                .collect(Collectors.toList()));
+
+        return dto;
+    }
+
+    /**
+     * 保存自动组卷结果 — 将前端确认的预览数据持久化
+     */
+    @Transactional
+    public PaperDTO saveGenerated(SaveGeneratedRequest req) {
+        // 计算总分
+        int totalScore = req.getQuestions().stream()
+                .mapToInt(SaveGeneratedRequest.PaperQuestionItem::getScore)
+                .sum();
+
+        ExamPaper paper = ExamPaper.builder()
+                .title(req.getTitle())
+                .totalScore(totalScore)
+                .durationMinutes(req.getDurationMinutes())
+                .description(req.getDescription() != null ? req.getDescription() : "自动组卷生成")
+                .createdAt(LocalDateTime.now())
+                .build();
+        paper = paperRepository.save(paper);
+
+        // 保存题目关联
+        List<PaperQuestion> savedPqs = new ArrayList<>();
+        for (SaveGeneratedRequest.PaperQuestionItem item : req.getQuestions()) {
+            Question question = questionRepository.findById(item.getQuestionId())
+                    .orElseThrow(() -> new RuntimeException("题目不存在: " + item.getQuestionId()));
+            PaperQuestion pq = PaperQuestion.builder()
+                    .paper(paper)
+                    .question(question)
+                    .questionOrder(item.getQuestionOrder())
+                    .score(item.getScore())
+                    .build();
+            savedPqs.add(paperQuestionRepository.save(pq));
+        }
+        paper.setPaperQuestions(savedPqs);
+
+        return toFullDTO(paper);
+    }
+
     /** 删除试卷 */
     @Transactional
     public void delete(Long id) {
@@ -209,20 +295,43 @@ public class ExamPaperService {
                     // 选择题输出选项
                     if (q.getOptions() != null && !q.getOptions().isEmpty()
                             && (type == QuestionType.SINGLE_CHOICE || type == QuestionType.MULTIPLE_CHOICE)) {
-                        // 简单解析 JSON 选项
                         String opts = q.getOptions();
-                        // 格式: [{"label":"A","text":"xxx"}, ...]
-                        // 简单用正则提取
-                        String[] labels = {"A", "B", "C", "D", "E", "F"};
-                        String[] parts = opts.split("\"text\"\\s*:\\s*\"");
-                        for (int i = 1; i < parts.length && i <= labels.length; i++) {
-                            String text = parts[i].split("\"")[0];
-                            XWPFParagraph optPara = doc.createParagraph();
-                            optPara.setIndentationLeft(720); // 缩进
-                            XWPFRun optRun = optPara.createRun();
-                            optRun.setText(labels[i - 1] + ". " + text);
-                            optRun.setFontSize(12);
-                            optRun.setFontFamily("宋体");
+                        boolean parsedSuccessfully = false;
+                        try {
+                            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+                            // 处理双重反序列化的情况
+                            if (opts.trim().startsWith("\"")) {
+                                opts = mapper.readValue(opts, String.class);
+                            }
+                            List<Map<String, Object>> optList = mapper.readValue(opts, new com.fasterxml.jackson.core.type.TypeReference<List<Map<String, Object>>>() {});
+                            for (Map<String, Object> opt : optList) {
+                                String label = String.valueOf(opt.get("label"));
+                                String text = String.valueOf(opt.get("text"));
+                                XWPFParagraph optPara = doc.createParagraph();
+                                optPara.setIndentationLeft(720); // 缩进
+                                XWPFRun optRun = optPara.createRun();
+                                optRun.setText(label + ". " + text);
+                                optRun.setFontSize(12);
+                                optRun.setFontFamily("宋体");
+                            }
+                            parsedSuccessfully = true;
+                        } catch (Exception e) {
+                            // 无法解析则走到下面的降级处理
+                        }
+
+                        if (!parsedSuccessfully) {
+                            // 降级使用旧的分割解析方式
+                            String[] labels = {"A", "B", "C", "D", "E", "F"};
+                            String[] parts = opts.split("\"text\"\\s*:\\s*\"");
+                            for (int i = 1; i < parts.length && i <= labels.length; i++) {
+                                String text = parts[i].split("\"")[0];
+                                XWPFParagraph optPara = doc.createParagraph();
+                                optPara.setIndentationLeft(720); // 缩进
+                                XWPFRun optRun = optPara.createRun();
+                                optRun.setText(labels[i - 1] + ". " + text);
+                                optRun.setFontSize(12);
+                                optRun.setFontFamily("宋体");
+                            }
                         }
                     }
 
