@@ -7,7 +7,10 @@
           <el-input v-model="form.title" placeholder="例：Java期末考试A卷"/>
         </el-form-item>
         <el-form-item label="考试时长(分)">
-          <el-input-number v-model="form.durationMinutes" :min="30" :max="300" :step="10"/>
+          <div style="display:flex;align-items:center;gap:20px;">
+            <el-input-number v-model="form.durationMinutes" :min="30" :max="300" :step="10"/>
+            <span style="color:#6dd49e;font-size:16px;font-weight:bold;">预计总分：{{ currentTotalScore }} 分</span>
+          </div>
         </el-form-item>
       </el-form>
 
@@ -52,9 +55,6 @@
       </div>
 
       <div style="text-align:center">
-        <div style="margin-bottom:16px;color:#6dd49e;font-size:16px;font-weight:bold;">
-          预计总分：{{ currentTotalScore }} 分
-        </div>
         <el-button type="primary" size="large" :loading="generating" @click="generate" style="padding:12px 48px;font-size:16px">
           <el-icon><MagicStick /></el-icon> 一键组卷
         </el-button>
@@ -118,8 +118,14 @@ const saving = ref(false)
 const previewData = ref(null)
 const savedResult = ref(null)
 
+const generateDefaultTitle = () => {
+  const d = new Date()
+  const pad = (n) => n.toString().padStart(2, '0')
+  return `自动组卷-${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}${pad(d.getHours())}${pad(d.getMinutes())}`
+}
+
 const form = reactive({
-  title: '', durationMinutes: 120,
+  title: generateDefaultTitle(), durationMinutes: 120,
   singleChoiceCount: 10, multipleChoiceCount: 0, trueFalseCount: 0,
   fillBlankCount: 5, shortAnswerCount: 2, programmingCount: 1,
   chapters: [], easyPercent: 30, mediumPercent: 50, hardPercent: 20,
