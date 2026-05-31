@@ -819,4 +819,52 @@ public class ExamPaperService {
                 .collect(Collectors.toList()));
         return dto;
     }
+
+    private void renderMarkdownToParagraph(XWPFParagraph paragraph, String text) {
+        if (text == null || text.isEmpty()) return;
+
+        String[] lines = text.split("\n");
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i];
+            if (i > 0) {
+                paragraph.createRun().addBreak();
+            }
+
+            java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("(\\*\\*(.*?)\\*\\*)|(`(.*?)`)|(\\*([^\\*]+)\\*)");
+            java.util.regex.Matcher matcher = pattern.matcher(line);
+
+            int lastEnd = 0;
+            while (matcher.find()) {
+                if (matcher.start() > lastEnd) {
+                    XWPFRun run = paragraph.createRun();
+                    run.setText(line.substring(lastEnd, matcher.start()));
+                    run.setFontFamily("宋体");
+                    run.setFontSize(12);
+                }
+
+                XWPFRun run = paragraph.createRun();
+                if (matcher.group(1) != null) {
+                    run.setText(matcher.group(2));
+                    run.setBold(true);
+                    run.setFontFamily("宋体");
+                } else if (matcher.group(3) != null) {
+                    run.setText(matcher.group(4));
+                    run.setFontFamily("Consolas");
+                } else if (matcher.group(5) != null) {
+                    run.setText(matcher.group(6));
+                    run.setItalic(true);
+                    run.setFontFamily("宋体");
+                }
+                run.setFontSize(12);
+                lastEnd = matcher.end();
+            }
+
+            if (lastEnd < line.length()) {
+                XWPFRun run = paragraph.createRun();
+                run.setText(line.substring(lastEnd));
+                run.setFontFamily("宋体");
+                run.setFontSize(12);
+            }
+        }
+    }
 }

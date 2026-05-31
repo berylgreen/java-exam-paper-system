@@ -150,7 +150,7 @@ const form = reactive({
   title: generateDefaultTitle(), durationMinutes: 120,
   singleChoiceCount: 10, multipleChoiceCount: 0, trueFalseCount: 0,
   fillBlankCount: 5, shortAnswerCount: 0, codeReadingCount: 1, programmingCount: 3,
-  chapters: [], maxChapter: 9, easyPercent: 30, mediumPercent: 50, hardPercent: 20,
+  chapters: [], maxChapter: 7, easyPercent: 30, mediumPercent: 50, hardPercent: 20,
   textbookPercent: 80, networkPercent: 20, mustIncludeProject: true,
   specificProgrammingChapters: true, programmingQuestionChapters: []
 })

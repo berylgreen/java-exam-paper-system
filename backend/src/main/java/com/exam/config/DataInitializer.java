@@ -44,14 +44,14 @@ public class DataInitializer implements CommandLineRunner {
         qRepo.saveAll(allQuestions);
         log.info("题库初始化完成，共 {} 道题", allQuestions.size());
 
-        // 默认只考从第1章到第9章
+        // 默认只考从第1章到第7章
         List<Question> paperQuestions = allQuestions.stream()
                 .filter(q -> {
                     if (q.getChapter() == null) return false;
                     java.util.regex.Matcher m = java.util.regex.Pattern.compile("^第(\\d+)章").matcher(q.getChapter());
                     if (m.find()) {
                         int chap = Integer.parseInt(m.group(1));
-                        return chap >= 1 && chap <= 9;
+                        return chap >= 1 && chap <= 7;
                     }
                     return false;
                 })
