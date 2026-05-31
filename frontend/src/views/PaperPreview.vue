@@ -22,6 +22,9 @@
           <div class="section-title">{{ sectionNum(idx) }}、{{ section.typeLabel }} (共{{ section.questions.length }}题，共{{ section.totalScore }}分)</div>
           <div v-for="(pq, qi) in section.questions" :key="pq.id" class="question-item">
             <div class="question-content">{{ qi + 1 }}. ({{ pq.score }}分) {{ pq.question.content }}</div>
+            <div v-if="pq.question.projectPath" style="margin-top:8px; padding:8px; background:#f5f7fa; border-radius:4px; font-size: 13px; color: #409EFF; border: 1px solid #d9ecff;">
+              <b>📁 关联代码工程:</b> {{ pq.question.projectPath }}
+            </div>
             <!-- 选项 -->
             <div v-if="pq.question.options" class="question-options">
               <div v-for="opt in parseOpts(pq.question.options)" :key="opt.label" class="option">{{ opt.label }}. {{ opt.text }}</div>

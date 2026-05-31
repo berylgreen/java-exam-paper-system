@@ -56,4 +56,8 @@ public class Question {
     /** 题目来源 */
     @Column(length = 50)
     private String source;
+
+    /** 工程路径 (编程题用) */
+    @Column(length = 255)
+    private String projectPath;
 }

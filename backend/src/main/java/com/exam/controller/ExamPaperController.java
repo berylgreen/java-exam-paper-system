@@ -114,15 +114,15 @@ public class ExamPaperController {
         return ResponseEntity.ok().build();
     }
 
-    /** 导出试卷为 Word */
+    /** 导出试卷为 Word 或 ZIP */
     @GetMapping("/{id}/export")
     public ResponseEntity<byte[]> export(@PathVariable("id") Long id) throws IOException {
-        byte[] content = paperService.exportToWord(id);
-        String filename = URLEncoder.encode("试卷_" + id + ".docx", StandardCharsets.UTF_8);
+        ExportResult exportResult = paperService.exportPaper(id);
+        String filename = URLEncoder.encode(exportResult.getFilename(), StandardCharsets.UTF_8);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + filename)
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(content);
+                .contentType(MediaType.parseMediaType(exportResult.getContentType()))
+                .body(exportResult.getData());
     }
 }

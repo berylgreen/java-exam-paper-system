@@ -55,6 +55,16 @@
         <div style="margin-top:8px;color:#999;font-size:12px">不选则从全部章节抽取</div>
       </div>
 
+      <h3 style="color:#fff;margin:20px 0 12px;font-size:15px">⚙️ 高级设置</h3>
+      <div style="margin-bottom:24px;background:rgba(255,255,255,0.02);padding:16px;border-radius:8px;border:1px solid rgba(255,255,255,0.05)">
+        <el-switch
+          v-model="form.mustIncludeProject"
+          active-text="必须包含项目题"
+          style="--el-switch-on-color: #6dd49e;"
+        />
+        <div style="margin-top:8px;color:#999;font-size:12px">开启后，组卷时将强制确保试卷中至少有一道带附加工程项目的题目。</div>
+      </div>
+
       <div style="text-align:center">
         <el-button type="primary" size="large" :loading="generating" @click="generate" style="padding:12px 48px;font-size:16px">
           <el-icon><MagicStick /></el-icon> 一键组卷
@@ -89,6 +99,9 @@
           <div v-for="(pq, qi) in section.questions" :key="qi"
                style="color:#ccc;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
             <span>{{ qi + 1 }}. ({{ pq.score }}分) {{ pq.question.content }}</span>
+            <div v-if="pq.question.projectPath" style="margin-top:8px; padding:6px; background:rgba(64,158,255,0.1); border-radius:4px; font-size: 12px; color: #409EFF; border: 1px solid rgba(64,158,255,0.2);">
+              <b>📁 关联代码工程:</b> {{ pq.question.projectPath }}
+            </div>
           </div>
         </div>
       </div>
@@ -130,20 +143,26 @@ const form = reactive({
   singleChoiceCount: 10, multipleChoiceCount: 0, trueFalseCount: 0,
   fillBlankCount: 5, shortAnswerCount: 2, codeReadingCount: 2, programmingCount: 1,
   chapters: [], easyPercent: 30, mediumPercent: 50, hardPercent: 20,
-  textbookPercent: 80, networkPercent: 20
+  textbookPercent: 80, networkPercent: 20, mustIncludeProject: true
 })
 
 const onTextbookChange = (val) => { form.networkPercent = Math.max(0, 100 - val) }
 const onNetworkChange = (val) => { form.textbookPercent = Math.max(0, 100 - val) }
 
 const currentTotalScore = computed(() => {
+  const pCount = form.programmingCount || 0;
+  let programmingScore = 0;
+  if (pCount === 1) programmingScore = 20;
+  else if (pCount === 2) programmingScore = 30;
+  else if (pCount >= 3) programmingScore = 40 + (pCount - 2) * 10;
+
   return (form.singleChoiceCount || 0) * 2 +
          (form.multipleChoiceCount || 0) * 4 +
          (form.trueFalseCount || 0) * 2 +
          (form.fillBlankCount || 0) * 4 +
          (form.shortAnswerCount || 0) * 10 +
          (form.codeReadingCount || 0) * 10 +
-         (form.programmingCount || 0) * 10
+         programmingScore;
 })
 
 const checkAll = ref(false)

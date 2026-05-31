@@ -59,6 +59,7 @@ public class QuestionService {
         q.setExplanation(dto.getExplanation());
         q.setDefaultScore(dto.getDefaultScore());
         q.setSource(dto.getSource());
+        q.setProjectPath(dto.getProjectPath());
         return toDTO(questionRepository.save(q));
     }
 
@@ -146,6 +147,7 @@ public class QuestionService {
         dto.setExplanation(q.getExplanation());
         dto.setDefaultScore(q.getDefaultScore());
         dto.setSource(q.getSource());
+        dto.setProjectPath(q.getProjectPath());
         return dto;
     }
 
@@ -160,6 +162,7 @@ public class QuestionService {
                 .explanation(dto.getExplanation())
                 .defaultScore(dto.getDefaultScore())
                 .source(dto.getSource())
+                .projectPath(dto.getProjectPath())
                 .build();
     }
 }

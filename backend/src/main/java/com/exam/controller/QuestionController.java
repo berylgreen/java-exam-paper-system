@@ -68,6 +68,24 @@ public class QuestionController {
         return ResponseEntity.ok().build();
     }
 
+    /** 下载题目的关联工程 ZIP */
+    @GetMapping("/{id}/download-project")
+    public ResponseEntity<byte[]> downloadProject(@PathVariable("id") Long id) throws Exception {
+        QuestionDTO q = questionService.findById(id);
+        if (q.getProjectPath() == null || q.getProjectPath().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        
+        byte[] zipBytes = com.exam.util.ZipUtils.zipDirectoryToBytes(q.getProjectPath());
+        String projectName = new java.io.File(q.getProjectPath()).getName();
+        String filename = java.net.URLEncoder.encode(projectName + ".zip", java.nio.charset.StandardCharsets.UTF_8);
+        
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + filename)
+                .contentType(MediaType.parseMediaType("application/zip"))
+                .body(zipBytes);
+    }
+
     /** 获取所有章节 */
     @GetMapping("/chapters")
     public List<String> chapters() {
@@ -105,6 +123,7 @@ public class QuestionController {
             map.put("explanation", q.getExplanation());
             map.put("defaultScore", q.getDefaultScore());
             map.put("source", q.getSource());
+            map.put("projectPath", q.getProjectPath());
             return map;
         }).toList();
 
@@ -136,6 +155,7 @@ public class QuestionController {
             dto.setExplanation((String) raw.get("explanation"));
             dto.setDefaultScore((Integer) raw.get("defaultScore"));
             dto.setSource((String) raw.get("source"));
+            dto.setProjectPath((String) raw.get("projectPath"));
             return dto;
         }).toList();
 

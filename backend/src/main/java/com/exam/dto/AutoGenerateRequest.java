@@ -46,4 +46,7 @@ public class AutoGenerateRequest {
     /** 来源比例 (百分比，总和应为100) */
     private Integer textbookPercent = 80;
     private Integer networkPercent = 20;
+
+    /** 是否必须有一题带项目题 */
+    private Boolean mustIncludeProject = true;
 }

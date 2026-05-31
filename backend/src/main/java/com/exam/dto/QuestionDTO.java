@@ -19,4 +19,5 @@ public class QuestionDTO {
     private String explanation;
     private Integer defaultScore;
     private String source;
+    private String projectPath;
 }

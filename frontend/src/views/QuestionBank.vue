@@ -72,6 +72,12 @@
       <div v-if="detailQ.id">
         <p><b>题型：</b>{{ typeLabel(detailQ.type) }} | <b>章节：</b>{{ detailQ.chapter }} | <b>难度：</b>{{ diffLabel(detailQ.difficulty) }} | <b>来源：</b>{{ detailQ.source || '未知' }}</p>
         <p style="margin:12px 0"><b>题目：</b>{{ detailQ.content }}</p>
+        <p v-if="detailQ.projectPath" style="margin:12px 0; color:#409EFF; display:flex; align-items:center; gap:10px">
+          <span><b>📁 关联工程：</b>{{ detailQ.projectPath }}</span>
+          <el-button type="primary" size="small" @click="downloadProject(detailQ.id)">
+            <el-icon><Download /></el-icon> 下载工程
+          </el-button>
+        </p>
         <div v-if="detailQ.options" style="margin:8px 0">
           <b>选项：</b>
           <div v-for="opt in parseOpts(detailQ.options)" :key="opt.label" style="margin-left:16px">{{ opt.label }}. {{ opt.text }}</div>
@@ -107,6 +113,9 @@
         <el-form-item label="题目"><el-input v-model="newQ.content" type="textarea" :rows="3"/></el-form-item>
         <el-form-item label="选项" v-if="newQ.type==='SINGLE_CHOICE'||newQ.type==='MULTIPLE_CHOICE'">
           <el-input v-model="newQ.options" type="textarea" :rows="3" placeholder='JSON 格式: [{"label":"A","text":"xxx"},...]'/>
+        </el-form-item>
+        <el-form-item label="工程路径" v-if="newQ.type==='PROGRAMMING'">
+          <el-input v-model="newQ.projectPath" placeholder="如: projects/payment-system-question"/>
         </el-form-item>
         <el-form-item label="答案"><el-input v-model="newQ.answer" type="textarea" :rows="2"/></el-form-item>
         <el-form-item label="解析"><el-input v-model="newQ.explanation" type="textarea" :rows="2"/></el-form-item>
@@ -160,7 +169,7 @@ const showDetail = ref(false)
 const detailQ = ref({})
 const showAdd = ref(false)
 const importInput = ref(null)
-const newQ = reactive({ type:'SINGLE_CHOICE', chapter:'', difficulty:'EASY', content:'', options:'', answer:'', explanation:'', defaultScore:2, source:'网络2026年1月' })
+const newQ = reactive({ type:'SINGLE_CHOICE', chapter:'', difficulty:'EASY', content:'', options:'', answer:'', explanation:'', defaultScore:2, source:'网络2026年1月', projectPath:'' })
 
 const loadQ = async () => {
   loading.value = true
@@ -201,6 +210,10 @@ const addQ = async () => {
 
 const exportQ = () => {
   window.open(questionApi.exportUrl, '_blank')
+}
+
+const downloadProject = (id) => {
+  window.open(`/api/questions/${id}/download-project`, '_blank')
 }
 
 const triggerImport = () => {

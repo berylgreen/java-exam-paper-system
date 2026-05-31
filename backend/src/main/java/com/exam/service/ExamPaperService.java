@@ -97,10 +97,12 @@ public class ExamPaperService {
                 req.getFillBlankCount(), 4, req, order);
         order = pickQuestions(selectedQuestions, QuestionType.SHORT_ANSWER,
                 req.getShortAnswerCount(), 10, req, order);
-        order = pickQuestions(selectedQuestions, QuestionType.PROGRAMMING,
-                req.getProgrammingCount(), 10, req, order);
+        order = pickProgrammingQuestions(selectedQuestions, req.getProgrammingCount(), req, order);
         order = pickQuestions(selectedQuestions, QuestionType.CODE_READING,
                 req.getCodeReadingCount() != null ? req.getCodeReadingCount() : 0, 10, req, order);
+
+        // 确保包含项目题
+        enforceProjectQuestion(selectedQuestions, req);
 
         // 计算总分
         int totalScore = selectedQuestions.stream()
@@ -151,10 +153,12 @@ public class ExamPaperService {
                 req.getFillBlankCount(), 4, req, order);
         order = pickQuestions(selectedQuestions, QuestionType.SHORT_ANSWER,
                 req.getShortAnswerCount(), 10, req, order);
-        order = pickQuestions(selectedQuestions, QuestionType.PROGRAMMING,
-                req.getProgrammingCount(), 10, req, order);
+        order = pickProgrammingQuestions(selectedQuestions, req.getProgrammingCount(), req, order);
         order = pickQuestions(selectedQuestions, QuestionType.CODE_READING,
                 req.getCodeReadingCount() != null ? req.getCodeReadingCount() : 0, 10, req, order);
+
+        // 确保包含项目题
+        enforceProjectQuestion(selectedQuestions, req);
 
         // 计算总分
         int totalScore = selectedQuestions.stream()
@@ -227,10 +231,13 @@ public class ExamPaperService {
         paperRepository.deleteById(id);
     }
 
-    /** 导出试卷为 Word 文档 */
+    /** 导出试卷为 Word 文档或 ZIP 包 */
     @Transactional(readOnly = true)
-    public byte[] exportToWord(Long id) throws IOException {
+    public ExportResult exportPaper(Long id) throws IOException {
         PaperDTO paper = findById(id);
+
+        byte[] wordBytes;
+        Set<String> projectPaths = new HashSet<>();
 
         try (XWPFDocument doc = new XWPFDocument()) {
             // 标题
@@ -290,9 +297,25 @@ public class ExamPaperService {
                 int qNum = 1;
                 for (PaperDTO.PaperQuestionDTO pq : questions) {
                     QuestionDTO q = pq.getQuestion();
+                    if (q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty()) {
+                        projectPaths.add(q.getProjectPath());
+                    }
                     XWPFParagraph qPara = doc.createParagraph();
                     XWPFRun qRun = qPara.createRun();
-                    qRun.setText(String.format("%d. (%d分) %s", qNum++, pq.getScore(), q.getContent()));
+                    String content = q.getContent();
+                    if (q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty()) {
+                        String projectName = new java.io.File(q.getProjectPath()).getName();
+                        content += "\n（请在已有工程 " + projectName + " 的基础上修改）";
+                    }
+                    
+                    String fullText = String.format("%d. (%d分) %s", qNum++, pq.getScore(), content);
+                    String[] lines = fullText.split("\n");
+                    for (int i = 0; i < lines.length; i++) {
+                        if (i > 0) {
+                            qRun.addCarriageReturn();
+                        }
+                        qRun.setText(lines[i]);
+                    }
                     qRun.setFontSize(12);
                     qRun.setFontFamily("宋体");
 
@@ -352,8 +375,47 @@ public class ExamPaperService {
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             doc.write(out);
-            return out.toByteArray();
+            wordBytes = out.toByteArray();
         }
+
+        if (projectPaths.isEmpty()) {
+            return new ExportResult(
+                    "试卷_" + id + ".docx",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    wordBytes
+            );
+        }
+
+        // 打包成包含 docx 和相关工程的 ZIP
+        ByteArrayOutputStream zipBaos = new ByteArrayOutputStream();
+        try (java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(zipBaos)) {
+            // 写入 Word
+            java.util.zip.ZipEntry docxEntry = new java.util.zip.ZipEntry("试卷_" + id + ".docx");
+            zos.putNextEntry(docxEntry);
+            zos.write(wordBytes);
+            zos.closeEntry();
+
+            // 写入各个工程 ZIP
+            for (String projectPath : projectPaths) {
+                try {
+                    byte[] projectZipBytes = com.exam.util.ZipUtils.zipDirectoryToBytes(projectPath);
+                    String projectName = new java.io.File(projectPath).getName();
+                    java.util.zip.ZipEntry projEntry = new java.util.zip.ZipEntry("projects/" + projectName + ".zip");
+                    zos.putNextEntry(projEntry);
+                    zos.write(projectZipBytes);
+                    zos.closeEntry();
+                } catch (Exception e) {
+                    // 若个别工程打包失败，打印日志并忽略，不影响整体试卷导出
+                    System.err.println("打包工程失败: " + projectPath);
+                }
+            }
+        }
+
+        return new ExportResult(
+                "试卷_" + id + "_含代码工程.zip",
+                "application/zip",
+                zipBaos.toByteArray()
+        );
     }
 
     // ========== 自动组卷辅助方法 ==========
@@ -474,12 +536,134 @@ public class ExamPaperService {
         return picked;
     }
 
+    /**
+     * 专门用于编程题的按难度抽取逻辑：
+     * - 1题：1中等
+     * - 2题：1简单，1中等
+     * - 3题或以上：1中等，1困难，其余简单
+     */
+    private int pickProgrammingQuestions(List<PaperQuestion> result, int count, AutoGenerateRequest req, int currentOrder) {
+        if (count <= 0) return currentOrder;
+
+        List<Question> candidates;
+        if (req.getChapters() != null && !req.getChapters().isEmpty()) {
+            candidates = new ArrayList<>();
+            for (String chapter : req.getChapters()) {
+                candidates.addAll(questionRepository.findByTypeAndChapter(QuestionType.PROGRAMMING, chapter));
+            }
+        } else {
+            candidates = questionRepository.findByType(QuestionType.PROGRAMMING);
+        }
+
+        if (candidates.isEmpty()) {
+            throw new RuntimeException("题库中 [编程题] 题目不足，无法组卷");
+        }
+
+        Map<Difficulty, List<Question>> byDiff = candidates.stream()
+                .collect(Collectors.groupingBy(Question::getDifficulty));
+        List<Question> easyPool = byDiff.getOrDefault(Difficulty.EASY, new ArrayList<>());
+        List<Question> mediumPool = byDiff.getOrDefault(Difficulty.MEDIUM, new ArrayList<>());
+        List<Question> hardPool = byDiff.getOrDefault(Difficulty.HARD, new ArrayList<>());
+
+        int easyNeeded = 0;
+        int mediumNeeded = 0;
+        int hardNeeded = 0;
+
+        if (count == 1) {
+            mediumNeeded = 1;
+        } else if (count == 2) {
+            easyNeeded = 1;
+            mediumNeeded = 1;
+        } else {
+            mediumNeeded = 1;
+            hardNeeded = 1;
+            easyNeeded = count - 2;
+        }
+
+        List<Question> picked = new ArrayList<>();
+        picked.addAll(randomPick(easyPool, easyNeeded));
+        picked.addAll(randomPick(mediumPool, mediumNeeded));
+        picked.addAll(randomPick(hardPool, hardNeeded));
+
+        // 如果某种难度不足，从其他补充
+        if (picked.size() < count) {
+            Set<Long> pickedIds = picked.stream().map(Question::getId).collect(Collectors.toSet());
+            List<Question> remaining = candidates.stream()
+                    .filter(q -> !pickedIds.contains(q.getId()))
+                    .collect(Collectors.toList());
+            Collections.shuffle(remaining);
+            int need = count - picked.size();
+            picked.addAll(remaining.subList(0, Math.min(need, remaining.size())));
+        }
+
+        for (Question q : picked) {
+            currentOrder++;
+            // 编程题分值：优先使用题库的默认分数，否则根据难度判定(简单10，中等/困难20)
+            int score = q.getDefaultScore() != null ? q.getDefaultScore() : 
+                        (q.getDifficulty() == Difficulty.EASY ? 10 : 20);
+            
+            PaperQuestion pq = PaperQuestion.builder()
+                    .question(q)
+                    .questionOrder(currentOrder)
+                    .score(score)
+                    .build();
+            result.add(pq);
+        }
+
+        return currentOrder;
+    }
+
     /** 从列表中随机抽取 n 个元素 */
     private <T> List<T> randomPick(List<T> list, int n) {
         if (n <= 0 || list.isEmpty()) return new ArrayList<>();
         List<T> copy = new ArrayList<>(list);
         Collections.shuffle(copy);
         return copy.subList(0, Math.min(n, copy.size()));
+    }
+
+    private void enforceProjectQuestion(List<PaperQuestion> selectedQuestions, AutoGenerateRequest req) {
+        if (Boolean.TRUE.equals(req.getMustIncludeProject())) {
+            boolean hasProject = selectedQuestions.stream()
+                    .anyMatch(pq -> pq.getQuestion().getProjectPath() != null && !pq.getQuestion().getProjectPath().trim().isEmpty());
+            if (!hasProject) {
+                List<Question> projectQuestions = questionRepository.findAll().stream()
+                        .filter(q -> q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty())
+                        .collect(Collectors.toList());
+
+                if (req.getChapters() != null && !req.getChapters().isEmpty()) {
+                    List<Question> filtered = projectQuestions.stream()
+                            .filter(q -> req.getChapters().contains(q.getChapter()))
+                            .collect(Collectors.toList());
+                    if (!filtered.isEmpty()) {
+                        projectQuestions = filtered;
+                    }
+                }
+
+                if (!projectQuestions.isEmpty()) {
+                    Collections.shuffle(projectQuestions);
+                    Question newQ = projectQuestions.get(0);
+                    
+                    Optional<PaperQuestion> toReplace = selectedQuestions.stream()
+                            .filter(pq -> pq.getQuestion().getType() == newQ.getType() && pq.getQuestion().getDifficulty() == newQ.getDifficulty())
+                            .findFirst();
+                    
+                    if (!toReplace.isPresent()) {
+                        toReplace = selectedQuestions.stream()
+                                .filter(pq -> pq.getQuestion().getType() == newQ.getType())
+                                .findFirst();
+                    }
+                            
+                    if (toReplace.isPresent()) {
+                        toReplace.get().setQuestion(newQ);
+                        toReplace.get().setScore(newQ.getDefaultScore() != null ? newQ.getDefaultScore() : toReplace.get().getScore());
+                    } else if (!selectedQuestions.isEmpty()) {
+                        PaperQuestion last = selectedQuestions.get(selectedQuestions.size() - 1);
+                        last.setQuestion(newQ);
+                        last.setScore(newQ.getDefaultScore() != null ? newQ.getDefaultScore() : last.getScore());
+                    }
+                }
+            }
+        }
     }
 
     // ========== DTO 转换 ==========
