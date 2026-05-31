@@ -99,10 +99,10 @@
     <el-dialog v-model="showDetail" :title="detailQ.content?.substring(0,30)+'...'" width="600px">
       <div v-if="detailQ.id" class="q-detail-container" style="position: relative; padding: 0 10px; min-height: 200px;">
         <!-- 隐藏式箭头 -->
-        <div v-if="currentQIndex > 0" class="nav-arrow nav-left" @click="prevQ" title="上一题">
+        <div v-if="currentQIndex > 0 || page > 1" class="nav-arrow nav-left" @click="prevQ" title="上一题">
           <el-icon><ArrowLeft /></el-icon>
         </div>
-        <div v-if="currentQIndex >= 0 && currentQIndex < questions.length - 1" class="nav-arrow nav-right" @click="nextQ" title="下一题">
+        <div v-if="currentQIndex >= 0 && (currentQIndex < questions.length - 1 || page * pageSize < total)" class="nav-arrow nav-right" @click="nextQ" title="下一题">
           <el-icon><ArrowRight /></el-icon>
         </div>
 
@@ -250,16 +250,30 @@ const viewQ = (row) => {
   currentQIndex.value = questions.value.findIndex(q => q.id === row.id);
   showDetail.value = true; 
 }
-const prevQ = () => {
+const prevQ = async () => {
   if (currentQIndex.value > 0) {
     currentQIndex.value--;
     detailQ.value = questions.value[currentQIndex.value];
+  } else if (page.value > 1) {
+    page.value--;
+    await loadQ();
+    if (questions.value.length > 0) {
+      currentQIndex.value = questions.value.length - 1;
+      detailQ.value = questions.value[currentQIndex.value];
+    }
   }
 }
-const nextQ = () => {
+const nextQ = async () => {
   if (currentQIndex.value >= 0 && currentQIndex.value < questions.value.length - 1) {
     currentQIndex.value++;
     detailQ.value = questions.value[currentQIndex.value];
+  } else if (page.value * pageSize < total.value) {
+    page.value++;
+    await loadQ();
+    if (questions.value.length > 0) {
+      currentQIndex.value = 0;
+      detailQ.value = questions.value[0];
+    }
   }
 }
 const delQ = async (id) => {
