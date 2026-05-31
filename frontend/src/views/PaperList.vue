@@ -21,7 +21,7 @@
             <el-icon><View /></el-icon> 预览
           </el-button>
           <el-button size="small" type="success" @click="handleExport(p.id)">
-            <el-icon><Download /></el-icon> 导出Word
+            <el-icon><Download /></el-icon> 导出试卷
           </el-button>
           <el-button size="small" type="danger" @click="handleDelete(p.id)">
             <el-icon><Delete /></el-icon>

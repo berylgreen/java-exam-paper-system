@@ -120,7 +120,7 @@
         <h3 style="color:#6dd49e">💾 已保存到数据库！</h3>
         <div>
           <el-button type="primary" @click="$router.push(`/papers/${savedResult.id}`)">预览试卷</el-button>
-          <el-button type="success" @click="exportPaper">导出Word</el-button>
+          <el-button type="success" @click="exportPaper">导出试卷</el-button>
         </div>
       </div>
       <p style="color:#aaa">试卷：{{ savedResult.title }} | 总分：{{ savedResult.totalScore }}分 | 共{{ savedResult.questions?.length }}题</p>
@@ -149,7 +149,7 @@ const generateDefaultTitle = () => {
 const form = reactive({
   title: generateDefaultTitle(), durationMinutes: 120,
   singleChoiceCount: 10, multipleChoiceCount: 0, trueFalseCount: 0,
-  fillBlankCount: 5, shortAnswerCount: 0, codeReadingCount: 1, programmingCount: 3,
+  fillBlankCount: 5, shortAnswerCount: 0, codeReadingCount: 2, programmingCount: 3,
   chapters: [], maxChapter: 7, easyPercent: 30, mediumPercent: 50, hardPercent: 20,
   textbookPercent: 80, networkPercent: 20, mustIncludeProject: true,
   specificProgrammingChapters: true, programmingQuestionChapters: []
@@ -180,7 +180,7 @@ const currentTotalScore = computed(() => {
   return (form.singleChoiceCount || 0) * 2 +
          (form.multipleChoiceCount || 0) * 4 +
          (form.trueFalseCount || 0) * 2 +
-         (form.fillBlankCount || 0) * 4 +
+         (form.fillBlankCount || 0) * 2 +
          (form.shortAnswerCount || 0) * 10 +
          (form.codeReadingCount || 0) * 10 +
          programmingScore;

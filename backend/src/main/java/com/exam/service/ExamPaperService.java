@@ -94,7 +94,7 @@ public class ExamPaperService {
         order = pickQuestions(selectedQuestions, QuestionType.TRUE_FALSE,
                 req.getTrueFalseCount(), 2, req, order);
         order = pickQuestions(selectedQuestions, QuestionType.FILL_BLANK,
-                req.getFillBlankCount(), 4, req, order);
+                req.getFillBlankCount(), 2, req, order);
         order = pickQuestions(selectedQuestions, QuestionType.SHORT_ANSWER,
                 req.getShortAnswerCount(), 10, req, order);
         order = pickProgrammingQuestions(selectedQuestions, req.getProgrammingCount(), req, order);
@@ -150,7 +150,7 @@ public class ExamPaperService {
         order = pickQuestions(selectedQuestions, QuestionType.TRUE_FALSE,
                 req.getTrueFalseCount(), 2, req, order);
         order = pickQuestions(selectedQuestions, QuestionType.FILL_BLANK,
-                req.getFillBlankCount(), 4, req, order);
+                req.getFillBlankCount(), 2, req, order);
         order = pickQuestions(selectedQuestions, QuestionType.SHORT_ANSWER,
                 req.getShortAnswerCount(), 10, req, order);
         order = pickProgrammingQuestions(selectedQuestions, req.getProgrammingCount(), req, order);

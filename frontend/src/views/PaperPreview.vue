@@ -7,7 +7,7 @@
       </div>
       <div style="display:flex;gap:8px;align-items:center">
         <el-switch v-model="showAnswer" active-text="显示答案" inactive-text="隐藏答案" style="--el-switch-on-color:#667eea"/>
-        <el-button type="success" @click="handleExport"><el-icon><Download /></el-icon> 导出Word</el-button>
+        <el-button type="success" @click="handleExport"><el-icon><Download /></el-icon> 导出试卷</el-button>
       </div>
     </div>
 
