@@ -30,6 +30,7 @@ public class DataInitializer implements CommandLineRunner {
     private final QuestionRepository qRepo;
     private final ExamPaperRepository paperRepo;
     private final PaperQuestionRepository pqRepo;
+    private final ChapterRepository chapterRepository;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -47,8 +48,8 @@ public class DataInitializer implements CommandLineRunner {
         // 默认只考从第1章到第7章
         List<Question> paperQuestions = allQuestions.stream()
                 .filter(q -> {
-                    if (q.getChapter() == null) return false;
-                    java.util.regex.Matcher m = java.util.regex.Pattern.compile("^第(\\d+)章").matcher(q.getChapter());
+                    if (q.getChapter() == null || q.getChapter().getName() == null) return false;
+                    java.util.regex.Matcher m = java.util.regex.Pattern.compile("^第(\\d+)章").matcher(q.getChapter().getName());
                     if (m.find()) {
                         int chap = Integer.parseInt(m.group(1));
                         return chap >= 1 && chap <= 7;
@@ -69,6 +70,8 @@ public class DataInitializer implements CommandLineRunner {
             InputStream is = new ClassPathResource(filename).getInputStream();
             List<Map<String, Object>> rawList = objectMapper.readValue(is, new TypeReference<>() {});
             List<Question> questions = new ArrayList<>();
+            Map<String, Chapter> chapterCache = new HashMap<>();
+
             for (Map<String, Object> raw : rawList) {
                 // options 字段：JSON 文件中存储为数组，需转回 JSON 字符串存入数据库
                 String optionsStr = null;
@@ -76,9 +79,26 @@ public class DataInitializer implements CommandLineRunner {
                 if (opts != null) {
                     optionsStr = objectMapper.writeValueAsString(opts);
                 }
+
+                String chapterName = (String) raw.get("chapter");
+                Chapter chapter = null;
+                if (chapterName != null && !chapterName.trim().isEmpty()) {
+                    chapter = chapterCache.computeIfAbsent(chapterName, name -> {
+                        return chapterRepository.findByName(name).orElseGet(() -> {
+                            int sortOrder = 99;
+                            java.util.regex.Matcher m = java.util.regex.Pattern.compile("^第(\\d+)章").matcher(name);
+                            if (m.find()) {
+                                sortOrder = Integer.parseInt(m.group(1));
+                            }
+                            Chapter newChap = Chapter.builder().name(name).sortOrder(sortOrder).build();
+                            return chapterRepository.save(newChap);
+                        });
+                    });
+                }
+
                 Question q = Question.builder()
                         .type(QuestionType.valueOf((String) raw.get("type")))
-                        .chapter((String) raw.get("chapter"))
+                        .chapter(chapter)
                         .difficulty(Difficulty.valueOf((String) raw.get("difficulty")))
                         .content((String) raw.get("content"))
                         .options(optionsStr)
@@ -127,17 +147,25 @@ public class DataInitializer implements CommandLineRunner {
             paper = paperRepo.save(paper);
 
             int order = 0;
-            for (int i = 0; i < 10; i++) {
-                addPQ(paper, scs.get((p * 10 + i) % scs.size()), ++order, 2);
+            if (!scs.isEmpty()) {
+                for (int i = 0; i < 10; i++) {
+                    addPQ(paper, scs.get((p * 10 + i) % scs.size()), ++order, 2);
+                }
             }
-            for (int i = 0; i < 5; i++) {
-                addPQ(paper, mcs.get((p * 5 + i) % mcs.size()), ++order, 4);
+            if (!mcs.isEmpty()) {
+                for (int i = 0; i < 5; i++) {
+                    addPQ(paper, mcs.get((p * 5 + i) % mcs.size()), ++order, 4);
+                }
             }
-            for (int i = 0; i < 5; i++) {
-                addPQ(paper, tfs.get((p * 5 + i) % tfs.size()), ++order, 2);
+            if (!tfs.isEmpty()) {
+                for (int i = 0; i < 5; i++) {
+                    addPQ(paper, tfs.get((p * 5 + i) % tfs.size()), ++order, 2);
+                }
             }
-            for (int i = 0; i < 5; i++) {
-                addPQ(paper, fbs.get((p * 5 + i) % fbs.size()), ++order, 2);
+            if (!fbs.isEmpty()) {
+                for (int i = 0; i < 5; i++) {
+                    addPQ(paper, fbs.get((p * 5 + i) % fbs.size()), ++order, 2);
+                }
             }
             if (!crs.isEmpty()) {
                 for (int i = 0; i < 2; i++) {

@@ -25,8 +25,9 @@ public class Question {
     private QuestionType type;
 
     /** 所属章节 */
-    @Column(nullable = false, length = 50)
-    private String chapter;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "chapter_id", nullable = false)
+    private Chapter chapter;
 
     /** 难度 */
     @Enumerated(EnumType.STRING)

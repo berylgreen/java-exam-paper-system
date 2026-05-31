@@ -4,6 +4,7 @@ import com.exam.dto.QuestionDTO;
 import com.exam.entity.Question;
 import com.exam.enums.Difficulty;
 import com.exam.enums.QuestionType;
+import com.exam.repository.ChapterRepository;
 import com.exam.repository.ExamPaperRepository;
 import com.exam.repository.PaperQuestionRepository;
 import com.exam.repository.QuestionRepository;
@@ -25,11 +26,12 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final PaperQuestionRepository paperQuestionRepository;
     private final ExamPaperRepository examPaperRepository;
+    private final ChapterRepository chapterRepository;
 
     /** 分页条件查询 */
-    public Page<QuestionDTO> findByFilters(QuestionType type, String chapter,
+    public Page<QuestionDTO> findByFilters(QuestionType type, Long chapterId,
                                            Difficulty difficulty, String source, Pageable pageable) {
-        return questionRepository.findByFilters(type, chapter, difficulty, source, pageable)
+        return questionRepository.findByFilters(type, chapterId, difficulty, source, pageable)
                 .map(this::toDTO);
     }
 
@@ -53,7 +55,9 @@ public class QuestionService {
         Question q = questionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("题目不存在: " + id));
         q.setType(dto.getType());
-        q.setChapter(dto.getChapter());
+        if (dto.getChapterId() != null) {
+            q.setChapter(chapterRepository.findById(dto.getChapterId()).orElse(null));
+        }
         q.setDifficulty(dto.getDifficulty());
         q.setContent(dto.getContent());
         q.setOptions(dto.getOptions());
@@ -73,8 +77,8 @@ public class QuestionService {
     }
 
     /** 获取所有章节 */
-    public List<String> getAllChapters() {
-        return questionRepository.findAllChapters();
+    public List<com.exam.entity.Chapter> getAllChapters() {
+        return chapterRepository.findAll(org.springframework.data.domain.Sort.by("sortOrder"));
     }
 
     /** 获取所有来源 */
@@ -145,7 +149,10 @@ public class QuestionService {
         QuestionDTO dto = new QuestionDTO();
         dto.setId(q.getId());
         dto.setType(q.getType());
-        dto.setChapter(q.getChapter());
+        if (q.getChapter() != null) {
+            dto.setChapterId(q.getChapter().getId());
+            dto.setChapterName(q.getChapter().getName());
+        }
         dto.setDifficulty(q.getDifficulty());
         dto.setContent(q.getContent());
         dto.setOptions(q.getOptions());
@@ -158,9 +165,15 @@ public class QuestionService {
     }
 
     private Question toEntity(QuestionDTO dto) {
+        com.exam.entity.Chapter chap = null;
+        if (dto.getChapterId() != null) {
+            chap = chapterRepository.findById(dto.getChapterId()).orElse(null);
+        } else if (dto.getChapterName() != null) {
+            chap = chapterRepository.findByName(dto.getChapterName()).orElse(null);
+        }
         return Question.builder()
                 .type(dto.getType())
-                .chapter(dto.getChapter())
+                .chapter(chap)
                 .difficulty(dto.getDifficulty())
                 .content(dto.getContent())
                 .options(dto.getOptions())

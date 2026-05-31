@@ -18,12 +18,12 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     /** 多条件分页查询 */
     @Query("SELECT q FROM Question q WHERE " +
            "(:type IS NULL OR q.type = :type) AND " +
-           "(:chapter IS NULL OR q.chapter = :chapter) AND " +
+           "(:chapterId IS NULL OR q.chapter.id = :chapterId) AND " +
            "(:difficulty IS NULL OR q.difficulty = :difficulty) AND " +
            "(:source IS NULL OR q.source = :source)")
     Page<Question> findByFilters(
             @Param("type") QuestionType type,
-            @Param("chapter") String chapter,
+            @Param("chapterId") Long chapterId,
             @Param("difficulty") Difficulty difficulty,
             @Param("source") String source,
             Pageable pageable);
@@ -31,20 +31,21 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     /** 按题型+章节+难度查询 (自动组卷用) */
     List<Question> findByTypeAndDifficulty(QuestionType type, Difficulty difficulty);
 
-    List<Question> findByTypeAndChapterAndDifficulty(QuestionType type, String chapter, Difficulty difficulty);
+    List<Question> findByTypeAndChapterIdAndDifficulty(QuestionType type, Long chapterId, Difficulty difficulty);
 
     List<Question> findByType(QuestionType type);
 
-    List<Question> findByTypeAndChapter(QuestionType type, String chapter);
+    List<Question> findByTypeAndChapterId(QuestionType type, Long chapterId);
+
+    @Query("SELECT q FROM Question q WHERE q.type = :type AND q.chapter.name = :chapterName")
+    List<Question> findByTypeAndChapterName(@Param("type") QuestionType type, @Param("chapterName") String chapterName);
 
     /** 按题型+来源查询 (自动组卷用) */
     List<Question> findByTypeAndSource(QuestionType type, String source);
 
-    List<Question> findByTypeAndChapterAndSource(QuestionType type, String chapter, String source);
+    List<Question> findByTypeAndChapterIdAndSource(QuestionType type, Long chapterId, String source);
 
-    /** 获取所有章节 (去重) */
-    @Query("SELECT DISTINCT q.chapter FROM Question q ORDER BY q.chapter")
-    List<String> findAllChapters();
+    /** 废弃，请使用 ChapterRepository.findAll() */
 
     /** 获取所有来源 (去重) */
     @Query("SELECT DISTINCT q.source FROM Question q WHERE q.source IS NOT NULL ORDER BY q.source")
@@ -55,7 +56,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
     List<Object[]> countByType();
 
     /** 按章节统计数量 */
-    @Query("SELECT q.chapter, COUNT(q) FROM Question q GROUP BY q.chapter")
+    @Query("SELECT q.chapter.name, COUNT(q) FROM Question q GROUP BY q.chapter.name")
     List<Object[]> countByChapter();
 
     /** 按难度统计数量 */

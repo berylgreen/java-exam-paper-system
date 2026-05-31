@@ -11,7 +11,8 @@ import lombok.Data;
 public class QuestionDTO {
     private Long id;
     private QuestionType type;
-    private String chapter;
+    private Long chapterId;
+    private String chapterName;
     private Difficulty difficulty;
     private String content;
     private String options;      // JSON 字符串

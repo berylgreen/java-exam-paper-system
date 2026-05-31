@@ -34,12 +34,12 @@ public class QuestionController {
     @GetMapping
     public Page<QuestionDTO> list(
             @RequestParam(value = "type", required = false) QuestionType type,
-            @RequestParam(value = "chapter", required = false) String chapter,
+            @RequestParam(value = "chapterId", required = false) Long chapterId,
             @RequestParam(value = "difficulty", required = false) Difficulty difficulty,
             @RequestParam(value = "source", required = false) String source,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "20") int size) {
-        return questionService.findByFilters(type, chapter, difficulty, source,
+        return questionService.findByFilters(type, chapterId, difficulty, source,
                 PageRequest.of(page, size, Sort.by("id")));
     }
 
@@ -88,7 +88,7 @@ public class QuestionController {
 
     /** 获取所有章节 */
     @GetMapping("/chapters")
-    public List<String> chapters() {
+    public List<com.exam.entity.Chapter> chapters() {
         return questionService.getAllChapters();
     }
 
@@ -112,7 +112,7 @@ public class QuestionController {
         List<Map<String, Object>> exportData = all.stream().map(q -> {
             Map<String, Object> map = new java.util.LinkedHashMap<>();
             map.put("type", q.getType());
-            map.put("chapter", q.getChapter());
+            map.put("chapter", q.getChapterName());
             map.put("difficulty", q.getDifficulty());
             map.put("content", q.getContent());
             if (q.getOptions() != null) {
@@ -143,7 +143,7 @@ public class QuestionController {
         List<QuestionDTO> dtos = rawList.stream().map(raw -> {
             QuestionDTO dto = new QuestionDTO();
             dto.setType(QuestionType.valueOf((String) raw.get("type")));
-            dto.setChapter((String) raw.get("chapter"));
+            dto.setChapterName((String) raw.get("chapter"));
             dto.setDifficulty(Difficulty.valueOf((String) raw.get("difficulty")));
             dto.setContent((String) raw.get("content"));
             Object opts = raw.get("options");

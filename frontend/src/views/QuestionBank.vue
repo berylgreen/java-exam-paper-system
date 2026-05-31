@@ -54,8 +54,8 @@
       <el-select v-model="filter.type" placeholder="题型" clearable style="width:130px" @change="loadQ">
         <el-option v-for="t in types" :key="t.value" :label="t.label" :value="t.value" />
       </el-select>
-      <el-select v-model="filter.chapter" placeholder="章节" clearable style="width:180px" @change="loadQ">
-        <el-option v-for="c in chapters" :key="c" :label="c" :value="c" />
+      <el-select v-model="filter.chapterId" placeholder="章节" clearable style="width:180px" @change="loadQ">
+        <el-option v-for="c in chapters" :key="c.id" :label="c.name" :value="c.id" />
       </el-select>
       <el-select v-model="filter.difficulty" placeholder="难度" clearable style="width:110px" @change="loadQ">
         <el-option label="简单" value="EASY"/><el-option label="中等" value="MEDIUM"/><el-option label="困难" value="HARD"/>
@@ -71,7 +71,7 @@
       <el-table-column label="题型" width="90" align="center">
         <template #default="{row}"><span class="type-tag" :class="typeClass(row.type)">{{ typeLabel(row.type) }}</span></template>
       </el-table-column>
-      <el-table-column label="章节" prop="chapter" width="150"/>
+      <el-table-column label="章节" prop="chapterName" width="150"/>
       <el-table-column label="难度" width="75" align="center">
         <template #default="{row}"><el-tag :type="diffColor(row.difficulty)" size="small" effect="dark">{{ diffLabel(row.difficulty) }}</el-tag></template>
       </el-table-column>
@@ -96,7 +96,7 @@
     <!-- 查看详情对话框 -->
     <el-dialog v-model="showDetail" :title="detailQ.content?.substring(0,30)+'...'" width="600px">
       <div v-if="detailQ.id">
-        <p><b>题型：</b>{{ typeLabel(detailQ.type) }} | <b>章节：</b>{{ detailQ.chapter }} | <b>难度：</b>{{ diffLabel(detailQ.difficulty) }} | <b>来源：</b>{{ detailQ.source || '未知' }}</p>
+        <p><b>题型：</b>{{ typeLabel(detailQ.type) }} | <b>章节：</b>{{ detailQ.chapterName }} | <b>难度：</b>{{ diffLabel(detailQ.difficulty) }} | <b>来源：</b>{{ detailQ.source || '未知' }}</p>
         <div style="margin:12px 0; display:flex;">
           <b style="white-space:nowrap;margin-right:4px;">题目：</b>
           <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(detailQ.content)"></div>
@@ -131,8 +131,8 @@
           </el-select>
         </el-form-item>
         <el-form-item label="章节">
-          <el-select v-model="newQ.chapter" style="width:100%" filterable allow-create>
-            <el-option v-for="c in chapters" :key="c" :label="c" :value="c"/>
+          <el-select v-model="newQ.chapterName" style="width:100%" filterable allow-create>
+            <el-option v-for="c in chapters" :key="c.id" :label="c.name" :value="c.name"/>
           </el-select>
         </el-form-item>
         <el-form-item label="难度">
@@ -203,7 +203,7 @@ const chapters = ref([])
 const sources = ref([])
 const stats = ref({})
 const activeStat = ref('source')
-const filter = reactive({ type: null, chapter: null, difficulty: null, source: null })
+const filter = reactive({ type: null, chapterId: null, difficulty: null, source: null })
 const page = ref(1)
 const pageSize = 20
 const total = ref(0)
@@ -211,7 +211,7 @@ const showDetail = ref(false)
 const detailQ = ref({})
 const showAdd = ref(false)
 const importInput = ref(null)
-const newQ = reactive({ type:'SINGLE_CHOICE', chapter:'', difficulty:'EASY', content:'', options:'', answer:'', explanation:'', defaultScore:2, source:'网络2026年1月', projectPath:'' })
+const newQ = reactive({ type:'SINGLE_CHOICE', chapterName:'', difficulty:'EASY', content:'', options:'', answer:'', explanation:'', defaultScore:2, source:'网络2026年1月', projectPath:'' })
 
 const loadQ = async () => {
   loading.value = true

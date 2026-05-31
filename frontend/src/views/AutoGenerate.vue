@@ -53,7 +53,7 @@
           </span>
         </div>
         <el-checkbox-group v-model="form.chapters" @change="handleChapterChange">
-          <el-checkbox v-for="c in chapters" :key="c" :label="c" :value="c" style="color:#bbb;margin-bottom:6px"/>
+          <el-checkbox v-for="c in chapters" :key="c.id" :label="c.name" :value="c.name" style="color:#bbb;margin-bottom:6px"/>
         </el-checkbox-group>
         <div style="margin-top:8px;color:#999;font-size:12px">不选则从全部章节抽取</div>
       </div>
@@ -81,7 +81,7 @@
             <div v-for="i in form.programmingCount" :key="i" style="display: flex; align-items: center; gap: 12px;">
               <span style="color:#bbb;font-size:14px;width:70px">第 {{ i }} 题:</span>
               <el-select v-model="form.programmingQuestionChapters[i-1]" placeholder="选择章节" size="small" style="width: 150px">
-                <el-option v-for="c in chapters" :key="c" :label="c" :value="c" />
+                <el-option v-for="c in chapters" :key="c.id" :label="c.name" :value="c.name" />
               </el-select>
             </div>
           </div>
@@ -253,9 +253,9 @@ const exportPaper = () => { if (savedResult.value) window.open(paperApi.exportUr
 const applyMaxChapter = () => {
   if (!chapters.value || chapters.value.length === 0) return;
   form.chapters = chapters.value.filter(c => {
-    const match = c.match(/^第(\d+)章/);
+    const match = c.name.match(/^第(\d+)章/);
     return match && parseInt(match[1]) >= 1 && parseInt(match[1]) <= form.maxChapter;
-  });
+  }).map(c => c.name);
   handleChapterChange(form.chapters);
 }
 
@@ -265,13 +265,13 @@ onMounted(async () => {
     applyMaxChapter();
     
     if (form.programmingQuestionChapters.length >= 1) {
-      form.programmingQuestionChapters[0] = chapters.value.find(c => c.startsWith('第2章')) || chapters.value[0] || '';
+      form.programmingQuestionChapters[0] = chapters.value.find(c => c.name.startsWith('第2章'))?.name || chapters.value[0]?.name || '';
     }
     if (form.programmingQuestionChapters.length >= 2) {
-      form.programmingQuestionChapters[1] = chapters.value.find(c => c.startsWith('第3章')) || chapters.value[0] || '';
+      form.programmingQuestionChapters[1] = chapters.value.find(c => c.name.startsWith('第3章'))?.name || chapters.value[0]?.name || '';
     }
     if (form.programmingQuestionChapters.length >= 3) {
-      form.programmingQuestionChapters[2] = chapters.value.find(c => c.startsWith('第7章')) || chapters.value[0] || '';
+      form.programmingQuestionChapters[2] = chapters.value.find(c => c.name.startsWith('第7章'))?.name || chapters.value[0]?.name || '';
     }
   } catch {}
 })

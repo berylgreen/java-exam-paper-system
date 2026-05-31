@@ -418,7 +418,7 @@ public class ExamPaperService {
         if (req.getChapters() != null && !req.getChapters().isEmpty()) {
             candidates = new ArrayList<>();
             for (String chapter : req.getChapters()) {
-                candidates.addAll(questionRepository.findByTypeAndChapter(type, chapter));
+                candidates.addAll(questionRepository.findByTypeAndChapterName(type, chapter));
             }
         } else {
             candidates = questionRepository.findByType(type);
@@ -555,7 +555,7 @@ public class ExamPaperService {
                 String chapter = req.getProgrammingQuestionChapters().get(i);
                 Difficulty targetDiff = requiredDiffs.get(i);
 
-                List<Question> chapterCandidates = questionRepository.findByTypeAndChapter(QuestionType.PROGRAMMING, chapter)
+                List<Question> chapterCandidates = questionRepository.findByTypeAndChapterName(QuestionType.PROGRAMMING, chapter)
                     .stream().filter(q -> !pickedIds.contains(q.getId())).collect(Collectors.toList());
 
                 if (chapterCandidates.isEmpty()) {
@@ -595,7 +595,7 @@ public class ExamPaperService {
         if (req.getChapters() != null && !req.getChapters().isEmpty()) {
             candidates = new ArrayList<>();
             for (String chapter : req.getChapters()) {
-                candidates.addAll(questionRepository.findByTypeAndChapter(QuestionType.PROGRAMMING, chapter));
+                candidates.addAll(questionRepository.findByTypeAndChapterName(QuestionType.PROGRAMMING, chapter));
             }
         } else {
             candidates = questionRepository.findByType(QuestionType.PROGRAMMING);
@@ -696,7 +696,7 @@ public class ExamPaperService {
                         .filter(q -> !selectedIds.contains(q.getId()))
                         .filter(q -> !Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) 
                                   || originalQ.getType() != QuestionType.PROGRAMMING 
-                                  || q.getChapter().equals(originalQ.getChapter()))
+                                  || (q.getChapter() != null && originalQ.getChapter() != null && q.getChapter().getId().equals(originalQ.getChapter().getId())))
                         .collect(Collectors.toList());
                         
                 // 如果找不到同难度的，则放宽难度限制
@@ -706,7 +706,7 @@ public class ExamPaperService {
                             .filter(q -> !selectedIds.contains(q.getId()))
                             .filter(q -> !Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) 
                                       || originalQ.getType() != QuestionType.PROGRAMMING 
-                                      || q.getChapter().equals(originalQ.getChapter()))
+                                      || (q.getChapter() != null && originalQ.getChapter() != null && q.getChapter().getId().equals(originalQ.getChapter().getId())))
                             .collect(Collectors.toList());
                 }
                 
@@ -727,7 +727,7 @@ public class ExamPaperService {
 
             if (req.getChapters() != null && !req.getChapters().isEmpty()) {
                 List<Question> filtered = projectQuestions.stream()
-                        .filter(q -> req.getChapters().contains(q.getChapter()))
+                        .filter(q -> q.getChapter() != null && req.getChapters().contains(q.getChapter().getName()))
                         .collect(Collectors.toList());
                 if (!filtered.isEmpty()) {
                     projectQuestions = filtered;
@@ -736,7 +736,7 @@ public class ExamPaperService {
 
             if (Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) && req.getProgrammingQuestionChapters() != null) {
                 List<Question> filtered = projectQuestions.stream()
-                        .filter(q -> q.getType() != QuestionType.PROGRAMMING || req.getProgrammingQuestionChapters().contains(q.getChapter()))
+                        .filter(q -> q.getType() != QuestionType.PROGRAMMING || (q.getChapter() != null && req.getProgrammingQuestionChapters().contains(q.getChapter().getName())))
                         .collect(Collectors.toList());
                 if (!filtered.isEmpty()) {
                     projectQuestions = filtered;
@@ -752,7 +752,7 @@ public class ExamPaperService {
                                    && pq.getQuestion().getDifficulty() == newQ.getDifficulty()
                                    && (!Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) 
                                        || newQ.getType() != QuestionType.PROGRAMMING 
-                                       || pq.getQuestion().getChapter().equals(newQ.getChapter())))
+                                       || (pq.getQuestion().getChapter() != null && newQ.getChapter() != null && pq.getQuestion().getChapter().getId().equals(newQ.getChapter().getId()))))
                         .findFirst();
                 
                 if (!toReplace.isPresent()) {
@@ -760,7 +760,7 @@ public class ExamPaperService {
                             .filter(pq -> pq.getQuestion().getType() == newQ.getType()
                                        && (!Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) 
                                            || newQ.getType() != QuestionType.PROGRAMMING 
-                                           || pq.getQuestion().getChapter().equals(newQ.getChapter())))
+                                           || (pq.getQuestion().getChapter() != null && newQ.getChapter() != null && pq.getQuestion().getChapter().getId().equals(newQ.getChapter().getId()))))
                             .findFirst();
                 }
                         
