@@ -545,6 +545,67 @@ public class ExamPaperService {
     private int pickProgrammingQuestions(List<PaperQuestion> result, int count, AutoGenerateRequest req, int currentOrder) {
         if (count <= 0) return currentOrder;
 
+        if (Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) && req.getProgrammingQuestionChapters() != null
+                && req.getProgrammingQuestionChapters().size() == count) {
+            
+            List<Difficulty> requiredDiffs = new ArrayList<>();
+            if (count == 1) {
+                requiredDiffs.add(Difficulty.MEDIUM);
+            } else if (count == 2) {
+                requiredDiffs.add(Difficulty.EASY);
+                requiredDiffs.add(Difficulty.MEDIUM);
+            } else {
+                for (int i = 0; i < count - 2; i++) {
+                    requiredDiffs.add(Difficulty.EASY);
+                }
+                requiredDiffs.add(Difficulty.MEDIUM);
+                requiredDiffs.add(Difficulty.HARD);
+            }
+            Collections.shuffle(requiredDiffs);
+
+            List<Question> picked = new ArrayList<>();
+            Set<Long> pickedIds = new HashSet<>();
+
+            for (int i = 0; i < count; i++) {
+                String chapter = req.getProgrammingQuestionChapters().get(i);
+                Difficulty targetDiff = requiredDiffs.get(i);
+
+                List<Question> chapterCandidates = questionRepository.findByTypeAndChapter(QuestionType.PROGRAMMING, chapter)
+                    .stream().filter(q -> !pickedIds.contains(q.getId())).collect(Collectors.toList());
+
+                if (chapterCandidates.isEmpty()) {
+                    throw new RuntimeException("题库中 [" + chapter + "] 章节的编程题不足，无法满足出题要求");
+                }
+
+                Question chosenQ = null;
+                List<Question> exactDiff = chapterCandidates.stream().filter(q -> q.getDifficulty() == targetDiff).collect(Collectors.toList());
+                if (!exactDiff.isEmpty()) {
+                    Collections.shuffle(exactDiff);
+                    chosenQ = exactDiff.get(0);
+                } else if (!chapterCandidates.isEmpty()) {
+                    Collections.shuffle(chapterCandidates);
+                    chosenQ = chapterCandidates.get(0);
+                } else {
+                    throw new RuntimeException("题库中 [编程题] 题目不足，无法满足章节要求");
+                }
+                picked.add(chosenQ);
+                pickedIds.add(chosenQ.getId());
+            }
+
+            for (Question q : picked) {
+                currentOrder++;
+                int score = q.getDefaultScore() != null ? q.getDefaultScore() : 
+                            (q.getDifficulty() == Difficulty.EASY ? 10 : 20);
+                PaperQuestion pq = PaperQuestion.builder()
+                        .question(q)
+                        .questionOrder(currentOrder)
+                        .score(score)
+                        .build();
+                result.add(pq);
+            }
+            return currentOrder;
+        }
+
         List<Question> candidates;
         if (req.getChapters() != null && !req.getChapters().isEmpty()) {
             candidates = new ArrayList<>();
@@ -648,6 +709,9 @@ public class ExamPaperService {
                         .filter(q -> q.getDifficulty() == originalQ.getDifficulty())
                         .filter(q -> q.getProjectPath() == null || q.getProjectPath().trim().isEmpty())
                         .filter(q -> !selectedIds.contains(q.getId()))
+                        .filter(q -> !Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) 
+                                  || originalQ.getType() != QuestionType.PROGRAMMING 
+                                  || q.getChapter().equals(originalQ.getChapter()))
                         .collect(Collectors.toList());
                         
                 // 如果找不到同难度的，则放宽难度限制
@@ -655,6 +719,9 @@ public class ExamPaperService {
                     replacementCandidates = questionRepository.findByType(originalQ.getType()).stream()
                             .filter(q -> q.getProjectPath() == null || q.getProjectPath().trim().isEmpty())
                             .filter(q -> !selectedIds.contains(q.getId()))
+                            .filter(q -> !Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) 
+                                      || originalQ.getType() != QuestionType.PROGRAMMING 
+                                      || q.getChapter().equals(originalQ.getChapter()))
                             .collect(Collectors.toList());
                 }
                 
@@ -682,17 +749,33 @@ public class ExamPaperService {
                 }
             }
 
+            if (Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) && req.getProgrammingQuestionChapters() != null) {
+                List<Question> filtered = projectQuestions.stream()
+                        .filter(q -> q.getType() != QuestionType.PROGRAMMING || req.getProgrammingQuestionChapters().contains(q.getChapter()))
+                        .collect(Collectors.toList());
+                if (!filtered.isEmpty()) {
+                    projectQuestions = filtered;
+                }
+            }
+
             if (!projectQuestions.isEmpty()) {
                 Collections.shuffle(projectQuestions);
                 Question newQ = projectQuestions.get(0);
                 
                 Optional<PaperQuestion> toReplace = selectedQuestions.stream()
-                        .filter(pq -> pq.getQuestion().getType() == newQ.getType() && pq.getQuestion().getDifficulty() == newQ.getDifficulty())
+                        .filter(pq -> pq.getQuestion().getType() == newQ.getType() 
+                                   && pq.getQuestion().getDifficulty() == newQ.getDifficulty()
+                                   && (!Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) 
+                                       || newQ.getType() != QuestionType.PROGRAMMING 
+                                       || pq.getQuestion().getChapter().equals(newQ.getChapter())))
                         .findFirst();
                 
                 if (!toReplace.isPresent()) {
                     toReplace = selectedQuestions.stream()
-                            .filter(pq -> pq.getQuestion().getType() == newQ.getType())
+                            .filter(pq -> pq.getQuestion().getType() == newQ.getType()
+                                       && (!Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) 
+                                           || newQ.getType() != QuestionType.PROGRAMMING 
+                                           || pq.getQuestion().getChapter().equals(newQ.getChapter())))
                             .findFirst();
                 }
                         

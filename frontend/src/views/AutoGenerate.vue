@@ -60,12 +60,32 @@
 
       <h3 style="color:#fff;margin:20px 0 12px;font-size:15px">⚙️ 高级设置</h3>
       <div style="margin-bottom:24px;background:rgba(255,255,255,0.02);padding:16px;border-radius:8px;border:1px solid rgba(255,255,255,0.05)">
-        <el-switch
-          v-model="form.mustIncludeProject"
-          active-text="必须包含项目题"
-          style="--el-switch-on-color: #6dd49e;"
-        />
-        <div style="margin-top:8px;color:#999;font-size:12px">开启后，组卷时将强制确保试卷中至少有一道带附加工程项目的题目。</div>
+        <div style="margin-bottom:16px">
+          <el-switch
+            v-model="form.mustIncludeProject"
+            active-text="必须包含项目题"
+            style="--el-switch-on-color: #6dd49e;"
+          />
+          <div style="margin-top:8px;color:#999;font-size:12px">开启后，组卷时将强制确保试卷中至少有一道带附加工程项目的题目。</div>
+        </div>
+
+        <div>
+          <el-switch
+            v-model="form.specificProgrammingChapters"
+            active-text="分别指定每一道编程题的章节"
+            style="--el-switch-on-color: #6dd49e;"
+          />
+          <div style="margin-top:8px;color:#999;font-size:12px">开启后，可以为每一道编程题单独指定出题章节。</div>
+          
+          <div v-if="form.specificProgrammingChapters && form.programmingCount > 0" style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+            <div v-for="i in form.programmingCount" :key="i" style="display: flex; align-items: center; gap: 12px;">
+              <span style="color:#bbb;font-size:14px;width:70px">第 {{ i }} 题:</span>
+              <el-select v-model="form.programmingQuestionChapters[i-1]" placeholder="选择章节" size="small" style="width: 150px">
+                <el-option v-for="c in chapters" :key="c" :label="c" :value="c" />
+              </el-select>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div style="text-align:center">
@@ -109,7 +129,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, watch } from 'vue'
 import { paperApi, questionApi } from '../api'
 import { ElMessage } from 'element-plus'
 import PaperViewer from '../components/PaperViewer.vue'
@@ -131,8 +151,21 @@ const form = reactive({
   singleChoiceCount: 10, multipleChoiceCount: 0, trueFalseCount: 0,
   fillBlankCount: 5, shortAnswerCount: 0, codeReadingCount: 1, programmingCount: 3,
   chapters: [], maxChapter: 9, easyPercent: 30, mediumPercent: 50, hardPercent: 20,
-  textbookPercent: 80, networkPercent: 20, mustIncludeProject: true
+  textbookPercent: 80, networkPercent: 20, mustIncludeProject: true,
+  specificProgrammingChapters: false, programmingQuestionChapters: []
 })
+
+watch(() => form.programmingCount, (newVal) => {
+  if (newVal === null || newVal === undefined) return;
+  const currentLength = form.programmingQuestionChapters.length;
+  if (newVal > currentLength) {
+    for (let i = currentLength; i < newVal; i++) {
+      form.programmingQuestionChapters.push(chapters.value.length > 0 ? chapters.value[0] : '');
+    }
+  } else if (newVal < currentLength) {
+    form.programmingQuestionChapters.splice(newVal);
+  }
+}, { immediate: true })
 
 const onTextbookChange = (val) => { form.networkPercent = Math.max(0, 100 - val) }
 const onNetworkChange = (val) => { form.textbookPercent = Math.max(0, 100 - val) }

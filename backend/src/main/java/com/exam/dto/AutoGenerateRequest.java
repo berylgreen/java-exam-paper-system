@@ -38,6 +38,12 @@ public class AutoGenerateRequest {
     /** 章节范围 (为空则从全部章节抽取) */
     private List<String> chapters;
 
+    /** 是否指定每一道编程题的章节 */
+    private Boolean specificProgrammingChapters = false;
+
+    /** 每一道编程题对应的章节列表 (长度应等于 programmingCount) */
+    private List<String> programmingQuestionChapters;
+
     /** 难度比例: 简单/中等/困难 (百分比，总和应为100) */
     private Integer easyPercent = 30;
     private Integer mediumPercent = 50;
