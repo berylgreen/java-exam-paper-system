@@ -71,7 +71,7 @@
     <el-dialog v-model="showDetail" :title="detailQ.content?.substring(0,30)+'...'" width="600px">
       <div v-if="detailQ.id">
         <p><b>题型：</b>{{ typeLabel(detailQ.type) }} | <b>章节：</b>{{ detailQ.chapter }} | <b>难度：</b>{{ diffLabel(detailQ.difficulty) }} | <b>来源：</b>{{ detailQ.source || '未知' }}</p>
-        <p style="margin:12px 0"><b>题目：</b>{{ detailQ.content }}</p>
+        <p style="margin:12px 0; white-space: pre-wrap; line-height: 1.6; font-family: inherit;"><b>题目：</b>{{ detailQ.content }}</p>
         <p v-if="detailQ.projectPath" style="margin:12px 0; color:#409EFF; display:flex; align-items:center; gap:10px">
           <span><b>📁 关联工程：</b>{{ detailQ.projectPath }}</span>
           <el-button type="primary" size="small" @click="downloadProject(detailQ.id)">
@@ -82,8 +82,8 @@
           <b>选项：</b>
           <div v-for="opt in parseOpts(detailQ.options)" :key="opt.label" style="margin-left:16px">{{ opt.label }}. {{ opt.text }}</div>
         </div>
-        <p style="color:#6dd49e"><b>答案：</b>{{ detailQ.answer }}</p>
-        <p v-if="detailQ.explanation" style="color:#aaa;margin-top:8px"><b>解析：</b>{{ detailQ.explanation }}</p>
+        <p style="color:#6dd49e; white-space: pre-wrap; line-height: 1.6; font-family: inherit;"><b>答案：</b>{{ detailQ.answer }}</p>
+        <p v-if="detailQ.explanation" style="color:#aaa;margin-top:8px; white-space: pre-wrap; line-height: 1.6; font-family: inherit;"><b>解析：</b>{{ detailQ.explanation }}</p>
       </div>
     </el-dialog>
 

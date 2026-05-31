@@ -89,24 +89,8 @@
         </div>
       </div>
 
-      <p style="color:#aaa;margin-bottom:16px">
-        试卷：{{ previewData.title }} | 总分：{{ previewData.totalScore }}分 | 共{{ previewData.questions?.length }}题
-      </p>
-
-      <!-- 内嵌题目预览 -->
-      <div class="preview-sections">
-        <div v-for="(section, idx) in previewSections" :key="idx" style="margin-bottom:16px">
-          <div style="color:#667eea;font-weight:bold;font-size:14px;margin-bottom:8px">
-            {{ sectionNum(idx) }}、{{ section.typeLabel }} (共{{ section.questions.length }}题，共{{ section.totalScore }}分)
-          </div>
-          <div v-for="(pq, qi) in section.questions" :key="qi"
-               style="color:#ccc;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
-            <span>{{ qi + 1 }}. ({{ pq.score }}分) {{ pq.question.content }}</span>
-            <div v-if="pq.question.projectPath" style="margin-top:8px; padding:6px; background:rgba(64,158,255,0.1); border-radius:4px; font-size: 12px; color: #409EFF; border: 1px solid rgba(64,158,255,0.2);">
-              <b>📁 关联代码工程:</b> {{ pq.question.projectPath }}
-            </div>
-          </div>
-        </div>
+      <div class="paper-preview" style="padding: 24px;">
+        <PaperViewer :paper="previewData" :show-answer="false" />
       </div>
     </div>
 
@@ -128,6 +112,7 @@
 import { ref, reactive, computed, onMounted } from 'vue'
 import { paperApi, questionApi } from '../api'
 import { ElMessage } from 'element-plus'
+import PaperViewer from '../components/PaperViewer.vue'
 
 const chapters = ref([])
 const generating = ref(false)
@@ -180,27 +165,7 @@ const handleChapterChange = (val) => {
   checkAll.value = val.length === chapters.value.length
 }
 
-// 题型分组预览
-const typeOrder = ['SINGLE_CHOICE','MULTIPLE_CHOICE','TRUE_FALSE','FILL_BLANK','SHORT_ANSWER','CODE_READING','PROGRAMMING']
-const typeLabels = { SINGLE_CHOICE:'单选题', MULTIPLE_CHOICE:'多选题', TRUE_FALSE:'判断题', FILL_BLANK:'填空题', SHORT_ANSWER:'简答题', CODE_READING:'程序分析题', PROGRAMMING:'编程题' }
-const sectionNums = ['一','二','三','四','五','六','七']
-const sectionNum = (i) => i < sectionNums.length ? sectionNums[i] : String(i + 1)
 
-const previewSections = computed(() => {
-  if (!previewData.value?.questions) return []
-  const grouped = {}
-  for (const pq of previewData.value.questions) {
-    const t = pq.question.type
-    if (!grouped[t]) grouped[t] = []
-    grouped[t].push(pq)
-  }
-  return typeOrder.filter(t => grouped[t]).map(t => ({
-    type: t,
-    typeLabel: typeLabels[t],
-    questions: grouped[t],
-    totalScore: grouped[t].reduce((s, pq) => s + pq.score, 0)
-  }))
-})
 
 /** 组卷预览 (不保存) */
 const generate = async () => {
