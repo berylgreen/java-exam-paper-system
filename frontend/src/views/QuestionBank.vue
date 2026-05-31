@@ -11,15 +11,41 @@
     </div>
 
     <!-- 统计 -->
-    <div class="stat-cards" v-if="stats.total">
-      <div class="stat-card">
-        <div class="stat-value">{{ stats.total }}</div><div class="stat-label">题目总数</div>
+    <div v-if="stats.total" style="margin-bottom: 24px; background: rgba(255,255,255,0.02); padding: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <div style="font-size: 16px; font-weight: 600; color: #e0e0e0; display: flex; align-items: center; gap: 10px;">
+          <span>📊 题库统计</span>
+          <el-tag size="small" type="primary" effect="dark" round>总题目数: {{ stats.total }}</el-tag>
+        </div>
+        <el-radio-group v-model="activeStat" size="small">
+          <el-radio-button value="source">按来源</el-radio-button>
+          <el-radio-button value="type">按题型</el-radio-button>
+          <el-radio-button value="difficulty">按难度</el-radio-button>
+        </el-radio-group>
       </div>
-      <div class="stat-card" v-for="(v,k) in stats.byType" :key="k">
-        <div class="stat-value">{{ v }}</div><div class="stat-label">{{ k }}</div>
+      
+      <div v-if="activeStat === 'type'">
+        <div class="stat-cards" style="margin-bottom: 0; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));">
+          <div class="stat-card" v-for="(v,k) in stats.byType" :key="'type-'+k">
+            <div class="stat-value" style="font-size: 24px;">{{ v }}</div><div class="stat-label">{{ k }}</div>
+          </div>
+        </div>
       </div>
-      <div class="stat-card" v-for="(v,k) in stats.bySource" :key="'src-'+k" style="border-top:2px solid #4ecdc4">
-        <div class="stat-value">{{ v }}</div><div class="stat-label">{{ k }}</div>
+
+      <div v-if="activeStat === 'difficulty'">
+        <div class="stat-cards" style="margin-bottom: 0; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));">
+          <div class="stat-card" v-for="(v,k) in stats.byDifficulty" :key="'diff-'+k" style="border-top: 2px solid #e6a23c;">
+            <div class="stat-value" style="font-size: 24px;">{{ v }}</div><div class="stat-label">{{ k }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="activeStat === 'source'">
+        <div class="stat-cards" style="margin-bottom: 0; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));">
+          <div class="stat-card" v-for="(v,k) in stats.bySource" :key="'src-'+k" style="border-top: 2px solid #4ecdc4;">
+            <div class="stat-value" style="font-size: 24px;">{{ v }}</div><div class="stat-label">{{ k }}</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -176,6 +202,7 @@ const loading = ref(false)
 const chapters = ref([])
 const sources = ref([])
 const stats = ref({})
+const activeStat = ref('source')
 const filter = reactive({ type: null, chapter: null, difficulty: null, source: null })
 const page = ref(1)
 const pageSize = 20
