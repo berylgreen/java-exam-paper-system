@@ -97,7 +97,7 @@
 
     <!-- 查看详情对话框 -->
     <el-dialog v-model="showDetail" :title="detailQ.content?.substring(0,30)+'...'" width="600px">
-      <div v-if="detailQ.id" class="q-detail-container" style="position: relative; padding: 0 10px; min-height: 200px;">
+      <div v-if="detailQ.id" class="q-detail-container" style="position: relative; padding: 0 50px; min-height: 200px;">
         <!-- 隐藏式箭头 -->
         <div v-if="currentQIndex > 0 || page > 1" class="nav-arrow nav-left" @click="prevQ" title="上一题">
           <el-icon><ArrowLeft /></el-icon>
@@ -349,12 +349,11 @@ onMounted(() => { loadQ(); loadMeta() })
 
 <style scoped>
 .q-detail-container {
-  /* 确保内容不会被绝对定位的箭头完全遮盖 */
+  /* 为内部箭头留出空间，防止遮挡文字 */
 }
 .nav-arrow {
   position: fixed;
   top: 50%;
-  transform: translateY(-50%);
   width: 40px;
   height: 80px;
   display: flex;
@@ -378,9 +377,11 @@ onMounted(() => { loadQ(); loadMeta() })
   opacity: 0.3;
 }
 .nav-left {
-  left: max(10px, calc(50% - 350px));
+  left: 50%;
+  transform: translate(-290px, -50%);
 }
 .nav-right {
-  right: max(10px, calc(50% - 350px));
+  left: 50%;
+  transform: translate(250px, -50%);
 }
 </style>

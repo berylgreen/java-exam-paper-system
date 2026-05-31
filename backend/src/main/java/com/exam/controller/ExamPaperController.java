@@ -116,8 +116,9 @@ public class ExamPaperController {
 
     /** 导出试卷为 Word 或 ZIP */
     @GetMapping("/{id}/export")
-    public ResponseEntity<byte[]> export(@PathVariable("id") Long id) throws IOException {
-        ExportResult exportResult = paperService.exportPaper(id);
+    public ResponseEntity<byte[]> export(@PathVariable("id") Long id,
+                                         @RequestParam(value = "withAnswer", defaultValue = "false") boolean withAnswer) throws IOException {
+        ExportResult exportResult = paperService.exportPaper(id, withAnswer);
         String filename = URLEncoder.encode(exportResult.getFilename(), StandardCharsets.UTF_8);
 
         return ResponseEntity.ok()

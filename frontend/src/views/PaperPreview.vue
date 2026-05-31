@@ -29,7 +29,7 @@ const paper = ref(null)
 const loading = ref(false)
 const showAnswer = ref(false)
 
-const handleExport = () => { window.open(paperApi.exportUrl(route.params.id), '_blank') }
+const handleExport = () => { window.open(paperApi.exportUrl(route.params.id, showAnswer.value), '_blank') }
 
 onMounted(async () => {
   loading.value = true

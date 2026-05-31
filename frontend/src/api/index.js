@@ -32,7 +32,7 @@ export const paperApi = {
     previewGenerate: (data) => api.post('/papers/preview-generate', data),
     saveGenerated: (data) => api.post('/papers/save-generated', data),
     delete: (id) => api.delete(`/papers/${id}`),
-    exportUrl: (id) => `/api/papers/${id}/export`,
+    exportUrl: (id, withAnswer = false) => `/api/papers/${id}/export${withAnswer ? '?withAnswer=true' : ''}`,
 }
 
 export default api

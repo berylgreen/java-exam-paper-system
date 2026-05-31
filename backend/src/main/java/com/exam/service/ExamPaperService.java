@@ -233,18 +233,69 @@ public class ExamPaperService {
 
     /** 导出试卷为 Word 文档或 ZIP 包 */
     @Transactional(readOnly = true)
-    public ExportResult exportPaper(Long id) throws IOException {
+    public ExportResult exportPaper(Long id, boolean withAnswer) throws IOException {
         PaperDTO paper = findById(id);
-
-        byte[] wordBytes;
         Set<String> projectPaths = new HashSet<>();
 
+        byte[] originalWordBytes = generateWordBytes(paper, false, projectPaths);
+
+        if (!withAnswer && projectPaths.isEmpty()) {
+            return new ExportResult(
+                    "试卷_" + id + ".docx",
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    originalWordBytes
+            );
+        }
+
+        // 打包成包含 docx 和相关工程的 ZIP
+        ByteArrayOutputStream zipBaos = new ByteArrayOutputStream();
+        try (java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(zipBaos)) {
+            // 写入无答案版 Word
+            java.util.zip.ZipEntry docxEntry = new java.util.zip.ZipEntry("试卷_" + id + ".docx");
+            zos.putNextEntry(docxEntry);
+            zos.write(originalWordBytes);
+            zos.closeEntry();
+
+            // 如果需要答案，生成并写入答案版 Word
+            if (withAnswer) {
+                Set<String> dummyPaths = new HashSet<>(); // 避免重复收集 projectPaths
+                byte[] answerWordBytes = generateWordBytes(paper, true, dummyPaths);
+                java.util.zip.ZipEntry answerDocxEntry = new java.util.zip.ZipEntry("试卷_" + id + "_答案版.docx");
+                zos.putNextEntry(answerDocxEntry);
+                zos.write(answerWordBytes);
+                zos.closeEntry();
+            }
+
+            // 写入各个工程 ZIP
+            for (String projectPath : projectPaths) {
+                try {
+                    byte[] projectZipBytes = com.exam.util.ZipUtils.zipDirectoryToBytes(projectPath);
+                    String projectName = new java.io.File(projectPath).getName();
+                    java.util.zip.ZipEntry projEntry = new java.util.zip.ZipEntry("projects/" + projectName + ".zip");
+                    zos.putNextEntry(projEntry);
+                    zos.write(projectZipBytes);
+                    zos.closeEntry();
+                } catch (Exception e) {
+                    System.err.println("打包工程失败: " + projectPath);
+                }
+            }
+        }
+
+        String zipFilename = "试卷_" + id + (withAnswer ? "_含答案" : "") + (projectPaths.isEmpty() ? "" : "_含代码工程") + ".zip";
+        return new ExportResult(
+                zipFilename,
+                "application/zip",
+                zipBaos.toByteArray()
+        );
+    }
+
+    private byte[] generateWordBytes(PaperDTO paper, boolean withAnswer, Set<String> projectPaths) throws IOException {
         try (XWPFDocument doc = new XWPFDocument()) {
             // 标题
             XWPFParagraph titlePara = doc.createParagraph();
             titlePara.setAlignment(ParagraphAlignment.CENTER);
             XWPFRun titleRun = titlePara.createRun();
-            titleRun.setText(paper.getTitle());
+            titleRun.setText(paper.getTitle() + (withAnswer ? " (答案版)" : ""));
             titleRun.setBold(true);
             titleRun.setFontSize(18);
             titleRun.setFontFamily("宋体");
@@ -347,10 +398,26 @@ public class ExamPaperService {
                         }
                     }
 
-                    // 编程题/简答题/程序分析题留空行
-                    if (type == QuestionType.SHORT_ANSWER || type == QuestionType.CODE_READING || type == QuestionType.PROGRAMMING) {
-                        for (int i = 0; i < 5; i++) {
-                            doc.createParagraph().createRun().setText("");
+                    if (withAnswer) {
+                        XWPFParagraph ansPara = doc.createParagraph();
+                        XWPFRun ansRun = ansPara.createRun();
+                        ansRun.setColor("FF0000"); // 红色
+                        ansRun.setBold(true);
+                        ansRun.setText("【答案】: " + (q.getAnswer() != null ? q.getAnswer() : "略"));
+                        
+                        if (q.getExplanation() != null && !q.getExplanation().trim().isEmpty()) {
+                            XWPFParagraph expPara = doc.createParagraph();
+                            XWPFRun expRun = expPara.createRun();
+                            expRun.setColor("0000FF"); // 蓝色
+                            expRun.setText("【解析】: " + q.getExplanation());
+                        }
+                        doc.createParagraph().createRun().setText("");
+                    } else {
+                        // 编程题/简答题/程序分析题留空行
+                        if (type == QuestionType.SHORT_ANSWER || type == QuestionType.CODE_READING || type == QuestionType.PROGRAMMING) {
+                            for (int i = 0; i < 5; i++) {
+                                doc.createParagraph().createRun().setText("");
+                            }
                         }
                     }
                 }
@@ -360,47 +427,8 @@ public class ExamPaperService {
 
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             doc.write(out);
-            wordBytes = out.toByteArray();
+            return out.toByteArray();
         }
-
-        if (projectPaths.isEmpty()) {
-            return new ExportResult(
-                    "试卷_" + id + ".docx",
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    wordBytes
-            );
-        }
-
-        // 打包成包含 docx 和相关工程的 ZIP
-        ByteArrayOutputStream zipBaos = new ByteArrayOutputStream();
-        try (java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(zipBaos)) {
-            // 写入 Word
-            java.util.zip.ZipEntry docxEntry = new java.util.zip.ZipEntry("试卷_" + id + ".docx");
-            zos.putNextEntry(docxEntry);
-            zos.write(wordBytes);
-            zos.closeEntry();
-
-            // 写入各个工程 ZIP
-            for (String projectPath : projectPaths) {
-                try {
-                    byte[] projectZipBytes = com.exam.util.ZipUtils.zipDirectoryToBytes(projectPath);
-                    String projectName = new java.io.File(projectPath).getName();
-                    java.util.zip.ZipEntry projEntry = new java.util.zip.ZipEntry("projects/" + projectName + ".zip");
-                    zos.putNextEntry(projEntry);
-                    zos.write(projectZipBytes);
-                    zos.closeEntry();
-                } catch (Exception e) {
-                    // 若个别工程打包失败，打印日志并忽略，不影响整体试卷导出
-                    System.err.println("打包工程失败: " + projectPath);
-                }
-            }
-        }
-
-        return new ExportResult(
-                "试卷_" + id + "_含代码工程.zip",
-                "application/zip",
-                zipBaos.toByteArray()
-        );
     }
 
     // ========== 自动组卷辅助方法 ==========
