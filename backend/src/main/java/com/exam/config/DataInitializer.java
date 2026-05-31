@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 数据初始化器 — 首次启动时从 JSON 文件加载题库和预置试卷
@@ -43,7 +44,20 @@ public class DataInitializer implements CommandLineRunner {
         qRepo.saveAll(allQuestions);
         log.info("题库初始化完成，共 {} 道题", allQuestions.size());
 
-        initPapers(allQuestions);
+        // 默认只考从第1章到第9章
+        List<Question> paperQuestions = allQuestions.stream()
+                .filter(q -> {
+                    if (q.getChapter() == null) return false;
+                    java.util.regex.Matcher m = java.util.regex.Pattern.compile("^第(\\d+)章").matcher(q.getChapter());
+                    if (m.find()) {
+                        int chap = Integer.parseInt(m.group(1));
+                        return chap >= 1 && chap <= 9;
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
+
+        initPapers(paperQuestions);
         log.info("预置试卷初始化完成");
     }
 
@@ -96,10 +110,11 @@ public class DataInitializer implements CommandLineRunner {
         List<Question> fbs = byType.getOrDefault(QuestionType.FILL_BLANK, new ArrayList<>());
         List<Question> sas = byType.getOrDefault(QuestionType.SHORT_ANSWER, new ArrayList<>());
         List<Question> pgs = byType.getOrDefault(QuestionType.PROGRAMMING, new ArrayList<>());
+        List<Question> crs = byType.getOrDefault(QuestionType.CODE_READING, new ArrayList<>());
 
         Collections.shuffle(scs); Collections.shuffle(mcs);
         Collections.shuffle(tfs); Collections.shuffle(fbs);
-        Collections.shuffle(sas); Collections.shuffle(pgs);
+        Collections.shuffle(sas); Collections.shuffle(pgs); Collections.shuffle(crs);
 
         for (int p = 1; p <= 20; p++) {
             ExamPaper paper = ExamPaper.builder()
@@ -124,10 +139,14 @@ public class DataInitializer implements CommandLineRunner {
             for (int i = 0; i < 5; i++) {
                 addPQ(paper, fbs.get((p * 5 + i) % fbs.size()), ++order, 4);
             }
-            for (int i = 0; i < 2; i++) {
-                addPQ(paper, sas.get((p * 2 + i) % sas.size()), ++order, 10);
+            if (!crs.isEmpty()) {
+                addPQ(paper, crs.get(p % crs.size()), ++order, 10);
             }
-            addPQ(paper, pgs.get(p % pgs.size()), ++order, 10);
+            if (!pgs.isEmpty()) {
+                for (int i = 0; i < 3; i++) {
+                    addPQ(paper, pgs.get((p * 3 + i) % pgs.size()), ++order, i == 0 ? 10 : 20);
+                }
+            }
         }
     }
 

@@ -48,6 +48,9 @@
             @change="handleCheckAllChange"
             style="color:#bbb"
           >全选</el-checkbox>
+          <span style="color:#bbb;margin-left:20px;font-size:14px">
+            默认考到第 <el-input-number v-model="form.maxChapter" :min="1" :max="20" size="small" style="width:100px;margin:0 8px" @change="applyMaxChapter"/> 章
+          </span>
         </div>
         <el-checkbox-group v-model="form.chapters" @change="handleChapterChange">
           <el-checkbox v-for="c in chapters" :key="c" :label="c" :value="c" style="color:#bbb;margin-bottom:6px"/>
@@ -141,8 +144,8 @@ const generateDefaultTitle = () => {
 const form = reactive({
   title: generateDefaultTitle(), durationMinutes: 120,
   singleChoiceCount: 10, multipleChoiceCount: 0, trueFalseCount: 0,
-  fillBlankCount: 5, shortAnswerCount: 2, codeReadingCount: 2, programmingCount: 1,
-  chapters: [], easyPercent: 30, mediumPercent: 50, hardPercent: 20,
+  fillBlankCount: 5, shortAnswerCount: 0, codeReadingCount: 1, programmingCount: 3,
+  chapters: [], maxChapter: 9, easyPercent: 30, mediumPercent: 50, hardPercent: 20,
   textbookPercent: 80, networkPercent: 20, mustIncludeProject: true
 })
 
@@ -241,7 +244,19 @@ const savePaper = async () => {
 
 const exportPaper = () => { if (savedResult.value) window.open(paperApi.exportUrl(savedResult.value.id), '_blank') }
 
+const applyMaxChapter = () => {
+  if (!chapters.value || chapters.value.length === 0) return;
+  form.chapters = chapters.value.filter(c => {
+    const match = c.match(/^第(\d+)章/);
+    return match && parseInt(match[1]) >= 1 && parseInt(match[1]) <= form.maxChapter;
+  });
+  handleChapterChange(form.chapters);
+}
+
 onMounted(async () => {
-  try { chapters.value = (await questionApi.chapters()).data } catch {}
+  try { 
+    chapters.value = (await questionApi.chapters()).data;
+    applyMaxChapter();
+  } catch {}
 })
 </script>

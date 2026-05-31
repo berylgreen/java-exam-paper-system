@@ -27,13 +27,13 @@ public class AutoGenerateRequest {
     private Integer fillBlankCount = 5;
 
     /** 简答题数量 */
-    private Integer shortAnswerCount = 2;
+    private Integer shortAnswerCount = 0;
 
     /** 编程题数量 */
-    private Integer programmingCount = 1;
+    private Integer programmingCount = 3;
 
     /** 程序分析题数量 */
-    private Integer codeReadingCount = 2;
+    private Integer codeReadingCount = 1;
 
     /** 章节范围 (为空则从全部章节抽取) */
     private List<String> chapters;

@@ -4,6 +4,7 @@ import com.exam.dto.QuestionDTO;
 import com.exam.entity.Question;
 import com.exam.enums.Difficulty;
 import com.exam.enums.QuestionType;
+import com.exam.repository.ExamPaperRepository;
 import com.exam.repository.PaperQuestionRepository;
 import com.exam.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class QuestionService {
 
     private final QuestionRepository questionRepository;
     private final PaperQuestionRepository paperQuestionRepository;
+    private final ExamPaperRepository examPaperRepository;
 
     /** 分页条件查询 */
     public Page<QuestionDTO> findByFilters(QuestionType type, String chapter,
@@ -127,6 +129,10 @@ public class QuestionService {
     /** 导入题目 (清空后批量导入) */
     @Transactional
     public int importAll(List<QuestionDTO> dtos) {
+        // 导入新题库前，必须先清除关联的试卷题目和旧试卷，否则会违反外键约束
+        paperQuestionRepository.deleteAll();
+        examPaperRepository.deleteAll();
+        
         questionRepository.deleteAll();
         List<Question> questions = dtos.stream().map(this::toEntity).toList();
         questionRepository.saveAll(questions);

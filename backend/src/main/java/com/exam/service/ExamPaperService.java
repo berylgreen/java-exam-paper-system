@@ -622,45 +622,87 @@ public class ExamPaperService {
     }
 
     private void enforceProjectQuestion(List<PaperQuestion> selectedQuestions, AutoGenerateRequest req) {
-        if (Boolean.TRUE.equals(req.getMustIncludeProject())) {
-            boolean hasProject = selectedQuestions.stream()
-                    .anyMatch(pq -> pq.getQuestion().getProjectPath() != null && !pq.getQuestion().getProjectPath().trim().isEmpty());
-            if (!hasProject) {
-                List<Question> projectQuestions = questionRepository.findAll().stream()
-                        .filter(q -> q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty())
+        List<PaperQuestion> projectPqs = selectedQuestions.stream()
+                .filter(pq -> pq.getQuestion().getProjectPath() != null && !pq.getQuestion().getProjectPath().trim().isEmpty())
+                .collect(Collectors.toList());
+
+        // 如果抽到了多于1题的项目题，则只保留难度最高的一题，其余替换为无工程的普通题
+        if (projectPqs.size() > 1) {
+            // 按难度降序排列：HARD(2) > MEDIUM(1) > EASY(0)
+            projectPqs.sort((pq1, pq2) -> Integer.compare(
+                    pq2.getQuestion().getDifficulty().ordinal(), 
+                    pq1.getQuestion().getDifficulty().ordinal()
+            ));
+            
+            // 保留第一个 (难度最高的)，从第二个开始替换
+            for (int i = 1; i < projectPqs.size(); i++) {
+                PaperQuestion toReplace = projectPqs.get(i);
+                Question originalQ = toReplace.getQuestion();
+                
+                Set<Long> selectedIds = selectedQuestions.stream()
+                        .map(pq -> pq.getQuestion().getId())
+                        .collect(Collectors.toSet());
+                        
+                // 优先找同题型、同难度的无工程题
+                List<Question> replacementCandidates = questionRepository.findByType(originalQ.getType()).stream()
+                        .filter(q -> q.getDifficulty() == originalQ.getDifficulty())
+                        .filter(q -> q.getProjectPath() == null || q.getProjectPath().trim().isEmpty())
+                        .filter(q -> !selectedIds.contains(q.getId()))
                         .collect(Collectors.toList());
-
-                if (req.getChapters() != null && !req.getChapters().isEmpty()) {
-                    List<Question> filtered = projectQuestions.stream()
-                            .filter(q -> req.getChapters().contains(q.getChapter()))
+                        
+                // 如果找不到同难度的，则放宽难度限制
+                if (replacementCandidates.isEmpty()) {
+                    replacementCandidates = questionRepository.findByType(originalQ.getType()).stream()
+                            .filter(q -> q.getProjectPath() == null || q.getProjectPath().trim().isEmpty())
+                            .filter(q -> !selectedIds.contains(q.getId()))
                             .collect(Collectors.toList());
-                    if (!filtered.isEmpty()) {
-                        projectQuestions = filtered;
-                    }
                 }
+                
+                if (!replacementCandidates.isEmpty()) {
+                    Collections.shuffle(replacementCandidates);
+                    Question newQ = replacementCandidates.get(0);
+                    toReplace.setQuestion(newQ);
+                    toReplace.setScore(newQ.getDefaultScore() != null ? newQ.getDefaultScore() : toReplace.getScore());
+                }
+            }
+        }
 
-                if (!projectQuestions.isEmpty()) {
-                    Collections.shuffle(projectQuestions);
-                    Question newQ = projectQuestions.get(0);
-                    
-                    Optional<PaperQuestion> toReplace = selectedQuestions.stream()
-                            .filter(pq -> pq.getQuestion().getType() == newQ.getType() && pq.getQuestion().getDifficulty() == newQ.getDifficulty())
+        // 如果必须包含项目题，且当前没有项目题
+        if (Boolean.TRUE.equals(req.getMustIncludeProject()) && projectPqs.isEmpty()) {
+            List<Question> projectQuestions = questionRepository.findAll().stream()
+                    .filter(q -> q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty())
+                    .collect(Collectors.toList());
+
+            if (req.getChapters() != null && !req.getChapters().isEmpty()) {
+                List<Question> filtered = projectQuestions.stream()
+                        .filter(q -> req.getChapters().contains(q.getChapter()))
+                        .collect(Collectors.toList());
+                if (!filtered.isEmpty()) {
+                    projectQuestions = filtered;
+                }
+            }
+
+            if (!projectQuestions.isEmpty()) {
+                Collections.shuffle(projectQuestions);
+                Question newQ = projectQuestions.get(0);
+                
+                Optional<PaperQuestion> toReplace = selectedQuestions.stream()
+                        .filter(pq -> pq.getQuestion().getType() == newQ.getType() && pq.getQuestion().getDifficulty() == newQ.getDifficulty())
+                        .findFirst();
+                
+                if (!toReplace.isPresent()) {
+                    toReplace = selectedQuestions.stream()
+                            .filter(pq -> pq.getQuestion().getType() == newQ.getType())
                             .findFirst();
-                    
-                    if (!toReplace.isPresent()) {
-                        toReplace = selectedQuestions.stream()
-                                .filter(pq -> pq.getQuestion().getType() == newQ.getType())
-                                .findFirst();
-                    }
-                            
-                    if (toReplace.isPresent()) {
-                        toReplace.get().setQuestion(newQ);
-                        toReplace.get().setScore(newQ.getDefaultScore() != null ? newQ.getDefaultScore() : toReplace.get().getScore());
-                    } else if (!selectedQuestions.isEmpty()) {
-                        PaperQuestion last = selectedQuestions.get(selectedQuestions.size() - 1);
-                        last.setQuestion(newQ);
-                        last.setScore(newQ.getDefaultScore() != null ? newQ.getDefaultScore() : last.getScore());
-                    }
+                }
+                        
+                if (toReplace.isPresent()) {
+                    toReplace.get().setQuestion(newQ);
+                    toReplace.get().setScore(newQ.getDefaultScore() != null ? newQ.getDefaultScore() : toReplace.get().getScore());
+                } else if (!selectedQuestions.isEmpty()) {
+                    PaperQuestion last = selectedQuestions.get(selectedQuestions.size() - 1);
+                    last.setQuestion(newQ);
+                    last.setScore(newQ.getDefaultScore() != null ? newQ.getDefaultScore() : last.getScore());
                 }
             }
         }
