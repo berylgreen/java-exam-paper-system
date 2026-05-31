@@ -39,7 +39,7 @@
     </template>
 
     <!-- 替换题目弹窗 -->
-    <el-dialog v-model="replaceDialog.visible" title="选择替换题目" width="80%" top="5vh">
+    <el-dialog v-model="replaceDialog.visible" title="选择替换题目" width="80%" top="5vh" append-to-body>
       <div style="margin-bottom: 16px; display: flex; gap: 16px; align-items: center;">
         <span style="font-weight:bold;color:#606266;">当前题型：{{ typeLabels[replaceDialog.targetType] }}</span>
         <el-select v-model="replaceDialog.searchForm.chapter" placeholder="筛选章节" clearable size="small" style="width: 150px">
