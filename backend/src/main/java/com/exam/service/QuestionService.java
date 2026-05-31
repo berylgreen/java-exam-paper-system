@@ -76,6 +76,14 @@ public class QuestionService {
         questionRepository.deleteById(id);
     }
 
+    /** 批量删除题目 */
+    @Transactional
+    public void deleteBatch(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) return;
+        paperQuestionRepository.deleteByQuestionIdIn(ids);
+        questionRepository.deleteAllById(ids);
+    }
+
     /** 获取所有章节 */
     public List<com.exam.entity.Chapter> getAllChapters() {
         return chapterRepository.findAll(org.springframework.data.domain.Sort.by("sortOrder"));

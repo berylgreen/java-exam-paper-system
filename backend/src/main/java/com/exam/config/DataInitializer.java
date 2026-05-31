@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Component
+@org.springframework.context.annotation.Profile("!test")
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
 

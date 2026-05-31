@@ -9,6 +9,7 @@ export const questionApi = {
     create: (data) => api.post('/questions', data),
     update: (id, data) => api.put(`/questions/${id}`, data),
     delete: (id) => api.delete(`/questions/${id}`),
+    batchDelete: (ids) => api.delete('/questions/batch', { data: ids }),
     chapters: () => api.get('/questions/chapters'),
     sources: () => api.get('/questions/sources'),
     stats: () => api.get('/questions/stats'),

@@ -14,4 +14,6 @@ public interface PaperQuestionRepository extends JpaRepository<PaperQuestion, Lo
     void deleteByPaperId(Long paperId);
 
     void deleteByQuestionId(Long questionId);
+
+    void deleteByQuestionIdIn(List<Long> questionIds);
 }

@@ -3,6 +3,7 @@
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
       <h2 class="page-title" style="margin-bottom:0">📚 题库管理</h2>
       <div style="display:flex;gap:10px">
+        <el-button type="danger" @click="batchDelQ" :disabled="selectedIds.length === 0"><el-icon><Delete /></el-icon> 批量删除</el-button>
         <el-button type="success" @click="exportQ"><el-icon><Download /></el-icon> 导出题库</el-button>
         <el-button type="warning" @click="triggerImport"><el-icon><Upload /></el-icon> 导入题库</el-button>
         <input ref="importInput" type="file" accept=".json" style="display:none" @change="importQ" />
@@ -66,7 +67,8 @@
     </div>
 
     <!-- 题目列表 -->
-    <el-table :data="questions" v-loading="loading" stripe style="width:100%">
+    <el-table :data="questions" v-loading="loading" stripe style="width:100%" @selection-change="handleSelectionChange">
+      <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="ID" prop="id" width="55" align="center"/>
       <el-table-column label="题型" width="90" align="center">
         <template #default="{row}"><span class="type-tag" :class="typeClass(row.type)">{{ typeLabel(row.type) }}</span></template>
@@ -207,6 +209,7 @@ const filter = reactive({ type: null, chapterId: null, difficulty: null, source:
 const page = ref(1)
 const pageSize = 20
 const total = ref(0)
+const selectedIds = ref([])
 const showDetail = ref(false)
 const detailQ = ref({})
 const showAdd = ref(false)
@@ -244,6 +247,26 @@ const delQ = async (id) => {
     }
   }
 }
+
+const handleSelectionChange = (val) => {
+  selectedIds.value = val.map(item => item.id)
+}
+
+const batchDelQ = async () => {
+  if (!selectedIds.value.length) return
+  try {
+    await ElMessageBox.confirm(`确定删除选中的 ${selectedIds.value.length} 道题目？该操作将从所有相关试卷中移除这些题目。`, '⚠️ 批量删除', {type: 'warning', confirmButtonText: '确定删除', cancelButtonText: '取消'})
+    await questionApi.batchDelete(selectedIds.value)
+    ElMessage.success('批量删除成功')
+    loadQ()
+    loadMeta()
+  } catch (e) {
+    if (e !== 'cancel' && e !== 'close') {
+      ElMessage.error('批量删除失败: ' + (e.response?.data?.message || e.message))
+    }
+  }
+}
+
 const addQ = async () => {
   try {
     await questionApi.create(newQ); ElMessage.success('已添加'); showAdd.value = false; loadQ(); loadMeta()

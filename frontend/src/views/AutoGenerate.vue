@@ -9,37 +9,37 @@
         <el-form-item label="考试时长(分)">
           <div style="display:flex;align-items:center;gap:20px;">
             <el-input-number v-model="form.durationMinutes" :min="30" :max="300" :step="10"/>
-            <span style="color:#6dd49e;font-size:16px;font-weight:bold;">预计总分：{{ currentTotalScore }} 分</span>
+            <span style="color:var(--primary-color);font-size:16px;font-weight:bold;">预计总分：{{ currentTotalScore }} 分</span>
           </div>
         </el-form-item>
       </el-form>
 
-      <h3 style="color:#fff;margin:20px 0 12px;font-size:15px">📝 题型配置</h3>
+      <h3 style="color:var(--text-primary);margin:20px 0 12px;font-size:16px;font-weight:700;">📝 题型配置</h3>
       <div class="config-grid">
-        <div class="config-item"><label>单选题数量</label><el-input-number v-model="form.singleChoiceCount" :min="0" :max="30" size="small"/></div>
-        <div class="config-item"><label>多选题数量</label><el-input-number v-model="form.multipleChoiceCount" :min="0" :max="20" size="small"/></div>
-        <div class="config-item"><label>判断题数量</label><el-input-number v-model="form.trueFalseCount" :min="0" :max="20" size="small"/></div>
-        <div class="config-item"><label>填空题数量</label><el-input-number v-model="form.fillBlankCount" :min="0" :max="20" size="small"/></div>
-        <div class="config-item"><label>简答题数量</label><el-input-number v-model="form.shortAnswerCount" :min="0" :max="10" size="small"/></div>
-        <div class="config-item"><label>程序分析题数量</label><el-input-number v-model="form.codeReadingCount" :min="0" :max="5" size="small"/></div>
-        <div class="config-item"><label>编程题数量</label><el-input-number v-model="form.programmingCount" :min="0" :max="5" size="small"/></div>
+        <div class="config-item"><label>单选题数量 <span style="color:#888;font-size:12px;margin-left:4px">(2分/题)</span></label><el-input-number v-model="form.singleChoiceCount" :min="0" :max="30" size="small"/></div>
+        <div class="config-item"><label>多选题数量 <span style="color:#888;font-size:12px;margin-left:4px">(4分/题)</span></label><el-input-number v-model="form.multipleChoiceCount" :min="0" :max="20" size="small"/></div>
+        <div class="config-item"><label>判断题数量 <span style="color:#888;font-size:12px;margin-left:4px">(2分/题)</span></label><el-input-number v-model="form.trueFalseCount" :min="0" :max="20" size="small"/></div>
+        <div class="config-item"><label>填空题数量 <span style="color:#888;font-size:12px;margin-left:4px">(2分/题)</span></label><el-input-number v-model="form.fillBlankCount" :min="0" :max="20" size="small"/></div>
+        <div class="config-item"><label>简答题数量 <span style="color:#888;font-size:12px;margin-left:4px">(10分/题)</span></label><el-input-number v-model="form.shortAnswerCount" :min="0" :max="10" size="small"/></div>
+        <div class="config-item"><label>程序分析题数量 <span style="color:#888;font-size:12px;margin-left:4px">(10分/题)</span></label><el-input-number v-model="form.codeReadingCount" :min="0" :max="5" size="small"/></div>
+        <div class="config-item"><label>编程题数量 <span style="color:#888;font-size:12px;margin-left:4px">(动态分值)</span></label><el-input-number v-model="form.programmingCount" :min="0" :max="5" size="small"/></div>
       </div>
 
-      <h3 style="color:#fff;margin:20px 0 12px;font-size:15px">⚡ 难度比例</h3>
+      <h3 style="color:var(--text-primary);margin:20px 0 12px;font-size:16px;font-weight:700;">⚡ 难度比例</h3>
       <div class="config-grid">
         <div class="config-item"><label>简单 {{ form.easyPercent }}%</label><el-slider v-model="form.easyPercent" :max="100"/></div>
         <div class="config-item"><label>中等 {{ form.mediumPercent }}%</label><el-slider v-model="form.mediumPercent" :max="100"/></div>
         <div class="config-item"><label>困难 {{ form.hardPercent }}%</label><el-slider v-model="form.hardPercent" :max="100"/></div>
       </div>
 
-      <h3 style="color:#fff;margin:20px 0 12px;font-size:15px">📗 来源比例</h3>
+      <h3 style="color:var(--text-primary);margin:20px 0 12px;font-size:16px;font-weight:700;">📗 来源比例</h3>
       <div class="config-grid">
         <div class="config-item"><label>📖 课后习题原题 {{ form.textbookPercent }}%</label><el-slider v-model="form.textbookPercent" :max="100" @input="onTextbookChange"/></div>
         <div class="config-item"><label>🌐 网络来源 {{ form.networkPercent }}%</label><el-slider v-model="form.networkPercent" :max="100" @input="onNetworkChange"/></div>
       </div>
-      <div style="color:#999;font-size:12px;margin-bottom:16px">来源比例总和应为100%，当前总和：{{ form.textbookPercent + form.networkPercent }}%</div>
+      <div style="color:var(--text-secondary);font-size:13px;margin-bottom:16px;font-weight:500;">来源比例总和应为100%，当前总和：{{ form.textbookPercent + form.networkPercent }}%</div>
 
-      <h3 style="color:#fff;margin:20px 0 12px;font-size:15px">📖 章节范围</h3>
+      <h3 style="color:var(--text-primary);margin:20px 0 12px;font-size:16px;font-weight:700;">📖 章节范围</h3>
       <div style="margin-bottom:24px">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.1)">
           <el-checkbox
@@ -55,11 +55,11 @@
         <el-checkbox-group v-model="form.chapters" @change="handleChapterChange">
           <el-checkbox v-for="c in chapters" :key="c.id" :label="c.name" :value="c.name" style="color:#bbb;margin-bottom:6px"/>
         </el-checkbox-group>
-        <div style="margin-top:8px;color:#999;font-size:12px">不选则从全部章节抽取</div>
+        <div style="margin-top:8px;color:var(--text-secondary);font-size:13px;font-weight:500;">不选则从全部章节抽取</div>
       </div>
 
-      <h3 style="color:#fff;margin:20px 0 12px;font-size:15px">⚙️ 高级设置</h3>
-      <div style="margin-bottom:24px;background:rgba(255,255,255,0.02);padding:16px;border-radius:8px;border:1px solid rgba(255,255,255,0.05)">
+      <h3 style="color:var(--text-primary);margin:20px 0 12px;font-size:16px;font-weight:700;">⚙️ 高级设置</h3>
+      <div style="margin-bottom:24px;background:var(--primary-light);padding:16px;border-radius:12px;border:1px solid var(--border-color)">
         <div style="margin-bottom:16px">
           <el-switch
             v-model="form.mustIncludeProject"
@@ -97,13 +97,13 @@
 
     <!-- 预览区域 -->
     <div v-if="previewData" class="glass-card" style="margin-top:24px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <h3 style="color:#6dd49e;margin:0">✅ 组卷完成！以下为预览（尚未保存）</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;position:sticky;top:76px;z-index:900;background:var(--card-bg);padding:16px 20px;border-radius:12px;border:1px solid var(--border-color);box-shadow:0 8px 24px rgba(0,0,0,0.08);backdrop-filter:blur(20px);margin-left:-4px;margin-right:-4px;">
+        <h3 style="color:var(--primary-color);margin:0;font-weight:800;font-size:18px;">✅ 组卷完成！以下为预览（尚未保存）</h3>
         <div style="display:flex;gap:8px">
-          <el-button type="warning" @click="generate" :loading="generating">
+          <el-button type="warning" size="large" @click="generate" :loading="generating">
             <el-icon><RefreshRight /></el-icon> 重新组卷
           </el-button>
-          <el-button type="success" @click="savePaper" :loading="saving">
+          <el-button type="success" size="large" @click="savePaper" :loading="saving">
             <el-icon><FolderChecked /></el-icon> 保存到数据库
           </el-button>
         </div>
@@ -116,14 +116,14 @@
 
     <!-- 已保存结果 -->
     <div v-if="savedResult" class="glass-card" style="margin-top:24px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-        <h3 style="color:#6dd49e">💾 已保存到数据库！</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;position:sticky;top:76px;z-index:900;background:var(--card-bg);padding:16px 20px;border-radius:12px;border:1px solid var(--border-color);box-shadow:0 8px 24px rgba(0,0,0,0.08);backdrop-filter:blur(20px);margin-left:-4px;margin-right:-4px;">
+        <h3 style="color:var(--primary-color);margin:0;font-weight:800;font-size:18px;">💾 已保存到数据库！</h3>
         <div>
-          <el-button type="primary" @click="$router.push(`/papers/${savedResult.id}`)">预览试卷</el-button>
-          <el-button type="success" @click="exportPaper">导出试卷</el-button>
+          <el-button type="primary" size="large" @click="$router.push(`/papers/${savedResult.id}`)">预览试卷</el-button>
+          <el-button type="success" size="large" @click="exportPaper">导出试卷</el-button>
         </div>
       </div>
-      <p style="color:#aaa">试卷：{{ savedResult.title }} | 总分：{{ savedResult.totalScore }}分 | 共{{ savedResult.questions?.length }}题</p>
+      <p style="color:var(--text-secondary);font-weight:600;font-size:15px;margin-left:8px;">试卷：{{ savedResult.title }} | 总分：{{ savedResult.totalScore }}分 | 共{{ savedResult.questions?.length }}题</p>
     </div>
   </div>
 </template>

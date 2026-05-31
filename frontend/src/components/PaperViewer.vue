@@ -2,7 +2,7 @@
   <div>
     <div v-if="paper" class="paper-header">
       <h1>{{ paper.title }}</h1>
-      <p>总分: {{ paper.totalScore }}分 &nbsp;|&nbsp; 时间: {{ paper.durationMinutes }}分钟 &nbsp;|&nbsp; 共{{ paper.questions?.length }}题</p>
+      <p>总分: {{ paper.totalScore }}分 &nbsp;|&nbsp; 时间: {{ paper.durationMinutes }}分钟 &nbsp;|&nbsp; 共{{ paper.questions ? paper.questions.length : 0 }}题</p>
     </div>
 
     <template v-if="paper">

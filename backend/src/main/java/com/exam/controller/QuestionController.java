@@ -68,6 +68,13 @@ public class QuestionController {
         return ResponseEntity.ok().build();
     }
 
+    /** 批量删除题目 */
+    @DeleteMapping("/batch")
+    public ResponseEntity<Void> deleteBatch(@RequestBody List<Long> ids) {
+        questionService.deleteBatch(ids);
+        return ResponseEntity.ok().build();
+    }
+
     /** 下载题目的关联工程 ZIP */
     @GetMapping("/{id}/download-project")
     public ResponseEntity<byte[]> downloadProject(@PathVariable("id") Long id) throws Exception {
