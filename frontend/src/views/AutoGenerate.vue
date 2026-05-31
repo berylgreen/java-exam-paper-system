@@ -152,7 +152,7 @@ const form = reactive({
   fillBlankCount: 5, shortAnswerCount: 0, codeReadingCount: 1, programmingCount: 3,
   chapters: [], maxChapter: 9, easyPercent: 30, mediumPercent: 50, hardPercent: 20,
   textbookPercent: 80, networkPercent: 20, mustIncludeProject: true,
-  specificProgrammingChapters: false, programmingQuestionChapters: []
+  specificProgrammingChapters: true, programmingQuestionChapters: []
 })
 
 watch(() => form.programmingCount, (newVal) => {
@@ -255,6 +255,16 @@ onMounted(async () => {
   try { 
     chapters.value = (await questionApi.chapters()).data;
     applyMaxChapter();
+    
+    if (form.programmingQuestionChapters.length >= 1) {
+      form.programmingQuestionChapters[0] = chapters.value.find(c => c.startsWith('第2章')) || chapters.value[0] || '';
+    }
+    if (form.programmingQuestionChapters.length >= 2) {
+      form.programmingQuestionChapters[1] = chapters.value.find(c => c.startsWith('第3章')) || chapters.value[0] || '';
+    }
+    if (form.programmingQuestionChapters.length >= 3) {
+      form.programmingQuestionChapters[2] = chapters.value.find(c => c.startsWith('第7章')) || chapters.value[0] || '';
+    }
   } catch {}
 })
 </script>

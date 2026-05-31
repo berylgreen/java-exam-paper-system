@@ -301,7 +301,6 @@ public class ExamPaperService {
                         projectPaths.add(q.getProjectPath());
                     }
                     XWPFParagraph qPara = doc.createParagraph();
-                    XWPFRun qRun = qPara.createRun();
                     String content = q.getContent();
                     if (q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty()) {
                         String projectName = new java.io.File(q.getProjectPath()).getName();
@@ -309,15 +308,7 @@ public class ExamPaperService {
                     }
                     
                     String fullText = String.format("%d. (%d分) %s", qNum++, pq.getScore(), content);
-                    String[] lines = fullText.split("\n");
-                    for (int i = 0; i < lines.length; i++) {
-                        if (i > 0) {
-                            qRun.addCarriageReturn();
-                        }
-                        qRun.setText(lines[i]);
-                    }
-                    qRun.setFontSize(12);
-                    qRun.setFontFamily("宋体");
+                    renderMarkdownToParagraph(qPara, fullText);
 
                     // 选择题输出选项
                     if (q.getOptions() != null && !q.getOptions().isEmpty()
@@ -336,10 +327,7 @@ public class ExamPaperService {
                                 String text = String.valueOf(opt.get("text"));
                                 XWPFParagraph optPara = doc.createParagraph();
                                 optPara.setIndentationLeft(720); // 缩进
-                                XWPFRun optRun = optPara.createRun();
-                                optRun.setText(label + ". " + text);
-                                optRun.setFontSize(12);
-                                optRun.setFontFamily("宋体");
+                                renderMarkdownToParagraph(optPara, label + ". " + text);
                             }
                             parsedSuccessfully = true;
                         } catch (Exception e) {
@@ -354,10 +342,7 @@ public class ExamPaperService {
                                 String text = parts[i].split("\"")[0];
                                 XWPFParagraph optPara = doc.createParagraph();
                                 optPara.setIndentationLeft(720); // 缩进
-                                XWPFRun optRun = optPara.createRun();
-                                optRun.setText(labels[i - 1] + ". " + text);
-                                optRun.setFontSize(12);
-                                optRun.setFontFamily("宋体");
+                                renderMarkdownToParagraph(optPara, labels[i - 1] + ". " + text);
                             }
                         }
                     }

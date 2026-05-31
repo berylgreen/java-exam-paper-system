@@ -9,7 +9,10 @@
       <div v-for="(section, idx) in sections" :key="idx">
         <div class="section-title">{{ sectionNum(idx) }}、{{ section.typeLabel }} (共{{ section.questions.length }}题，共{{ section.totalScore }}分)</div>
         <div v-for="(pq, qi) in section.questions" :key="pq.id || qi" class="question-item">
-          <div class="question-content" style="white-space: pre-wrap; line-height: 1.6; font-family: inherit;">{{ qi + 1 }}. ({{ pq.score }}分) {{ pq.question.content }}</div>
+          <div class="question-content" style="display:flex;">
+            <span style="margin-right: 4px;">{{ qi + 1 }}. ({{ pq.score }}分) </span>
+            <div class="markdown-body" style="display:inline-block;flex:1;" v-html="renderMarkdown(pq.question.content)"></div>
+          </div>
           <div v-if="pq.question.projectPath" style="margin-top:8px; padding:8px; background:#f5f7fa; border-radius:4px; font-size: 13px; color: #409EFF; border: 1px solid #d9ecff;">
             <b>📁 关联代码工程:</b> {{ pq.question.projectPath }}
           </div>
@@ -19,8 +22,14 @@
           </div>
           <!-- 答案 -->
           <div v-if="showAnswer" class="answer-block">
-            <div style="white-space: pre-wrap; line-height: 1.6; font-family: inherit;"><b>答案: </b>{{ pq.question.answer }}</div>
-            <div v-if="pq.question.explanation" style="margin-top:4px; white-space: pre-wrap; line-height: 1.6; font-family: inherit;"><b>解析: </b>{{ pq.question.explanation }}</div>
+            <div style="display:flex;">
+              <b style="white-space:nowrap;margin-right:4px;">答案: </b>
+              <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(pq.question.answer)"></div>
+            </div>
+            <div v-if="pq.question.explanation" style="margin-top:4px; display:flex;">
+              <b style="white-space:nowrap;margin-right:4px;">解析: </b>
+              <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(pq.question.explanation)"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -30,6 +39,12 @@
 
 <script setup>
 import { computed } from 'vue'
+import { marked } from 'marked'
+
+const renderMarkdown = (text) => {
+  if (!text) return ''
+  return marked.parse(text)
+}
 
 const props = defineProps({
   paper: {
