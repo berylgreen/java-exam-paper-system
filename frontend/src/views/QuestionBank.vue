@@ -97,7 +97,15 @@
 
     <!-- 查看详情对话框 -->
     <el-dialog v-model="showDetail" :title="detailQ.content?.substring(0,30)+'...'" width="600px">
-      <div v-if="detailQ.id">
+      <div v-if="detailQ.id" class="q-detail-container" style="position: relative; padding: 0 10px; min-height: 200px;">
+        <!-- 隐藏式箭头 -->
+        <div v-if="currentQIndex > 0" class="nav-arrow nav-left" @click="prevQ" title="上一题">
+          <el-icon><ArrowLeft /></el-icon>
+        </div>
+        <div v-if="currentQIndex >= 0 && currentQIndex < questions.length - 1" class="nav-arrow nav-right" @click="nextQ" title="下一题">
+          <el-icon><ArrowRight /></el-icon>
+        </div>
+
         <p><b>题型：</b>{{ typeLabel(detailQ.type) }} | <b>章节：</b>{{ detailQ.chapterName }} | <b>难度：</b>{{ diffLabel(detailQ.difficulty) }} | <b>来源：</b>{{ detailQ.source || '未知' }}</p>
         <div style="margin:12px 0; display:flex;">
           <b style="white-space:nowrap;margin-right:4px;">题目：</b>
@@ -212,6 +220,7 @@ const total = ref(0)
 const selectedIds = ref([])
 const showDetail = ref(false)
 const detailQ = ref({})
+const currentQIndex = ref(-1)
 const showAdd = ref(false)
 const importInput = ref(null)
 const newQ = reactive({ type:'SINGLE_CHOICE', chapterName:'', difficulty:'EASY', content:'', options:'', answer:'', explanation:'', defaultScore:2, source:'网络2026年1月', projectPath:'' })
@@ -236,7 +245,23 @@ const loadMeta = async () => {
   } catch {}
 }
 
-const viewQ = (row) => { detailQ.value = row; showDetail.value = true }
+const viewQ = (row) => { 
+  detailQ.value = row; 
+  currentQIndex.value = questions.value.findIndex(q => q.id === row.id);
+  showDetail.value = true; 
+}
+const prevQ = () => {
+  if (currentQIndex.value > 0) {
+    currentQIndex.value--;
+    detailQ.value = questions.value[currentQIndex.value];
+  }
+}
+const nextQ = () => {
+  if (currentQIndex.value >= 0 && currentQIndex.value < questions.value.length - 1) {
+    currentQIndex.value++;
+    detailQ.value = questions.value[currentQIndex.value];
+  }
+}
 const delQ = async (id) => {
   try {
     await ElMessageBox.confirm('确定删除？该题目将从所有试卷中移除。','提示',{type:'warning'})
@@ -307,3 +332,41 @@ const importQ = async (event) => {
 
 onMounted(() => { loadQ(); loadMeta() })
 </script>
+
+<style scoped>
+.q-detail-container {
+  /* 确保内容不会被绝对定位的箭头完全遮盖 */
+}
+.nav-arrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  color: #999;
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s;
+  border-radius: 8px;
+  z-index: 9999;
+}
+.nav-arrow:hover {
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  opacity: 1 !important;
+}
+.q-detail-container:hover .nav-arrow {
+  opacity: 0.3;
+}
+.nav-left {
+  left: max(10px, calc(50% - 350px));
+}
+.nav-right {
+  right: max(10px, calc(50% - 350px));
+}
+</style>
