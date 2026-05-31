@@ -146,7 +146,9 @@ public class DataInitializer implements CommandLineRunner {
             }
             if (!pgs.isEmpty()) {
                 for (int i = 0; i < 3; i++) {
-                    addPQ(paper, pgs.get((p * 3 + i) % pgs.size()), ++order, i == 0 ? 10 : 20);
+                    Question q = pgs.get((p * 3 + i) % pgs.size());
+                    int score = q.getDefaultScore() != null ? q.getDefaultScore() : (i == 0 ? 10 : 20);
+                    addPQ(paper, q, ++order, score);
                 }
             }
         }

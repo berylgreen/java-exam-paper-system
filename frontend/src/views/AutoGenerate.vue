@@ -110,7 +110,7 @@
       </div>
 
       <div class="paper-preview" style="padding: 24px;">
-        <PaperViewer :paper="previewData" :show-answer="false" />
+        <PaperViewer :paper="previewData" :show-answer="false" allow-replace @replace-question="handleReplace" />
       </div>
     </div>
 
@@ -238,6 +238,14 @@ const savePaper = async () => {
     ElMessage.error('保存失败: ' + (e.response?.data?.error || e.response?.data?.message || e.message))
   }
   saving.value = false
+}
+
+const handleReplace = ({ oldPq, newQuestion }) => {
+  const idx = previewData.value.questions.findIndex(pq => pq.question.id === oldPq.question.id)
+  if (idx !== -1) {
+    previewData.value.questions[idx].question = newQuestion
+    ElMessage.success('换题成功')
+  }
 }
 
 const exportPaper = () => { if (savedResult.value) window.open(paperApi.exportUrl(savedResult.value.id), '_blank') }

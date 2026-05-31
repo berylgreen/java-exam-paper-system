@@ -2532,7 +2532,7 @@
         "options": null,
         "answer": "（1） `class InvalidDataException extends Exception`。\n\n（2） `try { Integer.parseInt(s); } catch (NumberFormatException e) { ... }` \n\n（3） `finally` 确保执行完毕。",
         "explanation": "异常处理能确保程序在遇到非致命错误时有恢复或降级处理的能力，不至于直接闪退。",
-        "defaultScore": 10,
+        "defaultScore": 20,
         "source": "出题组新建",
         "projectPath": "projects/exception-parser-question"
     },
@@ -2592,7 +2592,7 @@
         "options": null,
         "answer": "定义泛型类 `public class Box<T> { private T item; public void set(T item) { this.item = item; } public T get() { return item; } }`",
         "explanation": "泛型 `<T>` 可以实现代码的类型参数化，避免大量重复类编写的同时，保证了编译期的类型安全。",
-        "defaultScore": 10,
+        "defaultScore": 20,
         "source": "出题组新建",
         "projectPath": "projects/generic-box-question"
     }
