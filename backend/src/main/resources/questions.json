@@ -3995,7 +3995,7 @@
     "answer": "```java\npublic class Order {\n    private String id;\n    private double amount;\n    \n    public String getId() { return id; }\n    public void setId(String id) {\n        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException(\"ID cannot be null\");\n        this.id = id;\n    }\n    \n    public double getAmount() { return amount; }\n    public void setAmount(double amount) {\n        if (amount < 0) throw new IllegalArgumentException(\"Amount cannot be negative\");\n        this.amount = amount;\n    }\n}\n```",
     "explanation": "封装是面向对象的三大特征之一，通过访问权限修饰符和方法拦截来确保对象的内聚性和安全性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/ecommerce-encapsulation-question"
   },
   {
@@ -4007,7 +4007,7 @@
     "answer": "```java\npublic abstract class Order {\n    public abstract void process();\n}\n\nclass RegularOrder extends Order {\n    @Override\n    public void process() { System.out.println(\"Process Regular\"); }\n}\n\nclass VIPOrder extends Order {\n    @Override\n    public void process() { System.out.println(\"Process VIP\"); }\n}\n\npublic class OrderStatistics {\n    public void processAll(Order[] items) {\n        for (Order item : items) {\n            item.process(); // Polymorphism\n        }\n    }\n}\n```",
     "explanation": "多态机制符合开闭原则，新增子类型时无需修改现有调用方的代码判断逻辑。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/ecommerce-polymorphism-question"
   },
   {
@@ -4019,7 +4019,7 @@
     "answer": "```java\ninterface OrderStrategyStrategy {\n    void execute(OrderStrategy context);\n}\n\nclass NormalStrategy implements OrderStrategyStrategy {\n    public void execute(OrderStrategy context) { System.out.println(\"Normal processing\"); }\n}\n\nclass UrgentStrategy implements OrderStrategyStrategy {\n    public void execute(OrderStrategy context) { System.out.println(\"Urgent processing\"); }\n}\n\npublic class OrderStrategyProcessor {\n    private OrderStrategyStrategy strategy;\n    \n    public void setStrategy(OrderStrategyStrategy strategy) { this.strategy = strategy; }\n    \n    public void process(OrderStrategy item) {\n        if (strategy != null) strategy.execute(item);\n    }\n}\n```",
     "explanation": "策略模式利用面向接口编程，有效消除了代码的坏味道（过长的条件分支）。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/ecommerce-strategy-question"
   },
   {
@@ -4031,7 +4031,7 @@
     "answer": "```java\nclass RuntimeExceptionException extends Exception {\n    public RuntimeExceptionException(String message) { super(message); }\n}\n\npublic class RuntimeExceptionParser {\n    public void parseList(String[] data) {\n        for (String item : data) {\n            try {\n                if (item == null || item.isEmpty()) {\n                    throw new RuntimeExceptionException(\"Invalid data format\");\n                }\n                System.out.println(\"Parsed: \" + item);\n            } catch (RuntimeExceptionException e) {\n                System.err.println(\"Error: \" + e.getMessage());\n            }\n        }\n    }\n}\n```",
     "explanation": "健壮的异常处理使得系统可以容错运行，避免单点数据错误引发整体瘫痪。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/ecommerce-exceptions-question"
   },
   {
@@ -4043,7 +4043,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ArrayList implements Comparable<ArrayList> {\n    private String id;\n    public ArrayList(String id) { this.id = id; }\n    \n    public String getId() { return id; }\n    \n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n        ArrayList that = (ArrayList) o;\n        return Objects.equals(id, that.id);\n    }\n    \n    @Override\n    public int hashCode() { return Objects.hash(id); }\n    \n    @Override\n    public int compareTo(ArrayList o) { return this.id.compareTo(o.id); }\n    \n    public static void main(String[] args) {\n        Set<ArrayList> set = new HashSet<>();\n        set.add(new ArrayList(\"A002\"));\n        set.add(new ArrayList(\"A001\"));\n        set.add(new ArrayList(\"A002\")); // duplicate\n        \n        List<ArrayList> list = new ArrayList<>(set);\n        Collections.sort(list);\n        for (ArrayList item : list) System.out.println(item.getId());\n    }\n}\n```",
     "explanation": "集合不仅提供了动态扩容特性，其不同的实现（Set）还能利用数据结构特性天然解决问题。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/ecommerce-collections-question"
   },
   {
@@ -4055,7 +4055,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ListManager {\n    private Map<String, List> map = new HashMap<>();\n    \n    public void addList(String id, List item) { map.put(id, item); }\n    \n    public List getList(String id) { return map.get(id); }\n    \n    public void removeList(String id) { map.remove(id); }\n    \n    public static void main(String[] args) {\n        ListManager manager = new ListManager();\n        manager.addList(\"101\", new List());\n        List item = manager.getList(\"101\");\n    }\n}\n\nclass List { }\n```",
     "explanation": "在查找频繁的场景下，散列表提供常数级别的时间复杂度，是优化性能的关键数据结构。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/ecommerce-hashmap-question"
   },
   {
@@ -4067,7 +4067,7 @@
     "answer": "```java\nimport java.io.*;\n\npublic class FileWriterLogger {\n    public void logRecord(String file, String record) {\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {\n            bw.write(record);\n            bw.newLine();\n        } catch (IOException e) {\n            System.err.println(\"Write failed: \" + e.getMessage());\n        }\n    }\n}\n```",
     "explanation": "流操作属于系统核心资源，确保其关闭能防止句柄泄露，使用缓冲流能降低磁盘物理操作次数。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/ecommerce-fileio-question"
   },
   {
@@ -4079,7 +4079,7 @@
     "answer": "```java\npublic class synchronizedUpdater {\n    private int stock = 100;\n    \n    public synchronized void updateStock() {\n        if (stock > 0) {\n            stock--;\n            System.out.println(\"Stock updated: \" + stock);\n        }\n    }\n    \n    // 或者使用同步代码块\n    public void updateStockBlock() {\n        synchronized(this) {\n            if (stock > 0) {\n                stock--;\n            }\n        }\n    }\n}\n```",
     "explanation": "多线程访问共享变量必须串行化以保证原子性和可见性，`synchronized` 是最基础且有效的内置锁机制。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/ecommerce-multithreading-question"
   },
   {
@@ -4091,7 +4091,7 @@
     "answer": "```java\nimport java.util.*;\nimport java.util.stream.*;\n\nclass for {\n    private boolean valid;\n    private String name;\n    public boolean isValid() { return valid; }\n    public String getName() { return name; }\n}\n\npublic class forProcessor {\n    public List<String> processList(List<for> list) {\n        return list.stream()\n                   .filter(e -> e.isValid())\n                   .map(e -> e.getName())\n                   .collect(Collectors.toList());\n    }\n}\n```",
     "explanation": "函数式编程思维将指令式循环转化为声明式的管道操作，显著降低了代码嵌套深度，提高了可维护性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/ecommerce-streams-question"
   },
   {
@@ -4103,7 +4103,7 @@
     "answer": "```java\npublic class Account {\n    private String id;\n    private double amount;\n    \n    public String getId() { return id; }\n    public void setId(String id) {\n        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException(\"ID cannot be null\");\n        this.id = id;\n    }\n    \n    public double getAmount() { return amount; }\n    public void setAmount(double amount) {\n        if (amount < 0) throw new IllegalArgumentException(\"Amount cannot be negative\");\n        this.amount = amount;\n    }\n}\n```",
     "explanation": "封装是面向对象的三大特征之一，通过访问权限修饰符和方法拦截来确保对象的内聚性和安全性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/bank-encapsulation-question"
   },
   {
@@ -4115,7 +4115,7 @@
     "answer": "```java\npublic abstract class Account {\n    public abstract void process();\n}\n\nclass RegularAccount extends Account {\n    @Override\n    public void process() { System.out.println(\"Process Regular\"); }\n}\n\nclass VIPAccount extends Account {\n    @Override\n    public void process() { System.out.println(\"Process VIP\"); }\n}\n\npublic class AccountStatistics {\n    public void processAll(Account[] items) {\n        for (Account item : items) {\n            item.process(); // Polymorphism\n        }\n    }\n}\n```",
     "explanation": "多态机制符合开闭原则，新增子类型时无需修改现有调用方的代码判断逻辑。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/bank-polymorphism-question"
   },
   {
@@ -4127,7 +4127,7 @@
     "answer": "```java\ninterface AccountStrategyStrategy {\n    void execute(AccountStrategy context);\n}\n\nclass NormalStrategy implements AccountStrategyStrategy {\n    public void execute(AccountStrategy context) { System.out.println(\"Normal processing\"); }\n}\n\nclass UrgentStrategy implements AccountStrategyStrategy {\n    public void execute(AccountStrategy context) { System.out.println(\"Urgent processing\"); }\n}\n\npublic class AccountStrategyProcessor {\n    private AccountStrategyStrategy strategy;\n    \n    public void setStrategy(AccountStrategyStrategy strategy) { this.strategy = strategy; }\n    \n    public void process(AccountStrategy item) {\n        if (strategy != null) strategy.execute(item);\n    }\n}\n```",
     "explanation": "策略模式利用面向接口编程，有效消除了代码的坏味道（过长的条件分支）。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/bank-strategy-question"
   },
   {
@@ -4139,7 +4139,7 @@
     "answer": "```java\nclass RuntimeExceptionException extends Exception {\n    public RuntimeExceptionException(String message) { super(message); }\n}\n\npublic class RuntimeExceptionParser {\n    public void parseList(String[] data) {\n        for (String item : data) {\n            try {\n                if (item == null || item.isEmpty()) {\n                    throw new RuntimeExceptionException(\"Invalid data format\");\n                }\n                System.out.println(\"Parsed: \" + item);\n            } catch (RuntimeExceptionException e) {\n                System.err.println(\"Error: \" + e.getMessage());\n            }\n        }\n    }\n}\n```",
     "explanation": "健壮的异常处理使得系统可以容错运行，避免单点数据错误引发整体瘫痪。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/bank-exceptions-question"
   },
   {
@@ -4151,7 +4151,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ArrayList implements Comparable<ArrayList> {\n    private String id;\n    public ArrayList(String id) { this.id = id; }\n    \n    public String getId() { return id; }\n    \n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n        ArrayList that = (ArrayList) o;\n        return Objects.equals(id, that.id);\n    }\n    \n    @Override\n    public int hashCode() { return Objects.hash(id); }\n    \n    @Override\n    public int compareTo(ArrayList o) { return this.id.compareTo(o.id); }\n    \n    public static void main(String[] args) {\n        Set<ArrayList> set = new HashSet<>();\n        set.add(new ArrayList(\"A002\"));\n        set.add(new ArrayList(\"A001\"));\n        set.add(new ArrayList(\"A002\")); // duplicate\n        \n        List<ArrayList> list = new ArrayList<>(set);\n        Collections.sort(list);\n        for (ArrayList item : list) System.out.println(item.getId());\n    }\n}\n```",
     "explanation": "集合不仅提供了动态扩容特性，其不同的实现（Set）还能利用数据结构特性天然解决问题。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/bank-collections-question"
   },
   {
@@ -4163,7 +4163,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ListManager {\n    private Map<String, List> map = new HashMap<>();\n    \n    public void addList(String id, List item) { map.put(id, item); }\n    \n    public List getList(String id) { return map.get(id); }\n    \n    public void removeList(String id) { map.remove(id); }\n    \n    public static void main(String[] args) {\n        ListManager manager = new ListManager();\n        manager.addList(\"101\", new List());\n        List item = manager.getList(\"101\");\n    }\n}\n\nclass List { }\n```",
     "explanation": "在查找频繁的场景下，散列表提供常数级别的时间复杂度，是优化性能的关键数据结构。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/bank-hashmap-question"
   },
   {
@@ -4175,7 +4175,7 @@
     "answer": "```java\nimport java.io.*;\n\npublic class FileWriterLogger {\n    public void logRecord(String file, String record) {\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {\n            bw.write(record);\n            bw.newLine();\n        } catch (IOException e) {\n            System.err.println(\"Write failed: \" + e.getMessage());\n        }\n    }\n}\n```",
     "explanation": "流操作属于系统核心资源，确保其关闭能防止句柄泄露，使用缓冲流能降低磁盘物理操作次数。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/bank-fileio-question"
   },
   {
@@ -4187,7 +4187,7 @@
     "answer": "```java\npublic class synchronizedUpdater {\n    private int stock = 100;\n    \n    public synchronized void updateStock() {\n        if (stock > 0) {\n            stock--;\n            System.out.println(\"Stock updated: \" + stock);\n        }\n    }\n    \n    // 或者使用同步代码块\n    public void updateStockBlock() {\n        synchronized(this) {\n            if (stock > 0) {\n                stock--;\n            }\n        }\n    }\n}\n```",
     "explanation": "多线程访问共享变量必须串行化以保证原子性和可见性，`synchronized` 是最基础且有效的内置锁机制。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/bank-multithreading-question"
   },
   {
@@ -4199,7 +4199,7 @@
     "answer": "```java\nimport java.util.*;\nimport java.util.stream.*;\n\nclass for {\n    private boolean valid;\n    private String name;\n    public boolean isValid() { return valid; }\n    public String getName() { return name; }\n}\n\npublic class forProcessor {\n    public List<String> processList(List<for> list) {\n        return list.stream()\n                   .filter(e -> e.isValid())\n                   .map(e -> e.getName())\n                   .collect(Collectors.toList());\n    }\n}\n```",
     "explanation": "函数式编程思维将指令式循环转化为声明式的管道操作，显著降低了代码嵌套深度，提高了可维护性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/bank-streams-question"
   },
   {
@@ -4211,7 +4211,7 @@
     "answer": "```java\npublic class Book {\n    private String id;\n    private double amount;\n    \n    public String getId() { return id; }\n    public void setId(String id) {\n        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException(\"ID cannot be null\");\n        this.id = id;\n    }\n    \n    public double getAmount() { return amount; }\n    public void setAmount(double amount) {\n        if (amount < 0) throw new IllegalArgumentException(\"Amount cannot be negative\");\n        this.amount = amount;\n    }\n}\n```",
     "explanation": "封装是面向对象的三大特征之一，通过访问权限修饰符和方法拦截来确保对象的内聚性和安全性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/library-encapsulation-question"
   },
   {
@@ -4223,7 +4223,7 @@
     "answer": "```java\npublic abstract class Book {\n    public abstract void process();\n}\n\nclass RegularBook extends Book {\n    @Override\n    public void process() { System.out.println(\"Process Regular\"); }\n}\n\nclass VIPBook extends Book {\n    @Override\n    public void process() { System.out.println(\"Process VIP\"); }\n}\n\npublic class BookStatistics {\n    public void processAll(Book[] items) {\n        for (Book item : items) {\n            item.process(); // Polymorphism\n        }\n    }\n}\n```",
     "explanation": "多态机制符合开闭原则，新增子类型时无需修改现有调用方的代码判断逻辑。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/library-polymorphism-question"
   },
   {
@@ -4235,7 +4235,7 @@
     "answer": "```java\ninterface BookStrategyStrategy {\n    void execute(BookStrategy context);\n}\n\nclass NormalStrategy implements BookStrategyStrategy {\n    public void execute(BookStrategy context) { System.out.println(\"Normal processing\"); }\n}\n\nclass UrgentStrategy implements BookStrategyStrategy {\n    public void execute(BookStrategy context) { System.out.println(\"Urgent processing\"); }\n}\n\npublic class BookStrategyProcessor {\n    private BookStrategyStrategy strategy;\n    \n    public void setStrategy(BookStrategyStrategy strategy) { this.strategy = strategy; }\n    \n    public void process(BookStrategy item) {\n        if (strategy != null) strategy.execute(item);\n    }\n}\n```",
     "explanation": "策略模式利用面向接口编程，有效消除了代码的坏味道（过长的条件分支）。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/library-strategy-question"
   },
   {
@@ -4247,7 +4247,7 @@
     "answer": "```java\nclass RuntimeExceptionException extends Exception {\n    public RuntimeExceptionException(String message) { super(message); }\n}\n\npublic class RuntimeExceptionParser {\n    public void parseList(String[] data) {\n        for (String item : data) {\n            try {\n                if (item == null || item.isEmpty()) {\n                    throw new RuntimeExceptionException(\"Invalid data format\");\n                }\n                System.out.println(\"Parsed: \" + item);\n            } catch (RuntimeExceptionException e) {\n                System.err.println(\"Error: \" + e.getMessage());\n            }\n        }\n    }\n}\n```",
     "explanation": "健壮的异常处理使得系统可以容错运行，避免单点数据错误引发整体瘫痪。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/library-exceptions-question"
   },
   {
@@ -4259,7 +4259,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ArrayList implements Comparable<ArrayList> {\n    private String id;\n    public ArrayList(String id) { this.id = id; }\n    \n    public String getId() { return id; }\n    \n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n        ArrayList that = (ArrayList) o;\n        return Objects.equals(id, that.id);\n    }\n    \n    @Override\n    public int hashCode() { return Objects.hash(id); }\n    \n    @Override\n    public int compareTo(ArrayList o) { return this.id.compareTo(o.id); }\n    \n    public static void main(String[] args) {\n        Set<ArrayList> set = new HashSet<>();\n        set.add(new ArrayList(\"A002\"));\n        set.add(new ArrayList(\"A001\"));\n        set.add(new ArrayList(\"A002\")); // duplicate\n        \n        List<ArrayList> list = new ArrayList<>(set);\n        Collections.sort(list);\n        for (ArrayList item : list) System.out.println(item.getId());\n    }\n}\n```",
     "explanation": "集合不仅提供了动态扩容特性，其不同的实现（Set）还能利用数据结构特性天然解决问题。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/library-collections-question"
   },
   {
@@ -4271,7 +4271,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ListManager {\n    private Map<String, List> map = new HashMap<>();\n    \n    public void addList(String id, List item) { map.put(id, item); }\n    \n    public List getList(String id) { return map.get(id); }\n    \n    public void removeList(String id) { map.remove(id); }\n    \n    public static void main(String[] args) {\n        ListManager manager = new ListManager();\n        manager.addList(\"101\", new List());\n        List item = manager.getList(\"101\");\n    }\n}\n\nclass List { }\n```",
     "explanation": "在查找频繁的场景下，散列表提供常数级别的时间复杂度，是优化性能的关键数据结构。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/library-hashmap-question"
   },
   {
@@ -4283,7 +4283,7 @@
     "answer": "```java\nimport java.io.*;\n\npublic class FileWriterLogger {\n    public void logRecord(String file, String record) {\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {\n            bw.write(record);\n            bw.newLine();\n        } catch (IOException e) {\n            System.err.println(\"Write failed: \" + e.getMessage());\n        }\n    }\n}\n```",
     "explanation": "流操作属于系统核心资源，确保其关闭能防止句柄泄露，使用缓冲流能降低磁盘物理操作次数。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/library-fileio-question"
   },
   {
@@ -4295,7 +4295,7 @@
     "answer": "```java\npublic class synchronizedUpdater {\n    private int stock = 100;\n    \n    public synchronized void updateStock() {\n        if (stock > 0) {\n            stock--;\n            System.out.println(\"Stock updated: \" + stock);\n        }\n    }\n    \n    // 或者使用同步代码块\n    public void updateStockBlock() {\n        synchronized(this) {\n            if (stock > 0) {\n                stock--;\n            }\n        }\n    }\n}\n```",
     "explanation": "多线程访问共享变量必须串行化以保证原子性和可见性，`synchronized` 是最基础且有效的内置锁机制。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/library-multithreading-question"
   },
   {
@@ -4307,7 +4307,7 @@
     "answer": "```java\nimport java.util.*;\nimport java.util.stream.*;\n\nclass for {\n    private boolean valid;\n    private String name;\n    public boolean isValid() { return valid; }\n    public String getName() { return name; }\n}\n\npublic class forProcessor {\n    public List<String> processList(List<for> list) {\n        return list.stream()\n                   .filter(e -> e.isValid())\n                   .map(e -> e.getName())\n                   .collect(Collectors.toList());\n    }\n}\n```",
     "explanation": "函数式编程思维将指令式循环转化为声明式的管道操作，显著降低了代码嵌套深度，提高了可维护性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/library-streams-question"
   },
   {
@@ -4319,7 +4319,7 @@
     "answer": "```java\npublic class Room {\n    private String id;\n    private double amount;\n    \n    public String getId() { return id; }\n    public void setId(String id) {\n        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException(\"ID cannot be null\");\n        this.id = id;\n    }\n    \n    public double getAmount() { return amount; }\n    public void setAmount(double amount) {\n        if (amount < 0) throw new IllegalArgumentException(\"Amount cannot be negative\");\n        this.amount = amount;\n    }\n}\n```",
     "explanation": "封装是面向对象的三大特征之一，通过访问权限修饰符和方法拦截来确保对象的内聚性和安全性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hotel-encapsulation-question"
   },
   {
@@ -4331,7 +4331,7 @@
     "answer": "```java\npublic abstract class Room {\n    public abstract void process();\n}\n\nclass RegularRoom extends Room {\n    @Override\n    public void process() { System.out.println(\"Process Regular\"); }\n}\n\nclass VIPRoom extends Room {\n    @Override\n    public void process() { System.out.println(\"Process VIP\"); }\n}\n\npublic class RoomStatistics {\n    public void processAll(Room[] items) {\n        for (Room item : items) {\n            item.process(); // Polymorphism\n        }\n    }\n}\n```",
     "explanation": "多态机制符合开闭原则，新增子类型时无需修改现有调用方的代码判断逻辑。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hotel-polymorphism-question"
   },
   {
@@ -4343,7 +4343,7 @@
     "answer": "```java\ninterface RoomStrategyStrategy {\n    void execute(RoomStrategy context);\n}\n\nclass NormalStrategy implements RoomStrategyStrategy {\n    public void execute(RoomStrategy context) { System.out.println(\"Normal processing\"); }\n}\n\nclass UrgentStrategy implements RoomStrategyStrategy {\n    public void execute(RoomStrategy context) { System.out.println(\"Urgent processing\"); }\n}\n\npublic class RoomStrategyProcessor {\n    private RoomStrategyStrategy strategy;\n    \n    public void setStrategy(RoomStrategyStrategy strategy) { this.strategy = strategy; }\n    \n    public void process(RoomStrategy item) {\n        if (strategy != null) strategy.execute(item);\n    }\n}\n```",
     "explanation": "策略模式利用面向接口编程，有效消除了代码的坏味道（过长的条件分支）。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hotel-strategy-question"
   },
   {
@@ -4355,7 +4355,7 @@
     "answer": "```java\nclass RuntimeExceptionException extends Exception {\n    public RuntimeExceptionException(String message) { super(message); }\n}\n\npublic class RuntimeExceptionParser {\n    public void parseList(String[] data) {\n        for (String item : data) {\n            try {\n                if (item == null || item.isEmpty()) {\n                    throw new RuntimeExceptionException(\"Invalid data format\");\n                }\n                System.out.println(\"Parsed: \" + item);\n            } catch (RuntimeExceptionException e) {\n                System.err.println(\"Error: \" + e.getMessage());\n            }\n        }\n    }\n}\n```",
     "explanation": "健壮的异常处理使得系统可以容错运行，避免单点数据错误引发整体瘫痪。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hotel-exceptions-question"
   },
   {
@@ -4367,7 +4367,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ArrayList implements Comparable<ArrayList> {\n    private String id;\n    public ArrayList(String id) { this.id = id; }\n    \n    public String getId() { return id; }\n    \n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n        ArrayList that = (ArrayList) o;\n        return Objects.equals(id, that.id);\n    }\n    \n    @Override\n    public int hashCode() { return Objects.hash(id); }\n    \n    @Override\n    public int compareTo(ArrayList o) { return this.id.compareTo(o.id); }\n    \n    public static void main(String[] args) {\n        Set<ArrayList> set = new HashSet<>();\n        set.add(new ArrayList(\"A002\"));\n        set.add(new ArrayList(\"A001\"));\n        set.add(new ArrayList(\"A002\")); // duplicate\n        \n        List<ArrayList> list = new ArrayList<>(set);\n        Collections.sort(list);\n        for (ArrayList item : list) System.out.println(item.getId());\n    }\n}\n```",
     "explanation": "集合不仅提供了动态扩容特性，其不同的实现（Set）还能利用数据结构特性天然解决问题。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hotel-collections-question"
   },
   {
@@ -4379,7 +4379,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ListManager {\n    private Map<String, List> map = new HashMap<>();\n    \n    public void addList(String id, List item) { map.put(id, item); }\n    \n    public List getList(String id) { return map.get(id); }\n    \n    public void removeList(String id) { map.remove(id); }\n    \n    public static void main(String[] args) {\n        ListManager manager = new ListManager();\n        manager.addList(\"101\", new List());\n        List item = manager.getList(\"101\");\n    }\n}\n\nclass List { }\n```",
     "explanation": "在查找频繁的场景下，散列表提供常数级别的时间复杂度，是优化性能的关键数据结构。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hotel-hashmap-question"
   },
   {
@@ -4391,7 +4391,7 @@
     "answer": "```java\nimport java.io.*;\n\npublic class FileWriterLogger {\n    public void logRecord(String file, String record) {\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {\n            bw.write(record);\n            bw.newLine();\n        } catch (IOException e) {\n            System.err.println(\"Write failed: \" + e.getMessage());\n        }\n    }\n}\n```",
     "explanation": "流操作属于系统核心资源，确保其关闭能防止句柄泄露，使用缓冲流能降低磁盘物理操作次数。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hotel-fileio-question"
   },
   {
@@ -4403,7 +4403,7 @@
     "answer": "```java\npublic class synchronizedUpdater {\n    private int stock = 100;\n    \n    public synchronized void updateStock() {\n        if (stock > 0) {\n            stock--;\n            System.out.println(\"Stock updated: \" + stock);\n        }\n    }\n    \n    // 或者使用同步代码块\n    public void updateStockBlock() {\n        synchronized(this) {\n            if (stock > 0) {\n                stock--;\n            }\n        }\n    }\n}\n```",
     "explanation": "多线程访问共享变量必须串行化以保证原子性和可见性，`synchronized` 是最基础且有效的内置锁机制。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hotel-multithreading-question"
   },
   {
@@ -4415,7 +4415,7 @@
     "answer": "```java\nimport java.util.*;\nimport java.util.stream.*;\n\nclass for {\n    private boolean valid;\n    private String name;\n    public boolean isValid() { return valid; }\n    public String getName() { return name; }\n}\n\npublic class forProcessor {\n    public List<String> processList(List<for> list) {\n        return list.stream()\n                   .filter(e -> e.isValid())\n                   .map(e -> e.getName())\n                   .collect(Collectors.toList());\n    }\n}\n```",
     "explanation": "函数式编程思维将指令式循环转化为声明式的管道操作，显著降低了代码嵌套深度，提高了可维护性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hotel-streams-question"
   },
   {
@@ -4427,7 +4427,7 @@
     "answer": "```java\npublic class Patient {\n    private String id;\n    private double amount;\n    \n    public String getId() { return id; }\n    public void setId(String id) {\n        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException(\"ID cannot be null\");\n        this.id = id;\n    }\n    \n    public double getAmount() { return amount; }\n    public void setAmount(double amount) {\n        if (amount < 0) throw new IllegalArgumentException(\"Amount cannot be negative\");\n        this.amount = amount;\n    }\n}\n```",
     "explanation": "封装是面向对象的三大特征之一，通过访问权限修饰符和方法拦截来确保对象的内聚性和安全性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hospital-encapsulation-question"
   },
   {
@@ -4439,7 +4439,7 @@
     "answer": "```java\npublic abstract class Patient {\n    public abstract void process();\n}\n\nclass RegularPatient extends Patient {\n    @Override\n    public void process() { System.out.println(\"Process Regular\"); }\n}\n\nclass VIPPatient extends Patient {\n    @Override\n    public void process() { System.out.println(\"Process VIP\"); }\n}\n\npublic class PatientStatistics {\n    public void processAll(Patient[] items) {\n        for (Patient item : items) {\n            item.process(); // Polymorphism\n        }\n    }\n}\n```",
     "explanation": "多态机制符合开闭原则，新增子类型时无需修改现有调用方的代码判断逻辑。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hospital-polymorphism-question"
   },
   {
@@ -4451,7 +4451,7 @@
     "answer": "```java\ninterface PatientStrategyStrategy {\n    void execute(PatientStrategy context);\n}\n\nclass NormalStrategy implements PatientStrategyStrategy {\n    public void execute(PatientStrategy context) { System.out.println(\"Normal processing\"); }\n}\n\nclass UrgentStrategy implements PatientStrategyStrategy {\n    public void execute(PatientStrategy context) { System.out.println(\"Urgent processing\"); }\n}\n\npublic class PatientStrategyProcessor {\n    private PatientStrategyStrategy strategy;\n    \n    public void setStrategy(PatientStrategyStrategy strategy) { this.strategy = strategy; }\n    \n    public void process(PatientStrategy item) {\n        if (strategy != null) strategy.execute(item);\n    }\n}\n```",
     "explanation": "策略模式利用面向接口编程，有效消除了代码的坏味道（过长的条件分支）。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hospital-strategy-question"
   },
   {
@@ -4463,7 +4463,7 @@
     "answer": "```java\nclass RuntimeExceptionException extends Exception {\n    public RuntimeExceptionException(String message) { super(message); }\n}\n\npublic class RuntimeExceptionParser {\n    public void parseList(String[] data) {\n        for (String item : data) {\n            try {\n                if (item == null || item.isEmpty()) {\n                    throw new RuntimeExceptionException(\"Invalid data format\");\n                }\n                System.out.println(\"Parsed: \" + item);\n            } catch (RuntimeExceptionException e) {\n                System.err.println(\"Error: \" + e.getMessage());\n            }\n        }\n    }\n}\n```",
     "explanation": "健壮的异常处理使得系统可以容错运行，避免单点数据错误引发整体瘫痪。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hospital-exceptions-question"
   },
   {
@@ -4475,7 +4475,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ArrayList implements Comparable<ArrayList> {\n    private String id;\n    public ArrayList(String id) { this.id = id; }\n    \n    public String getId() { return id; }\n    \n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n        ArrayList that = (ArrayList) o;\n        return Objects.equals(id, that.id);\n    }\n    \n    @Override\n    public int hashCode() { return Objects.hash(id); }\n    \n    @Override\n    public int compareTo(ArrayList o) { return this.id.compareTo(o.id); }\n    \n    public static void main(String[] args) {\n        Set<ArrayList> set = new HashSet<>();\n        set.add(new ArrayList(\"A002\"));\n        set.add(new ArrayList(\"A001\"));\n        set.add(new ArrayList(\"A002\")); // duplicate\n        \n        List<ArrayList> list = new ArrayList<>(set);\n        Collections.sort(list);\n        for (ArrayList item : list) System.out.println(item.getId());\n    }\n}\n```",
     "explanation": "集合不仅提供了动态扩容特性，其不同的实现（Set）还能利用数据结构特性天然解决问题。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hospital-collections-question"
   },
   {
@@ -4487,7 +4487,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ListManager {\n    private Map<String, List> map = new HashMap<>();\n    \n    public void addList(String id, List item) { map.put(id, item); }\n    \n    public List getList(String id) { return map.get(id); }\n    \n    public void removeList(String id) { map.remove(id); }\n    \n    public static void main(String[] args) {\n        ListManager manager = new ListManager();\n        manager.addList(\"101\", new List());\n        List item = manager.getList(\"101\");\n    }\n}\n\nclass List { }\n```",
     "explanation": "在查找频繁的场景下，散列表提供常数级别的时间复杂度，是优化性能的关键数据结构。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hospital-hashmap-question"
   },
   {
@@ -4499,7 +4499,7 @@
     "answer": "```java\nimport java.io.*;\n\npublic class FileWriterLogger {\n    public void logRecord(String file, String record) {\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {\n            bw.write(record);\n            bw.newLine();\n        } catch (IOException e) {\n            System.err.println(\"Write failed: \" + e.getMessage());\n        }\n    }\n}\n```",
     "explanation": "流操作属于系统核心资源，确保其关闭能防止句柄泄露，使用缓冲流能降低磁盘物理操作次数。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hospital-fileio-question"
   },
   {
@@ -4511,7 +4511,7 @@
     "answer": "```java\npublic class synchronizedUpdater {\n    private int stock = 100;\n    \n    public synchronized void updateStock() {\n        if (stock > 0) {\n            stock--;\n            System.out.println(\"Stock updated: \" + stock);\n        }\n    }\n    \n    // 或者使用同步代码块\n    public void updateStockBlock() {\n        synchronized(this) {\n            if (stock > 0) {\n                stock--;\n            }\n        }\n    }\n}\n```",
     "explanation": "多线程访问共享变量必须串行化以保证原子性和可见性，`synchronized` 是最基础且有效的内置锁机制。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hospital-multithreading-question"
   },
   {
@@ -4523,7 +4523,7 @@
     "answer": "```java\nimport java.util.*;\nimport java.util.stream.*;\n\nclass for {\n    private boolean valid;\n    private String name;\n    public boolean isValid() { return valid; }\n    public String getName() { return name; }\n}\n\npublic class forProcessor {\n    public List<String> processList(List<for> list) {\n        return list.stream()\n                   .filter(e -> e.isValid())\n                   .map(e -> e.getName())\n                   .collect(Collectors.toList());\n    }\n}\n```",
     "explanation": "函数式编程思维将指令式循环转化为声明式的管道操作，显著降低了代码嵌套深度，提高了可维护性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/hospital-streams-question"
   },
   {
@@ -4535,7 +4535,7 @@
     "answer": "```java\npublic class Dish {\n    private String id;\n    private double amount;\n    \n    public String getId() { return id; }\n    public void setId(String id) {\n        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException(\"ID cannot be null\");\n        this.id = id;\n    }\n    \n    public double getAmount() { return amount; }\n    public void setAmount(double amount) {\n        if (amount < 0) throw new IllegalArgumentException(\"Amount cannot be negative\");\n        this.amount = amount;\n    }\n}\n```",
     "explanation": "封装是面向对象的三大特征之一，通过访问权限修饰符和方法拦截来确保对象的内聚性和安全性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/restaurant-encapsulation-question"
   },
   {
@@ -4547,7 +4547,7 @@
     "answer": "```java\npublic abstract class Dish {\n    public abstract void process();\n}\n\nclass RegularDish extends Dish {\n    @Override\n    public void process() { System.out.println(\"Process Regular\"); }\n}\n\nclass VIPDish extends Dish {\n    @Override\n    public void process() { System.out.println(\"Process VIP\"); }\n}\n\npublic class DishStatistics {\n    public void processAll(Dish[] items) {\n        for (Dish item : items) {\n            item.process(); // Polymorphism\n        }\n    }\n}\n```",
     "explanation": "多态机制符合开闭原则，新增子类型时无需修改现有调用方的代码判断逻辑。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/restaurant-polymorphism-question"
   },
   {
@@ -4559,7 +4559,7 @@
     "answer": "```java\ninterface DishStrategyStrategy {\n    void execute(DishStrategy context);\n}\n\nclass NormalStrategy implements DishStrategyStrategy {\n    public void execute(DishStrategy context) { System.out.println(\"Normal processing\"); }\n}\n\nclass UrgentStrategy implements DishStrategyStrategy {\n    public void execute(DishStrategy context) { System.out.println(\"Urgent processing\"); }\n}\n\npublic class DishStrategyProcessor {\n    private DishStrategyStrategy strategy;\n    \n    public void setStrategy(DishStrategyStrategy strategy) { this.strategy = strategy; }\n    \n    public void process(DishStrategy item) {\n        if (strategy != null) strategy.execute(item);\n    }\n}\n```",
     "explanation": "策略模式利用面向接口编程，有效消除了代码的坏味道（过长的条件分支）。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/restaurant-strategy-question"
   },
   {
@@ -4571,7 +4571,7 @@
     "answer": "```java\nclass RuntimeExceptionException extends Exception {\n    public RuntimeExceptionException(String message) { super(message); }\n}\n\npublic class RuntimeExceptionParser {\n    public void parseList(String[] data) {\n        for (String item : data) {\n            try {\n                if (item == null || item.isEmpty()) {\n                    throw new RuntimeExceptionException(\"Invalid data format\");\n                }\n                System.out.println(\"Parsed: \" + item);\n            } catch (RuntimeExceptionException e) {\n                System.err.println(\"Error: \" + e.getMessage());\n            }\n        }\n    }\n}\n```",
     "explanation": "健壮的异常处理使得系统可以容错运行，避免单点数据错误引发整体瘫痪。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/restaurant-exceptions-question"
   },
   {
@@ -4583,7 +4583,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ArrayList implements Comparable<ArrayList> {\n    private String id;\n    public ArrayList(String id) { this.id = id; }\n    \n    public String getId() { return id; }\n    \n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n        ArrayList that = (ArrayList) o;\n        return Objects.equals(id, that.id);\n    }\n    \n    @Override\n    public int hashCode() { return Objects.hash(id); }\n    \n    @Override\n    public int compareTo(ArrayList o) { return this.id.compareTo(o.id); }\n    \n    public static void main(String[] args) {\n        Set<ArrayList> set = new HashSet<>();\n        set.add(new ArrayList(\"A002\"));\n        set.add(new ArrayList(\"A001\"));\n        set.add(new ArrayList(\"A002\")); // duplicate\n        \n        List<ArrayList> list = new ArrayList<>(set);\n        Collections.sort(list);\n        for (ArrayList item : list) System.out.println(item.getId());\n    }\n}\n```",
     "explanation": "集合不仅提供了动态扩容特性，其不同的实现（Set）还能利用数据结构特性天然解决问题。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/restaurant-collections-question"
   },
   {
@@ -4595,7 +4595,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ListManager {\n    private Map<String, List> map = new HashMap<>();\n    \n    public void addList(String id, List item) { map.put(id, item); }\n    \n    public List getList(String id) { return map.get(id); }\n    \n    public void removeList(String id) { map.remove(id); }\n    \n    public static void main(String[] args) {\n        ListManager manager = new ListManager();\n        manager.addList(\"101\", new List());\n        List item = manager.getList(\"101\");\n    }\n}\n\nclass List { }\n```",
     "explanation": "在查找频繁的场景下，散列表提供常数级别的时间复杂度，是优化性能的关键数据结构。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/restaurant-hashmap-question"
   },
   {
@@ -4607,7 +4607,7 @@
     "answer": "```java\nimport java.io.*;\n\npublic class FileWriterLogger {\n    public void logRecord(String file, String record) {\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {\n            bw.write(record);\n            bw.newLine();\n        } catch (IOException e) {\n            System.err.println(\"Write failed: \" + e.getMessage());\n        }\n    }\n}\n```",
     "explanation": "流操作属于系统核心资源，确保其关闭能防止句柄泄露，使用缓冲流能降低磁盘物理操作次数。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/restaurant-fileio-question"
   },
   {
@@ -4619,7 +4619,7 @@
     "answer": "```java\npublic class synchronizedUpdater {\n    private int stock = 100;\n    \n    public synchronized void updateStock() {\n        if (stock > 0) {\n            stock--;\n            System.out.println(\"Stock updated: \" + stock);\n        }\n    }\n    \n    // 或者使用同步代码块\n    public void updateStockBlock() {\n        synchronized(this) {\n            if (stock > 0) {\n                stock--;\n            }\n        }\n    }\n}\n```",
     "explanation": "多线程访问共享变量必须串行化以保证原子性和可见性，`synchronized` 是最基础且有效的内置锁机制。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/restaurant-multithreading-question"
   },
   {
@@ -4631,7 +4631,7 @@
     "answer": "```java\nimport java.util.*;\nimport java.util.stream.*;\n\nclass for {\n    private boolean valid;\n    private String name;\n    public boolean isValid() { return valid; }\n    public String getName() { return name; }\n}\n\npublic class forProcessor {\n    public List<String> processList(List<for> list) {\n        return list.stream()\n                   .filter(e -> e.isValid())\n                   .map(e -> e.getName())\n                   .collect(Collectors.toList());\n    }\n}\n```",
     "explanation": "函数式编程思维将指令式循环转化为声明式的管道操作，显著降低了代码嵌套深度，提高了可维护性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/restaurant-streams-question"
   },
   {
@@ -4643,7 +4643,7 @@
     "answer": "```java\npublic class Student {\n    private String id;\n    private double amount;\n    \n    public String getId() { return id; }\n    public void setId(String id) {\n        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException(\"ID cannot be null\");\n        this.id = id;\n    }\n    \n    public double getAmount() { return amount; }\n    public void setAmount(double amount) {\n        if (amount < 0) throw new IllegalArgumentException(\"Amount cannot be negative\");\n        this.amount = amount;\n    }\n}\n```",
     "explanation": "封装是面向对象的三大特征之一，通过访问权限修饰符和方法拦截来确保对象的内聚性和安全性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/school-encapsulation-question"
   },
   {
@@ -4655,7 +4655,7 @@
     "answer": "```java\npublic abstract class Student {\n    public abstract void process();\n}\n\nclass RegularStudent extends Student {\n    @Override\n    public void process() { System.out.println(\"Process Regular\"); }\n}\n\nclass VIPStudent extends Student {\n    @Override\n    public void process() { System.out.println(\"Process VIP\"); }\n}\n\npublic class StudentStatistics {\n    public void processAll(Student[] items) {\n        for (Student item : items) {\n            item.process(); // Polymorphism\n        }\n    }\n}\n```",
     "explanation": "多态机制符合开闭原则，新增子类型时无需修改现有调用方的代码判断逻辑。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/school-polymorphism-question"
   },
   {
@@ -4667,7 +4667,7 @@
     "answer": "```java\ninterface StudentStrategyStrategy {\n    void execute(StudentStrategy context);\n}\n\nclass NormalStrategy implements StudentStrategyStrategy {\n    public void execute(StudentStrategy context) { System.out.println(\"Normal processing\"); }\n}\n\nclass UrgentStrategy implements StudentStrategyStrategy {\n    public void execute(StudentStrategy context) { System.out.println(\"Urgent processing\"); }\n}\n\npublic class StudentStrategyProcessor {\n    private StudentStrategyStrategy strategy;\n    \n    public void setStrategy(StudentStrategyStrategy strategy) { this.strategy = strategy; }\n    \n    public void process(StudentStrategy item) {\n        if (strategy != null) strategy.execute(item);\n    }\n}\n```",
     "explanation": "策略模式利用面向接口编程，有效消除了代码的坏味道（过长的条件分支）。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/school-strategy-question"
   },
   {
@@ -4679,7 +4679,7 @@
     "answer": "```java\nclass RuntimeExceptionException extends Exception {\n    public RuntimeExceptionException(String message) { super(message); }\n}\n\npublic class RuntimeExceptionParser {\n    public void parseList(String[] data) {\n        for (String item : data) {\n            try {\n                if (item == null || item.isEmpty()) {\n                    throw new RuntimeExceptionException(\"Invalid data format\");\n                }\n                System.out.println(\"Parsed: \" + item);\n            } catch (RuntimeExceptionException e) {\n                System.err.println(\"Error: \" + e.getMessage());\n            }\n        }\n    }\n}\n```",
     "explanation": "健壮的异常处理使得系统可以容错运行，避免单点数据错误引发整体瘫痪。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/school-exceptions-question"
   },
   {
@@ -4691,7 +4691,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ArrayList implements Comparable<ArrayList> {\n    private String id;\n    public ArrayList(String id) { this.id = id; }\n    \n    public String getId() { return id; }\n    \n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n        ArrayList that = (ArrayList) o;\n        return Objects.equals(id, that.id);\n    }\n    \n    @Override\n    public int hashCode() { return Objects.hash(id); }\n    \n    @Override\n    public int compareTo(ArrayList o) { return this.id.compareTo(o.id); }\n    \n    public static void main(String[] args) {\n        Set<ArrayList> set = new HashSet<>();\n        set.add(new ArrayList(\"A002\"));\n        set.add(new ArrayList(\"A001\"));\n        set.add(new ArrayList(\"A002\")); // duplicate\n        \n        List<ArrayList> list = new ArrayList<>(set);\n        Collections.sort(list);\n        for (ArrayList item : list) System.out.println(item.getId());\n    }\n}\n```",
     "explanation": "集合不仅提供了动态扩容特性，其不同的实现（Set）还能利用数据结构特性天然解决问题。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/school-collections-question"
   },
   {
@@ -4703,7 +4703,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ListManager {\n    private Map<String, List> map = new HashMap<>();\n    \n    public void addList(String id, List item) { map.put(id, item); }\n    \n    public List getList(String id) { return map.get(id); }\n    \n    public void removeList(String id) { map.remove(id); }\n    \n    public static void main(String[] args) {\n        ListManager manager = new ListManager();\n        manager.addList(\"101\", new List());\n        List item = manager.getList(\"101\");\n    }\n}\n\nclass List { }\n```",
     "explanation": "在查找频繁的场景下，散列表提供常数级别的时间复杂度，是优化性能的关键数据结构。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/school-hashmap-question"
   },
   {
@@ -4715,7 +4715,7 @@
     "answer": "```java\nimport java.io.*;\n\npublic class FileWriterLogger {\n    public void logRecord(String file, String record) {\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {\n            bw.write(record);\n            bw.newLine();\n        } catch (IOException e) {\n            System.err.println(\"Write failed: \" + e.getMessage());\n        }\n    }\n}\n```",
     "explanation": "流操作属于系统核心资源，确保其关闭能防止句柄泄露，使用缓冲流能降低磁盘物理操作次数。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/school-fileio-question"
   },
   {
@@ -4727,7 +4727,7 @@
     "answer": "```java\npublic class synchronizedUpdater {\n    private int stock = 100;\n    \n    public synchronized void updateStock() {\n        if (stock > 0) {\n            stock--;\n            System.out.println(\"Stock updated: \" + stock);\n        }\n    }\n    \n    // 或者使用同步代码块\n    public void updateStockBlock() {\n        synchronized(this) {\n            if (stock > 0) {\n                stock--;\n            }\n        }\n    }\n}\n```",
     "explanation": "多线程访问共享变量必须串行化以保证原子性和可见性，`synchronized` 是最基础且有效的内置锁机制。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/school-multithreading-question"
   },
   {
@@ -4739,7 +4739,7 @@
     "answer": "```java\nimport java.util.*;\nimport java.util.stream.*;\n\nclass for {\n    private boolean valid;\n    private String name;\n    public boolean isValid() { return valid; }\n    public String getName() { return name; }\n}\n\npublic class forProcessor {\n    public List<String> processList(List<for> list) {\n        return list.stream()\n                   .filter(e -> e.isValid())\n                   .map(e -> e.getName())\n                   .collect(Collectors.toList());\n    }\n}\n```",
     "explanation": "函数式编程思维将指令式循环转化为声明式的管道操作，显著降低了代码嵌套深度，提高了可维护性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/school-streams-question"
   },
   {
@@ -4751,7 +4751,7 @@
     "answer": "```java\npublic class Package {\n    private String id;\n    private double amount;\n    \n    public String getId() { return id; }\n    public void setId(String id) {\n        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException(\"ID cannot be null\");\n        this.id = id;\n    }\n    \n    public double getAmount() { return amount; }\n    public void setAmount(double amount) {\n        if (amount < 0) throw new IllegalArgumentException(\"Amount cannot be negative\");\n        this.amount = amount;\n    }\n}\n```",
     "explanation": "封装是面向对象的三大特征之一，通过访问权限修饰符和方法拦截来确保对象的内聚性和安全性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/logistics-encapsulation-question"
   },
   {
@@ -4763,7 +4763,7 @@
     "answer": "```java\npublic abstract class Package {\n    public abstract void process();\n}\n\nclass RegularPackage extends Package {\n    @Override\n    public void process() { System.out.println(\"Process Regular\"); }\n}\n\nclass VIPPackage extends Package {\n    @Override\n    public void process() { System.out.println(\"Process VIP\"); }\n}\n\npublic class PackageStatistics {\n    public void processAll(Package[] items) {\n        for (Package item : items) {\n            item.process(); // Polymorphism\n        }\n    }\n}\n```",
     "explanation": "多态机制符合开闭原则，新增子类型时无需修改现有调用方的代码判断逻辑。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/logistics-polymorphism-question"
   },
   {
@@ -4775,7 +4775,7 @@
     "answer": "```java\ninterface PackageStrategyStrategy {\n    void execute(PackageStrategy context);\n}\n\nclass NormalStrategy implements PackageStrategyStrategy {\n    public void execute(PackageStrategy context) { System.out.println(\"Normal processing\"); }\n}\n\nclass UrgentStrategy implements PackageStrategyStrategy {\n    public void execute(PackageStrategy context) { System.out.println(\"Urgent processing\"); }\n}\n\npublic class PackageStrategyProcessor {\n    private PackageStrategyStrategy strategy;\n    \n    public void setStrategy(PackageStrategyStrategy strategy) { this.strategy = strategy; }\n    \n    public void process(PackageStrategy item) {\n        if (strategy != null) strategy.execute(item);\n    }\n}\n```",
     "explanation": "策略模式利用面向接口编程，有效消除了代码的坏味道（过长的条件分支）。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/logistics-strategy-question"
   },
   {
@@ -4787,7 +4787,7 @@
     "answer": "```java\nclass RuntimeExceptionException extends Exception {\n    public RuntimeExceptionException(String message) { super(message); }\n}\n\npublic class RuntimeExceptionParser {\n    public void parseList(String[] data) {\n        for (String item : data) {\n            try {\n                if (item == null || item.isEmpty()) {\n                    throw new RuntimeExceptionException(\"Invalid data format\");\n                }\n                System.out.println(\"Parsed: \" + item);\n            } catch (RuntimeExceptionException e) {\n                System.err.println(\"Error: \" + e.getMessage());\n            }\n        }\n    }\n}\n```",
     "explanation": "健壮的异常处理使得系统可以容错运行，避免单点数据错误引发整体瘫痪。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/logistics-exceptions-question"
   },
   {
@@ -4799,7 +4799,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ArrayList implements Comparable<ArrayList> {\n    private String id;\n    public ArrayList(String id) { this.id = id; }\n    \n    public String getId() { return id; }\n    \n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n        ArrayList that = (ArrayList) o;\n        return Objects.equals(id, that.id);\n    }\n    \n    @Override\n    public int hashCode() { return Objects.hash(id); }\n    \n    @Override\n    public int compareTo(ArrayList o) { return this.id.compareTo(o.id); }\n    \n    public static void main(String[] args) {\n        Set<ArrayList> set = new HashSet<>();\n        set.add(new ArrayList(\"A002\"));\n        set.add(new ArrayList(\"A001\"));\n        set.add(new ArrayList(\"A002\")); // duplicate\n        \n        List<ArrayList> list = new ArrayList<>(set);\n        Collections.sort(list);\n        for (ArrayList item : list) System.out.println(item.getId());\n    }\n}\n```",
     "explanation": "集合不仅提供了动态扩容特性，其不同的实现（Set）还能利用数据结构特性天然解决问题。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/logistics-collections-question"
   },
   {
@@ -4811,7 +4811,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ListManager {\n    private Map<String, List> map = new HashMap<>();\n    \n    public void addList(String id, List item) { map.put(id, item); }\n    \n    public List getList(String id) { return map.get(id); }\n    \n    public void removeList(String id) { map.remove(id); }\n    \n    public static void main(String[] args) {\n        ListManager manager = new ListManager();\n        manager.addList(\"101\", new List());\n        List item = manager.getList(\"101\");\n    }\n}\n\nclass List { }\n```",
     "explanation": "在查找频繁的场景下，散列表提供常数级别的时间复杂度，是优化性能的关键数据结构。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/logistics-hashmap-question"
   },
   {
@@ -4823,7 +4823,7 @@
     "answer": "```java\nimport java.io.*;\n\npublic class FileWriterLogger {\n    public void logRecord(String file, String record) {\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {\n            bw.write(record);\n            bw.newLine();\n        } catch (IOException e) {\n            System.err.println(\"Write failed: \" + e.getMessage());\n        }\n    }\n}\n```",
     "explanation": "流操作属于系统核心资源，确保其关闭能防止句柄泄露，使用缓冲流能降低磁盘物理操作次数。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/logistics-fileio-question"
   },
   {
@@ -4835,7 +4835,7 @@
     "answer": "```java\npublic class synchronizedUpdater {\n    private int stock = 100;\n    \n    public synchronized void updateStock() {\n        if (stock > 0) {\n            stock--;\n            System.out.println(\"Stock updated: \" + stock);\n        }\n    }\n    \n    // 或者使用同步代码块\n    public void updateStockBlock() {\n        synchronized(this) {\n            if (stock > 0) {\n                stock--;\n            }\n        }\n    }\n}\n```",
     "explanation": "多线程访问共享变量必须串行化以保证原子性和可见性，`synchronized` 是最基础且有效的内置锁机制。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/logistics-multithreading-question"
   },
   {
@@ -4847,7 +4847,7 @@
     "answer": "```java\nimport java.util.*;\nimport java.util.stream.*;\n\nclass for {\n    private boolean valid;\n    private String name;\n    public boolean isValid() { return valid; }\n    public String getName() { return name; }\n}\n\npublic class forProcessor {\n    public List<String> processList(List<for> list) {\n        return list.stream()\n                   .filter(e -> e.isValid())\n                   .map(e -> e.getName())\n                   .collect(Collectors.toList());\n    }\n}\n```",
     "explanation": "函数式编程思维将指令式循环转化为声明式的管道操作，显著降低了代码嵌套深度，提高了可维护性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/logistics-streams-question"
   },
   {
@@ -4859,7 +4859,7 @@
     "answer": "```java\npublic class Vehicle {\n    private String id;\n    private double amount;\n    \n    public String getId() { return id; }\n    public void setId(String id) {\n        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException(\"ID cannot be null\");\n        this.id = id;\n    }\n    \n    public double getAmount() { return amount; }\n    public void setAmount(double amount) {\n        if (amount < 0) throw new IllegalArgumentException(\"Amount cannot be negative\");\n        this.amount = amount;\n    }\n}\n```",
     "explanation": "封装是面向对象的三大特征之一，通过访问权限修饰符和方法拦截来确保对象的内聚性和安全性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/rental-encapsulation-question"
   },
   {
@@ -4871,7 +4871,7 @@
     "answer": "```java\npublic abstract class Vehicle {\n    public abstract void process();\n}\n\nclass RegularVehicle extends Vehicle {\n    @Override\n    public void process() { System.out.println(\"Process Regular\"); }\n}\n\nclass VIPVehicle extends Vehicle {\n    @Override\n    public void process() { System.out.println(\"Process VIP\"); }\n}\n\npublic class VehicleStatistics {\n    public void processAll(Vehicle[] items) {\n        for (Vehicle item : items) {\n            item.process(); // Polymorphism\n        }\n    }\n}\n```",
     "explanation": "多态机制符合开闭原则，新增子类型时无需修改现有调用方的代码判断逻辑。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/rental-polymorphism-question"
   },
   {
@@ -4883,7 +4883,7 @@
     "answer": "```java\ninterface VehicleStrategyStrategy {\n    void execute(VehicleStrategy context);\n}\n\nclass NormalStrategy implements VehicleStrategyStrategy {\n    public void execute(VehicleStrategy context) { System.out.println(\"Normal processing\"); }\n}\n\nclass UrgentStrategy implements VehicleStrategyStrategy {\n    public void execute(VehicleStrategy context) { System.out.println(\"Urgent processing\"); }\n}\n\npublic class VehicleStrategyProcessor {\n    private VehicleStrategyStrategy strategy;\n    \n    public void setStrategy(VehicleStrategyStrategy strategy) { this.strategy = strategy; }\n    \n    public void process(VehicleStrategy item) {\n        if (strategy != null) strategy.execute(item);\n    }\n}\n```",
     "explanation": "策略模式利用面向接口编程，有效消除了代码的坏味道（过长的条件分支）。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/rental-strategy-question"
   },
   {
@@ -4895,7 +4895,7 @@
     "answer": "```java\nclass RuntimeExceptionException extends Exception {\n    public RuntimeExceptionException(String message) { super(message); }\n}\n\npublic class RuntimeExceptionParser {\n    public void parseList(String[] data) {\n        for (String item : data) {\n            try {\n                if (item == null || item.isEmpty()) {\n                    throw new RuntimeExceptionException(\"Invalid data format\");\n                }\n                System.out.println(\"Parsed: \" + item);\n            } catch (RuntimeExceptionException e) {\n                System.err.println(\"Error: \" + e.getMessage());\n            }\n        }\n    }\n}\n```",
     "explanation": "健壮的异常处理使得系统可以容错运行，避免单点数据错误引发整体瘫痪。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/rental-exceptions-question"
   },
   {
@@ -4907,7 +4907,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ArrayList implements Comparable<ArrayList> {\n    private String id;\n    public ArrayList(String id) { this.id = id; }\n    \n    public String getId() { return id; }\n    \n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n        ArrayList that = (ArrayList) o;\n        return Objects.equals(id, that.id);\n    }\n    \n    @Override\n    public int hashCode() { return Objects.hash(id); }\n    \n    @Override\n    public int compareTo(ArrayList o) { return this.id.compareTo(o.id); }\n    \n    public static void main(String[] args) {\n        Set<ArrayList> set = new HashSet<>();\n        set.add(new ArrayList(\"A002\"));\n        set.add(new ArrayList(\"A001\"));\n        set.add(new ArrayList(\"A002\")); // duplicate\n        \n        List<ArrayList> list = new ArrayList<>(set);\n        Collections.sort(list);\n        for (ArrayList item : list) System.out.println(item.getId());\n    }\n}\n```",
     "explanation": "集合不仅提供了动态扩容特性，其不同的实现（Set）还能利用数据结构特性天然解决问题。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/rental-collections-question"
   },
   {
@@ -4919,7 +4919,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ListManager {\n    private Map<String, List> map = new HashMap<>();\n    \n    public void addList(String id, List item) { map.put(id, item); }\n    \n    public List getList(String id) { return map.get(id); }\n    \n    public void removeList(String id) { map.remove(id); }\n    \n    public static void main(String[] args) {\n        ListManager manager = new ListManager();\n        manager.addList(\"101\", new List());\n        List item = manager.getList(\"101\");\n    }\n}\n\nclass List { }\n```",
     "explanation": "在查找频繁的场景下，散列表提供常数级别的时间复杂度，是优化性能的关键数据结构。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/rental-hashmap-question"
   },
   {
@@ -4931,7 +4931,7 @@
     "answer": "```java\nimport java.io.*;\n\npublic class FileWriterLogger {\n    public void logRecord(String file, String record) {\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {\n            bw.write(record);\n            bw.newLine();\n        } catch (IOException e) {\n            System.err.println(\"Write failed: \" + e.getMessage());\n        }\n    }\n}\n```",
     "explanation": "流操作属于系统核心资源，确保其关闭能防止句柄泄露，使用缓冲流能降低磁盘物理操作次数。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/rental-fileio-question"
   },
   {
@@ -4943,7 +4943,7 @@
     "answer": "```java\npublic class synchronizedUpdater {\n    private int stock = 100;\n    \n    public synchronized void updateStock() {\n        if (stock > 0) {\n            stock--;\n            System.out.println(\"Stock updated: \" + stock);\n        }\n    }\n    \n    // 或者使用同步代码块\n    public void updateStockBlock() {\n        synchronized(this) {\n            if (stock > 0) {\n                stock--;\n            }\n        }\n    }\n}\n```",
     "explanation": "多线程访问共享变量必须串行化以保证原子性和可见性，`synchronized` 是最基础且有效的内置锁机制。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/rental-multithreading-question"
   },
   {
@@ -4955,7 +4955,7 @@
     "answer": "```java\nimport java.util.*;\nimport java.util.stream.*;\n\nclass for {\n    private boolean valid;\n    private String name;\n    public boolean isValid() { return valid; }\n    public String getName() { return name; }\n}\n\npublic class forProcessor {\n    public List<String> processList(List<for> list) {\n        return list.stream()\n                   .filter(e -> e.isValid())\n                   .map(e -> e.getName())\n                   .collect(Collectors.toList());\n    }\n}\n```",
     "explanation": "函数式编程思维将指令式循环转化为声明式的管道操作，显著降低了代码嵌套深度，提高了可维护性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/rental-streams-question"
   },
   {
@@ -4967,7 +4967,7 @@
     "answer": "```java\npublic class Device {\n    private String id;\n    private double amount;\n    \n    public String getId() { return id; }\n    public void setId(String id) {\n        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException(\"ID cannot be null\");\n        this.id = id;\n    }\n    \n    public double getAmount() { return amount; }\n    public void setAmount(double amount) {\n        if (amount < 0) throw new IllegalArgumentException(\"Amount cannot be negative\");\n        this.amount = amount;\n    }\n}\n```",
     "explanation": "封装是面向对象的三大特征之一，通过访问权限修饰符和方法拦截来确保对象的内聚性和安全性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/smarthome-encapsulation-question"
   },
   {
@@ -4979,7 +4979,7 @@
     "answer": "```java\npublic abstract class Device {\n    public abstract void process();\n}\n\nclass RegularDevice extends Device {\n    @Override\n    public void process() { System.out.println(\"Process Regular\"); }\n}\n\nclass VIPDevice extends Device {\n    @Override\n    public void process() { System.out.println(\"Process VIP\"); }\n}\n\npublic class DeviceStatistics {\n    public void processAll(Device[] items) {\n        for (Device item : items) {\n            item.process(); // Polymorphism\n        }\n    }\n}\n```",
     "explanation": "多态机制符合开闭原则，新增子类型时无需修改现有调用方的代码判断逻辑。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/smarthome-polymorphism-question"
   },
   {
@@ -4991,7 +4991,7 @@
     "answer": "```java\ninterface DeviceStrategyStrategy {\n    void execute(DeviceStrategy context);\n}\n\nclass NormalStrategy implements DeviceStrategyStrategy {\n    public void execute(DeviceStrategy context) { System.out.println(\"Normal processing\"); }\n}\n\nclass UrgentStrategy implements DeviceStrategyStrategy {\n    public void execute(DeviceStrategy context) { System.out.println(\"Urgent processing\"); }\n}\n\npublic class DeviceStrategyProcessor {\n    private DeviceStrategyStrategy strategy;\n    \n    public void setStrategy(DeviceStrategyStrategy strategy) { this.strategy = strategy; }\n    \n    public void process(DeviceStrategy item) {\n        if (strategy != null) strategy.execute(item);\n    }\n}\n```",
     "explanation": "策略模式利用面向接口编程，有效消除了代码的坏味道（过长的条件分支）。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/smarthome-strategy-question"
   },
   {
@@ -5003,7 +5003,7 @@
     "answer": "```java\nclass RuntimeExceptionException extends Exception {\n    public RuntimeExceptionException(String message) { super(message); }\n}\n\npublic class RuntimeExceptionParser {\n    public void parseList(String[] data) {\n        for (String item : data) {\n            try {\n                if (item == null || item.isEmpty()) {\n                    throw new RuntimeExceptionException(\"Invalid data format\");\n                }\n                System.out.println(\"Parsed: \" + item);\n            } catch (RuntimeExceptionException e) {\n                System.err.println(\"Error: \" + e.getMessage());\n            }\n        }\n    }\n}\n```",
     "explanation": "健壮的异常处理使得系统可以容错运行，避免单点数据错误引发整体瘫痪。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/smarthome-exceptions-question"
   },
   {
@@ -5015,7 +5015,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ArrayList implements Comparable<ArrayList> {\n    private String id;\n    public ArrayList(String id) { this.id = id; }\n    \n    public String getId() { return id; }\n    \n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n        ArrayList that = (ArrayList) o;\n        return Objects.equals(id, that.id);\n    }\n    \n    @Override\n    public int hashCode() { return Objects.hash(id); }\n    \n    @Override\n    public int compareTo(ArrayList o) { return this.id.compareTo(o.id); }\n    \n    public static void main(String[] args) {\n        Set<ArrayList> set = new HashSet<>();\n        set.add(new ArrayList(\"A002\"));\n        set.add(new ArrayList(\"A001\"));\n        set.add(new ArrayList(\"A002\")); // duplicate\n        \n        List<ArrayList> list = new ArrayList<>(set);\n        Collections.sort(list);\n        for (ArrayList item : list) System.out.println(item.getId());\n    }\n}\n```",
     "explanation": "集合不仅提供了动态扩容特性，其不同的实现（Set）还能利用数据结构特性天然解决问题。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/smarthome-collections-question"
   },
   {
@@ -5027,7 +5027,7 @@
     "answer": "```java\nimport java.util.*;\n\npublic class ListManager {\n    private Map<String, List> map = new HashMap<>();\n    \n    public void addList(String id, List item) { map.put(id, item); }\n    \n    public List getList(String id) { return map.get(id); }\n    \n    public void removeList(String id) { map.remove(id); }\n    \n    public static void main(String[] args) {\n        ListManager manager = new ListManager();\n        manager.addList(\"101\", new List());\n        List item = manager.getList(\"101\");\n    }\n}\n\nclass List { }\n```",
     "explanation": "在查找频繁的场景下，散列表提供常数级别的时间复杂度，是优化性能的关键数据结构。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/smarthome-hashmap-question"
   },
   {
@@ -5039,7 +5039,7 @@
     "answer": "```java\nimport java.io.*;\n\npublic class FileWriterLogger {\n    public void logRecord(String file, String record) {\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {\n            bw.write(record);\n            bw.newLine();\n        } catch (IOException e) {\n            System.err.println(\"Write failed: \" + e.getMessage());\n        }\n    }\n}\n```",
     "explanation": "流操作属于系统核心资源，确保其关闭能防止句柄泄露，使用缓冲流能降低磁盘物理操作次数。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/smarthome-fileio-question"
   },
   {
@@ -5051,7 +5051,7 @@
     "answer": "```java\npublic class synchronizedUpdater {\n    private int stock = 100;\n    \n    public synchronized void updateStock() {\n        if (stock > 0) {\n            stock--;\n            System.out.println(\"Stock updated: \" + stock);\n        }\n    }\n    \n    // 或者使用同步代码块\n    public void updateStockBlock() {\n        synchronized(this) {\n            if (stock > 0) {\n                stock--;\n            }\n        }\n    }\n}\n```",
     "explanation": "多线程访问共享变量必须串行化以保证原子性和可见性，`synchronized` 是最基础且有效的内置锁机制。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/smarthome-multithreading-question"
   },
   {
@@ -5063,7 +5063,7 @@
     "answer": "```java\nimport java.util.*;\nimport java.util.stream.*;\n\nclass for {\n    private boolean valid;\n    private String name;\n    public boolean isValid() { return valid; }\n    public String getName() { return name; }\n}\n\npublic class forProcessor {\n    public List<String> processList(List<for> list) {\n        return list.stream()\n                   .filter(e -> e.isValid())\n                   .map(e -> e.getName())\n                   .collect(Collectors.toList());\n    }\n}\n```",
     "explanation": "函数式编程思维将指令式循环转化为声明式的管道操作，显著降低了代码嵌套深度，提高了可维护性。",
     "defaultScore": 20,
-    "source": "矩阵生成器批量出题",
+    "source": "自建工程编程题",
     "projectPath": "projects/smarthome-streams-question"
   }
 ]
