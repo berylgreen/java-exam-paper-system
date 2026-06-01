@@ -21,7 +21,7 @@
         <div class="config-item"><label>判断题数量 <span style="color:#888;font-size:12px;margin-left:4px">(2分/题)</span></label><el-input-number v-model="form.trueFalseCount" :min="0" :max="20" size="small"/></div>
         <div class="config-item"><label>填空题数量 <span style="color:#888;font-size:12px;margin-left:4px">(2分/题)</span></label><el-input-number v-model="form.fillBlankCount" :min="0" :max="20" size="small"/></div>
         <div class="config-item"><label>简答题数量 <span style="color:#888;font-size:12px;margin-left:4px">(10分/题)</span></label><el-input-number v-model="form.shortAnswerCount" :min="0" :max="10" size="small"/></div>
-        <div class="config-item"><label>程序分析题数量 <span style="color:#888;font-size:12px;margin-left:4px">(10分/题)</span></label><el-input-number v-model="form.codeReadingCount" :min="0" :max="5" size="small"/></div>
+        <div class="config-item"><label>程序分析题数量 <span style="color:#888;font-size:12px;margin-left:4px">(5分/题)</span></label><el-input-number v-model="form.codeReadingCount" :min="0" :max="5" size="small"/></div>
         <div class="config-item"><label>编程题数量 <span style="color:#888;font-size:12px;margin-left:4px">(动态分值)</span></label><el-input-number v-model="form.programmingCount" :min="0" :max="5" size="small"/></div>
       </div>
 
@@ -182,7 +182,7 @@ const currentTotalScore = computed(() => {
          (form.trueFalseCount || 0) * 2 +
          (form.fillBlankCount || 0) * 2 +
          (form.shortAnswerCount || 0) * 10 +
-         (form.codeReadingCount || 0) * 10 +
+         (form.codeReadingCount || 0) * 5 +
          programmingScore;
 })
 

@@ -99,7 +99,7 @@ public class ExamPaperService {
                 req.getShortAnswerCount(), 10, req, order);
         order = pickProgrammingQuestions(selectedQuestions, req.getProgrammingCount(), req, order);
         order = pickQuestions(selectedQuestions, QuestionType.CODE_READING,
-                req.getCodeReadingCount() != null ? req.getCodeReadingCount() : 0, 10, req, order);
+                req.getCodeReadingCount() != null ? req.getCodeReadingCount() : 0, 5, req, order);
 
         // 确保包含项目题
         enforceProjectQuestion(selectedQuestions, req);
@@ -155,7 +155,7 @@ public class ExamPaperService {
                 req.getShortAnswerCount(), 10, req, order);
         order = pickProgrammingQuestions(selectedQuestions, req.getProgrammingCount(), req, order);
         order = pickQuestions(selectedQuestions, QuestionType.CODE_READING,
-                req.getCodeReadingCount() != null ? req.getCodeReadingCount() : 0, 10, req, order);
+                req.getCodeReadingCount() != null ? req.getCodeReadingCount() : 0, 5, req, order);
 
         // 确保包含项目题
         enforceProjectQuestion(selectedQuestions, req);
