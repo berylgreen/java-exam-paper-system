@@ -7,7 +7,7 @@
         <el-button type="success" @click="exportQ"><el-icon><Download /></el-icon> 导出题库</el-button>
         <el-button type="warning" @click="triggerImport"><el-icon><Upload /></el-icon> 导入题库</el-button>
         <input ref="importInput" type="file" accept=".json" style="display:none" @change="importQ" />
-        <el-button type="primary" @click="showAdd = true"><el-icon><Plus /></el-icon> 新增题目</el-button>
+        <el-button type="primary" @click="handleAdd"><el-icon><Plus /></el-icon> 新增题目</el-button>
       </div>
     </div>
 
@@ -84,9 +84,10 @@
         <template #default="{row}"><span style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.6">{{ row.content }}</span></template>
       </el-table-column>
       <el-table-column label="分值" prop="defaultScore" width="55" align="center"/>
-      <el-table-column label="操作" width="120" align="center">
+      <el-table-column label="操作" width="160" align="center">
         <template #default="{row}">
           <el-button link type="primary" @click="viewQ(row)">查看</el-button>
+          <el-button link type="warning" @click="editQ(row)">修改</el-button>
           <el-button link type="danger" @click="delQ(row.id)">删除</el-button>
         </template>
       </el-table-column>
@@ -130,10 +131,15 @@
           <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(detailQ.explanation)"></div>
         </div>
       </div>
+      <template #footer>
+        <el-button type="warning" @click="editQ(detailQ); showDetail=false">修改</el-button>
+        <el-button type="danger" @click="delQ(detailQ.id); showDetail=false">删除</el-button>
+        <el-button @click="showDetail=false">关闭</el-button>
+      </template>
     </el-dialog>
 
-    <!-- 新增对话框 -->
-    <el-dialog v-model="showAdd" title="新增题目" width="600px">
+    <!-- 新增/修改对话框 -->
+    <el-dialog v-model="showAdd" :title="isEdit ? '修改题目' : '新增题目'" width="600px">
       <el-form :model="newQ" label-width="80px">
         <el-form-item label="题型">
           <el-select v-model="newQ.type" style="width:100%">
@@ -168,7 +174,7 @@
       </el-form>
       <template #footer>
         <el-button @click="showAdd=false">取消</el-button>
-        <el-button type="primary" @click="addQ">确定</el-button>
+        <el-button type="primary" @click="saveQ">确定</el-button>
       </template>
     </el-dialog>
   </div>
@@ -222,8 +228,22 @@ const showDetail = ref(false)
 const detailQ = ref({})
 const currentQIndex = ref(-1)
 const showAdd = ref(false)
+const isEdit = ref(false)
 const importInput = ref(null)
-const newQ = reactive({ type:'SINGLE_CHOICE', chapterName:'', difficulty:'EASY', content:'', options:'', answer:'', explanation:'', defaultScore:2, source:'网络2026年1月', projectPath:'' })
+const defaultQ = () => ({ type:'SINGLE_CHOICE', chapterName:'', difficulty:'EASY', content:'', options:'', answer:'', explanation:'', defaultScore:2, source:'网络2026年1月', projectPath:'' })
+const newQ = reactive(defaultQ())
+
+const handleAdd = () => {
+  isEdit.value = false
+  Object.assign(newQ, defaultQ())
+  showAdd.value = true
+}
+
+const editQ = (row) => {
+  isEdit.value = true
+  Object.assign(newQ, row)
+  showAdd.value = true
+}
 
 const loadQ = async () => {
   loading.value = true
@@ -306,10 +326,15 @@ const batchDelQ = async () => {
   }
 }
 
-const addQ = async () => {
+const saveQ = async () => {
   try {
-    await questionApi.create(newQ); ElMessage.success('已添加'); showAdd.value = false; loadQ(); loadMeta()
-  } catch (e) { ElMessage.error('添加失败: ' + (e.response?.data?.message||e.message)) }
+    if (isEdit.value) {
+      await questionApi.update(newQ.id, newQ); ElMessage.success('已修改');
+    } else {
+      await questionApi.create(newQ); ElMessage.success('已添加');
+    }
+    showAdd.value = false; loadQ(); loadMeta()
+  } catch (e) { ElMessage.error((isEdit.value ? '修改' : '添加') + '失败: ' + (e.response?.data?.message||e.message)) }
 }
 
 const exportQ = () => {

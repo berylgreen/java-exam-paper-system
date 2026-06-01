@@ -177,7 +177,16 @@ public class QuestionService {
         if (dto.getChapterId() != null) {
             chap = chapterRepository.findById(dto.getChapterId()).orElse(null);
         } else if (dto.getChapterName() != null) {
-            chap = chapterRepository.findByName(dto.getChapterName()).orElse(null);
+            String name = dto.getChapterName();
+            chap = chapterRepository.findByName(name).orElseGet(() -> {
+                int sortOrder = 99;
+                java.util.regex.Matcher m = java.util.regex.Pattern.compile("^第(\\d+)章").matcher(name);
+                if (m.find()) {
+                    sortOrder = Integer.parseInt(m.group(1));
+                }
+                com.exam.entity.Chapter newChap = com.exam.entity.Chapter.builder().name(name).sortOrder(sortOrder).build();
+                return chapterRepository.save(newChap);
+            });
         }
         return Question.builder()
                 .type(dto.getType())
