@@ -172,7 +172,7 @@ const form = reactive({
   singleChoiceCount: 10, multipleChoiceCount: 0, trueFalseCount: 0,
   fillBlankCount: 5, shortAnswerCount: 0, codeReadingCount: 2, programmingCount: 3,
   singleChoiceScore: 2, multipleChoiceScore: 4, trueFalseScore: 2,
-  fillBlankScore: 4, shortAnswerScore: 10, codeReadingScore: 5, programmingScore: undefined,
+  fillBlankScore: 2, shortAnswerScore: 10, codeReadingScore: 5, programmingScore: undefined,
   chapters: [], maxChapter: 7, easyPercent: 30, mediumPercent: 50, hardPercent: 20,
   textbookPercent: 80, networkPercent: 20, mustIncludeProject: true,
   specificProgrammingChapters: true, programmingQuestionChapters: []
