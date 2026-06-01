@@ -550,10 +550,11 @@ public class ExamPaperService {
         // 构建 PaperQuestion
         for (Question q : picked) {
             currentOrder++;
+            int score = q.getDefaultScore() != null ? q.getDefaultScore() : scorePerQuestion;
             PaperQuestion pq = PaperQuestion.builder()
                     .question(q)
                     .questionOrder(currentOrder)
-                    .score(scorePerQuestion)
+                    .score(score)
                     .build();
             result.add(pq);
         }
