@@ -86,23 +86,29 @@ public class ExamPaperService {
         List<PaperQuestion> selectedQuestions = new ArrayList<>();
         int order = 0;
 
+        int totalCount = (req.getSingleChoiceCount() != null ? req.getSingleChoiceCount() : 0) +
+                (req.getMultipleChoiceCount() != null ? req.getMultipleChoiceCount() : 0) +
+                (req.getTrueFalseCount() != null ? req.getTrueFalseCount() : 0) +
+                (req.getFillBlankCount() != null ? req.getFillBlankCount() : 0) +
+                (req.getShortAnswerCount() != null ? req.getShortAnswerCount() : 0) +
+                (req.getProgrammingCount() != null ? req.getProgrammingCount() : 0) +
+                (req.getCodeReadingCount() != null ? req.getCodeReadingCount() : 0);
+
         // 按题型依次抽取
         order = pickQuestions(selectedQuestions, QuestionType.SINGLE_CHOICE,
-                req.getSingleChoiceCount(), 2, req, order);
+                req.getSingleChoiceCount(), 2, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.MULTIPLE_CHOICE,
-                req.getMultipleChoiceCount(), 4, req, order);
+                req.getMultipleChoiceCount(), 4, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.TRUE_FALSE,
-                req.getTrueFalseCount(), 2, req, order);
+                req.getTrueFalseCount(), 2, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.FILL_BLANK,
-                req.getFillBlankCount(), 2, req, order);
+                req.getFillBlankCount(), 2, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.SHORT_ANSWER,
-                req.getShortAnswerCount(), 10, req, order);
-        order = pickProgrammingQuestions(selectedQuestions, req.getProgrammingCount(), req, order);
+                req.getShortAnswerCount(), 10, req, order, totalCount);
+        // 为了确保项目题在最后抽出，先处理阅读题，再处理程序设计题
         order = pickQuestions(selectedQuestions, QuestionType.CODE_READING,
-                req.getCodeReadingCount() != null ? req.getCodeReadingCount() : 0, 5, req, order);
-
-        // 确保包含项目题
-        enforceProjectQuestion(selectedQuestions, req);
+                req.getCodeReadingCount(), 5, req, order, totalCount);
+        order = pickProgrammingQuestions(selectedQuestions, req.getProgrammingCount(), req, order, totalCount);
 
         // 计算总分
         int totalScore = selectedQuestions.stream()
@@ -142,23 +148,28 @@ public class ExamPaperService {
         List<PaperQuestion> selectedQuestions = new ArrayList<>();
         int order = 0;
 
+        int totalCount = (req.getSingleChoiceCount() != null ? req.getSingleChoiceCount() : 0) +
+                (req.getMultipleChoiceCount() != null ? req.getMultipleChoiceCount() : 0) +
+                (req.getTrueFalseCount() != null ? req.getTrueFalseCount() : 0) +
+                (req.getFillBlankCount() != null ? req.getFillBlankCount() : 0) +
+                (req.getShortAnswerCount() != null ? req.getShortAnswerCount() : 0) +
+                (req.getProgrammingCount() != null ? req.getProgrammingCount() : 0) +
+                (req.getCodeReadingCount() != null ? req.getCodeReadingCount() : 0);
+
         // 按题型依次抽取
         order = pickQuestions(selectedQuestions, QuestionType.SINGLE_CHOICE,
-                req.getSingleChoiceCount(), 2, req, order);
+                req.getSingleChoiceCount(), 2, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.MULTIPLE_CHOICE,
-                req.getMultipleChoiceCount(), 4, req, order);
+                req.getMultipleChoiceCount(), 4, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.TRUE_FALSE,
-                req.getTrueFalseCount(), 2, req, order);
+                req.getTrueFalseCount(), 2, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.FILL_BLANK,
-                req.getFillBlankCount(), 2, req, order);
+                req.getFillBlankCount(), 2, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.SHORT_ANSWER,
-                req.getShortAnswerCount(), 10, req, order);
-        order = pickProgrammingQuestions(selectedQuestions, req.getProgrammingCount(), req, order);
+                req.getShortAnswerCount(), 10, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.CODE_READING,
-                req.getCodeReadingCount() != null ? req.getCodeReadingCount() : 0, 5, req, order);
-
-        // 确保包含项目题
-        enforceProjectQuestion(selectedQuestions, req);
+                req.getCodeReadingCount(), 5, req, order, totalCount);
+        order = pickProgrammingQuestions(selectedQuestions, req.getProgrammingCount(), req, order, totalCount);
 
         // 计算总分
         int totalScore = selectedQuestions.stream()
@@ -434,11 +445,34 @@ public class ExamPaperService {
     // ========== 自动组卷辅助方法 ==========
 
     /**
-     * 按题型和难度/来源比例从题库随机抽取指定数量的题目
+     * 自动组卷按题型抽取，内部拆分处理项目题逻辑
      */
     private int pickQuestions(List<PaperQuestion> result, QuestionType type,
+                              Integer countParam, int scorePerQuestion,
+                              AutoGenerateRequest req, int currentOrder, int totalCount) {
+        int count = countParam != null ? countParam : 0;
+        if (count <= 0) return currentOrder;
+
+        boolean mustIncludeProject = Boolean.TRUE.equals(req.getMustIncludeProject());
+        boolean isLastBatch = (currentOrder + count == totalCount);
+
+        if (mustIncludeProject && isLastBatch) {
+            if (count > 1) {
+                currentOrder = doPickQuestions(result, type, count - 1, scorePerQuestion, req, currentOrder, false);
+            }
+            currentOrder = doPickQuestions(result, type, 1, scorePerQuestion, req, currentOrder, true);
+        } else {
+            currentOrder = doPickQuestions(result, type, count, scorePerQuestion, req, currentOrder, false);
+        }
+        return currentOrder;
+    }
+
+    /**
+     * 按题型和难度/来源比例从题库随机抽取指定数量的题目
+     */
+    private int doPickQuestions(List<PaperQuestion> result, QuestionType type,
                               int count, int scorePerQuestion,
-                              AutoGenerateRequest req, int currentOrder) {
+                              AutoGenerateRequest req, int currentOrder, boolean requireProject) {
         if (count <= 0) return currentOrder;
 
         // 获取候选题目
@@ -452,8 +486,18 @@ public class ExamPaperService {
             candidates = questionRepository.findByType(type);
         }
 
+        if (requireProject) {
+            candidates = candidates.stream()
+                    .filter(q -> q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty())
+                    .collect(Collectors.toList());
+        } else {
+            candidates = candidates.stream()
+                    .filter(q -> q.getProjectPath() == null || q.getProjectPath().trim().isEmpty())
+                    .collect(Collectors.toList());
+        }
+
         if (candidates.isEmpty()) {
-            throw new RuntimeException("题库中 [" + type.getLabel() + "] 题目不足，无法组卷");
+            throw new RuntimeException("题库中 [" + type.getLabel() + "] " + (requireProject ? "项目题" : "非项目题") + "不足，无法组卷");
         }
 
         // ===== 按来源比例分组抽取 =====
@@ -555,8 +599,12 @@ public class ExamPaperService {
      * - 2题：1简单，1中等
      * - 3题或以上：1中等，1困难，其余简单
      */
-    private int pickProgrammingQuestions(List<PaperQuestion> result, int count, AutoGenerateRequest req, int currentOrder) {
+    private int pickProgrammingQuestions(List<PaperQuestion> result, Integer countParam, AutoGenerateRequest req, int currentOrder, int totalCount) {
+        int count = countParam != null ? countParam : 0;
         if (count <= 0) return currentOrder;
+
+        boolean mustIncludeProject = Boolean.TRUE.equals(req.getMustIncludeProject());
+        boolean isLastBatch = (currentOrder + count == totalCount);
 
         if (Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) && req.getProgrammingQuestionChapters() != null
                 && req.getProgrammingQuestionChapters().size() == count) {
@@ -582,12 +630,23 @@ public class ExamPaperService {
             for (int i = 0; i < count; i++) {
                 String chapter = req.getProgrammingQuestionChapters().get(i);
                 Difficulty targetDiff = requiredDiffs.get(i);
+                boolean requireProject = mustIncludeProject && isLastBatch && (i == count - 1);
 
                 List<Question> chapterCandidates = questionRepository.findByTypeAndChapterName(QuestionType.PROGRAMMING, chapter)
                     .stream().filter(q -> !pickedIds.contains(q.getId())).collect(Collectors.toList());
 
+                if (requireProject) {
+                    chapterCandidates = chapterCandidates.stream()
+                            .filter(q -> q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty())
+                            .collect(Collectors.toList());
+                } else {
+                    chapterCandidates = chapterCandidates.stream()
+                            .filter(q -> q.getProjectPath() == null || q.getProjectPath().trim().isEmpty())
+                            .collect(Collectors.toList());
+                }
+
                 if (chapterCandidates.isEmpty()) {
-                    throw new RuntimeException("题库中 [" + chapter + "] 章节的编程题不足，无法满足出题要求");
+                    throw new RuntimeException("题库中 [" + chapter + "] 章节的" + (requireProject ? "项目题" : "非项目题") + "不足，无法满足出题要求");
                 }
 
                 Question chosenQ = null;
@@ -619,6 +678,21 @@ public class ExamPaperService {
             return currentOrder;
         }
 
+        // 非指定章节逻辑
+        if (mustIncludeProject && isLastBatch) {
+            if (count > 1) {
+                currentOrder = doPickProgrammingQuestions(result, count - 1, req, currentOrder, false);
+            }
+            currentOrder = doPickProgrammingQuestions(result, 1, req, currentOrder, true);
+        } else {
+            currentOrder = doPickProgrammingQuestions(result, count, req, currentOrder, false);
+        }
+        return currentOrder;
+    }
+
+    private int doPickProgrammingQuestions(List<PaperQuestion> result, int count, AutoGenerateRequest req, int currentOrder, boolean requireProject) {
+        if (count <= 0) return currentOrder;
+
         List<Question> candidates;
         if (req.getChapters() != null && !req.getChapters().isEmpty()) {
             candidates = new ArrayList<>();
@@ -629,8 +703,18 @@ public class ExamPaperService {
             candidates = questionRepository.findByType(QuestionType.PROGRAMMING);
         }
 
+        if (requireProject) {
+            candidates = candidates.stream()
+                    .filter(q -> q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty())
+                    .collect(Collectors.toList());
+        } else {
+            candidates = candidates.stream()
+                    .filter(q -> q.getProjectPath() == null || q.getProjectPath().trim().isEmpty())
+                    .collect(Collectors.toList());
+        }
+
         if (candidates.isEmpty()) {
-            throw new RuntimeException("题库中 [编程题] 题目不足，无法组卷");
+            throw new RuntimeException("题库中 [编程题] " + (requireProject ? "项目题" : "非项目题") + "不足，无法组卷");
         }
 
         Map<Difficulty, List<Question>> byDiff = candidates.stream()
@@ -695,114 +779,7 @@ public class ExamPaperService {
         return copy.subList(0, Math.min(n, copy.size()));
     }
 
-    private void enforceProjectQuestion(List<PaperQuestion> selectedQuestions, AutoGenerateRequest req) {
-        List<PaperQuestion> projectPqs = selectedQuestions.stream()
-                .filter(pq -> pq.getQuestion().getProjectPath() != null && !pq.getQuestion().getProjectPath().trim().isEmpty())
-                .collect(Collectors.toList());
 
-        // 如果抽到了多于1题的项目题，则只保留难度最高的一题，其余替换为无工程的普通题
-        if (projectPqs.size() > 1) {
-            // 按难度降序排列：HARD(2) > MEDIUM(1) > EASY(0)
-            projectPqs.sort((pq1, pq2) -> Integer.compare(
-                    pq2.getQuestion().getDifficulty().ordinal(), 
-                    pq1.getQuestion().getDifficulty().ordinal()
-            ));
-            
-            // 保留第一个 (难度最高的)，从第二个开始替换
-            for (int i = 1; i < projectPqs.size(); i++) {
-                PaperQuestion toReplace = projectPqs.get(i);
-                Question originalQ = toReplace.getQuestion();
-                
-                Set<Long> selectedIds = selectedQuestions.stream()
-                        .map(pq -> pq.getQuestion().getId())
-                        .collect(Collectors.toSet());
-                        
-                // 优先找同题型、同难度的无工程题
-                List<Question> replacementCandidates = questionRepository.findByType(originalQ.getType()).stream()
-                        .filter(q -> q.getDifficulty() == originalQ.getDifficulty())
-                        .filter(q -> q.getProjectPath() == null || q.getProjectPath().trim().isEmpty())
-                        .filter(q -> !selectedIds.contains(q.getId()))
-                        .filter(q -> !Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) 
-                                  || originalQ.getType() != QuestionType.PROGRAMMING 
-                                  || (q.getChapter() != null && originalQ.getChapter() != null && q.getChapter().getId().equals(originalQ.getChapter().getId())))
-                        .collect(Collectors.toList());
-                        
-                // 如果找不到同难度的，则放宽难度限制
-                if (replacementCandidates.isEmpty()) {
-                    replacementCandidates = questionRepository.findByType(originalQ.getType()).stream()
-                            .filter(q -> q.getProjectPath() == null || q.getProjectPath().trim().isEmpty())
-                            .filter(q -> !selectedIds.contains(q.getId()))
-                            .filter(q -> !Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) 
-                                      || originalQ.getType() != QuestionType.PROGRAMMING 
-                                      || (q.getChapter() != null && originalQ.getChapter() != null && q.getChapter().getId().equals(originalQ.getChapter().getId())))
-                            .collect(Collectors.toList());
-                }
-                
-                if (!replacementCandidates.isEmpty()) {
-                    Collections.shuffle(replacementCandidates);
-                    Question newQ = replacementCandidates.get(0);
-                    toReplace.setQuestion(newQ);
-                    toReplace.setScore(newQ.getDefaultScore() != null ? newQ.getDefaultScore() : toReplace.getScore());
-                }
-            }
-        }
-
-        // 如果必须包含项目题，且当前没有项目题
-        if (Boolean.TRUE.equals(req.getMustIncludeProject()) && projectPqs.isEmpty()) {
-            List<Question> projectQuestions = questionRepository.findAll().stream()
-                    .filter(q -> q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty())
-                    .collect(Collectors.toList());
-
-            if (req.getChapters() != null && !req.getChapters().isEmpty()) {
-                List<Question> filtered = projectQuestions.stream()
-                        .filter(q -> q.getChapter() != null && req.getChapters().contains(q.getChapter().getName()))
-                        .collect(Collectors.toList());
-                if (!filtered.isEmpty()) {
-                    projectQuestions = filtered;
-                }
-            }
-
-            if (Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) && req.getProgrammingQuestionChapters() != null) {
-                List<Question> filtered = projectQuestions.stream()
-                        .filter(q -> q.getType() != QuestionType.PROGRAMMING || (q.getChapter() != null && req.getProgrammingQuestionChapters().contains(q.getChapter().getName())))
-                        .collect(Collectors.toList());
-                if (!filtered.isEmpty()) {
-                    projectQuestions = filtered;
-                }
-            }
-
-            if (!projectQuestions.isEmpty()) {
-                Collections.shuffle(projectQuestions);
-                Question newQ = projectQuestions.get(0);
-                
-                Optional<PaperQuestion> toReplace = selectedQuestions.stream()
-                        .filter(pq -> pq.getQuestion().getType() == newQ.getType() 
-                                   && pq.getQuestion().getDifficulty() == newQ.getDifficulty()
-                                   && (!Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) 
-                                       || newQ.getType() != QuestionType.PROGRAMMING 
-                                       || (pq.getQuestion().getChapter() != null && newQ.getChapter() != null && pq.getQuestion().getChapter().getId().equals(newQ.getChapter().getId()))))
-                        .findFirst();
-                
-                if (!toReplace.isPresent()) {
-                    toReplace = selectedQuestions.stream()
-                            .filter(pq -> pq.getQuestion().getType() == newQ.getType()
-                                       && (!Boolean.TRUE.equals(req.getSpecificProgrammingChapters()) 
-                                           || newQ.getType() != QuestionType.PROGRAMMING 
-                                           || (pq.getQuestion().getChapter() != null && newQ.getChapter() != null && pq.getQuestion().getChapter().getId().equals(newQ.getChapter().getId()))))
-                            .findFirst();
-                }
-                        
-                if (toReplace.isPresent()) {
-                    toReplace.get().setQuestion(newQ);
-                    toReplace.get().setScore(newQ.getDefaultScore() != null ? newQ.getDefaultScore() : toReplace.get().getScore());
-                } else if (!selectedQuestions.isEmpty()) {
-                    PaperQuestion last = selectedQuestions.get(selectedQuestions.size() - 1);
-                    last.setQuestion(newQ);
-                    last.setScore(newQ.getDefaultScore() != null ? newQ.getDefaultScore() : last.getScore());
-                }
-            }
-        }
-    }
 
     // ========== DTO 转换 ==========
 
