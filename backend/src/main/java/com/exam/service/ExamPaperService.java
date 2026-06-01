@@ -96,18 +96,18 @@ public class ExamPaperService {
 
         // 按题型依次抽取
         order = pickQuestions(selectedQuestions, QuestionType.SINGLE_CHOICE,
-                req.getSingleChoiceCount(), 2, req, order, totalCount);
+                req.getSingleChoiceCount(), req.getSingleChoiceScore(), 2, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.MULTIPLE_CHOICE,
-                req.getMultipleChoiceCount(), 4, req, order, totalCount);
+                req.getMultipleChoiceCount(), req.getMultipleChoiceScore(), 4, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.TRUE_FALSE,
-                req.getTrueFalseCount(), 2, req, order, totalCount);
+                req.getTrueFalseCount(), req.getTrueFalseScore(), 2, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.FILL_BLANK,
-                req.getFillBlankCount(), 2, req, order, totalCount);
+                req.getFillBlankCount(), req.getFillBlankScore(), 2, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.SHORT_ANSWER,
-                req.getShortAnswerCount(), 10, req, order, totalCount);
+                req.getShortAnswerCount(), req.getShortAnswerScore(), 10, req, order, totalCount);
         // 为了确保项目题在最后抽出，先处理阅读题，再处理程序设计题
         order = pickQuestions(selectedQuestions, QuestionType.CODE_READING,
-                req.getCodeReadingCount(), 5, req, order, totalCount);
+                req.getCodeReadingCount(), req.getCodeReadingScore(), 5, req, order, totalCount);
         order = pickProgrammingQuestions(selectedQuestions, req.getProgrammingCount(), req, order, totalCount);
 
         // 计算总分
@@ -158,17 +158,17 @@ public class ExamPaperService {
 
         // 按题型依次抽取
         order = pickQuestions(selectedQuestions, QuestionType.SINGLE_CHOICE,
-                req.getSingleChoiceCount(), 2, req, order, totalCount);
+                req.getSingleChoiceCount(), req.getSingleChoiceScore(), 2, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.MULTIPLE_CHOICE,
-                req.getMultipleChoiceCount(), 4, req, order, totalCount);
+                req.getMultipleChoiceCount(), req.getMultipleChoiceScore(), 4, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.TRUE_FALSE,
-                req.getTrueFalseCount(), 2, req, order, totalCount);
+                req.getTrueFalseCount(), req.getTrueFalseScore(), 2, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.FILL_BLANK,
-                req.getFillBlankCount(), 2, req, order, totalCount);
+                req.getFillBlankCount(), req.getFillBlankScore(), 2, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.SHORT_ANSWER,
-                req.getShortAnswerCount(), 10, req, order, totalCount);
+                req.getShortAnswerCount(), req.getShortAnswerScore(), 10, req, order, totalCount);
         order = pickQuestions(selectedQuestions, QuestionType.CODE_READING,
-                req.getCodeReadingCount(), 5, req, order, totalCount);
+                req.getCodeReadingCount(), req.getCodeReadingScore(), 5, req, order, totalCount);
         order = pickProgrammingQuestions(selectedQuestions, req.getProgrammingCount(), req, order, totalCount);
 
         // 计算总分
@@ -448,7 +448,7 @@ public class ExamPaperService {
      * 自动组卷按题型抽取，内部拆分处理项目题逻辑
      */
     private int pickQuestions(List<PaperQuestion> result, QuestionType type,
-                              Integer countParam, int scorePerQuestion,
+                              Integer countParam, Integer customScore, int fallbackScore,
                               AutoGenerateRequest req, int currentOrder, int totalCount) {
         int count = countParam != null ? countParam : 0;
         if (count <= 0) return currentOrder;
@@ -458,11 +458,11 @@ public class ExamPaperService {
 
         if (mustIncludeProject && isLastBatch) {
             if (count > 1) {
-                currentOrder = doPickQuestions(result, type, count - 1, scorePerQuestion, req, currentOrder, false);
+                currentOrder = doPickQuestions(result, type, count - 1, customScore, fallbackScore, req, currentOrder, false);
             }
-            currentOrder = doPickQuestions(result, type, 1, scorePerQuestion, req, currentOrder, true);
+            currentOrder = doPickQuestions(result, type, 1, customScore, fallbackScore, req, currentOrder, true);
         } else {
-            currentOrder = doPickQuestions(result, type, count, scorePerQuestion, req, currentOrder, false);
+            currentOrder = doPickQuestions(result, type, count, customScore, fallbackScore, req, currentOrder, false);
         }
         return currentOrder;
     }
@@ -471,7 +471,7 @@ public class ExamPaperService {
      * 按题型和难度/来源比例从题库随机抽取指定数量的题目
      */
     private int doPickQuestions(List<PaperQuestion> result, QuestionType type,
-                              int count, int scorePerQuestion,
+                              int count, Integer customScore, int fallbackScore,
                               AutoGenerateRequest req, int currentOrder, boolean requireProject) {
         if (count <= 0) return currentOrder;
 
@@ -550,7 +550,7 @@ public class ExamPaperService {
         // 构建 PaperQuestion
         for (Question q : picked) {
             currentOrder++;
-            int score = q.getDefaultScore() != null ? q.getDefaultScore() : scorePerQuestion;
+            int score = customScore != null ? customScore : (q.getDefaultScore() != null ? q.getDefaultScore() : fallbackScore);
             PaperQuestion pq = PaperQuestion.builder()
                     .question(q)
                     .questionOrder(currentOrder)
@@ -667,8 +667,9 @@ public class ExamPaperService {
 
             for (Question q : picked) {
                 currentOrder++;
-                int score = q.getDefaultScore() != null ? q.getDefaultScore() : 
-                            (q.getDifficulty() == Difficulty.EASY ? 10 : 20);
+                int score = req.getProgrammingScore() != null ? req.getProgrammingScore() : 
+                            (q.getDefaultScore() != null ? q.getDefaultScore() : 
+                            (q.getDifficulty() == Difficulty.EASY ? 10 : 20));
                 PaperQuestion pq = PaperQuestion.builder()
                         .question(q)
                         .questionOrder(currentOrder)
@@ -757,9 +758,10 @@ public class ExamPaperService {
 
         for (Question q : picked) {
             currentOrder++;
-            // 编程题分值：优先使用题库的默认分数，否则根据难度判定(简单10，中等/困难20)
-            int score = q.getDefaultScore() != null ? q.getDefaultScore() : 
-                        (q.getDifficulty() == Difficulty.EASY ? 10 : 20);
+            // 编程题分值：优先使用自定义分数，否则题库的默认分数，否则根据难度判定(简单10，中等/困难20)
+            int score = req.getProgrammingScore() != null ? req.getProgrammingScore() : 
+                        (q.getDefaultScore() != null ? q.getDefaultScore() : 
+                        (q.getDifficulty() == Difficulty.EASY ? 10 : 20));
             
             PaperQuestion pq = PaperQuestion.builder()
                     .question(q)

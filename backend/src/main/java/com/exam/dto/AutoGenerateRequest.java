@@ -35,6 +35,27 @@ public class AutoGenerateRequest {
     /** 程序分析题数量 */
     private Integer codeReadingCount = 1;
 
+    /** 单选题每题分值 */
+    private Integer singleChoiceScore;
+
+    /** 多选题每题分值 */
+    private Integer multipleChoiceScore;
+
+    /** 判断题每题分值 */
+    private Integer trueFalseScore;
+
+    /** 填空题每题分值 */
+    private Integer fillBlankScore;
+
+    /** 简答题每题分值 */
+    private Integer shortAnswerScore;
+
+    /** 程序分析题每题分值 */
+    private Integer codeReadingScore;
+
+    /** 编程题每题分值（如果统一设置） */
+    private Integer programmingScore;
+
     /** 章节范围 (为空则从全部章节抽取) */
     private List<String> chapters;
 

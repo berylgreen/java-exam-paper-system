@@ -16,13 +16,34 @@
 
       <h3 style="color:var(--text-primary);margin:20px 0 12px;font-size:16px;font-weight:700;">📝 题型配置</h3>
       <div class="config-grid">
-        <div class="config-item"><label>单选题数量 <span style="color:#888;font-size:12px;margin-left:4px">(2分/题)</span></label><el-input-number v-model="form.singleChoiceCount" :min="0" :max="30" size="small"/></div>
-        <div class="config-item"><label>多选题数量 <span style="color:#888;font-size:12px;margin-left:4px">(4分/题)</span></label><el-input-number v-model="form.multipleChoiceCount" :min="0" :max="20" size="small"/></div>
-        <div class="config-item"><label>判断题数量 <span style="color:#888;font-size:12px;margin-left:4px">(2分/题)</span></label><el-input-number v-model="form.trueFalseCount" :min="0" :max="20" size="small"/></div>
-        <div class="config-item"><label>填空题数量 <span style="color:#888;font-size:12px;margin-left:4px">(2分/题)</span></label><el-input-number v-model="form.fillBlankCount" :min="0" :max="20" size="small"/></div>
-        <div class="config-item"><label>简答题数量 <span style="color:#888;font-size:12px;margin-left:4px">(10分/题)</span></label><el-input-number v-model="form.shortAnswerCount" :min="0" :max="10" size="small"/></div>
-        <div class="config-item"><label>程序分析题数量 <span style="color:#888;font-size:12px;margin-left:4px">(5分/题)</span></label><el-input-number v-model="form.codeReadingCount" :min="0" :max="5" size="small"/></div>
-        <div class="config-item"><label>编程题数量 <span style="color:#888;font-size:12px;margin-left:4px">(动态分值)</span></label><el-input-number v-model="form.programmingCount" :min="0" :max="5" size="small"/></div>
+        <div class="config-item">
+          <label style="display:flex; align-items:center;">单选题数量 <span style="color:#888;font-size:12px;margin-left:4px;display:flex;align-items:center;">(<el-input-number v-model="form.singleChoiceScore" :min="1" :max="100" size="small" :controls="false" style="width: 45px; margin: 0 4px;"/>分/题)</span></label>
+          <el-input-number v-model="form.singleChoiceCount" :min="0" :max="30" size="small"/>
+        </div>
+        <div class="config-item">
+          <label style="display:flex; align-items:center;">多选题数量 <span style="color:#888;font-size:12px;margin-left:4px;display:flex;align-items:center;">(<el-input-number v-model="form.multipleChoiceScore" :min="1" :max="100" size="small" :controls="false" style="width: 45px; margin: 0 4px;"/>分/题)</span></label>
+          <el-input-number v-model="form.multipleChoiceCount" :min="0" :max="20" size="small"/>
+        </div>
+        <div class="config-item">
+          <label style="display:flex; align-items:center;">判断题数量 <span style="color:#888;font-size:12px;margin-left:4px;display:flex;align-items:center;">(<el-input-number v-model="form.trueFalseScore" :min="1" :max="100" size="small" :controls="false" style="width: 45px; margin: 0 4px;"/>分/题)</span></label>
+          <el-input-number v-model="form.trueFalseCount" :min="0" :max="20" size="small"/>
+        </div>
+        <div class="config-item">
+          <label style="display:flex; align-items:center;">填空题数量 <span style="color:#888;font-size:12px;margin-left:4px;display:flex;align-items:center;">(<el-input-number v-model="form.fillBlankScore" :min="1" :max="100" size="small" :controls="false" style="width: 45px; margin: 0 4px;"/>分/题)</span></label>
+          <el-input-number v-model="form.fillBlankCount" :min="0" :max="20" size="small"/>
+        </div>
+        <div class="config-item">
+          <label style="display:flex; align-items:center;">简答题数量 <span style="color:#888;font-size:12px;margin-left:4px;display:flex;align-items:center;">(<el-input-number v-model="form.shortAnswerScore" :min="1" :max="100" size="small" :controls="false" style="width: 45px; margin: 0 4px;"/>分/题)</span></label>
+          <el-input-number v-model="form.shortAnswerCount" :min="0" :max="10" size="small"/>
+        </div>
+        <div class="config-item">
+          <label style="display:flex; align-items:center;">程序分析题数量 <span style="color:#888;font-size:12px;margin-left:4px;display:flex;align-items:center;">(<el-input-number v-model="form.codeReadingScore" :min="1" :max="100" size="small" :controls="false" style="width: 45px; margin: 0 4px;"/>分/题)</span></label>
+          <el-input-number v-model="form.codeReadingCount" :min="0" :max="5" size="small"/>
+        </div>
+        <div class="config-item">
+          <label style="display:flex; align-items:center;">编程题数量 <span style="color:#888;font-size:12px;margin-left:4px;display:flex;align-items:center;">(<el-input-number v-model="form.programmingScore" :min="1" :max="100" size="small" :controls="false" style="width: 45px; margin: 0 4px;" placeholder="动态"/>分/题)</span></label>
+          <el-input-number v-model="form.programmingCount" :min="0" :max="5" size="small"/>
+        </div>
       </div>
 
       <h3 style="color:var(--text-primary);margin:20px 0 12px;font-size:16px;font-weight:700;">⚡ 难度比例</h3>
@@ -150,6 +171,8 @@ const form = reactive({
   title: generateDefaultTitle(), durationMinutes: 120,
   singleChoiceCount: 10, multipleChoiceCount: 0, trueFalseCount: 0,
   fillBlankCount: 5, shortAnswerCount: 0, codeReadingCount: 2, programmingCount: 3,
+  singleChoiceScore: 2, multipleChoiceScore: 4, trueFalseScore: 2,
+  fillBlankScore: 4, shortAnswerScore: 10, codeReadingScore: 5, programmingScore: undefined,
   chapters: [], maxChapter: 7, easyPercent: 30, mediumPercent: 50, hardPercent: 20,
   textbookPercent: 80, networkPercent: 20, mustIncludeProject: true,
   specificProgrammingChapters: true, programmingQuestionChapters: []
@@ -193,16 +216,20 @@ const onNetworkChange = (val) => { form.textbookPercent = Math.max(0, 100 - val)
 const currentTotalScore = computed(() => {
   const pCount = form.programmingCount || 0;
   let programmingScore = 0;
-  if (pCount === 1) programmingScore = 20;
-  else if (pCount === 2) programmingScore = 30;
-  else if (pCount >= 3) programmingScore = 40 + (pCount - 2) * 10;
+  if (form.programmingScore) {
+    programmingScore = pCount * form.programmingScore;
+  } else {
+    if (pCount === 1) programmingScore = 20;
+    else if (pCount === 2) programmingScore = 30;
+    else if (pCount >= 3) programmingScore = 40 + (pCount - 2) * 10;
+  }
 
-  return (form.singleChoiceCount || 0) * 2 +
-         (form.multipleChoiceCount || 0) * 4 +
-         (form.trueFalseCount || 0) * 2 +
-         (form.fillBlankCount || 0) * 2 +
-         (form.shortAnswerCount || 0) * 10 +
-         (form.codeReadingCount || 0) * 5 +
+  return (form.singleChoiceCount || 0) * (form.singleChoiceScore || 0) +
+         (form.multipleChoiceCount || 0) * (form.multipleChoiceScore || 0) +
+         (form.trueFalseCount || 0) * (form.trueFalseScore || 0) +
+         (form.fillBlankCount || 0) * (form.fillBlankScore || 0) +
+         (form.shortAnswerCount || 0) * (form.shortAnswerScore || 0) +
+         (form.codeReadingCount || 0) * (form.codeReadingScore || 0) +
          programmingScore;
 })
 
