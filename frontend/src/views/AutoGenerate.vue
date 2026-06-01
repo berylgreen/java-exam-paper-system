@@ -160,10 +160,30 @@ watch(() => form.programmingCount, (newVal) => {
   const currentLength = form.programmingQuestionChapters.length;
   if (newVal > currentLength) {
     for (let i = currentLength; i < newVal; i++) {
-      form.programmingQuestionChapters.push(chapters.value.length > 0 ? chapters.value[0] : '');
+      let defaultChapter = chapters.value.length > 0 ? chapters.value[0].name : '';
+      if (i === 0) defaultChapter = chapters.value.find(c => c.name.startsWith('第2章'))?.name || defaultChapter;
+      else if (i === 1) defaultChapter = chapters.value.find(c => c.name.startsWith('第3章'))?.name || defaultChapter;
+      else if (i === 2) defaultChapter = chapters.value.find(c => c.name.startsWith(newVal >= 4 ? '第4章' : '第7章'))?.name || defaultChapter;
+      else if (i === 3) defaultChapter = chapters.value.find(c => c.name.startsWith('第7章'))?.name || defaultChapter;
+      form.programmingQuestionChapters.push(defaultChapter);
     }
   } else if (newVal < currentLength) {
     form.programmingQuestionChapters.splice(newVal);
+  }
+  
+  // 如果从3题切换到4题，且第3题原本是第7章，自动改为第4章
+  if (newVal >= 4 && form.programmingQuestionChapters.length >= 3) {
+    const ch4 = chapters.value.find(c => c.name.startsWith('第4章'))?.name;
+    if (ch4 && form.programmingQuestionChapters[2] && form.programmingQuestionChapters[2].startsWith('第7章')) {
+        form.programmingQuestionChapters[2] = ch4;
+    }
+  } 
+  // 如果从4题切换回3题，且第3题是第4章，自动改为第7章
+  else if (newVal === 3 && form.programmingQuestionChapters.length >= 3) {
+    const ch7 = chapters.value.find(c => c.name.startsWith('第7章'))?.name;
+    if (ch7 && form.programmingQuestionChapters[2] && form.programmingQuestionChapters[2].startsWith('第4章')) {
+        form.programmingQuestionChapters[2] = ch7;
+    }
   }
 }, { immediate: true })
 
@@ -259,20 +279,30 @@ const applyMaxChapter = () => {
   handleChapterChange(form.chapters);
 }
 
+const initProgrammingChapters = () => {
+  if (form.programmingQuestionChapters.length >= 1) {
+    form.programmingQuestionChapters[0] = chapters.value.find(c => c.name.startsWith('第2章'))?.name || chapters.value[0]?.name || '';
+  }
+  if (form.programmingQuestionChapters.length >= 2) {
+    form.programmingQuestionChapters[1] = chapters.value.find(c => c.name.startsWith('第3章'))?.name || chapters.value[0]?.name || '';
+  }
+  if (form.programmingQuestionChapters.length >= 3) {
+    if (form.programmingCount >= 4) {
+      form.programmingQuestionChapters[2] = chapters.value.find(c => c.name.startsWith('第4章'))?.name || chapters.value[0]?.name || '';
+    } else {
+      form.programmingQuestionChapters[2] = chapters.value.find(c => c.name.startsWith('第7章'))?.name || chapters.value[0]?.name || '';
+    }
+  }
+  if (form.programmingQuestionChapters.length >= 4) {
+    form.programmingQuestionChapters[3] = chapters.value.find(c => c.name.startsWith('第7章'))?.name || chapters.value[0]?.name || '';
+  }
+}
+
 onMounted(async () => {
   try { 
     chapters.value = (await questionApi.chapters()).data;
     applyMaxChapter();
-    
-    if (form.programmingQuestionChapters.length >= 1) {
-      form.programmingQuestionChapters[0] = chapters.value.find(c => c.name.startsWith('第2章'))?.name || chapters.value[0]?.name || '';
-    }
-    if (form.programmingQuestionChapters.length >= 2) {
-      form.programmingQuestionChapters[1] = chapters.value.find(c => c.name.startsWith('第3章'))?.name || chapters.value[0]?.name || '';
-    }
-    if (form.programmingQuestionChapters.length >= 3) {
-      form.programmingQuestionChapters[2] = chapters.value.find(c => c.name.startsWith('第7章'))?.name || chapters.value[0]?.name || '';
-    }
+    initProgrammingChapters();
   } catch {}
 })
 </script>
