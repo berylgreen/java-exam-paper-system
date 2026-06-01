@@ -1241,7 +1241,7 @@
   },
   {
     "type": "FILL_BLANK",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "Java语言的异常捕获结构由try、______和finally 3个部分组成。",
     "answer": "catch",
@@ -1251,7 +1251,7 @@
   },
   {
     "type": "FILL_BLANK",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "抛出异常、生成异常对象都可以通过______语句实现。",
     "answer": "throw",
@@ -1261,7 +1261,7 @@
   },
   {
     "type": "FILL_BLANK",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "捕获异常的统一出口通过______语句实现。",
     "answer": "finally",
@@ -1271,7 +1271,7 @@
   },
   {
     "type": "FILL_BLANK",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "MEDIUM",
     "content": "______异常是由于环境造成的，是捕获处理的重点，即表示是可以恢复的。",
     "answer": "检查（Checked）",
@@ -1281,7 +1281,7 @@
   },
   {
     "type": "FILL_BLANK",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "Throwable类有两个子类，分别是______类和Exception类。",
     "answer": "Error",
@@ -1291,7 +1291,7 @@
   },
   {
     "type": "SINGLE_CHOICE",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "在异常处理中，释放资源、关闭文件等，由（ ）来完成。",
     "options": [
@@ -1319,7 +1319,7 @@
   },
   {
     "type": "SINGLE_CHOICE",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "当方法遇到异常又不知如何处理时，应该（ ）",
     "options": [
@@ -1347,7 +1347,7 @@
   },
   {
     "type": "SINGLE_CHOICE",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "MEDIUM",
     "content": "下列关于异常的说法，正确的是（ ）",
     "options": [
@@ -1375,7 +1375,7 @@
   },
   {
     "type": "SINGLE_CHOICE",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "MEDIUM",
     "content": "下列有关throw和throws的说法，不正确的是（ ）",
     "options": [
@@ -1403,7 +1403,7 @@
   },
   {
     "type": "SINGLE_CHOICE",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "关于异常，下列说法正确的是（ ）",
     "options": [
@@ -1431,7 +1431,7 @@
   },
   {
     "type": "SHORT_ANSWER",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "请简述什么是异常。",
     "answer": "异常是程序在运行期发生的不正常情况，它中断了正常的指令流。",
@@ -1441,7 +1441,7 @@
   },
   {
     "type": "SHORT_ANSWER",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "MEDIUM",
     "content": "请简述什么是必检异常，什么是免检异常。",
     "answer": "必检异常(Checked)：Exception的直接子类，编译期必须捕获或声明。免检异常(Unchecked)：RuntimeException及子类、Error，编译期不强制。",
@@ -1451,7 +1451,7 @@
   },
   {
     "type": "SHORT_ANSWER",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "MEDIUM",
     "content": "请简述Error和Exception的区别。",
     "answer": "Error指JVM无法解决的严重问题(如OOM)，程序无法处理；Exception指一般性问题，可通过代码捕获处理。",
@@ -1461,7 +1461,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "MEDIUM",
     "content": "编写Circle类，提供InvalidRadiusException异常类，当半径为负数时抛出异常。",
     "answer": "```java\nclass InvalidRadiusException extends Exception { }\nclass Circle {\n    double radius;\n    public Circle() {}\n    public Circle(double radius) throws InvalidRadiusException {\n        setRadius(radius);\n    }\n    public void setRadius(double radius) throws InvalidRadiusException {\n        if (radius < 0) throw new InvalidRadiusException();\n        this.radius = radius;\n    }\n}\n```",
@@ -1471,7 +1471,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "HARD",
     "content": "编写Triangle类，创建IllegalTriangleException异常类，构造方法中验证三角形边长规则。",
     "answer": "```java\nclass IllegalTriangleException extends Exception { }\nclass Triangle {\n    public Triangle(double a, double b, double c) throws IllegalTriangleException {\n        if (a+b<=c || a+c<=b || b+c<=a) throw new IllegalTriangleException();\n    }\n}\n```",
@@ -2541,7 +2541,7 @@
   },
   {
     "type": "CODE_READING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "MEDIUM",
     "content": "阅读以下代码片段：\n```java\nObject obj = new Integer(100);\nString str = (String) obj;\nSystem.out.println(str);\n```\n如果你将这段代码放入main方法中执行，它并不会打印100，而是会抛出一个运行时异常。请写出该异常的具体**类名**（只需写出类名，不需要带包名）。",
     "answer": "ClassCastException",
@@ -2636,7 +2636,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "系统提供的一个数据解析工具 `DataParser` 目前很脆弱，解析外部传入的字符串数组时，遇到非数字格式或 null 值会导致整个程序崩溃终止。\n\n**任务要求**：\n\n（1） 自定义一个受检异常 `InvalidDataException`。\n\n（2） 在 `DataParser.parseScores` 方法中使用 `try-catch` 捕获 `NumberFormatException` 和 `NullPointerException`。\n\n（3） 当遇到非法数据时，将引发 `InvalidDataException` 或在控制台记录错误并继续解析下一个数据。\n\n（4） 使用 `finally` 块打印“解析过程结束”的日志。",
     "options": null,
@@ -2721,7 +2721,7 @@
     "difficulty": "HARD",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下代码：\n```java\npublic int process() {\n    try {\n        throw new NullPointerException(\"test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n```\n请问调用该方法返回的值是多少？",
     "answer": "2",
     "explanation": "虽然 catch 块捕获了异常并尝试返回 1，但 finally 块的执行优先级更高，其中的 return 2 会覆盖 catch 块中的返回值。"
@@ -2761,7 +2761,7 @@
     "difficulty": "EASY",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下代码：\n```java\npublic int process() {\n    try {\n        throw new NullPointerException(\"test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n```\n请问调用该方法返回的值是多少？",
     "answer": "2",
     "explanation": "虽然 catch 块捕获了异常并尝试返回 1，但 finally 块的执行优先级更高，其中的 return 2 会覆盖 catch 块中的返回值。"
@@ -2801,7 +2801,7 @@
     "difficulty": "MEDIUM",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下代码：\n```java\npublic int process() {\n    try {\n        throw new ArrayIndexOutOfBoundsException(\"test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n```\n请问调用该方法返回的值是多少？",
     "answer": "2",
     "explanation": "虽然 catch 块捕获了异常并尝试返回 1，但 finally 块的执行优先级更高，其中的 return 2 会覆盖 catch 块中的返回值。"
@@ -2841,7 +2841,7 @@
     "difficulty": "HARD",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下代码：\n```java\npublic int process() {\n    try {\n        throw new ArrayIndexOutOfBoundsException(\"test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n```\n请问调用该方法返回的值是多少？",
     "answer": "2",
     "explanation": "虽然 catch 块捕获了异常并尝试返回 1，但 finally 块的执行优先级更高，其中的 return 2 会覆盖 catch 块中的返回值。"
@@ -2881,7 +2881,7 @@
     "difficulty": "HARD",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下代码：\n```java\npublic int process() {\n    try {\n        throw new NullPointerException(\"test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n```\n请问调用该方法返回的值是多少？",
     "answer": "2",
     "explanation": "虽然 catch 块捕获了异常并尝试返回 1，但 finally 块的执行优先级更高，其中的 return 2 会覆盖 catch 块中的返回值。"
@@ -2921,7 +2921,7 @@
     "difficulty": "HARD",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下代码：\n```java\npublic int process() {\n    try {\n        throw new ArithmeticException(\"test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n```\n请问调用该方法返回的值是多少？",
     "answer": "2",
     "explanation": "虽然 catch 块捕获了异常并尝试返回 1，但 finally 块的执行优先级更高，其中的 return 2 会覆盖 catch 块中的返回值。"
@@ -2961,7 +2961,7 @@
     "difficulty": "HARD",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下代码：\n```java\npublic int process() {\n    try {\n        throw new ArrayIndexOutOfBoundsException(\"test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n```\n请问调用该方法返回的值是多少？",
     "answer": "2",
     "explanation": "虽然 catch 块捕获了异常并尝试返回 1，但 finally 块的执行优先级更高，其中的 return 2 会覆盖 catch 块中的返回值。"
@@ -3001,7 +3001,7 @@
     "difficulty": "HARD",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下代码：\n```java\npublic int process() {\n    try {\n        throw new ArithmeticException(\"test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n```\n请问调用该方法返回的值是多少？",
     "answer": "2",
     "explanation": "虽然 catch 块捕获了异常并尝试返回 1，但 finally 块的执行优先级更高，其中的 return 2 会覆盖 catch 块中的返回值。"
@@ -3041,7 +3041,7 @@
     "difficulty": "MEDIUM",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下代码：\n```java\npublic int process() {\n    try {\n        throw new NullPointerException(\"test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n```\n请问调用该方法返回的值是多少？",
     "answer": "2",
     "explanation": "虽然 catch 块捕获了异常并尝试返回 1，但 finally 块的执行优先级更高，其中的 return 2 会覆盖 catch 块中的返回值。"
@@ -3081,7 +3081,7 @@
     "difficulty": "EASY",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下代码：\n```java\npublic int process() {\n    try {\n        throw new NullPointerException(\"test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n```\n请问调用该方法返回的值是多少？",
     "answer": "2",
     "explanation": "虽然 catch 块捕获了异常并尝试返回 1，但 finally 块的执行优先级更高，其中的 return 2 会覆盖 catch 块中的返回值。"
@@ -3121,7 +3121,7 @@
     "difficulty": "HARD",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下代码：\n```java\npublic int process() {\n    try {\n        throw new ArrayIndexOutOfBoundsException(\"test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n```\n请问调用该方法返回的值是多少？",
     "answer": "2",
     "explanation": "虽然 catch 块捕获了异常并尝试返回 1，但 finally 块的执行优先级更高，其中的 return 2 会覆盖 catch 块中的返回值。"
@@ -3161,7 +3161,7 @@
     "difficulty": "HARD",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下代码：\n```java\npublic int process() {\n    try {\n        throw new ArithmeticException(\"test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 2;\n    }\n}\n```\n请问调用该方法返回的值是多少？",
     "answer": "2",
     "explanation": "虽然 catch 块捕获了异常并尝试返回 1，但 finally 块的执行优先级更高，其中的 return 2 会覆盖 catch 块中的返回值。"
@@ -3191,7 +3191,7 @@
     "difficulty": "MEDIUM",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下方法：\n```java\npublic int process() {\n    try {\n        throw new IllegalArgumentException(\"Test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 8;\n    }\n}\n```\n请问调用该方法最终返回的具体整数值是多少？",
     "answer": "8",
     "explanation": "虽然 catch 块成功捕获了抛出的 IllegalArgumentException 并尝试执行 return 1，但在方法真正返回前，finally 块必须执行。finally 块中的 return 8 将覆盖之前的返回值。"
@@ -3281,7 +3281,7 @@
     "difficulty": "EASY",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下方法：\n```java\npublic int process() {\n    try {\n        throw new NullPointerException(\"Test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 6;\n    }\n}\n```\n请问调用该方法最终返回的具体整数值是多少？",
     "answer": "6",
     "explanation": "虽然 catch 块成功捕获了抛出的 NullPointerException 并尝试执行 return 1，但在方法真正返回前，finally 块必须执行。finally 块中的 return 6 将覆盖之前的返回值。"
@@ -3371,7 +3371,7 @@
     "difficulty": "MEDIUM",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下方法：\n```java\npublic int process() {\n    try {\n        throw new NullPointerException(\"Test\");\n    } catch (RuntimeException e) {\n        return 2;\n    } finally {\n        return 8;\n    }\n}\n```\n请问调用该方法最终返回的具体整数值是多少？",
     "answer": "8",
     "explanation": "虽然 catch 块成功捕获了抛出的 NullPointerException 并尝试执行 return 2，但在方法真正返回前，finally 块必须执行。finally 块中的 return 8 将覆盖之前的返回值。"
@@ -3461,7 +3461,7 @@
     "difficulty": "MEDIUM",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下方法：\n```java\npublic int process() {\n    try {\n        throw new IllegalArgumentException(\"Test\");\n    } catch (RuntimeException e) {\n        return 2;\n    } finally {\n        return 10;\n    }\n}\n```\n请问调用该方法最终返回的具体整数值是多少？",
     "answer": "10",
     "explanation": "虽然 catch 块成功捕获了抛出的 IllegalArgumentException 并尝试执行 return 2，但在方法真正返回前，finally 块必须执行。finally 块中的 return 10 将覆盖之前的返回值。"
@@ -3551,7 +3551,7 @@
     "difficulty": "HARD",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下方法：\n```java\npublic int process() {\n    try {\n        throw new IllegalArgumentException(\"Test\");\n    } catch (RuntimeException e) {\n        return 4;\n    } finally {\n        return 9;\n    }\n}\n```\n请问调用该方法最终返回的具体整数值是多少？",
     "answer": "9",
     "explanation": "虽然 catch 块成功捕获了抛出的 IllegalArgumentException 并尝试执行 return 4，但在方法真正返回前，finally 块必须执行。finally 块中的 return 9 将覆盖之前的返回值。"
@@ -3641,7 +3641,7 @@
     "difficulty": "HARD",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下方法：\n```java\npublic int process() {\n    try {\n        throw new IllegalArgumentException(\"Test\");\n    } catch (RuntimeException e) {\n        return 4;\n    } finally {\n        return 7;\n    }\n}\n```\n请问调用该方法最终返回的具体整数值是多少？",
     "answer": "7",
     "explanation": "虽然 catch 块成功捕获了抛出的 IllegalArgumentException 并尝试执行 return 4，但在方法真正返回前，finally 块必须执行。finally 块中的 return 7 将覆盖之前的返回值。"
@@ -3731,7 +3731,7 @@
     "difficulty": "HARD",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下方法：\n```java\npublic int process() {\n    try {\n        throw new NullPointerException(\"Test\");\n    } catch (RuntimeException e) {\n        return 4;\n    } finally {\n        return 6;\n    }\n}\n```\n请问调用该方法最终返回的具体整数值是多少？",
     "answer": "6",
     "explanation": "虽然 catch 块成功捕获了抛出的 NullPointerException 并尝试执行 return 4，但在方法真正返回前，finally 块必须执行。finally 块中的 return 6 将覆盖之前的返回值。"
@@ -3821,7 +3821,7 @@
     "difficulty": "MEDIUM",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下方法：\n```java\npublic int process() {\n    try {\n        throw new NullPointerException(\"Test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 8;\n    }\n}\n```\n请问调用该方法最终返回的具体整数值是多少？",
     "answer": "8",
     "explanation": "虽然 catch 块成功捕获了抛出的 NullPointerException 并尝试执行 return 1，但在方法真正返回前，finally 块必须执行。finally 块中的 return 8 将覆盖之前的返回值。"
@@ -3911,7 +3911,7 @@
     "difficulty": "MEDIUM",
     "defaultScore": 10,
     "source": "自建程序分析题",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "content": "阅读以下方法：\n```java\npublic int process() {\n    try {\n        throw new IllegalArgumentException(\"Test\");\n    } catch (RuntimeException e) {\n        return 1;\n    } finally {\n        return 6;\n    }\n}\n```\n请问调用该方法最终返回的具体整数值是多少？",
     "answer": "6",
     "explanation": "虽然 catch 块成功捕获了抛出的 IllegalArgumentException 并尝试执行 return 1，但在方法真正返回前，finally 块必须执行。finally 块中的 return 6 将覆盖之前的返回值。"
@@ -4024,7 +4024,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "电商系统在批量解析外部的 订单 数据时，一旦遇到格式错误，就会抛出未捕获的 `RuntimeException` 导致整个系统崩溃。\n\n**任务要求**：\n1. 自定义一个受检异常 `OrderException`。\n2. 修改解析逻辑，使用 `try-catch` 结构捕获可能引发崩溃的地方。\n3. 在异常发生时打印错误日志并记录，然后继续解析下一个数据而不中断整体流程。",
     "options": null,
@@ -4132,7 +4132,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "银行系统在批量解析外部的 账户 数据时，一旦遇到格式错误，就会抛出未捕获的 `RuntimeException` 导致整个系统崩溃。\n\n**任务要求**：\n1. 自定义一个受检异常 `AccountException`。\n2. 修改解析逻辑，使用 `try-catch` 结构捕获可能引发崩溃的地方。\n3. 在异常发生时打印错误日志并记录，然后继续解析下一个数据而不中断整体流程。",
     "options": null,
@@ -4240,7 +4240,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "图书馆系统在批量解析外部的 图书 数据时，一旦遇到格式错误，就会抛出未捕获的 `RuntimeException` 导致整个系统崩溃。\n\n**任务要求**：\n1. 自定义一个受检异常 `BookException`。\n2. 修改解析逻辑，使用 `try-catch` 结构捕获可能引发崩溃的地方。\n3. 在异常发生时打印错误日志并记录，然后继续解析下一个数据而不中断整体流程。",
     "options": null,
@@ -4348,7 +4348,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "酒店系统在批量解析外部的 房间 数据时，一旦遇到格式错误，就会抛出未捕获的 `RuntimeException` 导致整个系统崩溃。\n\n**任务要求**：\n1. 自定义一个受检异常 `RoomException`。\n2. 修改解析逻辑，使用 `try-catch` 结构捕获可能引发崩溃的地方。\n3. 在异常发生时打印错误日志并记录，然后继续解析下一个数据而不中断整体流程。",
     "options": null,
@@ -4456,7 +4456,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "医疗系统在批量解析外部的 病患 数据时，一旦遇到格式错误，就会抛出未捕获的 `RuntimeException` 导致整个系统崩溃。\n\n**任务要求**：\n1. 自定义一个受检异常 `PatientException`。\n2. 修改解析逻辑，使用 `try-catch` 结构捕获可能引发崩溃的地方。\n3. 在异常发生时打印错误日志并记录，然后继续解析下一个数据而不中断整体流程。",
     "options": null,
@@ -4564,7 +4564,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "餐饮系统在批量解析外部的 菜品 数据时，一旦遇到格式错误，就会抛出未捕获的 `RuntimeException` 导致整个系统崩溃。\n\n**任务要求**：\n1. 自定义一个受检异常 `DishException`。\n2. 修改解析逻辑，使用 `try-catch` 结构捕获可能引发崩溃的地方。\n3. 在异常发生时打印错误日志并记录，然后继续解析下一个数据而不中断整体流程。",
     "options": null,
@@ -4672,7 +4672,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "教务系统在批量解析外部的 学生 数据时，一旦遇到格式错误，就会抛出未捕获的 `RuntimeException` 导致整个系统崩溃。\n\n**任务要求**：\n1. 自定义一个受检异常 `StudentException`。\n2. 修改解析逻辑，使用 `try-catch` 结构捕获可能引发崩溃的地方。\n3. 在异常发生时打印错误日志并记录，然后继续解析下一个数据而不中断整体流程。",
     "options": null,
@@ -4780,7 +4780,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "物流系统在批量解析外部的 包裹 数据时，一旦遇到格式错误，就会抛出未捕获的 `RuntimeException` 导致整个系统崩溃。\n\n**任务要求**：\n1. 自定义一个受检异常 `PackageException`。\n2. 修改解析逻辑，使用 `try-catch` 结构捕获可能引发崩溃的地方。\n3. 在异常发生时打印错误日志并记录，然后继续解析下一个数据而不中断整体流程。",
     "options": null,
@@ -4888,7 +4888,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "租车系统在批量解析外部的 车辆 数据时，一旦遇到格式错误，就会抛出未捕获的 `RuntimeException` 导致整个系统崩溃。\n\n**任务要求**：\n1. 自定义一个受检异常 `VehicleException`。\n2. 修改解析逻辑，使用 `try-catch` 结构捕获可能引发崩溃的地方。\n3. 在异常发生时打印错误日志并记录，然后继续解析下一个数据而不中断整体流程。",
     "options": null,
@@ -4996,7 +4996,7 @@
   },
   {
     "type": "PROGRAMMING",
-    "chapter": "第5章 异常处理",
+    "chapter": "第6章 异常处理",
     "difficulty": "EASY",
     "content": "智能家居在批量解析外部的 设备 数据时，一旦遇到格式错误，就会抛出未捕获的 `RuntimeException` 导致整个系统崩溃。\n\n**任务要求**：\n1. 自定义一个受检异常 `DeviceException`。\n2. 修改解析逻辑，使用 `try-catch` 结构捕获可能引发崩溃的地方。\n3. 在异常发生时打印错误日志并记录，然后继续解析下一个数据而不中断整体流程。",
     "options": null,
