@@ -26,6 +26,12 @@ describe('API Utils', () => {
     expect(api.get).toHaveBeenCalledWith('/questions/123')
   })
 
+  it('questionApi.optimizePreview should make POST request', () => {
+    const payload = { prompt: '优化题干', question: { content: '原题' } }
+    questionApi.optimizePreview(payload)
+    expect(api.post).toHaveBeenCalledWith('/questions/optimize-preview', payload)
+  })
+
   it('paperApi.list should make GET request', () => {
     paperApi.list()
     expect(api.get).toHaveBeenCalledWith('/papers')

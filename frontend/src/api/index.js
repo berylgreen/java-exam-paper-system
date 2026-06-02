@@ -13,6 +13,7 @@ export const questionApi = {
     chapters: () => api.get('/questions/chapters'),
     sources: () => api.get('/questions/sources'),
     stats: () => api.get('/questions/stats'),
+    optimizePreview: (data) => api.post('/questions/optimize-preview', data),
     exportUrl: '/api/questions/export',
     importFile: (file) => {
         const formData = new FormData()

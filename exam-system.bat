@@ -2,8 +2,12 @@
 chcp 65001 >nul
 setlocal EnableDelayedExpansion
 
-set "JAVA_HOME=C:\Program Files\Java\jdk-17.0.2"
-set "PATH=%JAVA_HOME%\bin;%PATH%"
+call :setup_java
+if errorlevel 1 exit /b 1
+call :check_command mvn Maven
+if errorlevel 1 exit /b 1
+call :check_command npm Node.js/npm
+if errorlevel 1 exit /b 1
 
 set "BASE_DIR=%~dp0"
 set "BACKEND_DIR=%BASE_DIR%backend"
@@ -153,6 +157,36 @@ if defined pid2 (
 )
 echo [INFO] %svc_name%服务已停止
 exit /b
+
+:setup_java
+if defined JAVA_HOME if exist "%JAVA_HOME%\bin\javac.exe" (
+    set "PATH=%JAVA_HOME%\bin;%PATH%"
+    exit /b 0
+)
+
+if defined JAVA_HOME echo [WARN] 当前 JAVA_HOME 无效或不是 JDK: %JAVA_HOME%
+
+for /f "delims=" %%i in ('where javac 2^>nul') do (
+    set "JAVAC_EXE=%%~fi"
+    goto found_jdk
+)
+
+echo [ERROR] 未找到可用的 JDK，请先安装 JDK 17+ 并配置 JAVA_HOME 或 PATH。
+exit /b 1
+
+:found_jdk
+for %%i in ("!JAVAC_EXE!\..\..") do set "JAVA_HOME=%%~fi"
+set "PATH=!JAVA_HOME!\bin;%PATH%"
+echo [INFO] 使用 JDK: !JAVA_HOME!
+exit /b 0
+
+:check_command
+where %~1 >nul 2>&1
+if errorlevel 1 (
+    echo [ERROR] 未找到 %~2，请先安装并配置到 PATH 中。
+    exit /b 1
+)
+exit /b 0
 
 :check_port
 set "port=%~1"

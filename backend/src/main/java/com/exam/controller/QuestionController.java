@@ -1,8 +1,11 @@
 package com.exam.controller;
 
 import com.exam.dto.QuestionDTO;
+import com.exam.dto.QuestionOptimizeRequest;
+import com.exam.dto.QuestionOptimizeResponse;
 import com.exam.enums.Difficulty;
 import com.exam.enums.QuestionType;
+import com.exam.service.QuestionOptimizationService;
 import com.exam.service.QuestionService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +31,7 @@ import java.util.Map;
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final QuestionOptimizationService questionOptimizationService;
     private final ObjectMapper objectMapper;
 
     /** 分页条件查询题目 */
@@ -59,6 +63,12 @@ public class QuestionController {
     @PutMapping("/{id}")
     public QuestionDTO update(@PathVariable("id") Long id, @RequestBody QuestionDTO dto) {
         return questionService.update(id, dto);
+    }
+
+    /** AI 优化题目预览 */
+    @PostMapping("/optimize-preview")
+    public QuestionOptimizeResponse optimizePreview(@RequestBody QuestionOptimizeRequest request) {
+        return questionOptimizationService.optimizePreview(request);
     }
 
     /** 删除题目 */
