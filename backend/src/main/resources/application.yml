@@ -38,7 +38,7 @@ spring:
 
 app:
   ai:
-    base-url: ${AI_BASE_URL:https://cp99.mystery-vr.com/v1}
-    api-key: ${AI_API_KEY:sk-6ecf7d5dbc9254b4a898d798c3cbb329e34daa82335c241b142bc8efaf27c89d}
+    base-url: ${AI_BASE_URL:http://localhost:1879/v1}
+    api-key: ${AI_API_KEY:agt_codex_DK24HZklsPBHgYpSf8ZWoqgyCEmPaaJr}
     model: ${AI_MODEL:gpt-5.4}
     timeout: ${AI_TIMEOUT:30000}
