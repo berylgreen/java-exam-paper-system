@@ -144,7 +144,9 @@ public class QuestionController {
             return map;
         }).toList();
 
-        byte[] json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(exportData);
+        com.fasterxml.jackson.core.util.DefaultPrettyPrinter printer = new com.fasterxml.jackson.core.util.DefaultPrettyPrinter();
+        printer.indentArraysWith(com.fasterxml.jackson.core.util.DefaultIndenter.SYSTEM_LINEFEED_INSTANCE);
+        byte[] json = objectMapper.writer(printer).writeValueAsBytes(exportData);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=questions.json")
                 .contentType(MediaType.APPLICATION_JSON)
