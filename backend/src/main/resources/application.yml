@@ -5,13 +5,6 @@ spring:
   application:
     name: exam-system
 
-app:
-  ai:
-    base-url: ${AI_BASE_URL:https://cp99.mystery-vr.com/v1}
-    api-key: ${AI_API_KEY:sk-6ecf7d5dbc9254b4a898d798c3cbb329e34daa82335c241b142bc8efaf27c89d}
-    model: ${AI_MODEL:gpt-5.4}
-    timeout: ${AI_TIMEOUT:30000}
-
   # H2 本地文件数据库（持久化存储，AUTO_SERVER=TRUE 解决文件锁冲突）
   datasource:
     url: jdbc:h2:file:./db/examdb;DB_CLOSE_DELAY=-1;LOCK_TIMEOUT=5000;AUTO_SERVER=TRUE
@@ -42,3 +35,10 @@ app:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: Asia/Shanghai
+
+app:
+  ai:
+    base-url: ${AI_BASE_URL:https://cp99.mystery-vr.com/v1}
+    api-key: ${AI_API_KEY:sk-6ecf7d5dbc9254b4a898d798c3cbb329e34daa82335c241b142bc8efaf27c89d}
+    model: ${AI_MODEL:gpt-5.4}
+    timeout: ${AI_TIMEOUT:30000}
