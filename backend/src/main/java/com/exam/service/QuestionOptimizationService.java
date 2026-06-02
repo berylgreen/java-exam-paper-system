@@ -136,22 +136,13 @@ public class QuestionOptimizationService {
             throw new RuntimeException("AI 服务未返回结果");
         }
 
-        String normalizedBody = normalizeAiResponseBody(rawBody);
-
         try {
-            JsonNode raw = objectMapper.readTree(normalizedBody);
-            JsonNode choicesNode = raw.get("choices");
-            if (choicesNode == null || !choicesNode.isArray() || choicesNode.isEmpty()) {
-                throw new RuntimeException("AI 返回结果缺少 choices");
-            }
-            JsonNode messageNode = choicesNode.get(0).path("message");
-            JsonNode contentNode = messageNode.get("content");
-            String content = extractContent(contentNode);
+            String content = extractStructuredContent(rawBody);
             if (content == null || content.isBlank()) {
                 throw new RuntimeException("AI 返回内容为空");
             }
 
-            JsonNode node = objectMapper.readTree(content);
+            JsonNode node = objectMapper.readTree(normalizeStructuredJson(content));
             List<OptionItem> options = null;
             JsonNode optionsNode = node.get("options");
             if (optionsNode != null && !optionsNode.isNull()) {
@@ -170,14 +161,23 @@ public class QuestionOptimizationService {
         }
     }
 
-    private String normalizeAiResponseBody(String rawBody) {
+    private String extractStructuredContent(String rawBody) throws JsonProcessingException {
         String trimmed = rawBody.trim();
-        if (!trimmed.startsWith("data:")) {
-            return trimmed;
+        if (trimmed.startsWith("data:")) {
+            return extractContentFromSse(trimmed);
         }
 
+        try {
+            JsonNode raw = objectMapper.readTree(trimmed);
+            return extractContentFromEnvelope(raw);
+        } catch (JsonProcessingException e) {
+            return trimmed;
+        }
+    }
+
+    private String extractContentFromSse(String rawBody) throws JsonProcessingException {
         StringBuilder builder = new StringBuilder();
-        String[] lines = trimmed.split("\\r?\\n");
+        String[] lines = rawBody.split("\\r?\\n");
         for (String line : lines) {
             String current = line.trim();
             if (!current.startsWith("data:")) {
@@ -187,12 +187,31 @@ public class QuestionOptimizationService {
             if (payload.isEmpty() || "[DONE]".equals(payload)) {
                 continue;
             }
-            builder.append(payload);
+            JsonNode envelope = objectMapper.readTree(payload);
+            String content = extractContentFromEnvelope(envelope);
+            if (content != null && !content.isBlank()) {
+                builder.append(content);
+            }
         }
         if (builder.isEmpty()) {
             throw new RuntimeException("AI 服务未返回有效数据");
         }
         return builder.toString();
+    }
+
+    private String extractContentFromEnvelope(JsonNode raw) {
+        JsonNode choicesNode = raw.get("choices");
+        if (choicesNode == null || !choicesNode.isArray() || choicesNode.isEmpty()) {
+            throw new RuntimeException("AI 返回结果缺少 choices");
+        }
+
+        JsonNode choiceNode = choicesNode.get(0);
+        String content = extractContent(choiceNode.path("message").get("content"));
+        if (content != null && !content.isBlank()) {
+            return content;
+        }
+
+        return extractContent(choiceNode.path("delta").get("content"));
     }
 
     private String extractContent(JsonNode contentNode) {
@@ -213,6 +232,15 @@ public class QuestionOptimizationService {
             return builder.toString();
         }
         return contentNode.toString();
+    }
+
+    private String normalizeStructuredJson(String content) {
+        String trimmed = content.trim();
+        if (trimmed.startsWith("```")) {
+            trimmed = trimmed.replaceFirst("^```(?:json)?\\s*", "");
+            trimmed = trimmed.replaceFirst("\\s*```$", "");
+        }
+        return trimmed.trim();
     }
 
     private List<OptionItem> parseOptions(JsonNode optionsNode) {

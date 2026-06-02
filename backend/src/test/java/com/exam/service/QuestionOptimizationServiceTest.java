@@ -147,6 +147,23 @@ class QuestionOptimizationServiceTest {
         server.verify();
     }
 
+    @Test
+    void optimizePreview_shouldParseChunkedSseDeltaResponse() {
+        server.expect(once(), requestTo("http://localhost:1879/v1/chat/completions"))
+                .andRespond(withSuccess("""
+                        data: {"choices":[{"delta":{"content":"{\\\"content\\\":\\\"分片题干\\\","}}]}
+                        data: {"choices":[{"delta":{"content":"\\\"answer\\\":\\\"C\\\",\\\"explanation\\\":\\\"分片解析\\\"}"}}]}
+                        data: [DONE]
+                        """, MediaType.parseMediaType("text/event-stream;charset=utf-8")));
+
+        QuestionOptimizeResponse response = service.optimizePreview(buildRequest(QuestionType.SHORT_ANSWER));
+
+        assertEquals("分片题干", response.getOptimizedQuestion().getContent());
+        assertEquals("C", response.getOptimizedQuestion().getAnswer());
+        assertEquals("分片解析", response.getOptimizedQuestion().getExplanation());
+        server.verify();
+    }
+
     private QuestionOptimizeRequest buildRequest(QuestionType type) {
         QuestionDTO question = new QuestionDTO();
         question.setId(1L);

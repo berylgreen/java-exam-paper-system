@@ -5065,5 +5065,5705 @@
     "defaultScore": 20,
     "source": "自建工程编程题",
     "projectPath": "projects/smarthome-streams-question"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理空指针异常时通常包含在______块中。",
+    "answer": "try",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第5章 异常处理",
+    "difficulty": "EASY",
+    "content": "Java中，处理数组越界异常时通常包含在______块中。",
+    "answer": "try",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理类型转换异常时通常包含在______块中。",
+    "answer": "try",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第5章 异常处理",
+    "difficulty": "EASY",
+    "content": "Java中，处理算术运算异常时通常包含在______块中。",
+    "answer": "try",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第5章 异常处理",
+    "difficulty": "EASY",
+    "content": "Java中，处理输入输出异常时通常包含在______块中。",
+    "answer": "try",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理类未找到异常时通常包含在______块中。",
+    "answer": "try",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理非法参数异常时通常包含在______块中。",
+    "answer": "try",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理中断异常时通常包含在______块中。",
+    "answer": "try",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理反射异常时通常包含在______块中。",
+    "answer": "try",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第5章 异常处理",
+    "difficulty": "EASY",
+    "content": "Java中，处理安全异常时通常包含在______块中。",
+    "answer": "try",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "在Java集合框架中，List接口的常用实现类是______。",
+    "answer": "ArrayList",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第6章 集合框架",
+    "difficulty": "EASY",
+    "content": "在Java集合框架中，Set接口的常用实现类是______。",
+    "answer": "HashSet",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第6章 集合框架",
+    "difficulty": "EASY",
+    "content": "在Java集合框架中，Map接口的常用实现类是______。",
+    "answer": "HashMap",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第6章 集合框架",
+    "difficulty": "EASY",
+    "content": "在Java集合框架中，Queue接口的常用实现类是______。",
+    "answer": "LinkedList",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第6章 集合框架",
+    "difficulty": "EASY",
+    "content": "在Java集合框架中，Deque接口的常用实现类是______。",
+    "answer": "ArrayDeque",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "在Java集合框架中，SortedSet接口的常用实现类是______。",
+    "answer": "TreeSet",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "在Java集合框架中，SortedMap接口的常用实现类是______。",
+    "answer": "TreeMap",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第6章 集合框架",
+    "difficulty": "EASY",
+    "content": "在Java集合框架中，NavigableSet接口的常用实现类是______。",
+    "answer": "TreeSet",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "在Java集合框架中，NavigableMap接口的常用实现类是______。",
+    "answer": "TreeMap",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "在Java集合框架中，ConcurrentMap接口的常用实现类是______。",
+    "answer": "ConcurrentHashMap",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "调用Thread类的______方法可以启动主线程。",
+    "answer": "start",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第7章 多线程",
+    "difficulty": "EASY",
+    "content": "调用Thread类的______方法可以启动子线程。",
+    "answer": "start",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "调用Thread类的______方法可以启动守护线程。",
+    "answer": "start",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "调用Thread类的______方法可以启动用户线程。",
+    "answer": "start",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第7章 多线程",
+    "difficulty": "EASY",
+    "content": "调用Thread类的______方法可以启动后台线程。",
+    "answer": "start",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第7章 多线程",
+    "difficulty": "EASY",
+    "content": "调用Thread类的______方法可以启动前台线程。",
+    "answer": "start",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第7章 多线程",
+    "difficulty": "EASY",
+    "content": "调用Thread类的______方法可以启动工作线程。",
+    "answer": "start",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第7章 多线程",
+    "difficulty": "EASY",
+    "content": "调用Thread类的______方法可以启动任务线程。",
+    "answer": "start",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "调用Thread类的______方法可以启动下载线程。",
+    "answer": "start",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第7章 多线程",
+    "difficulty": "EASY",
+    "content": "调用Thread类的______方法可以启动计算线程。",
+    "answer": "start",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理字节输入流的顶级抽象类是______。",
+    "answer": "InputStream",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理字节输出流的顶级抽象类是______。",
+    "answer": "OutputStream",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "EASY",
+    "content": "Java中，处理字符输入流的顶级抽象类是______。",
+    "answer": "Reader",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理字符输出流的顶级抽象类是______。",
+    "answer": "Writer",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "EASY",
+    "content": "Java中，处理文件输入流的顶级抽象类是______。",
+    "answer": "FileInputStream",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理文件输出流的顶级抽象类是______。",
+    "answer": "FileOutputStream",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理缓冲字节输入流的顶级抽象类是______。",
+    "answer": "BufferedInputStream",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理缓冲字节输出流的顶级抽象类是______。",
+    "answer": "BufferedOutputStream",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "Java中，处理缓冲字符输入流的顶级抽象类是______。",
+    "answer": "BufferedReader",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "EASY",
+    "content": "Java中，处理缓冲字符输出流的顶级抽象类是______。",
+    "answer": "BufferedWriter",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在网络编程中，基于TCP协议的Socket编程常使用______类表示客户端套接字。",
+    "answer": "Socket",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在网络编程中，基于可靠协议的Socket编程常使用______类表示客户端套接字。",
+    "answer": "Socket",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在网络编程中，基于面向连接协议的Socket编程常使用______类表示客户端套接字。",
+    "answer": "Socket",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在网络编程中，基于流式协议的Socket编程常使用______类表示客户端套接字。",
+    "answer": "Socket",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第9章 网络编程",
+    "difficulty": "EASY",
+    "content": "在网络编程中，基于端到端协议的Socket编程常使用______类表示客户端套接字。",
+    "answer": "Socket",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在网络编程中，基于全双工协议的Socket编程常使用______类表示客户端套接字。",
+    "answer": "Socket",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在网络编程中，基于HTTP底层协议的Socket编程常使用______类表示客户端套接字。",
+    "answer": "Socket",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在网络编程中，基于FTP底层协议的Socket编程常使用______类表示客户端套接字。",
+    "answer": "Socket",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第9章 网络编程",
+    "difficulty": "EASY",
+    "content": "在网络编程中，基于SMTP底层协议的Socket编程常使用______类表示客户端套接字。",
+    "answer": "Socket",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第9章 网络编程",
+    "difficulty": "EASY",
+    "content": "在网络编程中，基于POP3底层协议的Socket编程常使用______类表示客户端套接字。",
+    "answer": "Socket",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "EASY",
+    "content": "JDBC连接数据库时，表示数据库连接的接口是______（操作MySQL时必需）。",
+    "answer": "Connection",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "MEDIUM",
+    "content": "JDBC连接数据库时，表示数据库连接的接口是______（操作Oracle时必需）。",
+    "answer": "Connection",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "EASY",
+    "content": "JDBC连接数据库时，表示数据库连接的接口是______（操作SQL Server时必需）。",
+    "answer": "Connection",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "MEDIUM",
+    "content": "JDBC连接数据库时，表示数据库连接的接口是______（操作PostgreSQL时必需）。",
+    "answer": "Connection",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "EASY",
+    "content": "JDBC连接数据库时，表示数据库连接的接口是______（操作SQLite时必需）。",
+    "answer": "Connection",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "EASY",
+    "content": "JDBC连接数据库时，表示数据库连接的接口是______（操作DB2时必需）。",
+    "answer": "Connection",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "EASY",
+    "content": "JDBC连接数据库时，表示数据库连接的接口是______（操作MariaDB时必需）。",
+    "answer": "Connection",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "MEDIUM",
+    "content": "JDBC连接数据库时，表示数据库连接的接口是______（操作H2时必需）。",
+    "answer": "Connection",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "EASY",
+    "content": "JDBC连接数据库时，表示数据库连接的接口是______（操作Derby时必需）。",
+    "answer": "Connection",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "MEDIUM",
+    "content": "JDBC连接数据库时，表示数据库连接的接口是______（操作Sybase时必需）。",
+    "answer": "Connection",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "在Java中，使用______关键字来定义实体类。",
+    "answer": "class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "在Java中，使用______关键字来定义工具类。",
+    "answer": "class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "在Java中，使用______关键字来定义服务类。",
+    "answer": "class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "EASY",
+    "content": "在Java中，使用______关键字来定义控制类。",
+    "answer": "class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "EASY",
+    "content": "在Java中，使用______关键字来定义数据访问类。",
+    "answer": "class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "EASY",
+    "content": "在Java中，使用______关键字来定义视图类。",
+    "answer": "class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "在Java中，使用______关键字来定义模型类。",
+    "answer": "class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "EASY",
+    "content": "在Java中，使用______关键字来定义配置类。",
+    "answer": "class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "在Java中，使用______关键字来定义异常类。",
+    "answer": "class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "EASY",
+    "content": "在Java中，使用______关键字来定义抽象类。",
+    "answer": "class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "EASY",
+    "content": "子类重写父类方法时，可以使用______注解标识以提高可读性。",
+    "answer": "@Override",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "EASY",
+    "content": "子类重写父类方法时，可以使用______注解标识以提高安全性。",
+    "answer": "@Override",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "MEDIUM",
+    "content": "子类重写父类方法时，可以使用______注解标识以提高编译检查。",
+    "answer": "@Override",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "MEDIUM",
+    "content": "子类重写父类方法时，可以使用______注解标识以提高规范性。",
+    "answer": "@Override",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "MEDIUM",
+    "content": "子类重写父类方法时，可以使用______注解标识以提高维护性。",
+    "answer": "@Override",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "EASY",
+    "content": "子类重写父类方法时，可以使用______注解标识以提高清晰度。",
+    "answer": "@Override",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "EASY",
+    "content": "子类重写父类方法时，可以使用______注解标识以提高健壮性。",
+    "answer": "@Override",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "MEDIUM",
+    "content": "子类重写父类方法时，可以使用______注解标识以提高稳定性。",
+    "answer": "@Override",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "EASY",
+    "content": "子类重写父类方法时，可以使用______注解标识以提高一致性。",
+    "answer": "@Override",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "MEDIUM",
+    "content": "子类重写父类方法时，可以使用______注解标识以提高严谨性。",
+    "answer": "@Override",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "EASY",
+    "content": "Java中用于定义双精度浮点型变量的关键字是______。",
+    "answer": "double",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "EASY",
+    "content": "Java中用于定义双精度浮点型常量的关键字是______。",
+    "answer": "double",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "EASY",
+    "content": "Java中用于定义双精度浮点型参数的关键字是______。",
+    "answer": "double",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "Java中用于定义双精度浮点型属性的关键字是______。",
+    "answer": "double",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "EASY",
+    "content": "Java中用于定义双精度浮点型返回值的关键字是______。",
+    "answer": "double",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "Java中用于定义双精度浮点型数组的关键字是______。",
+    "answer": "double",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "Java中用于定义双精度浮点型集合泛型的关键字是______。",
+    "answer": "double",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "EASY",
+    "content": "Java中用于定义双精度浮点型接口类型的关键字是______。",
+    "answer": "double",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "EASY",
+    "content": "Java中用于定义双精度浮点型运算结果的关键字是______。",
+    "answer": "double",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "Java中用于定义双精度浮点型对象状态的关键字是______。",
+    "answer": "double",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "MEDIUM",
+    "content": "Java源代码文件扩展名为.java，编译后生成针对JVM的字节码文件扩展名为______。",
+    "answer": ".class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "MEDIUM",
+    "content": "Java源代码文件扩展名为.java，编译后生成针对Windows平台的字节码文件扩展名为______。",
+    "answer": ".class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "EASY",
+    "content": "Java源代码文件扩展名为.java，编译后生成针对Linux平台的字节码文件扩展名为______。",
+    "answer": ".class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "EASY",
+    "content": "Java源代码文件扩展名为.java，编译后生成针对Mac平台的字节码文件扩展名为______。",
+    "answer": ".class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "MEDIUM",
+    "content": "Java源代码文件扩展名为.java，编译后生成针对跨平台的字节码文件扩展名为______。",
+    "answer": ".class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "MEDIUM",
+    "content": "Java源代码文件扩展名为.java，编译后生成针对虚拟机的字节码文件扩展名为______。",
+    "answer": ".class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "EASY",
+    "content": "Java源代码文件扩展名为.java，编译后生成针对Java运行环境的字节码文件扩展名为______。",
+    "answer": ".class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "MEDIUM",
+    "content": "Java源代码文件扩展名为.java，编译后生成针对服务器端的字节码文件扩展名为______。",
+    "answer": ".class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "MEDIUM",
+    "content": "Java源代码文件扩展名为.java，编译后生成针对客户端的字节码文件扩展名为______。",
+    "answer": ".class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "FILL_BLANK",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "EASY",
+    "content": "Java源代码文件扩展名为.java，编译后生成针对移动端的字节码文件扩展名为______。",
+    "answer": ".class",
+    "explanation": "知识点考察",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "关于NullPointerException异常，以下说法正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "不可捕获"
+      },
+      {
+        "label": "B",
+        "text": "属于Exception的子类"
+      },
+      {
+        "label": "C",
+        "text": "必须抛出"
+      },
+      {
+        "label": "D",
+        "text": "是Error的一种"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "关于ArrayIndexOutOfBoundsException异常，以下说法正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "不可捕获"
+      },
+      {
+        "label": "B",
+        "text": "属于Exception的子类"
+      },
+      {
+        "label": "C",
+        "text": "必须抛出"
+      },
+      {
+        "label": "D",
+        "text": "是Error的一种"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "EASY",
+    "content": "关于ClassCastException异常，以下说法正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "不可捕获"
+      },
+      {
+        "label": "B",
+        "text": "属于Exception的子类"
+      },
+      {
+        "label": "C",
+        "text": "必须抛出"
+      },
+      {
+        "label": "D",
+        "text": "是Error的一种"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "EASY",
+    "content": "关于NumberFormatException异常，以下说法正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "不可捕获"
+      },
+      {
+        "label": "B",
+        "text": "属于Exception的子类"
+      },
+      {
+        "label": "C",
+        "text": "必须抛出"
+      },
+      {
+        "label": "D",
+        "text": "是Error的一种"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "关于ArithmeticException异常，以下说法正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "不可捕获"
+      },
+      {
+        "label": "B",
+        "text": "属于Exception的子类"
+      },
+      {
+        "label": "C",
+        "text": "必须抛出"
+      },
+      {
+        "label": "D",
+        "text": "是Error的一种"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "EASY",
+    "content": "关于IOException异常，以下说法正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "不可捕获"
+      },
+      {
+        "label": "B",
+        "text": "属于Exception的子类"
+      },
+      {
+        "label": "C",
+        "text": "必须抛出"
+      },
+      {
+        "label": "D",
+        "text": "是Error的一种"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "EASY",
+    "content": "关于SQLException异常，以下说法正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "不可捕获"
+      },
+      {
+        "label": "B",
+        "text": "属于Exception的子类"
+      },
+      {
+        "label": "C",
+        "text": "必须抛出"
+      },
+      {
+        "label": "D",
+        "text": "是Error的一种"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "EASY",
+    "content": "关于ClassNotFoundException异常，以下说法正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "不可捕获"
+      },
+      {
+        "label": "B",
+        "text": "属于Exception的子类"
+      },
+      {
+        "label": "C",
+        "text": "必须抛出"
+      },
+      {
+        "label": "D",
+        "text": "是Error的一种"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "关于InterruptedException异常，以下说法正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "不可捕获"
+      },
+      {
+        "label": "B",
+        "text": "属于Exception的子类"
+      },
+      {
+        "label": "C",
+        "text": "必须抛出"
+      },
+      {
+        "label": "D",
+        "text": "是Error的一种"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "EASY",
+    "content": "关于NoSuchMethodException异常，以下说法正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "不可捕获"
+      },
+      {
+        "label": "B",
+        "text": "属于Exception的子类"
+      },
+      {
+        "label": "C",
+        "text": "必须抛出"
+      },
+      {
+        "label": "D",
+        "text": "是Error的一种"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "以下哪个类是List接口的实现类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "Object"
+      },
+      {
+        "label": "D",
+        "text": "String"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "EASY",
+    "content": "以下哪个类是Set接口的实现类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "HashSet"
+      },
+      {
+        "label": "B",
+        "text": "ArrayList"
+      },
+      {
+        "label": "C",
+        "text": "Object"
+      },
+      {
+        "label": "D",
+        "text": "String"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "以下哪个类是Map接口的实现类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "HashMap"
+      },
+      {
+        "label": "B",
+        "text": "LinkedList"
+      },
+      {
+        "label": "C",
+        "text": "Object"
+      },
+      {
+        "label": "D",
+        "text": "String"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "EASY",
+    "content": "以下哪个类是Queue接口的实现类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "LinkedList"
+      },
+      {
+        "label": "B",
+        "text": "HashMap"
+      },
+      {
+        "label": "C",
+        "text": "Object"
+      },
+      {
+        "label": "D",
+        "text": "String"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "EASY",
+    "content": "以下哪个类是Deque接口的实现类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayDeque"
+      },
+      {
+        "label": "B",
+        "text": "TreeMap"
+      },
+      {
+        "label": "C",
+        "text": "Object"
+      },
+      {
+        "label": "D",
+        "text": "String"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "以下哪个类是SortedSet接口的实现类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "TreeSet"
+      },
+      {
+        "label": "B",
+        "text": "ArrayList"
+      },
+      {
+        "label": "C",
+        "text": "Object"
+      },
+      {
+        "label": "D",
+        "text": "String"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "以下哪个类是SortedMap接口的实现类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "TreeMap"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "Object"
+      },
+      {
+        "label": "D",
+        "text": "String"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "以下哪个类是List接口的实现类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "LinkedList"
+      },
+      {
+        "label": "B",
+        "text": "HashMap"
+      },
+      {
+        "label": "C",
+        "text": "Object"
+      },
+      {
+        "label": "D",
+        "text": "String"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "EASY",
+    "content": "以下哪个类是Set接口的实现类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "TreeSet"
+      },
+      {
+        "label": "B",
+        "text": "ArrayList"
+      },
+      {
+        "label": "C",
+        "text": "Object"
+      },
+      {
+        "label": "D",
+        "text": "String"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "以下哪个类是Map接口的实现类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "TreeMap"
+      },
+      {
+        "label": "B",
+        "text": "LinkedList"
+      },
+      {
+        "label": "C",
+        "text": "Object"
+      },
+      {
+        "label": "D",
+        "text": "String"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "在多线程编程中，sleep()方法的作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "使当前线程休眠"
+      },
+      {
+        "label": "B",
+        "text": "唤醒线程"
+      },
+      {
+        "label": "C",
+        "text": "销毁线程"
+      },
+      {
+        "label": "D",
+        "text": "获得锁"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "在多线程编程中，Thread.sleep()方法的作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "使当前线程休眠"
+      },
+      {
+        "label": "B",
+        "text": "唤醒线程"
+      },
+      {
+        "label": "C",
+        "text": "销毁线程"
+      },
+      {
+        "label": "D",
+        "text": "获得锁"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "EASY",
+    "content": "在多线程编程中，TimeUnit.sleep()方法的作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "使当前线程休眠"
+      },
+      {
+        "label": "B",
+        "text": "唤醒线程"
+      },
+      {
+        "label": "C",
+        "text": "销毁线程"
+      },
+      {
+        "label": "D",
+        "text": "获得锁"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "在多线程编程中，Thread.sleep(100)方法的作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "使当前线程休眠"
+      },
+      {
+        "label": "B",
+        "text": "唤醒线程"
+      },
+      {
+        "label": "C",
+        "text": "销毁线程"
+      },
+      {
+        "label": "D",
+        "text": "获得锁"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "EASY",
+    "content": "在多线程编程中，sleep(1000)方法的作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "使当前线程休眠"
+      },
+      {
+        "label": "B",
+        "text": "唤醒线程"
+      },
+      {
+        "label": "C",
+        "text": "销毁线程"
+      },
+      {
+        "label": "D",
+        "text": "获得锁"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "EASY",
+    "content": "在多线程编程中，休眠当前线程方法的作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "使当前线程休眠"
+      },
+      {
+        "label": "B",
+        "text": "唤醒线程"
+      },
+      {
+        "label": "C",
+        "text": "销毁线程"
+      },
+      {
+        "label": "D",
+        "text": "获得锁"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "在多线程编程中，暂停执行方法的作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "使当前线程休眠"
+      },
+      {
+        "label": "B",
+        "text": "唤醒线程"
+      },
+      {
+        "label": "C",
+        "text": "销毁线程"
+      },
+      {
+        "label": "D",
+        "text": "获得锁"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "EASY",
+    "content": "在多线程编程中，延时方法的作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "使当前线程休眠"
+      },
+      {
+        "label": "B",
+        "text": "唤醒线程"
+      },
+      {
+        "label": "C",
+        "text": "销毁线程"
+      },
+      {
+        "label": "D",
+        "text": "获得锁"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "EASY",
+    "content": "在多线程编程中，定时等待方法的作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "使当前线程休眠"
+      },
+      {
+        "label": "B",
+        "text": "唤醒线程"
+      },
+      {
+        "label": "C",
+        "text": "销毁线程"
+      },
+      {
+        "label": "D",
+        "text": "获得锁"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "EASY",
+    "content": "在多线程编程中，让出CPU但不释放锁方法的作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "使当前线程休眠"
+      },
+      {
+        "label": "B",
+        "text": "唤醒线程"
+      },
+      {
+        "label": "C",
+        "text": "销毁线程"
+      },
+      {
+        "label": "D",
+        "text": "获得锁"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "EASY",
+    "content": "OutputStream属于以下哪种流？",
+    "options": [
+      {
+        "label": "A",
+        "text": "字节输入流"
+      },
+      {
+        "label": "B",
+        "text": "字符输入流"
+      },
+      {
+        "label": "C",
+        "text": "字节输出流"
+      },
+      {
+        "label": "D",
+        "text": "字符输出流"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "EASY",
+    "content": "FileOutputStream属于以下哪种流？",
+    "options": [
+      {
+        "label": "A",
+        "text": "字节输入流"
+      },
+      {
+        "label": "B",
+        "text": "字符输入流"
+      },
+      {
+        "label": "C",
+        "text": "字节输出流"
+      },
+      {
+        "label": "D",
+        "text": "字符输出流"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "EASY",
+    "content": "BufferedOutputStream属于以下哪种流？",
+    "options": [
+      {
+        "label": "A",
+        "text": "字节输入流"
+      },
+      {
+        "label": "B",
+        "text": "字符输入流"
+      },
+      {
+        "label": "C",
+        "text": "字节输出流"
+      },
+      {
+        "label": "D",
+        "text": "字符输出流"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "EASY",
+    "content": "DataOutputStream属于以下哪种流？",
+    "options": [
+      {
+        "label": "A",
+        "text": "字节输入流"
+      },
+      {
+        "label": "B",
+        "text": "字符输入流"
+      },
+      {
+        "label": "C",
+        "text": "字节输出流"
+      },
+      {
+        "label": "D",
+        "text": "字符输出流"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "EASY",
+    "content": "ObjectOutputStream属于以下哪种流？",
+    "options": [
+      {
+        "label": "A",
+        "text": "字节输入流"
+      },
+      {
+        "label": "B",
+        "text": "字符输入流"
+      },
+      {
+        "label": "C",
+        "text": "字节输出流"
+      },
+      {
+        "label": "D",
+        "text": "字符输出流"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "EASY",
+    "content": "ByteArrayOutputStream属于以下哪种流？",
+    "options": [
+      {
+        "label": "A",
+        "text": "字节输入流"
+      },
+      {
+        "label": "B",
+        "text": "字符输入流"
+      },
+      {
+        "label": "C",
+        "text": "字节输出流"
+      },
+      {
+        "label": "D",
+        "text": "字符输出流"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "PrintStream属于以下哪种流？",
+    "options": [
+      {
+        "label": "A",
+        "text": "字节输入流"
+      },
+      {
+        "label": "B",
+        "text": "字符输入流"
+      },
+      {
+        "label": "C",
+        "text": "字节输出流"
+      },
+      {
+        "label": "D",
+        "text": "字符输出流"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "FilterOutputStream属于以下哪种流？",
+    "options": [
+      {
+        "label": "A",
+        "text": "字节输入流"
+      },
+      {
+        "label": "B",
+        "text": "字符输入流"
+      },
+      {
+        "label": "C",
+        "text": "字节输出流"
+      },
+      {
+        "label": "D",
+        "text": "字符输出流"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "PipedOutputStream属于以下哪种流？",
+    "options": [
+      {
+        "label": "A",
+        "text": "字节输入流"
+      },
+      {
+        "label": "B",
+        "text": "字符输入流"
+      },
+      {
+        "label": "C",
+        "text": "字节输出流"
+      },
+      {
+        "label": "D",
+        "text": "字符输出流"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "SocketOutputStream属于以下哪种流？",
+    "options": [
+      {
+        "label": "A",
+        "text": "字节输入流"
+      },
+      {
+        "label": "B",
+        "text": "字符输入流"
+      },
+      {
+        "label": "C",
+        "text": "字节输出流"
+      },
+      {
+        "label": "D",
+        "text": "字符输出流"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第9章 网络编程",
+    "difficulty": "EASY",
+    "content": "在使用UDP协议进行网络传输时，常用的数据包类是DatagramPacket，它的主要作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装数据和目标地址"
+      },
+      {
+        "label": "B",
+        "text": "建立持久连接"
+      },
+      {
+        "label": "C",
+        "text": "保证可靠传输"
+      },
+      {
+        "label": "D",
+        "text": "加密数据"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在使用UDP协议进行网络传输时，常用的数据包类是数据报包，它的主要作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装数据和目标地址"
+      },
+      {
+        "label": "B",
+        "text": "建立持久连接"
+      },
+      {
+        "label": "C",
+        "text": "保证可靠传输"
+      },
+      {
+        "label": "D",
+        "text": "加密数据"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在使用UDP协议进行网络传输时，常用的数据包类是UDP数据包，它的主要作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装数据和目标地址"
+      },
+      {
+        "label": "B",
+        "text": "建立持久连接"
+      },
+      {
+        "label": "C",
+        "text": "保证可靠传输"
+      },
+      {
+        "label": "D",
+        "text": "加密数据"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第9章 网络编程",
+    "difficulty": "EASY",
+    "content": "在使用UDP协议进行网络传输时，常用的数据包类是无连接数据包，它的主要作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装数据和目标地址"
+      },
+      {
+        "label": "B",
+        "text": "建立持久连接"
+      },
+      {
+        "label": "C",
+        "text": "保证可靠传输"
+      },
+      {
+        "label": "D",
+        "text": "加密数据"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在使用UDP协议进行网络传输时，常用的数据包类是广播包，它的主要作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装数据和目标地址"
+      },
+      {
+        "label": "B",
+        "text": "建立持久连接"
+      },
+      {
+        "label": "C",
+        "text": "保证可靠传输"
+      },
+      {
+        "label": "D",
+        "text": "加密数据"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在使用UDP协议进行网络传输时，常用的数据包类是组播包，它的主要作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装数据和目标地址"
+      },
+      {
+        "label": "B",
+        "text": "建立持久连接"
+      },
+      {
+        "label": "C",
+        "text": "保证可靠传输"
+      },
+      {
+        "label": "D",
+        "text": "加密数据"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在使用UDP协议进行网络传输时，常用的数据包类是单播包，它的主要作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装数据和目标地址"
+      },
+      {
+        "label": "B",
+        "text": "建立持久连接"
+      },
+      {
+        "label": "C",
+        "text": "保证可靠传输"
+      },
+      {
+        "label": "D",
+        "text": "加密数据"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在使用UDP协议进行网络传输时，常用的数据包类是报文段，它的主要作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装数据和目标地址"
+      },
+      {
+        "label": "B",
+        "text": "建立持久连接"
+      },
+      {
+        "label": "C",
+        "text": "保证可靠传输"
+      },
+      {
+        "label": "D",
+        "text": "加密数据"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第9章 网络编程",
+    "difficulty": "EASY",
+    "content": "在使用UDP协议进行网络传输时，常用的数据包类是UDP分组，它的主要作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装数据和目标地址"
+      },
+      {
+        "label": "B",
+        "text": "建立持久连接"
+      },
+      {
+        "label": "C",
+        "text": "保证可靠传输"
+      },
+      {
+        "label": "D",
+        "text": "加密数据"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第9章 网络编程",
+    "difficulty": "MEDIUM",
+    "content": "在使用UDP协议进行网络传输时，常用的数据包类是网络包，它的主要作用是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装数据和目标地址"
+      },
+      {
+        "label": "B",
+        "text": "建立持久连接"
+      },
+      {
+        "label": "C",
+        "text": "保证可靠传输"
+      },
+      {
+        "label": "D",
+        "text": "加密数据"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "EASY",
+    "content": "JDBC中使用预编译对象可以防止SQL注入攻击。",
+    "options": [
+      {
+        "label": "A",
+        "text": "Statement"
+      },
+      {
+        "label": "B",
+        "text": "ResultSet"
+      },
+      {
+        "label": "C",
+        "text": "Connection"
+      },
+      {
+        "label": "D",
+        "text": "PreparedStatement"
+      }
+    ],
+    "answer": "D",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "EASY",
+    "content": "JDBC中使用参数化对象可以防止SQL注入攻击。",
+    "options": [
+      {
+        "label": "A",
+        "text": "Statement"
+      },
+      {
+        "label": "B",
+        "text": "ResultSet"
+      },
+      {
+        "label": "C",
+        "text": "Connection"
+      },
+      {
+        "label": "D",
+        "text": "PreparedStatement"
+      }
+    ],
+    "answer": "D",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "MEDIUM",
+    "content": "JDBC中使用动态SQL对象可以防止SQL注入攻击。",
+    "options": [
+      {
+        "label": "A",
+        "text": "Statement"
+      },
+      {
+        "label": "B",
+        "text": "ResultSet"
+      },
+      {
+        "label": "C",
+        "text": "Connection"
+      },
+      {
+        "label": "D",
+        "text": "PreparedStatement"
+      }
+    ],
+    "answer": "D",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "MEDIUM",
+    "content": "JDBC中使用占位符对象可以防止SQL注入攻击。",
+    "options": [
+      {
+        "label": "A",
+        "text": "Statement"
+      },
+      {
+        "label": "B",
+        "text": "ResultSet"
+      },
+      {
+        "label": "C",
+        "text": "Connection"
+      },
+      {
+        "label": "D",
+        "text": "PreparedStatement"
+      }
+    ],
+    "answer": "D",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "EASY",
+    "content": "JDBC中使用预处理对象可以防止SQL注入攻击。",
+    "options": [
+      {
+        "label": "A",
+        "text": "Statement"
+      },
+      {
+        "label": "B",
+        "text": "ResultSet"
+      },
+      {
+        "label": "C",
+        "text": "Connection"
+      },
+      {
+        "label": "D",
+        "text": "PreparedStatement"
+      }
+    ],
+    "answer": "D",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "EASY",
+    "content": "JDBC中使用带参数对象可以防止SQL注入攻击。",
+    "options": [
+      {
+        "label": "A",
+        "text": "Statement"
+      },
+      {
+        "label": "B",
+        "text": "ResultSet"
+      },
+      {
+        "label": "C",
+        "text": "Connection"
+      },
+      {
+        "label": "D",
+        "text": "PreparedStatement"
+      }
+    ],
+    "answer": "D",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "EASY",
+    "content": "JDBC中使用安全性高对象可以防止SQL注入攻击。",
+    "options": [
+      {
+        "label": "A",
+        "text": "Statement"
+      },
+      {
+        "label": "B",
+        "text": "ResultSet"
+      },
+      {
+        "label": "C",
+        "text": "Connection"
+      },
+      {
+        "label": "D",
+        "text": "PreparedStatement"
+      }
+    ],
+    "answer": "D",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "MEDIUM",
+    "content": "JDBC中使用性能更好对象可以防止SQL注入攻击。",
+    "options": [
+      {
+        "label": "A",
+        "text": "Statement"
+      },
+      {
+        "label": "B",
+        "text": "ResultSet"
+      },
+      {
+        "label": "C",
+        "text": "Connection"
+      },
+      {
+        "label": "D",
+        "text": "PreparedStatement"
+      }
+    ],
+    "answer": "D",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "EASY",
+    "content": "JDBC中使用带?参数对象可以防止SQL注入攻击。",
+    "options": [
+      {
+        "label": "A",
+        "text": "Statement"
+      },
+      {
+        "label": "B",
+        "text": "ResultSet"
+      },
+      {
+        "label": "C",
+        "text": "Connection"
+      },
+      {
+        "label": "D",
+        "text": "PreparedStatement"
+      }
+    ],
+    "answer": "D",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第10章 JDBC编程",
+    "difficulty": "MEDIUM",
+    "content": "JDBC中使用防注入对象可以防止SQL注入攻击。",
+    "options": [
+      {
+        "label": "A",
+        "text": "Statement"
+      },
+      {
+        "label": "B",
+        "text": "ResultSet"
+      },
+      {
+        "label": "C",
+        "text": "Connection"
+      },
+      {
+        "label": "D",
+        "text": "PreparedStatement"
+      }
+    ],
+    "answer": "D",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "在实例方法中，this关键字指的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "父类对象"
+      },
+      {
+        "label": "B",
+        "text": "当前对象实例"
+      },
+      {
+        "label": "C",
+        "text": "静态对象"
+      },
+      {
+        "label": "D",
+        "text": "局部变量"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "在构造方法中，this关键字指的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "父类对象"
+      },
+      {
+        "label": "B",
+        "text": "当前对象实例"
+      },
+      {
+        "label": "C",
+        "text": "静态对象"
+      },
+      {
+        "label": "D",
+        "text": "局部变量"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "在内部类中，this关键字指的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "父类对象"
+      },
+      {
+        "label": "B",
+        "text": "当前对象实例"
+      },
+      {
+        "label": "C",
+        "text": "静态对象"
+      },
+      {
+        "label": "D",
+        "text": "局部变量"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "EASY",
+    "content": "在非静态方法中，this关键字指的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "父类对象"
+      },
+      {
+        "label": "B",
+        "text": "当前对象实例"
+      },
+      {
+        "label": "C",
+        "text": "静态对象"
+      },
+      {
+        "label": "D",
+        "text": "局部变量"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "在成员方法中，this关键字指的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "父类对象"
+      },
+      {
+        "label": "B",
+        "text": "当前对象实例"
+      },
+      {
+        "label": "C",
+        "text": "静态对象"
+      },
+      {
+        "label": "D",
+        "text": "局部变量"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "EASY",
+    "content": "在初始化块中，this关键字指的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "父类对象"
+      },
+      {
+        "label": "B",
+        "text": "当前对象实例"
+      },
+      {
+        "label": "C",
+        "text": "静态对象"
+      },
+      {
+        "label": "D",
+        "text": "局部变量"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "在setter方法中，this关键字指的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "父类对象"
+      },
+      {
+        "label": "B",
+        "text": "当前对象实例"
+      },
+      {
+        "label": "C",
+        "text": "静态对象"
+      },
+      {
+        "label": "D",
+        "text": "局部变量"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "在getter方法中，this关键字指的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "父类对象"
+      },
+      {
+        "label": "B",
+        "text": "当前对象实例"
+      },
+      {
+        "label": "C",
+        "text": "静态对象"
+      },
+      {
+        "label": "D",
+        "text": "局部变量"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "EASY",
+    "content": "在重写方法中，this关键字指的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "父类对象"
+      },
+      {
+        "label": "B",
+        "text": "当前对象实例"
+      },
+      {
+        "label": "C",
+        "text": "静态对象"
+      },
+      {
+        "label": "D",
+        "text": "局部变量"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "EASY",
+    "content": "在普通方法中，this关键字指的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "父类对象"
+      },
+      {
+        "label": "B",
+        "text": "当前对象实例"
+      },
+      {
+        "label": "C",
+        "text": "静态对象"
+      },
+      {
+        "label": "D",
+        "text": "局部变量"
+      }
+    ],
+    "answer": "B",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "MEDIUM",
+    "content": "关于Java中的final关键字，以下描述正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "只能修饰变量"
+      },
+      {
+        "label": "B",
+        "text": "可以被继承修改"
+      },
+      {
+        "label": "C",
+        "text": "表示不可变或最终的"
+      },
+      {
+        "label": "D",
+        "text": "用于多态"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "EASY",
+    "content": "关于Java中的最终修饰符关键字，以下描述正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "只能修饰变量"
+      },
+      {
+        "label": "B",
+        "text": "可以被继承修改"
+      },
+      {
+        "label": "C",
+        "text": "表示不可变或最终的"
+      },
+      {
+        "label": "D",
+        "text": "用于多态"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "EASY",
+    "content": "关于Java中的修饰类的final关键字，以下描述正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "只能修饰变量"
+      },
+      {
+        "label": "B",
+        "text": "可以被继承修改"
+      },
+      {
+        "label": "C",
+        "text": "表示不可变或最终的"
+      },
+      {
+        "label": "D",
+        "text": "用于多态"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "MEDIUM",
+    "content": "关于Java中的修饰方法的final关键字，以下描述正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "只能修饰变量"
+      },
+      {
+        "label": "B",
+        "text": "可以被继承修改"
+      },
+      {
+        "label": "C",
+        "text": "表示不可变或最终的"
+      },
+      {
+        "label": "D",
+        "text": "用于多态"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "MEDIUM",
+    "content": "关于Java中的修饰变量的final关键字，以下描述正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "只能修饰变量"
+      },
+      {
+        "label": "B",
+        "text": "可以被继承修改"
+      },
+      {
+        "label": "C",
+        "text": "表示不可变或最终的"
+      },
+      {
+        "label": "D",
+        "text": "用于多态"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "EASY",
+    "content": "关于Java中的常量声明符关键字，以下描述正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "只能修饰变量"
+      },
+      {
+        "label": "B",
+        "text": "可以被继承修改"
+      },
+      {
+        "label": "C",
+        "text": "表示不可变或最终的"
+      },
+      {
+        "label": "D",
+        "text": "用于多态"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "EASY",
+    "content": "关于Java中的不可变性关键字，以下描述正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "只能修饰变量"
+      },
+      {
+        "label": "B",
+        "text": "可以被继承修改"
+      },
+      {
+        "label": "C",
+        "text": "表示不可变或最终的"
+      },
+      {
+        "label": "D",
+        "text": "用于多态"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "EASY",
+    "content": "关于Java中的性能优化修饰符关键字，以下描述正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "只能修饰变量"
+      },
+      {
+        "label": "B",
+        "text": "可以被继承修改"
+      },
+      {
+        "label": "C",
+        "text": "表示不可变或最终的"
+      },
+      {
+        "label": "D",
+        "text": "用于多态"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "MEDIUM",
+    "content": "关于Java中的安全修饰符关键字，以下描述正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "只能修饰变量"
+      },
+      {
+        "label": "B",
+        "text": "可以被继承修改"
+      },
+      {
+        "label": "C",
+        "text": "表示不可变或最终的"
+      },
+      {
+        "label": "D",
+        "text": "用于多态"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第4章 面向对象进阶",
+    "difficulty": "EASY",
+    "content": "关于Java中的设计模式相关关键字关键字，以下描述正确的是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "只能修饰变量"
+      },
+      {
+        "label": "B",
+        "text": "可以被继承修改"
+      },
+      {
+        "label": "C",
+        "text": "表示不可变或最终的"
+      },
+      {
+        "label": "D",
+        "text": "用于多态"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "EASY",
+    "content": "至少执行一次的循环的特点是先执行循环体再判断条件。",
+    "options": [
+      {
+        "label": "A",
+        "text": "do-while"
+      },
+      {
+        "label": "B",
+        "text": "while"
+      },
+      {
+        "label": "C",
+        "text": "for"
+      },
+      {
+        "label": "D",
+        "text": "foreach"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "底部条件测试的循环的特点是先执行循环体再判断条件。",
+    "options": [
+      {
+        "label": "A",
+        "text": "do-while"
+      },
+      {
+        "label": "B",
+        "text": "while"
+      },
+      {
+        "label": "C",
+        "text": "for"
+      },
+      {
+        "label": "D",
+        "text": "foreach"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "后测试的循环的特点是先执行循环体再判断条件。",
+    "options": [
+      {
+        "label": "A",
+        "text": "do-while"
+      },
+      {
+        "label": "B",
+        "text": "while"
+      },
+      {
+        "label": "C",
+        "text": "for"
+      },
+      {
+        "label": "D",
+        "text": "foreach"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "EASY",
+    "content": "先做后判断的循环的特点是先执行循环体再判断条件。",
+    "options": [
+      {
+        "label": "A",
+        "text": "do-while"
+      },
+      {
+        "label": "B",
+        "text": "while"
+      },
+      {
+        "label": "C",
+        "text": "for"
+      },
+      {
+        "label": "D",
+        "text": "foreach"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "必定执行一回的循环的特点是先执行循环体再判断条件。",
+    "options": [
+      {
+        "label": "A",
+        "text": "do-while"
+      },
+      {
+        "label": "B",
+        "text": "while"
+      },
+      {
+        "label": "C",
+        "text": "for"
+      },
+      {
+        "label": "D",
+        "text": "foreach"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "特定的循环结构循环的特点是先执行循环体再判断条件。",
+    "options": [
+      {
+        "label": "A",
+        "text": "do-while"
+      },
+      {
+        "label": "B",
+        "text": "while"
+      },
+      {
+        "label": "C",
+        "text": "for"
+      },
+      {
+        "label": "D",
+        "text": "foreach"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "do-while类型循环的特点是先执行循环体再判断条件。",
+    "options": [
+      {
+        "label": "A",
+        "text": "do-while"
+      },
+      {
+        "label": "B",
+        "text": "while"
+      },
+      {
+        "label": "C",
+        "text": "for"
+      },
+      {
+        "label": "D",
+        "text": "foreach"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "包含do关键字的循环的特点是先执行循环体再判断条件。",
+    "options": [
+      {
+        "label": "A",
+        "text": "do-while"
+      },
+      {
+        "label": "B",
+        "text": "while"
+      },
+      {
+        "label": "C",
+        "text": "for"
+      },
+      {
+        "label": "D",
+        "text": "foreach"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "循环体在前的循环的特点是先执行循环体再判断条件。",
+    "options": [
+      {
+        "label": "A",
+        "text": "do-while"
+      },
+      {
+        "label": "B",
+        "text": "while"
+      },
+      {
+        "label": "C",
+        "text": "for"
+      },
+      {
+        "label": "D",
+        "text": "foreach"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "条件在后的循环的特点是先执行循环体再判断条件。",
+    "options": [
+      {
+        "label": "A",
+        "text": "do-while"
+      },
+      {
+        "label": "B",
+        "text": "while"
+      },
+      {
+        "label": "C",
+        "text": "for"
+      },
+      {
+        "label": "D",
+        "text": "foreach"
+      }
+    ],
+    "answer": "A",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "EASY",
+    "content": "Java的跨平台机制使得程序能够在不同操作系统上运行。",
+    "options": [
+      {
+        "label": "A",
+        "text": "面向对象"
+      },
+      {
+        "label": "B",
+        "text": "多线程"
+      },
+      {
+        "label": "C",
+        "text": "虚拟机(JVM)"
+      },
+      {
+        "label": "D",
+        "text": "垃圾回收"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "MEDIUM",
+    "content": "Java的可移植性机制使得程序能够在不同操作系统上运行。",
+    "options": [
+      {
+        "label": "A",
+        "text": "面向对象"
+      },
+      {
+        "label": "B",
+        "text": "多线程"
+      },
+      {
+        "label": "C",
+        "text": "虚拟机(JVM)"
+      },
+      {
+        "label": "D",
+        "text": "垃圾回收"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "MEDIUM",
+    "content": "Java的Write Once Run Anywhere机制使得程序能够在不同操作系统上运行。",
+    "options": [
+      {
+        "label": "A",
+        "text": "面向对象"
+      },
+      {
+        "label": "B",
+        "text": "多线程"
+      },
+      {
+        "label": "C",
+        "text": "虚拟机(JVM)"
+      },
+      {
+        "label": "D",
+        "text": "垃圾回收"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "EASY",
+    "content": "Java的系统无关性机制使得程序能够在不同操作系统上运行。",
+    "options": [
+      {
+        "label": "A",
+        "text": "面向对象"
+      },
+      {
+        "label": "B",
+        "text": "多线程"
+      },
+      {
+        "label": "C",
+        "text": "虚拟机(JVM)"
+      },
+      {
+        "label": "D",
+        "text": "垃圾回收"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "EASY",
+    "content": "Java的平台无关性机制使得程序能够在不同操作系统上运行。",
+    "options": [
+      {
+        "label": "A",
+        "text": "面向对象"
+      },
+      {
+        "label": "B",
+        "text": "多线程"
+      },
+      {
+        "label": "C",
+        "text": "虚拟机(JVM)"
+      },
+      {
+        "label": "D",
+        "text": "垃圾回收"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "MEDIUM",
+    "content": "Java的字节码机制使得程序能够在不同操作系统上运行。",
+    "options": [
+      {
+        "label": "A",
+        "text": "面向对象"
+      },
+      {
+        "label": "B",
+        "text": "多线程"
+      },
+      {
+        "label": "C",
+        "text": "虚拟机(JVM)"
+      },
+      {
+        "label": "D",
+        "text": "垃圾回收"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "MEDIUM",
+    "content": "Java的平台独立机制使得程序能够在不同操作系统上运行。",
+    "options": [
+      {
+        "label": "A",
+        "text": "面向对象"
+      },
+      {
+        "label": "B",
+        "text": "多线程"
+      },
+      {
+        "label": "C",
+        "text": "虚拟机(JVM)"
+      },
+      {
+        "label": "D",
+        "text": "垃圾回收"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "EASY",
+    "content": "Java的中立架构机制使得程序能够在不同操作系统上运行。",
+    "options": [
+      {
+        "label": "A",
+        "text": "面向对象"
+      },
+      {
+        "label": "B",
+        "text": "多线程"
+      },
+      {
+        "label": "C",
+        "text": "虚拟机(JVM)"
+      },
+      {
+        "label": "D",
+        "text": "垃圾回收"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "EASY",
+    "content": "Java的统一运行机制使得程序能够在不同操作系统上运行。",
+    "options": [
+      {
+        "label": "A",
+        "text": "面向对象"
+      },
+      {
+        "label": "B",
+        "text": "多线程"
+      },
+      {
+        "label": "C",
+        "text": "虚拟机(JVM)"
+      },
+      {
+        "label": "D",
+        "text": "垃圾回收"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "SINGLE_CHOICE",
+    "chapter": "第1章 Java概述与环境",
+    "difficulty": "MEDIUM",
+    "content": "Java的多端运行机制使得程序能够在不同操作系统上运行。",
+    "options": [
+      {
+        "label": "A",
+        "text": "面向对象"
+      },
+      {
+        "label": "B",
+        "text": "多线程"
+      },
+      {
+        "label": "C",
+        "text": "虚拟机(JVM)"
+      },
+      {
+        "label": "D",
+        "text": "垃圾回收"
+      }
+    ],
+    "answer": "C",
+    "explanation": "基础知识点",
+    "defaultScore": 2,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "以下哪些属于RuntimeException的子类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "NullPointerException"
+      },
+      {
+        "label": "B",
+        "text": "ArithmeticException"
+      },
+      {
+        "label": "C",
+        "text": "IOException"
+      },
+      {
+        "label": "D",
+        "text": "SQLException"
+      }
+    ],
+    "answer": "A,B",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "HARD",
+    "content": "以下哪些属于RuntimeException的子类（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "NullPointerException"
+      },
+      {
+        "label": "B",
+        "text": "ArithmeticException"
+      },
+      {
+        "label": "C",
+        "text": "IOException"
+      },
+      {
+        "label": "D",
+        "text": "SQLException"
+      }
+    ],
+    "answer": "A,B",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "以下哪些属于非受检异常的子类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "NullPointerException"
+      },
+      {
+        "label": "B",
+        "text": "ArithmeticException"
+      },
+      {
+        "label": "C",
+        "text": "IOException"
+      },
+      {
+        "label": "D",
+        "text": "SQLException"
+      }
+    ],
+    "answer": "A,B",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "HARD",
+    "content": "以下哪些属于非受检异常的子类（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "NullPointerException"
+      },
+      {
+        "label": "B",
+        "text": "ArithmeticException"
+      },
+      {
+        "label": "C",
+        "text": "IOException"
+      },
+      {
+        "label": "D",
+        "text": "SQLException"
+      }
+    ],
+    "answer": "A,B",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "以下哪些属于运行时异常的子类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "NullPointerException"
+      },
+      {
+        "label": "B",
+        "text": "ArithmeticException"
+      },
+      {
+        "label": "C",
+        "text": "IOException"
+      },
+      {
+        "label": "D",
+        "text": "SQLException"
+      }
+    ],
+    "answer": "A,B",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "HARD",
+    "content": "以下哪些属于运行时异常的子类（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "NullPointerException"
+      },
+      {
+        "label": "B",
+        "text": "ArithmeticException"
+      },
+      {
+        "label": "C",
+        "text": "IOException"
+      },
+      {
+        "label": "D",
+        "text": "SQLException"
+      }
+    ],
+    "answer": "A,B",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "以下哪些属于Unchecked Exception的子类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "NullPointerException"
+      },
+      {
+        "label": "B",
+        "text": "ArithmeticException"
+      },
+      {
+        "label": "C",
+        "text": "IOException"
+      },
+      {
+        "label": "D",
+        "text": "SQLException"
+      }
+    ],
+    "answer": "A,B",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "HARD",
+    "content": "以下哪些属于Unchecked Exception的子类（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "NullPointerException"
+      },
+      {
+        "label": "B",
+        "text": "ArithmeticException"
+      },
+      {
+        "label": "C",
+        "text": "IOException"
+      },
+      {
+        "label": "D",
+        "text": "SQLException"
+      }
+    ],
+    "answer": "A,B",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "MEDIUM",
+    "content": "以下哪些属于程序逻辑错误的子类？",
+    "options": [
+      {
+        "label": "A",
+        "text": "NullPointerException"
+      },
+      {
+        "label": "B",
+        "text": "ArithmeticException"
+      },
+      {
+        "label": "C",
+        "text": "IOException"
+      },
+      {
+        "label": "D",
+        "text": "SQLException"
+      }
+    ],
+    "answer": "A,B",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第5章 异常处理",
+    "difficulty": "HARD",
+    "content": "以下哪些属于程序逻辑错误的子类（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "NullPointerException"
+      },
+      {
+        "label": "B",
+        "text": "ArithmeticException"
+      },
+      {
+        "label": "C",
+        "text": "IOException"
+      },
+      {
+        "label": "D",
+        "text": "SQLException"
+      }
+    ],
+    "answer": "A,B",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "Java集合框架中，实现List接口的类有哪些？",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "LinkedList"
+      },
+      {
+        "label": "D",
+        "text": "TreeMap"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "HARD",
+    "content": "Java集合框架中，实现List接口的类有哪些（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "LinkedList"
+      },
+      {
+        "label": "D",
+        "text": "TreeMap"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "Java集合框架中，实现有序集合接口的类有哪些？",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "LinkedList"
+      },
+      {
+        "label": "D",
+        "text": "TreeMap"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "HARD",
+    "content": "Java集合框架中，实现有序集合接口的类有哪些（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "LinkedList"
+      },
+      {
+        "label": "D",
+        "text": "TreeMap"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "Java集合框架中，实现允许重复元素的集合接口的类有哪些？",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "LinkedList"
+      },
+      {
+        "label": "D",
+        "text": "TreeMap"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "HARD",
+    "content": "Java集合框架中，实现允许重复元素的集合接口的类有哪些（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "LinkedList"
+      },
+      {
+        "label": "D",
+        "text": "TreeMap"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "Java集合框架中，实现索引访问的集合接口的类有哪些？",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "LinkedList"
+      },
+      {
+        "label": "D",
+        "text": "TreeMap"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "HARD",
+    "content": "Java集合框架中，实现索引访问的集合接口的类有哪些（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "LinkedList"
+      },
+      {
+        "label": "D",
+        "text": "TreeMap"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "Java集合框架中，实现线性表接口的类有哪些？",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "LinkedList"
+      },
+      {
+        "label": "D",
+        "text": "TreeMap"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第6章 集合框架",
+    "difficulty": "HARD",
+    "content": "Java集合框架中，实现线性表接口的类有哪些（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "ArrayList"
+      },
+      {
+        "label": "B",
+        "text": "HashSet"
+      },
+      {
+        "label": "C",
+        "text": "LinkedList"
+      },
+      {
+        "label": "D",
+        "text": "TreeMap"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "在Java中实现多线程的方式包括？",
+    "options": [
+      {
+        "label": "A",
+        "text": "继承Exception"
+      },
+      {
+        "label": "B",
+        "text": "继承Thread类"
+      },
+      {
+        "label": "C",
+        "text": "实现Runnable接口"
+      },
+      {
+        "label": "D",
+        "text": "实现Callable接口"
+      }
+    ],
+    "answer": "B,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "HARD",
+    "content": "在Java中实现多线程的方式包括（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "继承Exception"
+      },
+      {
+        "label": "B",
+        "text": "继承Thread类"
+      },
+      {
+        "label": "C",
+        "text": "实现Runnable接口"
+      },
+      {
+        "label": "D",
+        "text": "实现Callable接口"
+      }
+    ],
+    "answer": "B,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "在Java中实现并发执行的方式包括？",
+    "options": [
+      {
+        "label": "A",
+        "text": "继承Exception"
+      },
+      {
+        "label": "B",
+        "text": "继承Thread类"
+      },
+      {
+        "label": "C",
+        "text": "实现Runnable接口"
+      },
+      {
+        "label": "D",
+        "text": "实现Callable接口"
+      }
+    ],
+    "answer": "B,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "HARD",
+    "content": "在Java中实现并发执行的方式包括（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "继承Exception"
+      },
+      {
+        "label": "B",
+        "text": "继承Thread类"
+      },
+      {
+        "label": "C",
+        "text": "实现Runnable接口"
+      },
+      {
+        "label": "D",
+        "text": "实现Callable接口"
+      }
+    ],
+    "answer": "B,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "在Java中实现异步任务的方式包括？",
+    "options": [
+      {
+        "label": "A",
+        "text": "继承Exception"
+      },
+      {
+        "label": "B",
+        "text": "继承Thread类"
+      },
+      {
+        "label": "C",
+        "text": "实现Runnable接口"
+      },
+      {
+        "label": "D",
+        "text": "实现Callable接口"
+      }
+    ],
+    "answer": "B,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "HARD",
+    "content": "在Java中实现异步任务的方式包括（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "继承Exception"
+      },
+      {
+        "label": "B",
+        "text": "继承Thread类"
+      },
+      {
+        "label": "C",
+        "text": "实现Runnable接口"
+      },
+      {
+        "label": "D",
+        "text": "实现Callable接口"
+      }
+    ],
+    "answer": "B,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "在Java中实现线程创建的方式包括？",
+    "options": [
+      {
+        "label": "A",
+        "text": "继承Exception"
+      },
+      {
+        "label": "B",
+        "text": "继承Thread类"
+      },
+      {
+        "label": "C",
+        "text": "实现Runnable接口"
+      },
+      {
+        "label": "D",
+        "text": "实现Callable接口"
+      }
+    ],
+    "answer": "B,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "HARD",
+    "content": "在Java中实现线程创建的方式包括（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "继承Exception"
+      },
+      {
+        "label": "B",
+        "text": "继承Thread类"
+      },
+      {
+        "label": "C",
+        "text": "实现Runnable接口"
+      },
+      {
+        "label": "D",
+        "text": "实现Callable接口"
+      }
+    ],
+    "answer": "B,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "在Java中实现并发编程的方式包括？",
+    "options": [
+      {
+        "label": "A",
+        "text": "继承Exception"
+      },
+      {
+        "label": "B",
+        "text": "继承Thread类"
+      },
+      {
+        "label": "C",
+        "text": "实现Runnable接口"
+      },
+      {
+        "label": "D",
+        "text": "实现Callable接口"
+      }
+    ],
+    "answer": "B,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第7章 多线程",
+    "difficulty": "HARD",
+    "content": "在Java中实现并发编程的方式包括（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "继承Exception"
+      },
+      {
+        "label": "B",
+        "text": "继承Thread类"
+      },
+      {
+        "label": "C",
+        "text": "实现Runnable接口"
+      },
+      {
+        "label": "D",
+        "text": "实现Callable接口"
+      }
+    ],
+    "answer": "B,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "哪些基础类包含在java.io包中？",
+    "options": [
+      {
+        "label": "A",
+        "text": "File"
+      },
+      {
+        "label": "B",
+        "text": "String"
+      },
+      {
+        "label": "C",
+        "text": "InputStream"
+      },
+      {
+        "label": "D",
+        "text": "Math"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "HARD",
+    "content": "哪些基础类包含在java.io包中（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "File"
+      },
+      {
+        "label": "B",
+        "text": "String"
+      },
+      {
+        "label": "C",
+        "text": "InputStream"
+      },
+      {
+        "label": "D",
+        "text": "Math"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "文件操作相关类包含在java.io包中？",
+    "options": [
+      {
+        "label": "A",
+        "text": "File"
+      },
+      {
+        "label": "B",
+        "text": "String"
+      },
+      {
+        "label": "C",
+        "text": "InputStream"
+      },
+      {
+        "label": "D",
+        "text": "Math"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "HARD",
+    "content": "文件操作相关类包含在java.io包中（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "File"
+      },
+      {
+        "label": "B",
+        "text": "String"
+      },
+      {
+        "label": "C",
+        "text": "InputStream"
+      },
+      {
+        "label": "D",
+        "text": "Math"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "流操作相关类包含在java.io包中？",
+    "options": [
+      {
+        "label": "A",
+        "text": "File"
+      },
+      {
+        "label": "B",
+        "text": "String"
+      },
+      {
+        "label": "C",
+        "text": "InputStream"
+      },
+      {
+        "label": "D",
+        "text": "Math"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "HARD",
+    "content": "流操作相关类包含在java.io包中（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "File"
+      },
+      {
+        "label": "B",
+        "text": "String"
+      },
+      {
+        "label": "C",
+        "text": "InputStream"
+      },
+      {
+        "label": "D",
+        "text": "Math"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "IO核心类包含在java.io包中？",
+    "options": [
+      {
+        "label": "A",
+        "text": "File"
+      },
+      {
+        "label": "B",
+        "text": "String"
+      },
+      {
+        "label": "C",
+        "text": "InputStream"
+      },
+      {
+        "label": "D",
+        "text": "Math"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "HARD",
+    "content": "IO核心类包含在java.io包中（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "File"
+      },
+      {
+        "label": "B",
+        "text": "String"
+      },
+      {
+        "label": "C",
+        "text": "InputStream"
+      },
+      {
+        "label": "D",
+        "text": "Math"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "输入输出处理类包含在java.io包中？",
+    "options": [
+      {
+        "label": "A",
+        "text": "File"
+      },
+      {
+        "label": "B",
+        "text": "String"
+      },
+      {
+        "label": "C",
+        "text": "InputStream"
+      },
+      {
+        "label": "D",
+        "text": "Math"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "HARD",
+    "content": "输入输出处理类包含在java.io包中（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "File"
+      },
+      {
+        "label": "B",
+        "text": "String"
+      },
+      {
+        "label": "C",
+        "text": "InputStream"
+      },
+      {
+        "label": "D",
+        "text": "Math"
+      }
+    ],
+    "answer": "A,C",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "面向对象的三个基本特征是哪些？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装"
+      },
+      {
+        "label": "B",
+        "text": "接口"
+      },
+      {
+        "label": "C",
+        "text": "继承"
+      },
+      {
+        "label": "D",
+        "text": "多态"
+      }
+    ],
+    "answer": "A,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "HARD",
+    "content": "面向对象的三个基本特征是哪些（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装"
+      },
+      {
+        "label": "B",
+        "text": "接口"
+      },
+      {
+        "label": "C",
+        "text": "继承"
+      },
+      {
+        "label": "D",
+        "text": "多态"
+      }
+    ],
+    "answer": "A,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "面向对象的三个基本特征是包含什么？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装"
+      },
+      {
+        "label": "B",
+        "text": "接口"
+      },
+      {
+        "label": "C",
+        "text": "继承"
+      },
+      {
+        "label": "D",
+        "text": "多态"
+      }
+    ],
+    "answer": "A,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "HARD",
+    "content": "面向对象的三个基本特征是包含什么（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装"
+      },
+      {
+        "label": "B",
+        "text": "接口"
+      },
+      {
+        "label": "C",
+        "text": "继承"
+      },
+      {
+        "label": "D",
+        "text": "多态"
+      }
+    ],
+    "answer": "A,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "面向对象的三个基本特征是具体指什么？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装"
+      },
+      {
+        "label": "B",
+        "text": "接口"
+      },
+      {
+        "label": "C",
+        "text": "继承"
+      },
+      {
+        "label": "D",
+        "text": "多态"
+      }
+    ],
+    "answer": "A,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "HARD",
+    "content": "面向对象的三个基本特征是具体指什么（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装"
+      },
+      {
+        "label": "B",
+        "text": "接口"
+      },
+      {
+        "label": "C",
+        "text": "继承"
+      },
+      {
+        "label": "D",
+        "text": "多态"
+      }
+    ],
+    "answer": "A,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "面向对象的三个基本特征是核心思想包括？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装"
+      },
+      {
+        "label": "B",
+        "text": "接口"
+      },
+      {
+        "label": "C",
+        "text": "继承"
+      },
+      {
+        "label": "D",
+        "text": "多态"
+      }
+    ],
+    "answer": "A,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "HARD",
+    "content": "面向对象的三个基本特征是核心思想包括（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装"
+      },
+      {
+        "label": "B",
+        "text": "接口"
+      },
+      {
+        "label": "C",
+        "text": "继承"
+      },
+      {
+        "label": "D",
+        "text": "多态"
+      }
+    ],
+    "answer": "A,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "面向对象的三个基本特征是三大特性是？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装"
+      },
+      {
+        "label": "B",
+        "text": "接口"
+      },
+      {
+        "label": "C",
+        "text": "继承"
+      },
+      {
+        "label": "D",
+        "text": "多态"
+      }
+    ],
+    "answer": "A,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "MULTIPLE_CHOICE",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "HARD",
+    "content": "面向对象的三个基本特征是三大特性是（变体）？",
+    "options": [
+      {
+        "label": "A",
+        "text": "封装"
+      },
+      {
+        "label": "B",
+        "text": "接口"
+      },
+      {
+        "label": "C",
+        "text": "继承"
+      },
+      {
+        "label": "D",
+        "text": "多态"
+      }
+    ],
+    "answer": "A,C,D",
+    "explanation": "多项选择考察综合理解",
+    "defaultScore": 4,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "编写Java程序，实现两个整数之和的计算与输出。",
+    "answer": "```java\npublic class Solution {{\n    public static void main(String[] args) {{\n        // 实现代码\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "编写Java程序，实现1到100的累加的计算与输出。",
+    "answer": "```java\npublic class Solution {{\n    public static void main(String[] args) {{\n        // 实现代码\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "HARD",
+    "content": "编写Java程序，实现阶乘的计算与输出。",
+    "answer": "```java\npublic class Solution {{\n    public static void main(String[] args) {{\n        // 实现代码\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "编写Java程序，实现斐波那契数列的计算与输出。",
+    "answer": "```java\npublic class Solution {{\n    public static void main(String[] args) {{\n        // 实现代码\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "编写Java程序，实现水仙花数的计算与输出。",
+    "answer": "```java\npublic class Solution {{\n    public static void main(String[] args) {{\n        // 实现代码\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "HARD",
+    "content": "编写Java程序，实现素数判断的计算与输出。",
+    "answer": "```java\npublic class Solution {{\n    public static void main(String[] args) {{\n        // 实现代码\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "HARD",
+    "content": "编写Java程序，实现数组最大值的计算与输出。",
+    "answer": "```java\npublic class Solution {{\n    public static void main(String[] args) {{\n        // 实现代码\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "编写Java程序，实现数组反转的计算与输出。",
+    "answer": "```java\npublic class Solution {{\n    public static void main(String[] args) {{\n        // 实现代码\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "HARD",
+    "content": "编写Java程序，实现冒泡排序的计算与输出。",
+    "answer": "```java\npublic class Solution {{\n    public static void main(String[] args) {{\n        // 实现代码\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第2章 JAVA编程基本功",
+    "difficulty": "MEDIUM",
+    "content": "编写Java程序，实现九九乘法表的计算与输出。",
+    "answer": "```java\npublic class Solution {{\n    public static void main(String[] args) {{\n        // 实现代码\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "定义一个Student类，包含属性、构造方法和测试类。",
+    "answer": "```java\nclass Model {{\n    // 属性与方法\n}}\npublic class Test {{\n    public static void main(String[] args) {{\n        Model m = new Model();\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "定义一个Teacher类，包含属性、构造方法和测试类。",
+    "answer": "```java\nclass Model {{\n    // 属性与方法\n}}\npublic class Test {{\n    public static void main(String[] args) {{\n        Model m = new Model();\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "定义一个Car类，包含属性、构造方法和测试类。",
+    "answer": "```java\nclass Model {{\n    // 属性与方法\n}}\npublic class Test {{\n    public static void main(String[] args) {{\n        Model m = new Model();\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "定义一个Book类，包含属性、构造方法和测试类。",
+    "answer": "```java\nclass Model {{\n    // 属性与方法\n}}\npublic class Test {{\n    public static void main(String[] args) {{\n        Model m = new Model();\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "定义一个Computer类，包含属性、构造方法和测试类。",
+    "answer": "```java\nclass Model {{\n    // 属性与方法\n}}\npublic class Test {{\n    public static void main(String[] args) {{\n        Model m = new Model();\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "定义一个Phone类，包含属性、构造方法和测试类。",
+    "answer": "```java\nclass Model {{\n    // 属性与方法\n}}\npublic class Test {{\n    public static void main(String[] args) {{\n        Model m = new Model();\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "定义一个Employee类，包含属性、构造方法和测试类。",
+    "answer": "```java\nclass Model {{\n    // 属性与方法\n}}\npublic class Test {{\n    public static void main(String[] args) {{\n        Model m = new Model();\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "定义一个Animal类，包含属性、构造方法和测试类。",
+    "answer": "```java\nclass Model {{\n    // 属性与方法\n}}\npublic class Test {{\n    public static void main(String[] args) {{\n        Model m = new Model();\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "定义一个Shape类，包含属性、构造方法和测试类。",
+    "answer": "```java\nclass Model {{\n    // 属性与方法\n}}\npublic class Test {{\n    public static void main(String[] args) {{\n        Model m = new Model();\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第3章 面向对象基础",
+    "difficulty": "MEDIUM",
+    "content": "定义一个Circle类，包含属性、构造方法和测试类。",
+    "answer": "```java\nclass Model {{\n    // 属性与方法\n}}\npublic class Test {{\n    public static void main(String[] args) {{\n        Model m = new Model();\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "使用ArrayList实现对数据的存储、遍历和常见操作。",
+    "answer": "```java\nimport java.util.*;\npublic class CollectionDemo {{\n    public static void main(String[] args) {{\n        // 集合操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第6章 集合框架",
+    "difficulty": "HARD",
+    "content": "使用LinkedList实现对数据的存储、遍历和常见操作。",
+    "answer": "```java\nimport java.util.*;\npublic class CollectionDemo {{\n    public static void main(String[] args) {{\n        // 集合操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "使用HashSet实现对数据的存储、遍历和常见操作。",
+    "answer": "```java\nimport java.util.*;\npublic class CollectionDemo {{\n    public static void main(String[] args) {{\n        // 集合操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "使用TreeSet实现对数据的存储、遍历和常见操作。",
+    "answer": "```java\nimport java.util.*;\npublic class CollectionDemo {{\n    public static void main(String[] args) {{\n        // 集合操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "使用HashMap实现对数据的存储、遍历和常见操作。",
+    "answer": "```java\nimport java.util.*;\npublic class CollectionDemo {{\n    public static void main(String[] args) {{\n        // 集合操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "使用TreeMap实现对数据的存储、遍历和常见操作。",
+    "answer": "```java\nimport java.util.*;\npublic class CollectionDemo {{\n    public static void main(String[] args) {{\n        // 集合操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "使用Iterator实现对数据的存储、遍历和常见操作。",
+    "answer": "```java\nimport java.util.*;\npublic class CollectionDemo {{\n    public static void main(String[] args) {{\n        // 集合操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "使用Collections工具类实现对数据的存储、遍历和常见操作。",
+    "answer": "```java\nimport java.util.*;\npublic class CollectionDemo {{\n    public static void main(String[] args) {{\n        // 集合操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第6章 集合框架",
+    "difficulty": "MEDIUM",
+    "content": "使用泛型集合实现对数据的存储、遍历和常见操作。",
+    "answer": "```java\nimport java.util.*;\npublic class CollectionDemo {{\n    public static void main(String[] args) {{\n        // 集合操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第6章 集合框架",
+    "difficulty": "HARD",
+    "content": "使用Map遍历实现对数据的存储、遍历和常见操作。",
+    "answer": "```java\nimport java.util.*;\npublic class CollectionDemo {{\n    public static void main(String[] args) {{\n        // 集合操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第7章 多线程",
+    "difficulty": "HARD",
+    "content": "编写程序，通过继承Thread类方式创建一个线程并启动。",
+    "answer": "```java\npublic class ThreadDemo {{\n    public static void main(String[] args) {{\n        // 线程启动\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "编写程序，通过实现Runnable接口方式创建一个线程并启动。",
+    "answer": "```java\npublic class ThreadDemo {{\n    public static void main(String[] args) {{\n        // 线程启动\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第7章 多线程",
+    "difficulty": "HARD",
+    "content": "编写程序，通过匿名内部类方式创建一个线程并启动。",
+    "answer": "```java\npublic class ThreadDemo {{\n    public static void main(String[] args) {{\n        // 线程启动\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "编写程序，通过Lambda表达式方式创建一个线程并启动。",
+    "answer": "```java\npublic class ThreadDemo {{\n    public static void main(String[] args) {{\n        // 线程启动\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "编写程序，通过线程池方式创建一个线程并启动。",
+    "answer": "```java\npublic class ThreadDemo {{\n    public static void main(String[] args) {{\n        // 线程启动\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "编写程序，通过Callable接口方式创建一个线程并启动。",
+    "answer": "```java\npublic class ThreadDemo {{\n    public static void main(String[] args) {{\n        // 线程启动\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "编写程序，通过实现多窗口售票方式创建一个线程并启动。",
+    "answer": "```java\npublic class ThreadDemo {{\n    public static void main(String[] args) {{\n        // 线程启动\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第7章 多线程",
+    "difficulty": "HARD",
+    "content": "编写程序，通过生产者消费者模式方式创建一个线程并启动。",
+    "answer": "```java\npublic class ThreadDemo {{\n    public static void main(String[] args) {{\n        // 线程启动\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第7章 多线程",
+    "difficulty": "HARD",
+    "content": "编写程序，通过死锁演示方式创建一个线程并启动。",
+    "answer": "```java\npublic class ThreadDemo {{\n    public static void main(String[] args) {{\n        // 线程启动\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第7章 多线程",
+    "difficulty": "MEDIUM",
+    "content": "编写程序，通过定时任务方式创建一个线程并启动。",
+    "answer": "```java\npublic class ThreadDemo {{\n    public static void main(String[] args) {{\n        // 线程启动\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "HARD",
+    "content": "利用Java IO流实现文本文件读取的操作。",
+    "answer": "```java\nimport java.io.*;\npublic class IODemo {{\n    public static void main(String[] args) {{\n        // IO操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "利用Java IO流实现文本文件写入的操作。",
+    "answer": "```java\nimport java.io.*;\npublic class IODemo {{\n    public static void main(String[] args) {{\n        // IO操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "利用Java IO流实现文件复制的操作。",
+    "answer": "```java\nimport java.io.*;\npublic class IODemo {{\n    public static void main(String[] args) {{\n        // IO操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "利用Java IO流实现字节流拷贝图片的操作。",
+    "answer": "```java\nimport java.io.*;\npublic class IODemo {{\n    public static void main(String[] args) {{\n        // IO操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "利用Java IO流实现字符缓冲流读写的操作。",
+    "answer": "```java\nimport java.io.*;\npublic class IODemo {{\n    public static void main(String[] args) {{\n        // IO操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "HARD",
+    "content": "利用Java IO流实现转换流使用的操作。",
+    "answer": "```java\nimport java.io.*;\npublic class IODemo {{\n    public static void main(String[] args) {{\n        // IO操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "利用Java IO流实现对象序列化的操作。",
+    "answer": "```java\nimport java.io.*;\npublic class IODemo {{\n    public static void main(String[] args) {{\n        // IO操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "利用Java IO流实现对象反序列化的操作。",
+    "answer": "```java\nimport java.io.*;\npublic class IODemo {{\n    public static void main(String[] args) {{\n        // IO操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "HARD",
+    "content": "利用Java IO流实现获取文件属性的操作。",
+    "answer": "```java\nimport java.io.*;\npublic class IODemo {{\n    public static void main(String[] args) {{\n        // IO操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
+  },
+  {
+    "type": "PROGRAMMING",
+    "chapter": "第8章 输入输出流",
+    "difficulty": "MEDIUM",
+    "content": "利用Java IO流实现列出目录内容的操作。",
+    "answer": "```java\nimport java.io.*;\npublic class IODemo {{\n    public static void main(String[] args) {{\n        // IO操作\n    }}\n}}\n```",
+    "explanation": "编程题考查动手能力",
+    "defaultScore": 10,
+    "source": "网络题库"
   }
 ]
