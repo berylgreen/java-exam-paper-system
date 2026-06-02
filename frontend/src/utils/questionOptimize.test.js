@@ -14,16 +14,20 @@ describe('optimizeQuestionDraft', () => {
     expect(questionApi.optimizePreview).not.toHaveBeenCalled()
   })
 
-  it('rejects empty prompt', async () => {
+  it('uses default prompt when empty', async () => {
     const ElMessage = { error: vi.fn(), success: vi.fn() }
-    const questionApi = { optimizePreview: vi.fn() }
+    const questionApi = { 
+      optimizePreview: vi.fn().mockResolvedValue({ data: { optimizedQuestion: {} } }) 
+    }
     const draft = { content: '原题' }
 
     const result = await optimizeQuestionDraft({ draft, prompt: '   ', questionApi, ElMessage })
 
-    expect(result).toBe(false)
-    expect(ElMessage.error).toHaveBeenCalledWith('请输入优化要求')
-    expect(questionApi.optimizePreview).not.toHaveBeenCalled()
+    expect(result).toBe(true)
+    expect(questionApi.optimizePreview).toHaveBeenCalledWith({
+      question: expect.objectContaining({ content: '原题' }),
+      prompt: '请将题干表述更清晰，并补充更严谨的答案与解析'
+    })
   })
 
   it('fills optimized fields after success', async () => {

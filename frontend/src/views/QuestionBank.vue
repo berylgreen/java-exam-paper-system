@@ -375,6 +375,9 @@ const saveQ = async () => {
 }
 
 const optimizeQ = async () => {
+  if (!optimizePrompt.value?.trim()) {
+    optimizePrompt.value = '请将题干表述更清晰，并补充更严谨的答案与解析'
+  }
   optimizing.value = true
   try {
     await optimizeQuestionDraft({
