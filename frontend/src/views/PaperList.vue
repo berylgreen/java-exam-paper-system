@@ -30,6 +30,12 @@
       </div>
       <el-empty v-if="!loading && papers.length===0" description="暂无试卷" />
     </div>
+
+    <ExportDialog
+      v-model="exportDialogVisible"
+      :show-answer-option="false"
+      @confirm="onExportConfirm"
+    />
   </div>
 </template>
 
@@ -37,9 +43,12 @@
 import { ref, onMounted } from 'vue'
 import { paperApi } from '../api'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import ExportDialog from '../components/ExportDialog.vue'
 
 const papers = ref([])
 const loading = ref(false)
+const exportDialogVisible = ref(false)
+const currentExportId = ref(null)
 
 const load = async () => {
   loading.value = true
@@ -55,7 +64,12 @@ const handleDelete = async (id) => {
 }
 
 const handleExport = (id) => {
-  window.open(paperApi.exportUrl(id), '_blank')
+  currentExportId.value = id
+  exportDialogVisible.value = true
+}
+
+const onExportConfirm = ({ types, withAnswer }) => {
+  window.open(paperApi.exportUrl(currentExportId.value, withAnswer, types), '_blank')
 }
 
 const formatTime = (t) => t ? t.substring(0, 16).replace('T', ' ') : ''

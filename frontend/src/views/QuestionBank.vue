@@ -139,76 +139,15 @@
     </el-dialog>
 
     <!-- 新增/修改对话框 -->
-    <el-dialog v-model="showAdd" :title="isEdit ? '修改题目' : '新增题目'" width="750px">
-      <el-form :model="newQ" label-width="80px">
-        <el-row :gutter="20">
-          <el-col :span="8">
-            <el-form-item label="题型">
-              <el-select v-model="newQ.type" style="width:100%">
-                <el-option v-for="t in types" :key="t.value" :label="t.label" :value="t.value"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="难度">
-              <el-select v-model="newQ.difficulty" style="width:100%">
-                <el-option label="简单" value="EASY"/><el-option label="中等" value="MEDIUM"/><el-option label="困难" value="HARD"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="分值">
-              <el-input-number v-model="newQ.defaultScore" :min="1" :max="50" style="width:100%"/>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="章节">
-              <el-select v-model="newQ.chapterName" style="width:100%" filterable allow-create>
-                <el-option v-for="c in chapters" :key="c.id" :label="c.name" :value="c.name"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="来源">
-              <el-select v-model="newQ.source" style="width:100%" filterable allow-create>
-                <el-option v-for="s in sources" :key="s" :label="s" :value="s"/>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-form-item label="题目"><el-input v-model="newQ.content" type="textarea" :rows="2"/></el-form-item>
-        
-        <el-form-item label="选项" v-if="newQ.type==='SINGLE_CHOICE'||newQ.type==='MULTIPLE_CHOICE'">
-          <el-input v-model="newQ.options" type="textarea" :rows="2" placeholder='JSON 格式: [{"label":"A","text":"xxx"},...]'/>
-        </el-form-item>
-        
-        <el-form-item label="工程路径" v-if="newQ.type==='PROGRAMMING'">
-          <el-input v-model="newQ.projectPath" placeholder="如: projects/payment-system-question"/>
-        </el-form-item>
-
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="答案"><el-input v-model="newQ.answer" type="textarea" :rows="2"/></el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="解析"><el-input v-model="newQ.explanation" type="textarea" :rows="2"/></el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-form-item label="优化要求">
-          <el-input v-model="optimizePrompt" type="textarea" :rows="1" placeholder="如：请将题干表述更清晰，并补充更严谨的答案与解析"/>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <el-button @click="showAdd=false">取消</el-button>
-        <el-button type="warning" :loading="optimizing" :disabled="optimizing" @click="optimizeQ">AI 优化</el-button>
-        <el-button type="primary" @click="saveQ">确定</el-button>
-      </template>
-    </el-dialog>
+    <QuestionEditDialog 
+      v-model="showAdd" 
+      :is-edit="isEdit" 
+      :question-data="newQ" 
+      :chapters="chapters" 
+      :sources="sources" 
+      :types="types" 
+      @saved="handleSaved" 
+    />
   </div>
 </template>
 
@@ -217,7 +156,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { questionApi } from '../api'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { marked } from 'marked'
-import { optimizeQuestionDraft } from '../utils/questionOptimize'
+import QuestionEditDialog from '../components/QuestionEditDialog.vue'
 
 const renderMarkdown = (text) => {
   if (!text) return ''
@@ -271,14 +210,12 @@ const newQ = reactive(defaultQ())
 const handleAdd = () => {
   isEdit.value = false
   Object.assign(newQ, defaultQ())
-  optimizePrompt.value = ''
   showAdd.value = true
 }
 
 const editQ = (row) => {
   isEdit.value = true
   Object.assign(newQ, row)
-  optimizePrompt.value = ''
   showAdd.value = true
 }
 
@@ -363,32 +300,9 @@ const batchDelQ = async () => {
   }
 }
 
-const saveQ = async () => {
-  try {
-    if (isEdit.value) {
-      await questionApi.update(newQ.id, newQ); ElMessage.success('已修改');
-    } else {
-      await questionApi.create(newQ); ElMessage.success('已添加');
-    }
-    showAdd.value = false; loadQ(); loadMeta()
-  } catch (e) { ElMessage.error((isEdit.value ? '修改' : '添加') + '失败: ' + (e.response?.data?.message||e.message)) }
-}
-
-const optimizeQ = async () => {
-  if (!optimizePrompt.value?.trim()) {
-    optimizePrompt.value = '请将题干表述更清晰，并补充更严谨的答案与解析'
-  }
-  optimizing.value = true
-  try {
-    await optimizeQuestionDraft({
-      draft: newQ,
-      prompt: optimizePrompt.value,
-      questionApi,
-      ElMessage
-    })
-  } finally {
-    optimizing.value = false
-  }
+const handleSaved = () => {
+  loadQ()
+  loadMeta()
 }
 
 const exportQ = () => {

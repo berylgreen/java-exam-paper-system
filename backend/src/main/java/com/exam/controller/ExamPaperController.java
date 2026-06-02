@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 import java.util.List;
 
 /**
@@ -114,11 +116,27 @@ public class ExamPaperController {
         return ResponseEntity.ok().build();
     }
 
-    /** 导出试卷为 Word 或 ZIP */
+    /** 替换试卷中的题目 */
+    @PutMapping("/{id}/replace-question")
+    public ResponseEntity<Object> replaceQuestion(@PathVariable("id") Long id, @RequestBody ReplaceQuestionRequest request) {
+        log.info("[API] PUT /api/papers/{}/replace-question 开始, oldQ={}, newQ={}", id, request.getOldQuestionId(), request.getNewQuestionId());
+        try {
+            PaperDTO result = paperService.replaceQuestion(id, request);
+            log.info("[API] PUT /api/papers/{}/replace-question 完成", id);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("[API] replace-question 异常", e);
+            return ResponseEntity.status(500).body(java.util.Map.of("error", e.getMessage()));
+        }
+    }
+
+    /** 导出试卷为 PDF/DOCX 或 ZIP */
     @GetMapping("/{id}/export")
     public ResponseEntity<byte[]> export(@PathVariable("id") Long id,
-                                         @RequestParam(value = "withAnswer", defaultValue = "false") boolean withAnswer) throws IOException {
-        ExportResult exportResult = paperService.exportPaper(id, withAnswer);
+                                         @RequestParam(value = "withAnswer", defaultValue = "false") boolean withAnswer,
+                                         @RequestParam(value = "types", defaultValue = "docx,pdf") String types) throws IOException {
+        List<String> exportTypes = Arrays.asList(types.toLowerCase().split(","));
+        ExportResult exportResult = paperService.exportPaper(id, withAnswer, exportTypes);
         String filename = URLEncoder.encode(exportResult.getFilename(), StandardCharsets.UTF_8);
 
         return ResponseEntity.ok()

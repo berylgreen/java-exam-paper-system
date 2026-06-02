@@ -6,6 +6,16 @@ import com.exam.enums.Difficulty;
 import com.exam.enums.QuestionType;
 import com.exam.repository.*;
 import lombok.RequiredArgsConstructor;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.apache.poi.xwpf.usermodel.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -242,39 +252,86 @@ public class ExamPaperService {
         paperRepository.deleteById(id);
     }
 
-    /** 导出试卷为 Word 文档或 ZIP 包 */
+    /** 替换试卷中的题目 */
+    @Transactional
+    public PaperDTO replaceQuestion(Long paperId, ReplaceQuestionRequest req) {
+        ExamPaper paper = paperRepository.findById(paperId)
+                .orElseThrow(() -> new RuntimeException("试卷不存在: " + paperId));
+
+        PaperQuestion pq = paperQuestionRepository.findByPaperIdAndQuestionId(paperId, req.getOldQuestionId())
+                .orElseThrow(() -> new RuntimeException("该试卷中不存在指定的题目"));
+
+        Question newQuestion = questionRepository.findById(req.getNewQuestionId())
+                .orElseThrow(() -> new RuntimeException("新题目不存在: " + req.getNewQuestionId()));
+
+        pq.setQuestion(newQuestion);
+        paperQuestionRepository.save(pq);
+
+        return toFullDTO(paper);
+    }
+
+    /** 导出试卷为 PDF/DOCX 文档或 ZIP 包 */
     @Transactional(readOnly = true)
-    public ExportResult exportPaper(Long id, boolean withAnswer) throws IOException {
+    public ExportResult exportPaper(Long id, boolean withAnswer, List<String> types) throws IOException {
         PaperDTO paper = findById(id);
         Set<String> projectPaths = new HashSet<>();
 
-        byte[] originalWordBytes = generateWordBytes(paper, false, projectPaths);
+        boolean exportPdf = types != null && types.contains("pdf");
+        boolean exportDocx = types != null && types.contains("docx");
 
-        if (!withAnswer && projectPaths.isEmpty()) {
-            return new ExportResult(
-                    "试卷_" + id + ".docx",
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                    originalWordBytes
-            );
+        byte[] originalPdfBytes = null;
+        if (exportPdf) {
+            originalPdfBytes = generatePdfBytes(paper, false, projectPaths);
         }
 
-        // 打包成包含 docx 和相关工程的 ZIP
+        byte[] originalWordBytes = null;
+        if (exportDocx) {
+            originalWordBytes = generateWordBytes(paper, false, projectPaths);
+        }
+
+        // 如果只选了一种格式，且没有答案版，且没有工程代码，则直接返回单文件
+        if (!withAnswer && projectPaths.isEmpty()) {
+            if (exportPdf && !exportDocx) {
+                return new ExportResult("试卷_" + id + ".pdf", "application/pdf", originalPdfBytes);
+            }
+            if (exportDocx && !exportPdf) {
+                return new ExportResult("试卷_" + id + ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", originalWordBytes);
+            }
+        }
+
+        // 否则打包成包含选定格式和相关工程的 ZIP
         ByteArrayOutputStream zipBaos = new ByteArrayOutputStream();
         try (java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(zipBaos)) {
-            // 写入无答案版 Word
-            java.util.zip.ZipEntry docxEntry = new java.util.zip.ZipEntry("试卷_" + id + ".docx");
-            zos.putNextEntry(docxEntry);
-            zos.write(originalWordBytes);
-            zos.closeEntry();
-
-            // 如果需要答案，生成并写入答案版 Word
-            if (withAnswer) {
-                Set<String> dummyPaths = new HashSet<>(); // 避免重复收集 projectPaths
-                byte[] answerWordBytes = generateWordBytes(paper, true, dummyPaths);
-                java.util.zip.ZipEntry answerDocxEntry = new java.util.zip.ZipEntry("试卷_" + id + "_答案版.docx");
-                zos.putNextEntry(answerDocxEntry);
-                zos.write(answerWordBytes);
+            if (exportPdf) {
+                java.util.zip.ZipEntry pdfEntry = new java.util.zip.ZipEntry("试卷_" + id + ".pdf");
+                zos.putNextEntry(pdfEntry);
+                zos.write(originalPdfBytes);
                 zos.closeEntry();
+                
+                if (withAnswer) {
+                    Set<String> dummyPaths = new HashSet<>();
+                    byte[] answerPdfBytes = generatePdfBytes(paper, true, dummyPaths);
+                    java.util.zip.ZipEntry answerPdfEntry = new java.util.zip.ZipEntry("试卷_" + id + "_答案版.pdf");
+                    zos.putNextEntry(answerPdfEntry);
+                    zos.write(answerPdfBytes);
+                    zos.closeEntry();
+                }
+            }
+
+            if (exportDocx) {
+                java.util.zip.ZipEntry docxEntry = new java.util.zip.ZipEntry("试卷_" + id + ".docx");
+                zos.putNextEntry(docxEntry);
+                zos.write(originalWordBytes);
+                zos.closeEntry();
+                
+                if (withAnswer) {
+                    Set<String> dummyPaths = new HashSet<>();
+                    byte[] answerWordBytes = generateWordBytes(paper, true, dummyPaths);
+                    java.util.zip.ZipEntry answerDocxEntry = new java.util.zip.ZipEntry("试卷_" + id + "_答案版.docx");
+                    zos.putNextEntry(answerDocxEntry);
+                    zos.write(answerWordBytes);
+                    zos.closeEntry();
+                }
             }
 
             // 写入各个工程 ZIP
@@ -293,35 +350,38 @@ public class ExamPaperService {
         }
 
         String zipFilename = "试卷_" + id + (withAnswer ? "_含答案" : "") + (projectPaths.isEmpty() ? "" : "_含代码工程") + ".zip";
-        return new ExportResult(
-                zipFilename,
-                "application/zip",
-                zipBaos.toByteArray()
-        );
+        return new ExportResult(zipFilename, "application/zip", zipBaos.toByteArray());
     }
 
-    private byte[] generateWordBytes(PaperDTO paper, boolean withAnswer, Set<String> projectPaths) throws IOException {
-        try (XWPFDocument doc = new XWPFDocument()) {
+    private byte[] generatePdfBytes(PaperDTO paper, boolean withAnswer, Set<String> projectPaths) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            Document doc = new Document(PageSize.A4, 50, 50, 50, 50);
+            PdfWriter.getInstance(doc, out);
+            doc.open();
+
+            // 字体设置
+            BaseFont bfChinese = BaseFont.createFont("STSong-Light", "UniGB-UTF16-H", BaseFont.NOT_EMBEDDED);
+            Font titleFont = new Font(bfChinese, 18, Font.BOLD);
+            Font infoFont = new Font(bfChinese, 12, Font.NORMAL);
+            Font sectionFont = new Font(bfChinese, 14, Font.BOLD);
+            Font normalFont = new Font(bfChinese, 12, Font.NORMAL);
+            Font boldFont = new Font(bfChinese, 12, Font.BOLD);
+            Font italicFont = new Font(bfChinese, 12, Font.ITALIC);
+            Font codeFont = new Font(Font.FontFamily.COURIER, 12, Font.NORMAL);
+            Font answerFont = new Font(bfChinese, 12, Font.BOLD, BaseColor.RED);
+            Font expFont = new Font(bfChinese, 12, Font.NORMAL, BaseColor.BLUE);
+
             // 标题
-            XWPFParagraph titlePara = doc.createParagraph();
-            titlePara.setAlignment(ParagraphAlignment.CENTER);
-            XWPFRun titleRun = titlePara.createRun();
-            titleRun.setText(paper.getTitle() + (withAnswer ? " (答案版)" : ""));
-            titleRun.setBold(true);
-            titleRun.setFontSize(18);
-            titleRun.setFontFamily("宋体");
+            Paragraph titlePara = new Paragraph(paper.getTitle() + (withAnswer ? " (答案版)" : ""), titleFont);
+            titlePara.setAlignment(Element.ALIGN_CENTER);
+            doc.add(titlePara);
 
             // 试卷信息
-            XWPFParagraph infoPara = doc.createParagraph();
-            infoPara.setAlignment(ParagraphAlignment.CENTER);
-            XWPFRun infoRun = infoPara.createRun();
-            infoRun.setText(String.format("总分: %d分  时间: %d分钟",
-                    paper.getTotalScore(), paper.getDurationMinutes()));
-            infoRun.setFontSize(12);
-            infoRun.setFontFamily("宋体");
-
-            // 分隔线
-            doc.createParagraph().createRun().addBreak();
+            Paragraph infoPara = new Paragraph(String.format("总分: %d分  时间: %d分钟", paper.getTotalScore(), paper.getDurationMinutes()), infoFont);
+            infoPara.setAlignment(Element.ALIGN_CENTER);
+            infoPara.setSpacingAfter(20);
+            doc.add(infoPara);
 
             // 按题型分组输出
             Map<QuestionType, List<PaperDTO.PaperQuestionDTO>> grouped = paper.getQuestions().stream()
@@ -333,7 +393,6 @@ public class ExamPaperService {
             // 大题序号
             String[] sectionNums = {"一", "二", "三", "四", "五", "六", "七"};
             int sectionIdx = 0;
-            // 定义题型显示顺序
             QuestionType[] typeOrder = {
                 QuestionType.SINGLE_CHOICE, QuestionType.MULTIPLE_CHOICE,
                 QuestionType.TRUE_FALSE, QuestionType.FILL_BLANK,
@@ -346,14 +405,13 @@ public class ExamPaperService {
 
                 // 大题标题
                 int sectionScore = questions.stream().mapToInt(PaperDTO.PaperQuestionDTO::getScore).sum();
-                XWPFParagraph sectionPara = doc.createParagraph();
-                XWPFRun sectionRun = sectionPara.createRun();
-                sectionRun.setText(String.format("%s、%s (共%d题，共%d分)",
+                String sectionTitle = String.format("%s、%s (共%d题，共%d分)",
                         sectionIdx < sectionNums.length ? sectionNums[sectionIdx] : String.valueOf(sectionIdx + 1),
-                        type.getLabel(), questions.size(), sectionScore));
-                sectionRun.setBold(true);
-                sectionRun.setFontSize(14);
-                sectionRun.setFontFamily("宋体");
+                        type.getLabel(), questions.size(), sectionScore);
+                Paragraph sectionPara = new Paragraph(sectionTitle, sectionFont);
+                sectionPara.setSpacingBefore(10);
+                sectionPara.setSpacingAfter(5);
+                doc.add(sectionPara);
 
                 // 逐题输出
                 int qNum = 1;
@@ -362,7 +420,7 @@ public class ExamPaperService {
                     if (q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty()) {
                         projectPaths.add(q.getProjectPath());
                     }
-                    XWPFParagraph qPara = doc.createParagraph();
+                    
                     String content = q.getContent();
                     if (q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty()) {
                         String projectName = new java.io.File(q.getProjectPath()).getName();
@@ -370,7 +428,10 @@ public class ExamPaperService {
                     }
                     
                     String fullText = String.format("%d. (%d分) %s", qNum++, pq.getScore(), content);
-                    renderMarkdownToParagraph(qPara, fullText);
+                    Paragraph qPara = new Paragraph();
+                    qPara.setSpacingBefore(5);
+                    renderMarkdownToPdfParagraph(qPara, fullText, normalFont, boldFont, italicFont, codeFont);
+                    doc.add(qPara);
 
                     // 选择题输出选项
                     if (q.getOptions() != null && !q.getOptions().isEmpty()
@@ -379,7 +440,6 @@ public class ExamPaperService {
                         boolean parsedSuccessfully = false;
                         try {
                             com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-                            // 处理双重反序列化的情况
                             if (opts.trim().startsWith("\"")) {
                                 opts = mapper.readValue(opts, String.class);
                             }
@@ -387,59 +447,53 @@ public class ExamPaperService {
                             for (Map<String, Object> opt : optList) {
                                 String label = String.valueOf(opt.get("label"));
                                 String text = String.valueOf(opt.get("text"));
-                                XWPFParagraph optPara = doc.createParagraph();
-                                optPara.setIndentationLeft(720); // 缩进
-                                renderMarkdownToParagraph(optPara, label + ". " + text);
+                                Paragraph optPara = new Paragraph();
+                                optPara.setIndentationLeft(20f);
+                                renderMarkdownToPdfParagraph(optPara, label + ". " + text, normalFont, boldFont, italicFont, codeFont);
+                                doc.add(optPara);
                             }
                             parsedSuccessfully = true;
                         } catch (Exception e) {
-                            // 无法解析则走到下面的降级处理
                         }
 
                         if (!parsedSuccessfully) {
-                            // 降级使用旧的分割解析方式
                             String[] labels = {"A", "B", "C", "D", "E", "F"};
                             String[] parts = opts.split("\"text\"\\s*:\\s*\"");
                             for (int i = 1; i < parts.length && i <= labels.length; i++) {
                                 String text = parts[i].split("\"")[0];
-                                XWPFParagraph optPara = doc.createParagraph();
-                                optPara.setIndentationLeft(720); // 缩进
-                                renderMarkdownToParagraph(optPara, labels[i - 1] + ". " + text);
+                                Paragraph optPara = new Paragraph();
+                                optPara.setIndentationLeft(20f);
+                                renderMarkdownToPdfParagraph(optPara, labels[i - 1] + ". " + text, normalFont, boldFont, italicFont, codeFont);
+                                doc.add(optPara);
                             }
                         }
                     }
 
                     if (withAnswer) {
-                        XWPFParagraph ansPara = doc.createParagraph();
-                        XWPFRun ansRun = ansPara.createRun();
-                        ansRun.setColor("FF0000"); // 红色
-                        ansRun.setBold(true);
-                        ansRun.setText("【答案】: " + (q.getAnswer() != null ? q.getAnswer() : "略"));
+                        Paragraph ansPara = new Paragraph("【答案】: " + (q.getAnswer() != null ? q.getAnswer() : "略"), answerFont);
+                        ansPara.setSpacingBefore(5);
+                        doc.add(ansPara);
                         
                         if (q.getExplanation() != null && !q.getExplanation().trim().isEmpty()) {
-                            XWPFParagraph expPara = doc.createParagraph();
-                            XWPFRun expRun = expPara.createRun();
-                            expRun.setColor("0000FF"); // 蓝色
-                            expRun.setText("【解析】: " + q.getExplanation());
+                            Paragraph expPara = new Paragraph("【解析】: " + q.getExplanation(), expFont);
+                            doc.add(expPara);
                         }
-                        doc.createParagraph().createRun().setText("");
+                        doc.add(new Paragraph("\n"));
                     } else {
-                        // 编程题/简答题/程序分析题留空行
                         if (type == QuestionType.SHORT_ANSWER || type == QuestionType.CODE_READING || type == QuestionType.PROGRAMMING) {
                             for (int i = 0; i < 5; i++) {
-                                doc.createParagraph().createRun().setText("");
+                                doc.add(new Paragraph("\n"));
                             }
                         }
                     }
                 }
-
                 sectionIdx++;
             }
-
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            doc.write(out);
-            return out.toByteArray();
+            doc.close();
+        } catch (DocumentException e) {
+            throw new IOException("Failed to generate PDF", e);
         }
+        return out.toByteArray();
     }
 
     // ========== 自动组卷辅助方法 ==========
@@ -826,6 +880,177 @@ public class ExamPaperService {
                 })
                 .collect(Collectors.toList()));
         return dto;
+    }
+
+    private void renderMarkdownToPdfParagraph(Paragraph paragraph, String text, Font normalFont, Font boldFont, Font italicFont, Font codeFont) {
+        if (text == null || text.isEmpty()) return;
+
+        String[] lines = text.split("\n");
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i];
+            if (i > 0) {
+                paragraph.add(Chunk.NEWLINE);
+            }
+
+            java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("(\\*\\*(.*?)\\*\\*)|(`(.*?)`)|(\\*([^\\*]+)\\*)");
+            java.util.regex.Matcher matcher = pattern.matcher(line);
+
+            int lastEnd = 0;
+            while (matcher.find()) {
+                if (matcher.start() > lastEnd) {
+                    paragraph.add(new Chunk(line.substring(lastEnd, matcher.start()), normalFont));
+                }
+
+                if (matcher.group(1) != null) {
+                    paragraph.add(new Chunk(matcher.group(2), boldFont));
+                } else if (matcher.group(3) != null) {
+                    paragraph.add(new Chunk(matcher.group(4), codeFont));
+                } else if (matcher.group(5) != null) {
+                    paragraph.add(new Chunk(matcher.group(6), italicFont));
+                }
+                lastEnd = matcher.end();
+            }
+
+            if (lastEnd < line.length()) {
+                paragraph.add(new Chunk(line.substring(lastEnd), normalFont));
+            }
+        }
+    }
+
+    private byte[] generateWordBytes(PaperDTO paper, boolean withAnswer, Set<String> projectPaths) throws IOException {
+        try (XWPFDocument doc = new XWPFDocument()) {
+            // 标题
+            XWPFParagraph titlePara = doc.createParagraph();
+            titlePara.setAlignment(ParagraphAlignment.CENTER);
+            XWPFRun titleRun = titlePara.createRun();
+            titleRun.setText(paper.getTitle() + (withAnswer ? " (答案版)" : ""));
+            titleRun.setBold(true);
+            titleRun.setFontSize(18);
+            titleRun.setFontFamily("宋体");
+
+            // 试卷信息
+            XWPFParagraph infoPara = doc.createParagraph();
+            infoPara.setAlignment(ParagraphAlignment.CENTER);
+            XWPFRun infoRun = infoPara.createRun();
+            infoRun.setText(String.format("总分: %d分  时间: %d分钟",
+                    paper.getTotalScore(), paper.getDurationMinutes()));
+            infoRun.setFontSize(12);
+            infoRun.setFontFamily("宋体");
+
+            // 分隔线
+            doc.createParagraph().createRun().addBreak();
+
+            // 按题型分组输出
+            Map<QuestionType, List<PaperDTO.PaperQuestionDTO>> grouped = paper.getQuestions().stream()
+                    .collect(Collectors.groupingBy(
+                            pq -> pq.getQuestion().getType(),
+                            LinkedHashMap::new,
+                            Collectors.toList()));
+
+            // 大题序号
+            String[] sectionNums = {"一", "二", "三", "四", "五", "六", "七"};
+            int sectionIdx = 0;
+            QuestionType[] typeOrder = {
+                QuestionType.SINGLE_CHOICE, QuestionType.MULTIPLE_CHOICE,
+                QuestionType.TRUE_FALSE, QuestionType.FILL_BLANK,
+                QuestionType.SHORT_ANSWER, QuestionType.CODE_READING, QuestionType.PROGRAMMING
+            };
+
+            for (QuestionType type : typeOrder) {
+                List<PaperDTO.PaperQuestionDTO> questions = grouped.get(type);
+                if (questions == null || questions.isEmpty()) continue;
+
+                // 大题标题
+                int sectionScore = questions.stream().mapToInt(PaperDTO.PaperQuestionDTO::getScore).sum();
+                XWPFParagraph sectionPara = doc.createParagraph();
+                XWPFRun sectionRun = sectionPara.createRun();
+                sectionRun.setText(String.format("%s、%s (共%d题，共%d分)",
+                        sectionIdx < sectionNums.length ? sectionNums[sectionIdx] : String.valueOf(sectionIdx + 1),
+                        type.getLabel(), questions.size(), sectionScore));
+                sectionRun.setBold(true);
+                sectionRun.setFontSize(14);
+                sectionRun.setFontFamily("宋体");
+
+                // 逐题输出
+                int qNum = 1;
+                for (PaperDTO.PaperQuestionDTO pq : questions) {
+                    QuestionDTO q = pq.getQuestion();
+                    if (q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty()) {
+                        projectPaths.add(q.getProjectPath());
+                    }
+                    XWPFParagraph qPara = doc.createParagraph();
+                    String content = q.getContent();
+                    if (q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty()) {
+                        String projectName = new java.io.File(q.getProjectPath()).getName();
+                        content += "\n（请在已有工程 " + projectName + " 的基础上修改）";
+                    }
+                    
+                    String fullText = String.format("%d. (%d分) %s", qNum++, pq.getScore(), content);
+                    renderMarkdownToParagraph(qPara, fullText);
+
+                    // 选择题输出选项
+                    if (q.getOptions() != null && !q.getOptions().isEmpty()
+                            && (type == QuestionType.SINGLE_CHOICE || type == QuestionType.MULTIPLE_CHOICE)) {
+                        String opts = q.getOptions();
+                        boolean parsedSuccessfully = false;
+                        try {
+                            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+                            if (opts.trim().startsWith("\"")) {
+                                opts = mapper.readValue(opts, String.class);
+                            }
+                            List<Map<String, Object>> optList = mapper.readValue(opts, new com.fasterxml.jackson.core.type.TypeReference<List<Map<String, Object>>>() {});
+                            for (Map<String, Object> opt : optList) {
+                                String label = String.valueOf(opt.get("label"));
+                                String text = String.valueOf(opt.get("text"));
+                                XWPFParagraph optPara = doc.createParagraph();
+                                optPara.setIndentationLeft(720); // 缩进
+                                renderMarkdownToParagraph(optPara, label + ". " + text);
+                            }
+                            parsedSuccessfully = true;
+                        } catch (Exception e) {
+                        }
+
+                        if (!parsedSuccessfully) {
+                            String[] labels = {"A", "B", "C", "D", "E", "F"};
+                            String[] parts = opts.split("\"text\"\\s*:\\s*\"");
+                            for (int i = 1; i < parts.length && i <= labels.length; i++) {
+                                String text = parts[i].split("\"")[0];
+                                XWPFParagraph optPara = doc.createParagraph();
+                                optPara.setIndentationLeft(720); // 缩进
+                                renderMarkdownToParagraph(optPara, labels[i - 1] + ". " + text);
+                            }
+                        }
+                    }
+
+                    if (withAnswer) {
+                        XWPFParagraph ansPara = doc.createParagraph();
+                        XWPFRun ansRun = ansPara.createRun();
+                        ansRun.setColor("FF0000"); // 红色
+                        ansRun.setBold(true);
+                        ansRun.setText("【答案】: " + (q.getAnswer() != null ? q.getAnswer() : "略"));
+                        
+                        if (q.getExplanation() != null && !q.getExplanation().trim().isEmpty()) {
+                            XWPFParagraph expPara = doc.createParagraph();
+                            XWPFRun expRun = expPara.createRun();
+                            expRun.setColor("0000FF"); // 蓝色
+                            expRun.setText("【解析】: " + q.getExplanation());
+                        }
+                        doc.createParagraph().createRun().setText("");
+                    } else {
+                        if (type == QuestionType.SHORT_ANSWER || type == QuestionType.CODE_READING || type == QuestionType.PROGRAMMING) {
+                            for (int i = 0; i < 5; i++) {
+                                doc.createParagraph().createRun().setText("");
+                            }
+                        }
+                    }
+                }
+                sectionIdx++;
+            }
+
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            doc.write(out);
+            return out.toByteArray();
+        }
     }
 
     private void renderMarkdownToParagraph(XWPFParagraph paragraph, String text) {

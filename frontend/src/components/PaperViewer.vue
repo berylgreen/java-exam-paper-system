@@ -12,9 +12,14 @@
           <div class="question-content" style="display:flex;align-items:flex-start;">
             <span style="margin-right: 4px;">{{ qi + 1 }}. ({{ pq.score }}分) </span>
             <div class="markdown-body" style="display:inline-block;flex:1;" v-html="renderMarkdown(pq.question.content)"></div>
-            <el-button v-if="allowReplace" size="small" type="primary" plain style="margin-left: 8px;" @click="openReplaceDialog(pq)">
-              <el-icon><Refresh /></el-icon> 换题
-            </el-button>
+            <div style="display: flex; gap: 8px; margin-left: 8px;">
+              <el-button v-if="allowEdit" size="small" type="warning" plain @click="emit('edit-question', pq.question)">
+                <el-icon><Edit /></el-icon> 编辑
+              </el-button>
+              <el-button v-if="allowReplace" size="small" type="primary" plain @click="openReplaceDialog(pq)">
+                <el-icon><Refresh /></el-icon> 换题
+              </el-button>
+            </div>
           </div>
           <div v-if="pq.question.projectPath" style="margin-top:8px; padding:8px; background:#f5f7fa; border-radius:4px; font-size: 13px; color: #409EFF; border: 1px solid #d9ecff;">
             <b>📁 关联代码工程:</b> {{ pq.question.projectPath }}
@@ -103,7 +108,7 @@ const renderMarkdown = (text) => {
   return marked.parse(text)
 }
 
-const emit = defineEmits(['replace-question'])
+const emit = defineEmits(['replace-question', 'edit-question'])
 
 const props = defineProps({
   paper: {
@@ -115,6 +120,10 @@ const props = defineProps({
     default: false
   },
   allowReplace: {
+    type: Boolean,
+    default: false
+  },
+  allowEdit: {
     type: Boolean,
     default: false
   }
