@@ -17,7 +17,7 @@ set "BACKEND_LOG=%BASE_DIR%backend.log"
 set "FRONTEND_LOG=%BASE_DIR%frontend.log"
 
 set "BACKEND_PORT=8080"
-set "FRONTEND_PORT=5173"
+set "FRONTEND_PORT=9527"
 
 if "%1"=="" goto usage
 if /i "%1"=="start" goto start

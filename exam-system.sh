@@ -113,8 +113,8 @@ start_frontend() {
     local count=0
     local max_wait=30
     while [ $count -lt $max_wait ]; do
-        if curl -s http://localhost:5173 > /dev/null 2>&1; then
-            log_info "前端服务启动成功 (PID: $pid) — http://localhost:5173"
+        if curl -s http://localhost:9527 > /dev/null 2>&1; then
+            log_info "前端服务启动成功 (PID: $pid) — http://localhost:9527"
             return 0
         fi
         if ! kill -0 "$pid" 2>/dev/null; then
@@ -207,7 +207,7 @@ show_status() {
 
     if is_running "$FRONTEND_PID_FILE"; then
         local fpid=$(cat "$FRONTEND_PID_FILE")
-        echo -e "  前端服务:  ${GREEN}运行中${NC} (PID: $fpid)  http://localhost:5173"
+        echo -e "  前端服务:  ${GREEN}运行中${NC} (PID: $fpid)  http://localhost:9527"
     else
         echo -e "  前端服务:  ${RED}已停止${NC}"
     fi
@@ -226,12 +226,12 @@ case "$1" in
         ;;
     stop)
         log_info "========== 停止出题组卷系统 =========="
-        stop_service "前端" "$FRONTEND_PID_FILE" 5173
+        stop_service "前端" "$FRONTEND_PID_FILE" 9527
         stop_service "后端" "$BACKEND_PID_FILE" 8080
         ;;
     restart)
         log_info "========== 重启出题组卷系统 =========="
-        stop_service "前端" "$FRONTEND_PID_FILE" 5173
+        stop_service "前端" "$FRONTEND_PID_FILE" 9527
         stop_service "后端" "$BACKEND_PID_FILE" 8080
         sleep 2
         start_backend
