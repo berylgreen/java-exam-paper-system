@@ -97,7 +97,7 @@
       v-model:current-page="page" @current-change="loadQ"/>
 
     <!-- 查看详情对话框 -->
-    <el-dialog v-model="showDetail" :title="detailQ.content?.substring(0,30)+'...'" width="600px">
+    <el-dialog v-model="showDetail" :title="detailQ.content?.substring(0,30)+'...'" width="900px">
       <div v-if="detailQ.id" class="q-detail-container" style="position: relative; padding: 0 50px; min-height: 200px;">
         <!-- 隐藏式箭头 -->
         <div v-if="currentQIndex > 0 || page > 1" class="nav-arrow nav-left" @click="prevQ" title="上一题">
@@ -381,10 +381,10 @@ onMounted(() => { loadQ(); loadMeta() })
 }
 .nav-left {
   left: 50%;
-  transform: translate(-290px, -50%);
+  transform: translate(-440px, -50%);
 }
 .nav-right {
   left: 50%;
-  transform: translate(250px, -50%);
+  transform: translate(400px, -50%);
 }
 </style>
