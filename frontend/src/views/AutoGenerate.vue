@@ -169,7 +169,7 @@ const generateDefaultTitle = () => {
 
 const form = reactive({
   title: generateDefaultTitle(), durationMinutes: 120,
-  singleChoiceCount: 10, multipleChoiceCount: 0, trueFalseCount: 0,
+  singleChoiceCount: 15, multipleChoiceCount: 0, trueFalseCount: 0,
   fillBlankCount: 5, shortAnswerCount: 0, codeReadingCount: 2, programmingCount: 3,
   singleChoiceScore: 2, multipleChoiceScore: 4, trueFalseScore: 2,
   fillBlankScore: 2, shortAnswerScore: 10, codeReadingScore: 5, programmingScore: undefined,

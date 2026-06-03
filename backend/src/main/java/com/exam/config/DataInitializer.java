@@ -166,8 +166,8 @@ public class DataInitializer implements CommandLineRunner {
 
             int order = 0;
             if (!scs.isEmpty()) {
-                for (int i = 0; i < 10; i++) {
-                    addPQ(paper, scs.get((p * 10 + i) % scs.size()), ++order, 2);
+                for (int i = 0; i < 15; i++) {
+                    addPQ(paper, scs.get((p * 15 + i) % scs.size()), ++order, 2);
                 }
             }
             if (!mcs.isEmpty()) {
