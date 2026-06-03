@@ -89,10 +89,17 @@ public class QuestionOptimizationService {
                 Map.of("role", "user", "content", buildUserPrompt(question, prompt))
         ));
 
+        String jsonBody;
+        try {
+            jsonBody = objectMapper.writeValueAsString(body);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("序列化 AI 请求失败", e);
+        }
+
         try {
             String rawBody = restTemplate.postForObject(
                     normalizeBaseUrl(aiProperties.getBaseUrl()) + "/chat/completions",
-                    new HttpEntity<>(body, headers),
+                    new HttpEntity<>(jsonBody, headers),
                     String.class
             );
             return parseAiResponse(rawBody);
