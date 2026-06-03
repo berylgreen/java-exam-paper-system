@@ -1,4 +1,6 @@
-# Lambda 与接口 (数据过滤器)\n\n程序中现有一个处理数字列表的 `DataFilter` 类，目前内部死板地提供了 `filterEvenNumbers` (过滤偶数) 和 `filterPositiveNumbers` (过滤正数) 方法，代码冗余且无法适应灵活变化的新过滤需求。
+# Lambda 与接口 (数据过滤器)
+
+程序中现有一个处理数字列表的 `DataFilter` 类，目前内部死板地提供了 `filterEvenNumbers` (过滤偶数) 和 `filterPositiveNumbers` (过滤正数) 方法，代码冗余且无法适应灵活变化的新过滤需求。
 
 **任务要求**：
 1. 声明一个带有一个方法的函数式接口 `Condition<T>`：`boolean test(T item)`。可以添加 `@FunctionalInterface` 注解。

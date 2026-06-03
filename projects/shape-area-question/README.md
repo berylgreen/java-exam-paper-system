@@ -1,4 +1,6 @@
-# 多态与继承 (形状面积计算器)\n\n现有的形状面积计算器类 `ShapeCalculator` 使用了冗长的 `if-else if` 语句来计算 `Circle`, `Rectangle` 和 `Triangle` 的面积。这违反了开闭原则。
+# 多态与继承 (形状面积计算器)
+
+现有的形状面积计算器类 `ShapeCalculator` 使用了冗长的 `if-else if` 语句来计算 `Circle`, `Rectangle` 和 `Triangle` 的面积。这违反了开闭原则。
 
 **任务要求**：
 1. 定义一个抽象类 `Shape`，包含抽象方法 `double calculateArea()`。
