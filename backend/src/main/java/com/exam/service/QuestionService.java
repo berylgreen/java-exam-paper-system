@@ -8,6 +8,7 @@ import com.exam.repository.ChapterRepository;
 import com.exam.repository.ExamPaperRepository;
 import com.exam.repository.PaperQuestionRepository;
 import com.exam.repository.QuestionRepository;
+import com.exam.config.MetadataConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,7 @@ public class QuestionService {
     private final PaperQuestionRepository paperQuestionRepository;
     private final ExamPaperRepository examPaperRepository;
     private final ChapterRepository chapterRepository;
+    private final MetadataConfig metadataConfig;
 
     /** 分页条件查询 */
     public Page<QuestionDTO> findByFilters(QuestionType type, Long chapterId,
@@ -89,9 +91,15 @@ public class QuestionService {
         return chapterRepository.findAll(org.springframework.data.domain.Sort.by("sortOrder"));
     }
 
-    /** 获取所有来源 */
+    /** 获取所有已使用的题库来源 */
     public List<String> getAllSources() {
-        return questionRepository.findAllSources();
+        Set<String> sources = new LinkedHashSet<>(metadataConfig.getSources());
+        questionRepository.findAllSources().forEach(src -> {
+            if (src != null && !src.trim().isEmpty()) {
+                sources.add(src);
+            }
+        });
+        return new ArrayList<>(sources);
     }
 
     /** 题库统计 */
@@ -140,15 +148,30 @@ public class QuestionService {
 
     /** 导入题目 (清空后批量导入) */
     @Transactional
-    public int importAll(List<QuestionDTO> dtos) {
+    public Map<String, Object> importAll(List<QuestionDTO> dtos) {
         // 导入新题库前，必须先清除关联的试卷题目和旧试卷，否则会违反外键约束
         paperQuestionRepository.deleteAll();
         examPaperRepository.deleteAll();
         
         questionRepository.deleteAll();
-        List<Question> questions = dtos.stream().map(this::toEntity).toList();
+        
+        List<Question> questions = new ArrayList<>();
+        List<String> errors = new ArrayList<>();
+        int index = 1;
+        for (QuestionDTO dto : dtos) {
+            try {
+                questions.add(toEntity(dto));
+            } catch (Exception e) {
+                errors.add("第" + index + "题导入失败: " + e.getMessage());
+            }
+            index++;
+        }
+        
         questionRepository.saveAll(questions);
-        return questions.size();
+        return Map.of(
+            "successCount", questions.size(),
+            "errors", errors
+        );
     }
 
     // ========== 转换方法 ==========
@@ -175,18 +198,16 @@ public class QuestionService {
     private Question toEntity(QuestionDTO dto) {
         com.exam.entity.Chapter chap = null;
         if (dto.getChapterId() != null) {
-            chap = chapterRepository.findById(dto.getChapterId()).orElse(null);
+            chap = chapterRepository.findById(dto.getChapterId())
+                    .orElseThrow(() -> new IllegalArgumentException("指定的章节ID不存在"));
         } else if (dto.getChapterName() != null) {
             String name = dto.getChapterName();
-            chap = chapterRepository.findByName(name).orElseGet(() -> {
-                int sortOrder = 99;
-                java.util.regex.Matcher m = java.util.regex.Pattern.compile("^第(\\d+)章").matcher(name);
-                if (m.find()) {
-                    sortOrder = Integer.parseInt(m.group(1));
-                }
-                com.exam.entity.Chapter newChap = com.exam.entity.Chapter.builder().name(name).sortOrder(sortOrder).build();
-                return chapterRepository.save(newChap);
-            });
+            chap = chapterRepository.findByName(name)
+                    .orElseThrow(() -> new IllegalArgumentException("章节不存在: " + name + "，请先在代码或数据库中添加该章节"));
+        }
+
+        if (chap == null) {
+            throw new IllegalArgumentException("必须指定题目的所属章节");
         }
         return Question.builder()
                 .type(dto.getType())

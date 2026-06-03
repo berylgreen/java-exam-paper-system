@@ -189,7 +189,21 @@ public class QuestionController {
             return dto;
         }).toList();
 
-        int count = questionService.importAll(dtos);
-        return Map.of("success", true, "count", count, "message", "成功导入 " + count + " 道题目");
+        Map<String, Object> result = questionService.importAll(dtos);
+        int count = (int) result.get("successCount");
+        @SuppressWarnings("unchecked")
+        List<String> errors = (List<String>) result.get("errors");
+        
+        String message = "成功导入 " + count + " 道题目";
+        if (!errors.isEmpty()) {
+            message += "，失败 " + errors.size() + " 道题目";
+        }
+        
+        return Map.of(
+            "success", true,
+            "count", count,
+            "message", message,
+            "errors", errors
+        );
     }
 }

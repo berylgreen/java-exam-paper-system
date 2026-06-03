@@ -33,6 +33,7 @@ public class DataInitializer implements CommandLineRunner {
     private final PaperQuestionRepository pqRepo;
     private final ChapterRepository chapterRepository;
     private final ObjectMapper objectMapper;
+    private final MetadataConfig metadataConfig;
 
     @Override
     public void run(String... args) {
@@ -57,6 +58,14 @@ public class DataInitializer implements CommandLineRunner {
             }
             return;
         }
+        
+        log.info("从 metadata.json 初始化基础章节...");
+        for (MetadataConfig.ChapterPreset cp : metadataConfig.getChapters()) {
+            if (chapterRepository.findByName(cp.getName()).isEmpty()) {
+                chapterRepository.save(Chapter.builder().name(cp.getName()).sortOrder(cp.getSortOrder()).build());
+            }
+        }
+
         log.info("开始从 JSON 文件初始化题库...");
 
         List<Question> allQuestions = loadQuestions("questions.json");
@@ -102,15 +111,8 @@ public class DataInitializer implements CommandLineRunner {
                 Chapter chapter = null;
                 if (chapterName != null && !chapterName.trim().isEmpty()) {
                     chapter = chapterCache.computeIfAbsent(chapterName, name -> {
-                        return chapterRepository.findByName(name).orElseGet(() -> {
-                            int sortOrder = 99;
-                            java.util.regex.Matcher m = java.util.regex.Pattern.compile("^第(\\d+)章").matcher(name);
-                            if (m.find()) {
-                                sortOrder = Integer.parseInt(m.group(1));
-                            }
-                            Chapter newChap = Chapter.builder().name(name).sortOrder(sortOrder).build();
-                            return chapterRepository.save(newChap);
-                        });
+                        return chapterRepository.findByName(name)
+                                .orElseThrow(() -> new IllegalArgumentException("未知的章节名: " + name + "，请先在 metadata.json 中预设"));
                     });
                 }
 

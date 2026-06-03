@@ -317,11 +317,11 @@ const initProgrammingChapters = () => {
     if (form.programmingCount >= 4) {
       form.programmingQuestionChapters[2] = chapters.value.find(c => c.name.startsWith('第4章'))?.name || chapters.value[0]?.name || '';
     } else {
-      form.programmingQuestionChapters[2] = chapters.value.find(c => c.name.startsWith('第7章'))?.name || chapters.value[0]?.name || '';
+      form.programmingQuestionChapters[2] = chapters.value.find(c => c.name.startsWith('第10章'))?.name || chapters.value[0]?.name || '';
     }
   }
   if (form.programmingQuestionChapters.length >= 4) {
-    form.programmingQuestionChapters[3] = chapters.value.find(c => c.name.startsWith('第7章'))?.name || chapters.value[0]?.name || '';
+    form.programmingQuestionChapters[3] = chapters.value.find(c => c.name.startsWith('第10章'))?.name || chapters.value[0]?.name || '';
   }
 }
 

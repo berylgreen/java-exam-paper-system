@@ -1,0 +1,53 @@
+{
+  "chapters": [
+    {
+      "name": "第1章 Java概述与环境",
+      "sortOrder": 1
+    },
+    {
+      "name": "第2章 JAVA编程基本功",
+      "sortOrder": 2
+    },
+    {
+      "name": "第3章 面向对象基础",
+      "sortOrder": 3
+    },
+    {
+      "name": "第4章 面向对象进阶",
+      "sortOrder": 4
+    },
+    {
+      "name": "第5章 常用类",
+      "sortOrder": 5
+    },
+    {
+      "name": "第6章 异常处理",
+      "sortOrder": 6
+    },
+    {
+      "name": "第7章 集合框架",
+      "sortOrder": 7
+    },
+    {
+      "name": "第8章 I/O流",
+      "sortOrder": 8
+    },
+    {
+      "name": "第9章 GUI编程",
+      "sortOrder": 9
+    },
+    {
+      "name": "第10章 多线程",
+      "sortOrder": 10
+    },
+    {
+      "name": "综合题库",
+      "sortOrder": 99
+    }
+  ],
+  "sources": [
+    "课后习题",
+    "网络精选",
+    "原创"
+  ]
+}
