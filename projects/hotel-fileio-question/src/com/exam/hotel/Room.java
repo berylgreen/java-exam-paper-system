@@ -1,5 +1,5 @@
 package com.exam.hotel;
 
 public class Room {
-    // TODO: 实现代码
+    // 基础实体类
 }

@@ -1,5 +1,5 @@
 package com.exam.school;
 
 public class Student {
-    // TODO: 实现代码
+    // 基础实体类
 }

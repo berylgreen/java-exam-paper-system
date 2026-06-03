@@ -1,5 +1,11 @@
 package com.exam.rental;
 
 public class Vehicle {
-    // TODO: 实现代码
+    public String id;
+    public String info;
+    
+    public Vehicle(String id, String info) {
+        this.id = id;
+        this.info = info;
+    }
 }

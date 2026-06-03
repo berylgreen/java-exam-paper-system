@@ -1,5 +1,11 @@
 package com.exam.restaurant;
 
 public class Dish {
-    // TODO: 实现代码
+    public boolean valid;
+    public String name;
+    
+    public Dish(boolean valid, String name) {
+        this.valid = valid;
+        this.name = name;
+    }
 }

@@ -1,5 +1,11 @@
 package com.exam.logistics;
 
 public class PackageItem {
-    // TODO: 实现代码
+    public boolean valid;
+    public String name;
+    
+    public PackageItem(boolean valid, String name) {
+        this.valid = valid;
+        this.name = name;
+    }
 }

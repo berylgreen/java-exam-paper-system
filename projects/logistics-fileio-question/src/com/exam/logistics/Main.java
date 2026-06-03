@@ -3,6 +3,9 @@ package com.exam.logistics;
 public class Main {
     public static void main(String[] args) {
         System.out.println("启动 物流系统 模块测试...");
-        // TODO: 在此调用 Package 相关业务方法进行重构与测试
+        Logger logger = new Logger();
+        logger.writeLog("System started");
+        logger.writeLog("Operation success");
+        System.out.println("日志方法调用完成。");
     }
 }

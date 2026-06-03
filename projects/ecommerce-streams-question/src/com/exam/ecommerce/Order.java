@@ -1,5 +1,11 @@
 package com.exam.ecommerce;
 
 public class Order {
-    // TODO: 实现代码
+    public boolean valid;
+    public String name;
+    
+    public Order(boolean valid, String name) {
+        this.valid = valid;
+        this.name = name;
+    }
 }

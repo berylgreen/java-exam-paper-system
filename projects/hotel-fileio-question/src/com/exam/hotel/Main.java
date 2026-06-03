@@ -2,7 +2,10 @@ package com.exam.hotel;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("启动 酒店系统 模块测试...");
-        // TODO: 在此调用 Room 相关业务方法进行重构与测试
+        System.out.println("启动 酒店管理系统 模块测试...");
+        Logger logger = new Logger();
+        logger.writeLog("System started");
+        logger.writeLog("Operation success");
+        System.out.println("日志方法调用完成。");
     }
 }

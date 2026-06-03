@@ -1,5 +1,5 @@
 package com.exam.hospital;
 
 public class Patient {
-    // TODO: 实现代码
+    // 基础实体类
 }

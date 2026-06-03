@@ -1,5 +1,5 @@
 package com.exam.restaurant;
 
 public class Dish {
-    // TODO: 实现代码
+    // 基础实体类
 }

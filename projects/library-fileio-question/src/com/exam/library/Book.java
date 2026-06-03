@@ -1,5 +1,5 @@
 package com.exam.library;
 
 public class Book {
-    // TODO: 实现代码
+    // 基础实体类
 }

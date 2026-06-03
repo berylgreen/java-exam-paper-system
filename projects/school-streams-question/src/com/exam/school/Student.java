@@ -1,5 +1,11 @@
 package com.exam.school;
 
 public class Student {
-    // TODO: 实现代码
+    public boolean valid;
+    public String name;
+    
+    public Student(boolean valid, String name) {
+        this.valid = valid;
+        this.name = name;
+    }
 }

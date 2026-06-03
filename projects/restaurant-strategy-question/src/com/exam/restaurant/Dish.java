@@ -1,5 +1,11 @@
 package com.exam.restaurant;
 
 public class Dish {
-    // TODO: 实现代码
+    public String id;
+    public String type; // e.g. "TYPE_A", "TYPE_B"
+    
+    public Dish(String id, String type) {
+        this.id = id;
+        this.type = type;
+    }
 }

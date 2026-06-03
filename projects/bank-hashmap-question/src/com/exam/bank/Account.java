@@ -1,5 +1,11 @@
 package com.exam.bank;
 
 public class Account {
-    // TODO: 实现代码
+    public String id;
+    public String info;
+    
+    public Account(String id, String info) {
+        this.id = id;
+        this.info = info;
+    }
 }

@@ -1,5 +1,11 @@
 package com.exam.logistics;
 
 public class Package {
-    // TODO: 实现代码
+    public String id;
+    public String info;
+    
+    public Package(String id, String info) {
+        this.id = id;
+        this.info = info;
+    }
 }

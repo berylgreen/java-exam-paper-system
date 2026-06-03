@@ -1,5 +1,5 @@
 package com.exam.logistics;
 
 public class Package {
-    // TODO: 实现代码
+    // 基础实体类
 }
