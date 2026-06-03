@@ -119,7 +119,7 @@ const saveQ = async () => {
       ElMessage.success('已添加')
     }
     visible.value = false
-    emit('saved')
+    emit('saved', formData.value)
   } catch (e) {
     ElMessage.error((props.isEdit ? '修改' : '添加') + '失败: ' + (e.response?.data?.message || e.message))
   }

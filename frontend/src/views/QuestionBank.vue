@@ -132,7 +132,7 @@
         </div>
       </div>
       <template #footer>
-        <el-button type="warning" @click="editQ(detailQ); showDetail=false">修改</el-button>
+        <el-button type="warning" @click="editQ(detailQ)">修改</el-button>
         <el-button type="danger" @click="delQ(detailQ.id); showDetail=false">删除</el-button>
         <el-button @click="showDetail=false">关闭</el-button>
       </template>
@@ -300,9 +300,19 @@ const batchDelQ = async () => {
   }
 }
 
-const handleSaved = () => {
+const handleSaved = (savedData) => {
   loadQ()
   loadMeta()
+  if (showDetail.value && savedData && detailQ.value && savedData.id === detailQ.value.id) {
+    detailQ.value = { ...detailQ.value, ...savedData }
+    
+    // Also update it in questions.value if it exists, so list is synced before loadQ finishes
+    if (currentQIndex.value >= 0 && currentQIndex.value < questions.value.length) {
+      if (questions.value[currentQIndex.value].id === savedData.id) {
+        questions.value[currentQIndex.value] = { ...questions.value[currentQIndex.value], ...savedData }
+      }
+    }
+  }
 }
 
 const exportQ = () => {

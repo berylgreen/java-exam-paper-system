@@ -3453,17 +3453,6 @@
   },
   {
     "type": "CODE_READING",
-    "chapter": "第3章 面向对象基础",
-    "difficulty": "MEDIUM",
-    "content": "阅读以下重载方法代码：\n```java\npublic class OverloadTest {\n    public void process(int i) {\n        System.out.print(\"A\");\n    }\n    public void process(Integer i) {\n        System.out.print(\"B\");\n    }\n    public void process(Object o) {\n        System.out.print(\"C\");\n    }\n    public static void main(String[] args) {\n        new OverloadTest().process(new Integer(100));\n    }\n}\n```\n这三个重载方法中，究竟哪一个会被实际调用？请填写该方法在控制台输出的字母。",
-    "answer": "B",
-    "explanation": "参数传入的是 new Integer(100)。编译器会根据静态类型进行方法重载决议（Method Resolution）。最精确匹配的方法是 接收包装类 Integer 的 process(Integer)，因此输出 B。",
-    "defaultScore": 10,
-    "source": "原创",
-    "projectPath": null
-  },
-  {
-    "type": "CODE_READING",
     "chapter": "第7章 集合框架",
     "difficulty": "MEDIUM",
     "content": "阅读以下关于Map集合的代码：\n```java\nMap<String, Integer> map = new HashMap<>();\nmap.put(\"KeyX\", 82);\nmap.put(\"KeyX\", 475);\n```\n请问此时调用 `map.size()`，返回的集合元素个数是多少？",
