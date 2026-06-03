@@ -275,6 +275,15 @@ public class ExamPaperService {
     public ExportResult exportPaper(Long id, boolean withAnswer, List<String> types) throws IOException {
         PaperDTO paper = findById(id);
         Set<String> projectPaths = new HashSet<>();
+        Set<String> answerProjectPaths = new HashSet<>();
+        if (withAnswer) {
+            for (PaperDTO.PaperQuestionDTO pq : paper.getQuestions()) {
+                QuestionDTO q = pq.getQuestion();
+                if (q.getAnswerProjectPath() != null && !q.getAnswerProjectPath().trim().isEmpty()) {
+                    answerProjectPaths.add(q.getAnswerProjectPath());
+                }
+            }
+        }
 
         boolean exportPdf = types != null && types.contains("pdf");
         boolean exportDocx = types != null && types.contains("docx");
@@ -339,7 +348,7 @@ public class ExamPaperService {
                 try {
                     byte[] projectZipBytes = com.exam.util.ZipUtils.zipDirectoryToBytes(projectPath);
                     String projectName = new java.io.File(projectPath).getName();
-                    java.util.zip.ZipEntry projEntry = new java.util.zip.ZipEntry("projects/" + projectName + ".zip");
+                    java.util.zip.ZipEntry projEntry = new java.util.zip.ZipEntry("题目工程/" + projectName + ".zip");
                     zos.putNextEntry(projEntry);
                     zos.write(projectZipBytes);
                     zos.closeEntry();
@@ -347,9 +356,23 @@ public class ExamPaperService {
                     System.err.println("打包工程失败: " + projectPath);
                 }
             }
+
+            // 写入各个答案工程 ZIP
+            for (String answerProjectPath : answerProjectPaths) {
+                try {
+                    byte[] projectZipBytes = com.exam.util.ZipUtils.zipDirectoryToBytes(answerProjectPath);
+                    String projectName = new java.io.File(answerProjectPath).getName();
+                    java.util.zip.ZipEntry projEntry = new java.util.zip.ZipEntry("答案工程/" + projectName + ".zip");
+                    zos.putNextEntry(projEntry);
+                    zos.write(projectZipBytes);
+                    zos.closeEntry();
+                } catch (Exception e) {
+                    System.err.println("打包答案工程失败: " + answerProjectPath);
+                }
+            }
         }
 
-        String zipFilename = "试卷_" + id + (withAnswer ? "_含答案" : "") + (projectPaths.isEmpty() ? "" : "_含代码工程") + ".zip";
+        String zipFilename = "试卷_" + id + (withAnswer ? "_含答案" : "") + (projectPaths.isEmpty() && answerProjectPaths.isEmpty() ? "" : "_含代码工程") + ".zip";
         return new ExportResult(zipFilename, "application/zip", zipBaos.toByteArray());
     }
 

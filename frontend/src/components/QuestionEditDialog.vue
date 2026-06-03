@@ -46,8 +46,11 @@
         <el-input v-model="formData.options" type="textarea" :rows="2" placeholder='JSON 格式: [{"label":"A","text":"xxx"},...]'/>
       </el-form-item>
       
-      <el-form-item label="工程路径" v-if="formData.type==='PROGRAMMING'">
+      <el-form-item label="关联工程" v-if="formData.type === 'PROGRAMMING' || formData.type === 'CODE_READING'">
         <el-input v-model="formData.projectPath" placeholder="如: projects/payment-system-question"/>
+      </el-form-item>
+      <el-form-item label="答案工程" v-if="formData.type === 'PROGRAMMING' || formData.type === 'CODE_READING'">
+        <el-input v-model="formData.answerProjectPath" placeholder="如: answer-projects/payment-system-answer"/>
       </el-form-item>
 
       <el-row :gutter="20">

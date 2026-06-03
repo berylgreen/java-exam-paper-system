@@ -61,4 +61,8 @@ public class Question {
     /** 工程路径 (编程题用) */
     @Column(length = 255)
     private String projectPath;
+
+    /** 答案工程路径 (编程题答案用) */
+    @Column(length = 255)
+    private String answerProjectPath;
 }

@@ -21,4 +21,5 @@ public class QuestionDTO {
     private Integer defaultScore;
     private String source;
     private String projectPath;
+    private String answerProjectPath;
 }

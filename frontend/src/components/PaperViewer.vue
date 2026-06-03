@@ -24,6 +24,9 @@
           <div v-if="pq.question.projectPath" style="margin-top:8px; padding:8px; background:#f5f7fa; border-radius:4px; font-size: 13px; color: #409EFF; border: 1px solid #d9ecff;">
             <b>📁 关联代码工程:</b> {{ pq.question.projectPath }}
           </div>
+          <div v-if="pq.question.answerProjectPath" style="margin-top:8px; padding:8px; background:#f0f9eb; border-radius:4px; font-size: 13px; color: #67C23A; border: 1px solid #e1f3d8;">
+            <b>📁 答案工程:</b> {{ pq.question.answerProjectPath }}
+          </div>
           <!-- 选项 -->
           <div v-if="pq.question.options" class="question-options">
             <div v-for="opt in parseOpts(pq.question.options)" :key="opt.label" class="option">{{ opt.label }}. {{ opt.text }}</div>
@@ -66,6 +69,9 @@
             </div>
             <div v-if="row.projectPath" style="margin-top: 4px; color: #409EFF; font-size: 12px;">
               📁 {{ row.projectPath }}
+            </div>
+            <div v-if="row.answerProjectPath" style="margin-top: 4px; color: #67C23A; font-size: 12px;">
+              📁 {{ row.answerProjectPath }}
             </div>
           </template>
         </el-table-column>

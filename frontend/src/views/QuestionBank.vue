@@ -114,10 +114,13 @@
         </div>
         <p v-if="detailQ.projectPath" style="margin:12px 0; color:#409EFF; display:flex; align-items:center; gap:10px">
           <span><b>📁 关联工程：</b>{{ detailQ.projectPath }}</span>
-          <el-button type="primary" size="small" @click="downloadProject(detailQ.id)">
-            <el-icon><Download /></el-icon> 下载工程
-          </el-button>
         </p>
+        <p v-if="detailQ.answerProjectPath" style="margin:12px 0; color:#67C23A; display:flex; align-items:center; gap:10px">
+          <span><b>📁 答案工程：</b>{{ detailQ.answerProjectPath }}</span>
+        </p>
+        <el-button type="primary" size="small" @click="downloadProject(detailQ.id)" style="margin-bottom: 12px;">
+          <el-icon><Download /></el-icon> 下载工程
+        </el-button>
         <div v-if="detailQ.options" style="margin:8px 0">
           <b>选项：</b>
           <div v-for="opt in parseOpts(detailQ.options)" :key="opt.label" style="margin-left:16px">{{ opt.label }}. {{ opt.text }}</div>
@@ -204,7 +207,7 @@ const isEdit = ref(false)
 const importInput = ref(null)
 const optimizing = ref(false)
 const optimizePrompt = ref('')
-const defaultQ = () => ({ type:'SINGLE_CHOICE', chapterName:'', difficulty:'EASY', content:'', options:'', answer:'', explanation:'', defaultScore:2, source:'网络2026年1月', projectPath:'' })
+const defaultQ = () => ({ type:'SINGLE_CHOICE', chapterName:'', difficulty:'EASY', content:'', options:'', answer:'', explanation:'', defaultScore:2, source:'网络2026年1月', projectPath:'', answerProjectPath:'' })
 const newQ = reactive(defaultQ())
 
 const handleAdd = () => {
