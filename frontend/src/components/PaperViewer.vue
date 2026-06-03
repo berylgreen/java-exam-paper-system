@@ -47,8 +47,8 @@
     <el-dialog v-model="replaceDialog.visible" title="选择替换题目" width="80%" top="5vh" append-to-body>
       <div style="margin-bottom: 16px; display: flex; gap: 16px; align-items: center;">
         <span style="font-weight:bold;color:#606266;">当前题型：{{ typeLabels[replaceDialog.targetType] }}</span>
-        <el-select v-model="replaceDialog.searchForm.chapter" placeholder="筛选章节" clearable size="small" style="width: 150px">
-          <el-option v-for="c in chapters" :key="c" :label="c" :value="c" />
+        <el-select v-model="replaceDialog.searchForm.chapterId" placeholder="筛选章节" clearable size="small" style="width: 150px">
+          <el-option v-for="c in chapters" :key="c.id" :label="c.name" :value="c.id" />
         </el-select>
         <el-select v-model="replaceDialog.searchForm.difficulty" placeholder="筛选难度" clearable size="small" style="width: 120px">
           <el-option label="简单" value="EASY" />
@@ -172,7 +172,7 @@ const replaceDialog = ref({
   candidates: [],
   total: 0,
   searchForm: {
-    chapter: '',
+    chapterId: null,
     difficulty: '',
     page: 1,
     size: 10
@@ -182,7 +182,9 @@ const replaceDialog = ref({
 const openReplaceDialog = async (pq) => {
   replaceDialog.value.targetPq = pq
   replaceDialog.value.targetType = pq.question.type
-  replaceDialog.value.searchForm.chapter = pq.question.chapter || ''
+  const chapterName = pq.question.chapterName || pq.question.chapter || ''
+  const chapterObj = chapters.value.find(c => c.name === chapterName)
+  replaceDialog.value.searchForm.chapterId = chapterObj ? chapterObj.id : null
   replaceDialog.value.searchForm.difficulty = pq.question.difficulty || ''
   replaceDialog.value.searchForm.page = 1
   replaceDialog.value.visible = true
@@ -194,7 +196,7 @@ const searchAlternatives = async () => {
   try {
     const res = await questionApi.list({
       type: replaceDialog.value.targetType,
-      chapter: replaceDialog.value.searchForm.chapter || undefined,
+      chapterId: replaceDialog.value.searchForm.chapterId || undefined,
       difficulty: replaceDialog.value.searchForm.difficulty || undefined,
       page: replaceDialog.value.searchForm.page - 1, // 后端分页从0开始
       size: replaceDialog.value.searchForm.size
