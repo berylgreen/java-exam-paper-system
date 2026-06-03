@@ -1,5 +1,5 @@
 package com.exam.rental;
 
-public class Vehicle {
+public class Car {
     // TODO: 实现代码
 }

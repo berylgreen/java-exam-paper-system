@@ -1,5 +1,5 @@
 package com.exam.logistics;
 
-public class Package {
+public class PackageItem {
     // TODO: 实现代码
 }
