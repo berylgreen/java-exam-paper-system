@@ -37,7 +37,24 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (qRepo.count() > 0) {
-            log.info("题库已存在，跳过初始化");
+            log.info("题库已存在，跳过题库初始化");
+            if (paperRepo.count() == 0) {
+                log.info("试卷列表为空，开始初始化预置试卷...");
+                List<Question> allQuestions = qRepo.findAll();
+                List<Question> paperQuestions = allQuestions.stream()
+                        .filter(q -> {
+                            if (q.getChapter() == null || q.getChapter().getName() == null) return false;
+                            java.util.regex.Matcher m = java.util.regex.Pattern.compile("^第(\\d+)章").matcher(q.getChapter().getName());
+                            if (m.find()) {
+                                int chap = Integer.parseInt(m.group(1));
+                                return chap >= 1 && chap <= 7;
+                            }
+                            return false;
+                        })
+                        .collect(Collectors.toList());
+                initPapers(paperQuestions);
+                log.info("预置试卷初始化完成");
+            }
             return;
         }
         log.info("开始从 JSON 文件初始化题库...");
