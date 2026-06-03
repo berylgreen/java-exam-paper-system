@@ -47,15 +47,14 @@
     <el-dialog v-model="replaceDialog.visible" title="选择替换题目" width="80%" top="5vh" append-to-body>
       <div style="margin-bottom: 16px; display: flex; gap: 16px; align-items: center;">
         <span style="font-weight:bold;color:#606266;">当前题型：{{ typeLabels[replaceDialog.targetType] }}</span>
-        <el-select v-model="replaceDialog.searchForm.chapterId" placeholder="筛选章节" clearable size="small" style="width: 150px">
+        <el-select v-model="replaceDialog.searchForm.chapterId" placeholder="筛选章节" clearable size="small" style="width: 150px" @change="onFilterChange">
           <el-option v-for="c in chapters" :key="c.id" :label="c.name" :value="c.id" />
         </el-select>
-        <el-select v-model="replaceDialog.searchForm.difficulty" placeholder="筛选难度" clearable size="small" style="width: 120px">
+        <el-select v-model="replaceDialog.searchForm.difficulty" placeholder="筛选难度" clearable size="small" style="width: 120px" @change="onFilterChange">
           <el-option label="简单" value="EASY" />
           <el-option label="中等" value="MEDIUM" />
           <el-option label="困难" value="HARD" />
         </el-select>
-        <el-button type="primary" size="small" @click="searchAlternatives" :loading="replaceDialog.loading">搜索</el-button>
       </div>
       
       <el-table :data="replaceDialog.candidates" v-loading="replaceDialog.loading" max-height="500px">
@@ -70,7 +69,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="chapter" label="章节" width="120" />
+        <el-table-column prop="chapterName" label="章节" width="120" />
         <el-table-column prop="difficulty" label="难度" width="80">
           <template #default="{ row }">
             <el-tag :type="row.difficulty === 'EASY' ? 'success' : row.difficulty === 'MEDIUM' ? 'warning' : 'danger'">
@@ -207,6 +206,11 @@ const searchAlternatives = async () => {
     console.error('搜索替换题目失败', e)
   }
   replaceDialog.value.loading = false
+}
+
+const onFilterChange = async () => {
+  replaceDialog.value.searchForm.page = 1
+  await searchAlternatives()
 }
 
 const confirmReplace = (newQuestion) => {
