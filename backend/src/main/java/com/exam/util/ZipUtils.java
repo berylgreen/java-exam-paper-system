@@ -37,6 +37,10 @@ public class ZipUtils {
         if (fileToZip.isHidden()) {
             return;
         }
+        // 忽略所有 .md 文件
+        if (fileToZip.getName().toLowerCase().endsWith(".md")) {
+            return;
+        }
         if (fileToZip.isDirectory()) {
             if (fileName.endsWith("/")) {
                 zos.putNextEntry(new ZipEntry(fileName));
