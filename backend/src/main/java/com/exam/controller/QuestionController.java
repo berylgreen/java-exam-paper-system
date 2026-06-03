@@ -71,6 +71,17 @@ public class QuestionController {
         return questionOptimizationService.optimizePreview(request);
     }
 
+    /** 直接对题目进行 AI 优化并保存 */
+    @PostMapping("/{id}/optimize")
+    public QuestionDTO optimizeAndSave(@PathVariable("id") Long id, @RequestBody Map<String, String> payload) {
+        QuestionDTO original = questionService.findById(id);
+        QuestionOptimizeRequest req = new QuestionOptimizeRequest();
+        req.setQuestion(original);
+        req.setPrompt(payload.getOrDefault("prompt", "请将题干表述更清晰，并补充更严谨的答案与解析"));
+        QuestionOptimizeResponse res = questionOptimizationService.optimizePreview(req);
+        return questionService.update(id, res.getOptimizedQuestion());
+    }
+
     /** 删除题目 */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {

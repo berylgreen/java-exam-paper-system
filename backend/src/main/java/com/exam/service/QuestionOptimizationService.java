@@ -115,7 +115,8 @@ public class QuestionOptimizationService {
         return "你是一名 Java 程序设计基础课程命题优化助手。"
                 + "请根据用户给定的题目与优化要求，只优化题干、答案、解析，以及选择题选项。"
                 + "不要修改题型、章节、难度、来源、分值、工程路径等元数据。"
-                + "必须只返回 JSON，不要输出 Markdown、说明文字或代码块。"
+                + "必须只返回 JSON，最外层不要使用 ```json 这样的 Markdown 标记，也不要包含任何额外的说明文字。"
+                + "注意：在 JSON 内部的 answer 和 explanation 字段中，如果涉及代码展示，请务必保留或使用 Markdown 格式（如 ```java 等代码块标记）进行排版。"
                 + "JSON 结构必须为 {\"content\":string,\"answer\":string,\"explanation\":string,\"options\":[{\"label\":string,\"text\":string}]}。"
                 + "如果不是单选题或多选题，可省略 options 字段或返回 null。";
     }
