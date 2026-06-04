@@ -1,3 +1,5 @@
+package com.exam.rental;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;

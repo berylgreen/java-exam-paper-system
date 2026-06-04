@@ -1,3 +1,5 @@
+package com.exam.ecommerce;
+
 class StockUpdater {
     private int stock = 100;
 

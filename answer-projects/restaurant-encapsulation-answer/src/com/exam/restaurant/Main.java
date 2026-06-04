@@ -6,9 +6,9 @@ public class Main {
         Dish obj = new Dish();
         
         // 外部直接修改属性，可能导致非法数据
-        obj.id = ""; 
-        obj.value = -100;
+        obj.setId(""); 
+        obj.setValue(-100);
         
-        System.out.println("ID: " + obj.id + ", Value: " + obj.value);
+        System.out.println("ID: " + obj.getId() + ", Value: " + obj.getValue());
     }
 }

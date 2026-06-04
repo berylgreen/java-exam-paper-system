@@ -1,3 +1,5 @@
+package com.exam.logistics;
+
 // 策略接口：定义统一的处理方法
 interface PackageStrategy {
     void process();

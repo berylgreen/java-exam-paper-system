@@ -1,3 +1,5 @@
+package com.exam.factory;
+
 interface Vehicle {
     void drive();
 }

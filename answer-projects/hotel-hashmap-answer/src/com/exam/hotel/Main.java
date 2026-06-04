@@ -1,3 +1,5 @@
+package com.exam.hotel;
+
 import java.util.HashMap;
 import java.util.Map;
 

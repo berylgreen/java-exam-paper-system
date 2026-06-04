@@ -1,3 +1,5 @@
+package com.exam.hotel;
+
 class RoomException extends Exception {
     public RoomException(String message) {
         super(message);

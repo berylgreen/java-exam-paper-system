@@ -1,3 +1,5 @@
+package com.exam.bank;
+
 abstract class Account {
     /**
      * 账户统计处理行为，不同账户类型有不同实现

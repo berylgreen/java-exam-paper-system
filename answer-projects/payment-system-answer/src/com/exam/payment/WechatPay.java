@@ -1,5 +1,21 @@
+package com.exam.payment;
+
 // PaymentStrategy.java
-public interface PaymentStrategy {
+interface PaymentStrategy {
+    
+    
+
+    
+    
+
+    
+    
+
+    
+    
+
+    
+
     void pay(Order order);
 }
 
@@ -12,7 +28,7 @@ public class WechatPay implements PaymentStrategy {
 }
 
 // Alipay.java
-public class Alipay implements PaymentStrategy {
+class Alipay implements PaymentStrategy {
     @Override
     public void pay(Order order) {
         System.out.println("订单 " + order.getOrderId() + " 使用支付宝支付了 " + order.getAmount() + " 元");
@@ -20,7 +36,7 @@ public class Alipay implements PaymentStrategy {
 }
 
 // PaymentProcessor.java
-public class PaymentProcessor {
+class PaymentProcessor {
     private PaymentStrategy paymentStrategy;
 
     public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
@@ -37,7 +53,7 @@ public class PaymentProcessor {
 }
 
 // Main.java
-public class Main {
+class Main {
     public static void main(String[] args) {
         PaymentProcessor processor = new PaymentProcessor();
 

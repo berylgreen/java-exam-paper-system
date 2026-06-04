@@ -1,3 +1,5 @@
+package com.exam.school;
+
 abstract class Student {
     // 统一的处理行为，由子类分别实现
     public abstract void process();

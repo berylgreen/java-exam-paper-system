@@ -1,3 +1,5 @@
+package com.exam.hotel;
+
 abstract class Room {
     // 统一的处理方法，由子类分别实现
     public abstract void process();

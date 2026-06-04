@@ -1,3 +1,5 @@
+package com.exam.library;
+
 class BookStock {
     private int stock = 100;
 

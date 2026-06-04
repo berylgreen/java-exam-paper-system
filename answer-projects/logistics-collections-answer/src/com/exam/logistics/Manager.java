@@ -15,7 +15,7 @@ public class Manager {
     
     public void printAll() {
         for (int i = 0; i < count; i++) {
-            System.out.println("Item ID: " + items[i].id);
+            System.out.println("Item ID: " + items[i].getId());
         }
     }
 }

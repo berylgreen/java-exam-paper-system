@@ -1,3 +1,5 @@
+package com.exam.restaurant;
+
 class DishStock {
     private int stock = 100;
 

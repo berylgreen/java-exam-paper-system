@@ -1,3 +1,5 @@
+package com.exam.hospital;
+
 abstract class Patient {
     // 抽象方法：不同类型的病患有不同的处理逻辑
     public abstract void process();

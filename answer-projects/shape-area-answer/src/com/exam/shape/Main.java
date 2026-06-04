@@ -1,3 +1,5 @@
+package com.exam.shape;
+
 abstract class Shape {
     public abstract double calculateArea();
 }

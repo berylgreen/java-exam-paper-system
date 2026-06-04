@@ -1,3 +1,5 @@
+package com.exam.restaurant;
+
 import java.util.List;
 import java.util.stream.Collectors;
 

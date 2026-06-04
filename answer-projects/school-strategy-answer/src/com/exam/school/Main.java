@@ -1,3 +1,5 @@
+package com.exam.school;
+
 // 策略接口
 interface StudentStrategy {
     void execute();

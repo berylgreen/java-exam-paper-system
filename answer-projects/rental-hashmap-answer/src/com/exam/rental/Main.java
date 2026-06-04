@@ -1,3 +1,5 @@
+package com.exam.rental;
+
 import java.util.HashMap;
 import java.util.Map;
 

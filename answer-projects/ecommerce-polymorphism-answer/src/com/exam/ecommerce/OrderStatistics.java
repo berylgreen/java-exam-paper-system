@@ -1,3 +1,5 @@
+package com.exam.ecommerce;
+
 abstract class Order {
     /**
      * 订单处理的统一入口

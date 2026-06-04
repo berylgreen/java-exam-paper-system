@@ -1,3 +1,5 @@
+package com.exam.smarthome;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -6,6 +8,18 @@ import java.util.Objects;
 import java.util.Set;
 
 class Device implements Comparable<Device> {
+    private boolean valid;
+    private int value;
+    public Device() {}
+    public Device(boolean valid, String name) { this.valid = valid; this.name = name; }
+    public boolean isValid() { return valid; }
+    public void setValid(boolean valid) { this.valid = valid; }
+    public void setName(String name) { this.name = name; }
+    public int getValue() { return value; }
+    public void setValue(int value) { this.value = value; }
+    public void setId(String id) { this.id = id; }
+
+
     private String id;
     private String name;
 
@@ -27,7 +41,7 @@ class Device implements Comparable<Device> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Device device = (Device) o;
-        return Objects.equals(id, device.id);
+        return Objects.equals(id, device.getId());
     }
 
     @Override
@@ -37,7 +51,7 @@ class Device implements Comparable<Device> {
 
     @Override
     public int compareTo(Device other) {
-        return this.id.compareTo(other.id);
+        return this.getId().compareTo(other.getId());
     }
 
     @Override

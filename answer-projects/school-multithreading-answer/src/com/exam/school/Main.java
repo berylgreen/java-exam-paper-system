@@ -1,3 +1,5 @@
+package com.exam.school;
+
 class StudentRecord {
     private int score = 100;
 

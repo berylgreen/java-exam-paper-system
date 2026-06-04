@@ -1,3 +1,5 @@
+package com.exam.hospital;
+
 import java.util.HashMap;
 import java.util.Map;
 

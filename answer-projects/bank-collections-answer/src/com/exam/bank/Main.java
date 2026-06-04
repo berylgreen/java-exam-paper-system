@@ -1,3 +1,5 @@
+package com.exam.bank;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -6,6 +8,20 @@ import java.util.Objects;
 import java.util.Set;
 
 class Account implements Comparable<Account> {
+    private boolean valid;
+    private String name = "";
+    private int value;
+    public Account() {}
+    public Account(boolean valid, String name) { this.valid = valid; this.name = name; }
+    public boolean isValid() { return valid; }
+    public void setValid(boolean valid) { this.valid = valid; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public int getValue() { return value; }
+    public void setValue(int value) { this.value = value; }
+    public void setId(String id) { this.id = id; }
+
+
     private String id;
 
     public Account(String id) {
@@ -25,7 +41,7 @@ class Account implements Comparable<Account> {
             return false;
         }
         Account account = (Account) o;
-        return Objects.equals(id, account.id);
+        return Objects.equals(id, account.getId());
     }
 
     @Override
@@ -35,7 +51,7 @@ class Account implements Comparable<Account> {
 
     @Override
     public int compareTo(Account other) {
-        return this.id.compareTo(other.id);
+        return this.getId().compareTo(other.getId());
     }
 }
 

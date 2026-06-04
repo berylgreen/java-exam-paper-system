@@ -1,3 +1,5 @@
+package com.exam.smarthome;
+
 class DeviceUpdater {
     private int stock = 100;
 

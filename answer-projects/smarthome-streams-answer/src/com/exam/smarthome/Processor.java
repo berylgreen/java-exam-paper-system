@@ -8,8 +8,8 @@ public class Processor {
     public List<String> processList(List<Device> list) {
         List<String> result = new ArrayList<>();
         for (Device item : list) {
-            if (item.valid == true) {
-                result.add(item.name);
+            if (item.isValid() == true) {
+                result.add(item.getName());
             }
         }
         return result;

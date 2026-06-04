@@ -8,8 +8,8 @@ public class Processor {
     public List<String> processList(List<Car> list) {
         List<String> result = new ArrayList<>();
         for (Car item : list) {
-            if (item.valid == true) {
-                result.add(item.name);
+            if (item.isValid() == true) {
+                result.add(item.getName());
             }
         }
         return result;

@@ -1,3 +1,5 @@
+package com.exam.hotel;
+
 // 策略接口
 interface RoomStrategy {
     void execute();

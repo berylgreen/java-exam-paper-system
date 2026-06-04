@@ -1,3 +1,5 @@
+package com.exam.library;
+
 abstract class Book {
     // 统一的处理方法，由各子类分别实现
     public abstract void process();

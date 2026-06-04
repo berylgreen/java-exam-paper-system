@@ -1,3 +1,5 @@
+package com.exam.rental;
+
 class CarInventory {
     private int stock = 100;
 

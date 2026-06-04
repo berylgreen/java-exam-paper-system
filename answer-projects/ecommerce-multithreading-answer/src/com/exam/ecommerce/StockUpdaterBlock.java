@@ -1,3 +1,5 @@
+package com.exam.ecommerce;
+
 // 方式二：同步代码块
 class StockUpdaterBlock {
     private int stock = 100;

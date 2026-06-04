@@ -1,3 +1,5 @@
+package com.exam.hospital;
+
 // 1. 定义策略接口
 interface PatientStrategy {
     void process();

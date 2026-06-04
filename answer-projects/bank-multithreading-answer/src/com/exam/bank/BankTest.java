@@ -1,3 +1,5 @@
+package com.exam.bank;
+
 class BankAccount {
     private int balance = 100;
 

@@ -1,3 +1,5 @@
+package com.exam.restaurant;
+
 class DishException extends Exception {
     public DishException(String message) {
         super(message);

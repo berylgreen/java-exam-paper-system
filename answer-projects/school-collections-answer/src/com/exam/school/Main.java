@@ -1,3 +1,5 @@
+package com.exam.school;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -6,6 +8,18 @@ import java.util.Objects;
 import java.util.Set;
 
 class Student implements Comparable<Student> {
+    private boolean valid;
+    private int value;
+    public Student() {}
+    public Student(boolean valid, String name) { this.valid = valid; this.name = name; }
+    public boolean isValid() { return valid; }
+    public void setValid(boolean valid) { this.valid = valid; }
+    public void setName(String name) { this.name = name; }
+    public int getValue() { return value; }
+    public void setValue(int value) { this.value = value; }
+    public void setId(String id) { this.id = id; }
+
+
     private String id;
     private String name;
 
@@ -27,7 +41,7 @@ class Student implements Comparable<Student> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return Objects.equals(id, student.id);
+        return Objects.equals(id, student.getId());
     }
 
     @Override
@@ -37,7 +51,7 @@ class Student implements Comparable<Student> {
 
     @Override
     public int compareTo(Student other) {
-        return this.id.compareTo(other.id);
+        return this.getId().compareTo(other.getId());
     }
 
     @Override

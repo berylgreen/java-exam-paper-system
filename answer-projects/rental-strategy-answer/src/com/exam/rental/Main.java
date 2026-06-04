@@ -1,3 +1,5 @@
+package com.exam.rental;
+
 // 策略接口：定义统一的业务处理方法
 interface VehicleStrategy {
     void execute();

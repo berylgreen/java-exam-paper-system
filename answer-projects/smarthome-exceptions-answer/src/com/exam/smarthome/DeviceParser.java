@@ -1,3 +1,5 @@
+package com.exam.smarthome;
+
 class DeviceException extends Exception {
     public DeviceException(String message) {
         super(message);

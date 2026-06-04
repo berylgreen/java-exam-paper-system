@@ -1,3 +1,5 @@
+package com.exam.library;
+
 // 1. 定义策略接口
 interface BookStrategy {
     void handle(String bookName);

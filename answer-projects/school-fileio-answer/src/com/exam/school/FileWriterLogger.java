@@ -1,3 +1,5 @@
+package com.exam.school;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;

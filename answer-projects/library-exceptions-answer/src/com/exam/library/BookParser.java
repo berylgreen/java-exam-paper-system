@@ -1,3 +1,5 @@
+package com.exam.library;
+
 class BookException extends Exception {
     public BookException(String message) {
         super(message);

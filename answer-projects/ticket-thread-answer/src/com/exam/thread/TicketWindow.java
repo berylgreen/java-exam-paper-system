@@ -1,3 +1,5 @@
+package com.exam.thread;
+
 public class TicketWindow implements Runnable {
     private int tickets = 100;
 

@@ -1,3 +1,5 @@
+package com.exam.generic;
+
 class Box<T> {
     private T item;
 

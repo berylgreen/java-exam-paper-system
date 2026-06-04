@@ -1,3 +1,5 @@
+package com.exam.io;
+
 import java.io.*;
 
 class LogBackup {

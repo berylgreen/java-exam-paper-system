@@ -1,3 +1,5 @@
+package com.exam.hotel;
+
 class RoomManager {
     private int roomCount = 100;
 

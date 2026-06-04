@@ -1,3 +1,5 @@
+package com.exam.smarthome;
+
 import java.io.*;
 
 public class FileWriterLogger {

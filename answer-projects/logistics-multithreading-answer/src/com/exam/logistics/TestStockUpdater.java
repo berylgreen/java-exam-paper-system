@@ -1,3 +1,5 @@
+package com.exam.logistics;
+
 class StockUpdater {
     private int stock = 100;
 

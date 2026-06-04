@@ -1,3 +1,5 @@
+package com.exam.ecommerce;
+
 // 1. 策略接口
 interface OrderStrategy {
     void processOrder();

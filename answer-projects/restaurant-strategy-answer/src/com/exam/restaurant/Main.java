@@ -1,3 +1,5 @@
+package com.exam.restaurant;
+
 // 策略接口
 interface DishStrategy {
     void process(String dishName);

@@ -1,3 +1,5 @@
+package com.exam.smarthome;
+
 // 策略接口：定义统一的设备处理行为
 interface DeviceStrategy {
     void execute();

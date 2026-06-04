@@ -1,3 +1,5 @@
+package com.exam.smarthome;
+
 abstract class Device {
     public abstract void process();
 }

@@ -1,3 +1,5 @@
+package com.exam.rental;
+
 abstract class Vehicle {
     /**
      * 车辆统计处理方法，不同车辆有不同实现

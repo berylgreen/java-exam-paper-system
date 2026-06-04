@@ -1,6 +1,22 @@
+package com.exam.logistics;
+
 import java.util.*;
 
 class Package implements Comparable<Package> {
+    private boolean valid;
+    private String name = "";
+    private int value;
+    public Package() {}
+    public Package(boolean valid, String name) { this.valid = valid; this.name = name; }
+    public boolean isValid() { return valid; }
+    public void setValid(boolean valid) { this.valid = valid; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public int getValue() { return value; }
+    public void setValue(int value) { this.value = value; }
+    public void setId(String id) { this.id = id; }
+
+
     private String id;
 
     public Package(String id) {
@@ -16,7 +32,7 @@ class Package implements Comparable<Package> {
         if (this == o) return true;
         if (!(o instanceof Package)) return false;
         Package pkg = (Package) o;
-        return Objects.equals(id, pkg.id);
+        return Objects.equals(id, pkg.getId());
     }
 
     @Override
@@ -26,7 +42,7 @@ class Package implements Comparable<Package> {
 
     @Override
     public int compareTo(Package other) {
-        return this.id.compareTo(other.id);
+        return this.getId().compareTo(other.getId());
     }
 
     @Override

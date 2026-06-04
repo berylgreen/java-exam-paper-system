@@ -1,3 +1,5 @@
+package com.exam.hospital;
+
 class PatientRecord {
     private int count = 100;
 
