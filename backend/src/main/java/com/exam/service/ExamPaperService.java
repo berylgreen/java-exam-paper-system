@@ -1009,7 +1009,7 @@ public class ExamPaperService {
                     }
                     
                     String fullText = String.format("%d. (%d分) %s", qNum++, pq.getScore(), content);
-                    renderMarkdownToParagraph(qPara, fullText);
+                    renderMarkdownBlocksToWord(doc, qPara, fullText, null);
 
                     // 选择题输出选项
                     if (q.getOptions() != null && !q.getOptions().isEmpty()
@@ -1027,7 +1027,7 @@ public class ExamPaperService {
                                 String text = String.valueOf(opt.get("text"));
                                 XWPFParagraph optPara = doc.createParagraph();
                                 optPara.setIndentationLeft(720); // 缩进
-                                renderMarkdownToParagraph(optPara, label + ". " + text);
+                                renderMarkdownBlocksToWord(doc, optPara, label + ". " + text, null);
                             }
                             parsedSuccessfully = true;
                         } catch (Exception e) {
@@ -1040,7 +1040,7 @@ public class ExamPaperService {
                                 String text = parts[i].split("\"")[0];
                                 XWPFParagraph optPara = doc.createParagraph();
                                 optPara.setIndentationLeft(720); // 缩进
-                                renderMarkdownToParagraph(optPara, labels[i - 1] + ". " + text);
+                                renderMarkdownBlocksToWord(doc, optPara, labels[i - 1] + ". " + text, null);
                             }
                         }
                     }
@@ -1050,13 +1050,22 @@ public class ExamPaperService {
                         XWPFRun ansRun = ansPara.createRun();
                         ansRun.setColor("FF0000"); // 红色
                         ansRun.setBold(true);
-                        ansRun.setText("【答案】: " + (q.getAnswer() != null ? q.getAnswer() : "略"));
+                        ansRun.setFontFamily("宋体");
+                        ansRun.setFontSize(12);
+                        ansRun.setText("【答案】: ");
+                        
+                        renderMarkdownBlocksToWord(doc, ansPara, q.getAnswer() != null ? q.getAnswer() : "略", "FF0000");
                         
                         if (q.getExplanation() != null && !q.getExplanation().trim().isEmpty()) {
                             XWPFParagraph expPara = doc.createParagraph();
                             XWPFRun expRun = expPara.createRun();
                             expRun.setColor("0000FF"); // 蓝色
-                            expRun.setText("【解析】: " + q.getExplanation());
+                            expRun.setBold(true);
+                            expRun.setFontFamily("宋体");
+                            expRun.setFontSize(12);
+                            expRun.setText("【解析】: ");
+                            
+                            renderMarkdownBlocksToWord(doc, expPara, q.getExplanation(), "0000FF");
                         }
                         doc.createParagraph().createRun().setText("");
                     } else {
@@ -1076,50 +1085,92 @@ public class ExamPaperService {
         }
     }
 
-    private void renderMarkdownToParagraph(XWPFParagraph paragraph, String text) {
+    private void renderMarkdownBlocksToWord(XWPFDocument doc, XWPFParagraph initialParagraph, String text, String defaultColor) {
         if (text == null || text.isEmpty()) return;
 
         String[] lines = text.split("\n");
+        boolean inCodeBlock = false;
+        XWPFParagraph currentPara = initialParagraph;
+
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
-            if (i > 0) {
-                paragraph.createRun().addBreak();
+
+            if (line.trim().startsWith("```")) {
+                inCodeBlock = !inCodeBlock;
+                if (inCodeBlock) {
+                    currentPara = doc.createParagraph();
+                    org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPPr ppr = currentPara.getCTP().getPPr();
+                    if (ppr == null) ppr = currentPara.getCTP().addNewPPr();
+                    org.openxmlformats.schemas.wordprocessingml.x2006.main.CTShd shd = ppr.isSetShd() ? ppr.getShd() : ppr.addNewShd();
+                    shd.setVal(org.openxmlformats.schemas.wordprocessingml.x2006.main.STShd.CLEAR);
+                    shd.setColor("auto");
+                    shd.setFill("F4F4F4");
+                    currentPara.setSpacingBefore(100);
+                    currentPara.setSpacingAfter(100);
+                } else {
+                    currentPara = doc.createParagraph();
+                }
+                continue;
             }
 
-            java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("(\\*\\*(.*?)\\*\\*)|(`(.*?)`)|(\\*([^\\*]+)\\*)");
-            java.util.regex.Matcher matcher = pattern.matcher(line);
+            if (inCodeBlock) {
+                if (!currentPara.getRuns().isEmpty()) {
+                    currentPara.createRun().addBreak();
+                }
+                XWPFRun run = currentPara.createRun();
+                run.setText(line);
+                run.setFontFamily("Consolas");
+                run.setFontSize(10);
+                if (defaultColor != null) {
+                    run.setColor(defaultColor);
+                }
+            } else {
+                if (i > 0 && !currentPara.getRuns().isEmpty() && !line.trim().isEmpty()) {
+                    currentPara.createRun().addBreak();
+                } else if (i > 0 && line.trim().isEmpty()) {
+                     currentPara.createRun().addBreak();
+                     continue;
+                }
+                
+                java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("(\\*\\*(.*?)\\*\\*)|(`(.*?)`)|(\\*([^\\*]+)\\*)");
+                java.util.regex.Matcher matcher = pattern.matcher(line);
 
-            int lastEnd = 0;
-            while (matcher.find()) {
-                if (matcher.start() > lastEnd) {
-                    XWPFRun run = paragraph.createRun();
-                    run.setText(line.substring(lastEnd, matcher.start()));
+                int lastEnd = 0;
+                while (matcher.find()) {
+                    if (matcher.start() > lastEnd) {
+                        XWPFRun run = currentPara.createRun();
+                        run.setText(line.substring(lastEnd, matcher.start()));
+                        run.setFontFamily("宋体");
+                        run.setFontSize(12);
+                        if (defaultColor != null) run.setColor(defaultColor);
+                    }
+
+                    XWPFRun run = currentPara.createRun();
+                    if (matcher.group(1) != null) {
+                        run.setText(matcher.group(2));
+                        run.setBold(true);
+                        run.setFontFamily("宋体");
+                    } else if (matcher.group(3) != null) {
+                        run.setText(matcher.group(4));
+                        run.setFontFamily("Consolas");
+                    } else if (matcher.group(5) != null) {
+                        run.setText(matcher.group(6));
+                        run.setItalic(true);
+                        run.setFontFamily("宋体");
+                    }
+                    run.setFontSize(12);
+                    if (defaultColor != null) run.setColor(defaultColor);
+                    
+                    lastEnd = matcher.end();
+                }
+
+                if (lastEnd < line.length()) {
+                    XWPFRun run = currentPara.createRun();
+                    run.setText(line.substring(lastEnd));
                     run.setFontFamily("宋体");
                     run.setFontSize(12);
+                    if (defaultColor != null) run.setColor(defaultColor);
                 }
-
-                XWPFRun run = paragraph.createRun();
-                if (matcher.group(1) != null) {
-                    run.setText(matcher.group(2));
-                    run.setBold(true);
-                    run.setFontFamily("宋体");
-                } else if (matcher.group(3) != null) {
-                    run.setText(matcher.group(4));
-                    run.setFontFamily("Consolas");
-                } else if (matcher.group(5) != null) {
-                    run.setText(matcher.group(6));
-                    run.setItalic(true);
-                    run.setFontFamily("宋体");
-                }
-                run.setFontSize(12);
-                lastEnd = matcher.end();
-            }
-
-            if (lastEnd < line.length()) {
-                XWPFRun run = paragraph.createRun();
-                run.setText(line.substring(lastEnd));
-                run.setFontFamily("宋体");
-                run.setFontSize(12);
             }
         }
     }
