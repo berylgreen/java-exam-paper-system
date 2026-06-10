@@ -68,6 +68,11 @@
     </el-form>
     <template #footer>
       <el-button @click="visible=false">取消</el-button>
+      <el-button type="success" 
+                 :loading="syncing" 
+                 :disabled="syncing || !formData.answerProjectPath || !formData.answer" 
+                 v-if="formData.type === 'PROGRAMMING' || formData.type === 'CODE_READING'"
+                 @click="syncAnswerToProject">同步至答案工程</el-button>
       <el-button type="warning" :loading="optimizing" :disabled="optimizing" @click="optimizeQ">AI 优化</el-button>
       <el-button type="primary" @click="saveQ">确定</el-button>
     </template>
@@ -77,7 +82,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { questionApi } from '../api'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { optimizeQuestionDraft } from '../utils/questionOptimize'
 
 const props = defineProps({
@@ -94,6 +99,7 @@ const emit = defineEmits(['update:modelValue', 'saved'])
 const visible = ref(props.modelValue)
 const formData = ref({})
 const optimizing = ref(false)
+const syncing = ref(false)
 const optimizePrompt = ref('')
 
 watch(() => props.modelValue, (newVal) => {
@@ -142,6 +148,41 @@ const optimizeQ = async () => {
     })
   } finally {
     optimizing.value = false
+  }
+}
+
+const syncAnswerToProject = async () => {
+  if (!formData.value.answerProjectPath) {
+    ElMessage.warning('请先填写答案工程路径')
+    return
+  }
+  if (!formData.value.answer) {
+    ElMessage.warning('答案内容为空，无法同步')
+    return
+  }
+  
+  try {
+    await ElMessageBox.confirm('此操作将根据答案内容自动覆盖本地答案工程中的相关文件，是否确认继续？', '警告', {
+      confirmButtonText: '确认同步',
+      cancelButtonText: '取消',
+      type: 'warning',
+    })
+  } catch {
+    return
+  }
+
+  syncing.value = true
+  try {
+    const res = await questionApi.syncAnswerToProject({
+      answerText: formData.value.answer,
+      answerProjectPath: formData.value.answerProjectPath
+    })
+    const files = res.data.updatedFiles || []
+    ElMessage.success(`同步成功！已更新 ${files.length} 个文件。\n${files.join('\n')}`)
+  } catch (e) {
+    ElMessage.error('同步失败: ' + (e.response?.data?.message || e.message))
+  } finally {
+    syncing.value = false
   }
 }
 </script>

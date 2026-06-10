@@ -127,6 +127,7 @@ public class DataInitializer implements CommandLineRunner {
                         .defaultScore((Integer) raw.get("defaultScore"))
                         .source((String) raw.get("source"))
                         .projectPath((String) raw.get("projectPath"))
+                        .answerProjectPath((String) raw.get("answerProjectPath"))
                         .build();
                 questions.add(q);
             }

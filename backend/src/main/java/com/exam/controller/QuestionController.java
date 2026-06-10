@@ -3,6 +3,8 @@ package com.exam.controller;
 import com.exam.dto.QuestionDTO;
 import com.exam.dto.QuestionOptimizeRequest;
 import com.exam.dto.QuestionOptimizeResponse;
+import com.exam.dto.SyncAnswerRequest;
+import com.exam.dto.SyncAnswerResponse;
 import com.exam.enums.Difficulty;
 import com.exam.enums.QuestionType;
 import com.exam.service.QuestionOptimizationService;
@@ -82,6 +84,12 @@ public class QuestionController {
         return questionService.update(id, res.getOptimizedQuestion());
     }
 
+    /** 同步答案到目标工程 */
+    @PostMapping("/sync-answer-to-project")
+    public SyncAnswerResponse syncAnswerToProject(@RequestBody SyncAnswerRequest request) {
+        return questionOptimizationService.syncAnswerToProject(request);
+    }
+
     /** 删除题目 */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
@@ -152,6 +160,7 @@ public class QuestionController {
             map.put("defaultScore", q.getDefaultScore());
             map.put("source", q.getSource());
             map.put("projectPath", q.getProjectPath());
+            map.put("answerProjectPath", q.getAnswerProjectPath());
             return map;
         }).toList();
 
@@ -186,6 +195,7 @@ public class QuestionController {
             dto.setDefaultScore((Integer) raw.get("defaultScore"));
             dto.setSource((String) raw.get("source"));
             dto.setProjectPath((String) raw.get("projectPath"));
+            dto.setAnswerProjectPath((String) raw.get("answerProjectPath"));
             return dto;
         }).toList();
 

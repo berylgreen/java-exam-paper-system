@@ -14,6 +14,7 @@ export const questionApi = {
     sources: () => api.get('/questions/sources'),
     stats: () => api.get('/questions/stats'),
     optimizePreview: (data) => api.post('/questions/optimize-preview', data),
+    syncAnswerToProject: (data) => api.post('/questions/sync-answer-to-project', data),
     exportUrl: '/api/questions/export',
     importFile: (file) => {
         const formData = new FormData()

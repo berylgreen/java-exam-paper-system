@@ -22,6 +22,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
+import com.exam.dto.SyncAnswerRequest;
+import com.exam.dto.SyncAnswerResponse;
 
 /**
  * 题目 AI 优化服务
@@ -53,6 +60,126 @@ public class QuestionOptimizationService {
         QuestionOptimizeResponse response = new QuestionOptimizeResponse();
         response.setOptimizedQuestion(optimized);
         return response;
+    }
+
+    public SyncAnswerResponse syncAnswerToProject(SyncAnswerRequest request) {
+        if (request == null || request.getAnswerText() == null || request.getAnswerProjectPath() == null) {
+            throw new RuntimeException("参数不能为空");
+        }
+        
+        String projectPathStr = request.getAnswerProjectPath().trim();
+        Path projectPath = Paths.get(projectPathStr);
+        if (!Files.exists(projectPath)) {
+            // Option to create dir if it doesn't exist, but maybe we just proceed or create.
+            try {
+                Files.createDirectories(projectPath);
+            } catch (Exception e) {
+                throw new RuntimeException("无法创建目标工程目录: " + projectPathStr);
+            }
+        }
+        
+        // Read file structure
+        StringBuilder structure = new StringBuilder();
+        try (Stream<Path> paths = Files.walk(projectPath, 3)) {
+            paths.filter(Files::isRegularFile)
+                 .filter(p -> p.toString().endsWith(".java"))
+                 .forEach(p -> structure.append(projectPath.relativize(p)).append("\n"));
+        } catch (Exception e) {
+            structure.append("(无现有Java文件或读取失败)");
+        }
+
+        String prompt = "你是一个代码同步助手。以下是一道题目标准答案的文本，其中可能包含Java代码（如markdown标记）。\n"
+                + "目标工程路径: " + projectPathStr + "\n"
+                + "该目录下已有的Java文件结构:\n" + structure.toString() + "\n\n"
+                + "请剥离说明性文字，提取纯正的Java代码。并结合目标工程路径，推理出代码应该存放的完整绝对路径。\n"
+                + "返回严格的JSON数组格式，最外层不要```json标记。\n"
+                + "结构要求：\n[\n  {\"filePath\": \"绝对路径\", \"content\": \"纯Java代码\"}\n]";
+
+        AiResponse aiResponse = callAiForSync(request.getAnswerText(), prompt);
+        
+        // Parse the raw content returned by AI, which should be the JSON array
+        List<String> updatedFiles = new ArrayList<>();
+        try {
+            String jsonContent = aiResponse.content();
+            if (jsonContent == null || jsonContent.isBlank()) {
+                 throw new RuntimeException("AI 未返回内容");
+            }
+            JsonNode arrayNode = objectMapper.readTree(normalizeStructuredJson(jsonContent));
+            if (!arrayNode.isArray()) {
+                throw new RuntimeException("AI 未返回 JSON 数组");
+            }
+            
+            for (JsonNode node : arrayNode) {
+                String filePath = node.path("filePath").asText();
+                String content = node.path("content").asText();
+                
+                if (filePath != null && !filePath.isEmpty() && content != null && !content.isEmpty()) {
+                    Path targetPath = Paths.get(filePath);
+                    if (!targetPath.isAbsolute()) {
+                        targetPath = projectPath.resolve(targetPath);
+                    }
+                    Files.createDirectories(targetPath.getParent());
+                    Files.writeString(targetPath, content);
+                    updatedFiles.add(targetPath.toString());
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("同步写入文件失败: " + e.getMessage(), e);
+        }
+        
+        SyncAnswerResponse response = new SyncAnswerResponse();
+        response.setUpdatedFiles(updatedFiles);
+        return response;
+    }
+    
+    private AiResponse callAiForSync(String answerText, String systemPrompt) {
+        RestTemplate restTemplate = getRestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(aiProperties.getApiKey());
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("model", aiProperties.getModel());
+        body.put("stream", false);
+        // Do not force json_object if we want an array directly, or we can just ask for string.
+        body.put("messages", List.of(
+                Map.of("role", "system", "content", systemPrompt),
+                Map.of("role", "user", "content", "需要提取的代码源文本如下：\n" + answerText)
+        ));
+
+        String jsonBody;
+        try {
+            jsonBody = objectMapper.writeValueAsString(body);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("序列化 AI 请求失败", e);
+        }
+
+        try {
+            String rawBody = restTemplate.postForObject(
+                    normalizeBaseUrl(aiProperties.getBaseUrl()) + "/chat/completions",
+                    new HttpEntity<>(jsonBody, headers),
+                    String.class
+            );
+            return parseAiResponseForSync(rawBody);
+        } catch (RestClientException e) {
+            throw new RuntimeException("AI 服务调用失败，请稍后重试: " + e.getMessage(), e);
+        }
+    }
+
+    private AiResponse parseAiResponseForSync(String rawBody) {
+        if (rawBody == null || rawBody.isBlank()) {
+            throw new RuntimeException("AI 服务未返回结果");
+        }
+        try {
+            String content = extractStructuredContent(rawBody);
+            if (content == null || content.isBlank()) {
+                throw new RuntimeException("AI 返回内容为空");
+            }
+            return new AiResponse(content, null, null, null);
+        } catch (Exception e) {
+            throw new RuntimeException("解析AI响应失败", e);
+        }
     }
 
     private void validateRequest(QuestionOptimizeRequest request) {
