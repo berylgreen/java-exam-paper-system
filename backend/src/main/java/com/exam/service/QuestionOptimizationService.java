@@ -67,8 +67,14 @@ public class QuestionOptimizationService {
             throw new RuntimeException("参数不能为空");
         }
         
-        String projectPathStr = request.getAnswerProjectPath().trim();
-        Path projectPath = Paths.get(projectPathStr);
+        String initialPathStr = request.getAnswerProjectPath().trim();
+        Path initialPath = Paths.get(initialPathStr);
+        if (!initialPath.isAbsolute()) {
+            initialPath = Paths.get(System.getProperty("user.dir")).getParent().resolve(initialPath).normalize();
+        }
+        final Path projectPath = initialPath;
+        String projectPathStr = projectPath.toString();
+        
         if (!Files.exists(projectPath)) {
             // Option to create dir if it doesn't exist, but maybe we just proceed or create.
             try {
@@ -371,6 +377,19 @@ public class QuestionOptimizationService {
 
     private String normalizeStructuredJson(String content) {
         String trimmed = content.trim();
+        
+        int firstBracket = trimmed.indexOf('[');
+        int lastBracket = trimmed.lastIndexOf(']');
+        int firstBrace = trimmed.indexOf('{');
+        int lastBrace = trimmed.lastIndexOf('}');
+        
+        if (firstBracket != -1 && lastBracket != -1 && firstBracket < lastBracket && (firstBrace == -1 || firstBracket < firstBrace)) {
+            return trimmed.substring(firstBracket, lastBracket + 1);
+        }
+        if (firstBrace != -1 && lastBrace != -1 && firstBrace < lastBrace) {
+            return trimmed.substring(firstBrace, lastBrace + 1);
+        }
+        
         if (trimmed.startsWith("```")) {
             trimmed = trimmed.replaceFirst("^```(?:json)?\\s*", "");
             trimmed = trimmed.replaceFirst("\\s*```$", "");
