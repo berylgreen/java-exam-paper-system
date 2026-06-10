@@ -52,6 +52,11 @@
 
     <!-- 筛选 -->
     <div class="filter-bar">
+      <el-input v-model="filter.keyword" placeholder="搜索题目内容..." clearable style="width:200px" @keyup.enter="loadQ" @clear="loadQ">
+        <template #prefix>
+          <el-icon><Search /></el-icon>
+        </template>
+      </el-input>
       <el-select v-model="filter.type" placeholder="题型" clearable style="width:130px" @change="loadQ">
         <el-option v-for="t in types" :key="t.value" :label="t.label" :value="t.value" />
       </el-select>
@@ -194,7 +199,7 @@ const chapters = ref([])
 const sources = ref([])
 const stats = ref({})
 const activeStat = ref('source')
-const filter = reactive({ type: null, chapterId: null, difficulty: null, source: null })
+const filter = reactive({ type: null, chapterId: null, difficulty: null, source: null, keyword: '' })
 const page = ref(1)
 const pageSize = 20
 const total = ref(0)

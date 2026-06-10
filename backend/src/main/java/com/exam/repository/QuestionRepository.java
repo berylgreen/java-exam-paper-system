@@ -20,12 +20,14 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
            "(:type IS NULL OR q.type = :type) AND " +
            "(:chapterId IS NULL OR q.chapter.id = :chapterId) AND " +
            "(:difficulty IS NULL OR q.difficulty = :difficulty) AND " +
-           "(:source IS NULL OR q.source = :source)")
+           "(:source IS NULL OR q.source = :source) AND " +
+           "(:keyword IS NULL OR :keyword = '' OR q.content LIKE CONCAT('%', :keyword, '%'))")
     Page<Question> findByFilters(
             @Param("type") QuestionType type,
             @Param("chapterId") Long chapterId,
             @Param("difficulty") Difficulty difficulty,
             @Param("source") String source,
+            @Param("keyword") String keyword,
             Pageable pageable);
 
     /** 按题型+章节+难度查询 (自动组卷用) */

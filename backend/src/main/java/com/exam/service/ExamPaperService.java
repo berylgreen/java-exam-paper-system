@@ -252,6 +252,16 @@ public class ExamPaperService {
         paperRepository.deleteById(id);
     }
 
+    /** 批量删除试卷 */
+    @Transactional
+    public void batchDelete(List<Long> ids) {
+        if (ids != null && !ids.isEmpty()) {
+            for (Long id : ids) {
+                delete(id);
+            }
+        }
+    }
+
     /** 替换试卷中的题目 */
     @Transactional
     public PaperDTO replaceQuestion(Long paperId, ReplaceQuestionRequest req) {

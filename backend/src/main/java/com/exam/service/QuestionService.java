@@ -32,8 +32,8 @@ public class QuestionService {
 
     /** 分页条件查询 */
     public Page<QuestionDTO> findByFilters(QuestionType type, Long chapterId,
-                                           Difficulty difficulty, String source, Pageable pageable) {
-        return questionRepository.findByFilters(type, chapterId, difficulty, source, pageable)
+                                           Difficulty difficulty, String source, String keyword, Pageable pageable) {
+        return questionRepository.findByFilters(type, chapterId, difficulty, source, keyword, pageable)
                 .map(this::toDTO);
     }
 

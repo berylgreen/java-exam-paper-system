@@ -116,6 +116,13 @@ public class ExamPaperController {
         return ResponseEntity.ok().build();
     }
 
+    /** 批量删除试卷 */
+    @DeleteMapping("/batch")
+    public ResponseEntity<Void> batchDelete(@RequestBody List<Long> ids) {
+        paperService.batchDelete(ids);
+        return ResponseEntity.ok().build();
+    }
+
     /** 替换试卷中的题目 */
     @PutMapping("/{id}/replace-question")
     public ResponseEntity<Object> replaceQuestion(@PathVariable("id") Long id, @RequestBody ReplaceQuestionRequest request) {

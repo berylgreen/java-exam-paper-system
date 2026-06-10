@@ -43,9 +43,10 @@ public class QuestionController {
             @RequestParam(value = "chapterId", required = false) Long chapterId,
             @RequestParam(value = "difficulty", required = false) Difficulty difficulty,
             @RequestParam(value = "source", required = false) String source,
+            @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "20") int size) {
-        return questionService.findByFilters(type, chapterId, difficulty, source,
+        return questionService.findByFilters(type, chapterId, difficulty, source, keyword,
                 PageRequest.of(page, size, Sort.by("id")));
     }
 

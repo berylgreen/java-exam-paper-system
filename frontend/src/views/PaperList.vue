@@ -9,6 +9,10 @@
     </div>
     
     <div class="filter-bar" v-if="papers.length > 0" style="display: flex; justify-content: flex-end; margin-bottom: 20px; align-items: center; gap: 10px;">
+      <el-button type="danger" :disabled="selectedPaperIds.length === 0" @click="handleBatchDelete">
+        <el-icon><Delete /></el-icon> 批量删除 ({{ selectedPaperIds.length }})
+      </el-button>
+      <span style="flex: 1"></span>
       <span style="font-size: 14px; color: var(--el-text-color-regular);">排序方式:</span>
       <el-select v-model="sortBy" style="width: 120px" size="default">
         <el-option label="创建时间" value="createdAt" />
@@ -21,8 +25,12 @@
     </div>
 
     <div v-loading="loading" style="min-height:200px">
-      <div v-for="p in sortedPapers" :key="p.id" class="glass-card paper-card" @click="$router.push(`/papers/${p.id}`)">
-        <div class="card-title">{{ p.title }}</div>
+      <el-checkbox-group v-model="selectedPaperIds">
+        <div v-for="p in sortedPapers" :key="p.id" class="glass-card paper-card" @click="$router.push(`/papers/${p.id}`)">
+          <div class="card-title">
+            <el-checkbox :value="p.id" :label="p.id" @click.stop>&nbsp;</el-checkbox>
+            {{ p.title }}
+          </div>
         <div class="card-meta">
           <span><el-icon><Timer /></el-icon> {{ p.durationMinutes }}分钟</span>
           <span><el-icon><Document /></el-icon> {{ p.questions?.length || 0 }}题</span>
@@ -40,7 +48,7 @@
             <el-icon><Delete /></el-icon>
           </el-button>
         </div>
-      </div>
+      </el-checkbox-group>
       <el-empty v-if="!loading && papers.length===0" description="暂无试卷" />
     </div>
 
@@ -62,6 +70,7 @@ const papers = ref([])
 const loading = ref(false)
 const exportDialogVisible = ref(false)
 const currentExportId = ref(null)
+const selectedPaperIds = ref([])
 
 // 排序状态
 const sortBy = ref('createdAt')
@@ -98,6 +107,16 @@ const handleDelete = async (id) => {
   await ElMessageBox.confirm('确定删除此试卷？', '提示', { type: 'warning' })
   await paperApi.delete(id)
   ElMessage.success('已删除')
+  selectedPaperIds.value = selectedPaperIds.value.filter(pid => pid !== id)
+  load()
+}
+
+const handleBatchDelete = async () => {
+  if (selectedPaperIds.value.length === 0) return
+  await ElMessageBox.confirm(`确定删除选中的 ${selectedPaperIds.value.length} 份试卷吗？`, '提示', { type: 'warning' })
+  await paperApi.batchDelete(selectedPaperIds.value)
+  ElMessage.success('批量删除成功')
+  selectedPaperIds.value = []
   load()
 }
 
