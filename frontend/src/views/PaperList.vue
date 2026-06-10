@@ -7,8 +7,21 @@
         <div class="stat-label">试卷总数</div>
       </div>
     </div>
+    
+    <div class="filter-bar" v-if="papers.length > 0" style="display: flex; justify-content: flex-end; margin-bottom: 20px; align-items: center; gap: 10px;">
+      <span style="font-size: 14px; color: var(--el-text-color-regular);">排序方式:</span>
+      <el-select v-model="sortBy" style="width: 120px" size="default">
+        <el-option label="创建时间" value="createdAt" />
+        <el-option label="试卷名" value="title" />
+      </el-select>
+      <el-button @click="toggleSortOrder" size="default">
+        <el-icon><Top v-if="sortOrder === 'asc'" /><Bottom v-else /></el-icon>
+        {{ sortOrder === 'asc' ? '升序' : '降序' }}
+      </el-button>
+    </div>
+
     <div v-loading="loading" style="min-height:200px">
-      <div v-for="p in papers" :key="p.id" class="glass-card paper-card" @click="$router.push(`/papers/${p.id}`)">
+      <div v-for="p in sortedPapers" :key="p.id" class="glass-card paper-card" @click="$router.push(`/papers/${p.id}`)">
         <div class="card-title">{{ p.title }}</div>
         <div class="card-meta">
           <span><el-icon><Timer /></el-icon> {{ p.durationMinutes }}分钟</span>
@@ -40,7 +53,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { paperApi } from '../api'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import ExportDialog from '../components/ExportDialog.vue'
@@ -49,6 +62,31 @@ const papers = ref([])
 const loading = ref(false)
 const exportDialogVisible = ref(false)
 const currentExportId = ref(null)
+
+// 排序状态
+const sortBy = ref('createdAt')
+const sortOrder = ref('desc') // 'desc' 或 'asc'
+
+const toggleSortOrder = () => {
+  sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+}
+
+const sortedPapers = computed(() => {
+  return [...papers.value].sort((a, b) => {
+    if (sortBy.value === 'title') {
+      const titleA = a.title || '';
+      const titleB = b.title || '';
+      return sortOrder.value === 'asc' 
+        ? titleA.localeCompare(titleB, 'zh') 
+        : titleB.localeCompare(titleA, 'zh');
+    } else {
+      const valA = new Date(a.createdAt || 0).getTime();
+      const valB = new Date(b.createdAt || 0).getTime();
+      if (valA === valB) return 0;
+      return sortOrder.value === 'asc' ? (valA > valB ? 1 : -1) : (valA < valB ? 1 : -1);
+    }
+  });
+})
 
 const load = async () => {
   loading.value = true
