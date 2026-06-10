@@ -55,7 +55,7 @@
 
     <ExportDialog
       v-model="exportDialogVisible"
-      :show-answer-option="false"
+      :show-answer-option="true"
       @confirm="onExportConfirm"
     />
   </div>
