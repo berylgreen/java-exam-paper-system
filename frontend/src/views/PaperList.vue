@@ -48,6 +48,7 @@
             <el-icon><Delete /></el-icon>
           </el-button>
         </div>
+        </div>
       </el-checkbox-group>
       <el-empty v-if="!loading && papers.length===0" description="暂无试卷" />
     </div>
