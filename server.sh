@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # 出题组卷系统 启动/停止脚本
-# 用法: ./exam-system.sh {start|stop|restart|status}
+# 用法: ./server.sh {start|stop|restart|status}
 #
 
 BASE_DIR="$(cd "$(dirname "$0")" && pwd)"

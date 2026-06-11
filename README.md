@@ -15,10 +15,10 @@
 ### 一键脚本（推荐）
 
 ```bash
-./exam-system.sh start     # 启动后端和前端
-./exam-system.sh stop      # 停止所有服务
-./exam-system.sh restart   # 重启所有服务
-./exam-system.sh status    # 查看服务状态
+./server.sh start     # 启动后端和前端
+./server.sh stop      # 停止所有服务
+./server.sh restart   # 重启所有服务
+./server.sh status    # 查看服务状态
 ```
 
 日志文件：`backend.log` / `frontend.log`
