@@ -44,4 +44,4 @@ app:
     timeout: ${AI_TIMEOUT:30000}
   cors:
     # 逗号分隔的跨域白名单（支持通配符，如 http://*:*）
-    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://127.0.0.1:3000,http://67.215.236.189:3000}
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3001,http://127.0.0.1:3001,http://67.215.236.189:3001}

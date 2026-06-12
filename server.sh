@@ -13,8 +13,21 @@ FRONTEND_LOG="$BASE_DIR/frontend.log"
 BACKEND_PID_FILE="$BASE_DIR/.backend.pid"
 FRONTEND_PID_FILE="$BASE_DIR/.frontend.pid"
 
-FRONTEND_PORT="${PORT:-3000}"
+# 读取 .env 配置文件
+if [ -f "$BASE_DIR/.env" ]; then
+    export $(grep -v '^#' "$BASE_DIR/.env" | xargs)
+fi
+
+# 优先级：外部传入的 PORT > .env 中的 FRONTEND_PORT > 默认值 3001
+FRONTEND_PORT="${PORT:-${FRONTEND_PORT:-3001}}"
 export PORT="$FRONTEND_PORT"
+
+# 动态配置跨域白名单（环境变量会自动注入到后端的 application.yml 中）
+if [ -n "$HOST_IP" ]; then
+    export CORS_ALLOWED_ORIGINS="http://localhost:${FRONTEND_PORT},http://127.0.0.1:${FRONTEND_PORT},http://${HOST_IP}:${FRONTEND_PORT}"
+else
+    export CORS_ALLOWED_ORIGINS="http://localhost:${FRONTEND_PORT},http://127.0.0.1:${FRONTEND_PORT}"
+fi
 
 # 颜色输出
 RED='\033[0;31m'
