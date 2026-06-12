@@ -71,8 +71,8 @@ start_backend() {
     local count=0
     local max_wait=120
     while [ $count -lt $max_wait ]; do
-        if curl -s http://localhost:8080/api/papers > /dev/null 2>&1; then
-            log_info "后端服务启动成功 (PID: $pid) — http://localhost:8080"
+        if curl -s http://localhost:8081/api/papers > /dev/null 2>&1; then
+            log_info "后端服务启动成功 (PID: $pid) — http://localhost:8081"
             return 0
         fi
         # 检查进程是否还活着
@@ -113,8 +113,8 @@ start_frontend() {
     local count=0
     local max_wait=30
     while [ $count -lt $max_wait ]; do
-        if curl -s http://localhost:9527 > /dev/null 2>&1; then
-            log_info "前端服务启动成功 (PID: $pid) — http://localhost:9527"
+        if curl -s http://localhost:3000 > /dev/null 2>&1; then
+            log_info "前端服务启动成功 (PID: $pid) — http://localhost:3000"
             return 0
         fi
         if ! kill -0 "$pid" 2>/dev/null; then
@@ -200,14 +200,14 @@ show_status() {
 
     if is_running "$BACKEND_PID_FILE"; then
         local bpid=$(cat "$BACKEND_PID_FILE")
-        echo -e "  后端服务:  ${GREEN}运行中${NC} (PID: $bpid)  http://localhost:8080"
+        echo -e "  后端服务:  ${GREEN}运行中${NC} (PID: $bpid)  http://localhost:8081"
     else
         echo -e "  后端服务:  ${RED}已停止${NC}"
     fi
 
     if is_running "$FRONTEND_PID_FILE"; then
         local fpid=$(cat "$FRONTEND_PID_FILE")
-        echo -e "  前端服务:  ${GREEN}运行中${NC} (PID: $fpid)  http://localhost:9527"
+        echo -e "  前端服务:  ${GREEN}运行中${NC} (PID: $fpid)  http://localhost:3000"
     else
         echo -e "  前端服务:  ${RED}已停止${NC}"
     fi
@@ -226,13 +226,13 @@ case "$1" in
         ;;
     stop)
         log_info "========== 停止出题组卷系统 =========="
-        stop_service "前端" "$FRONTEND_PID_FILE" 9527
-        stop_service "后端" "$BACKEND_PID_FILE" 8080
+        stop_service "前端" "$FRONTEND_PID_FILE" 3000
+        stop_service "后端" "$BACKEND_PID_FILE" 8081
         ;;
     restart)
         log_info "========== 重启出题组卷系统 =========="
-        stop_service "前端" "$FRONTEND_PID_FILE" 9527
-        stop_service "后端" "$BACKEND_PID_FILE" 8080
+        stop_service "前端" "$FRONTEND_PID_FILE" 3000
+        stop_service "后端" "$BACKEND_PID_FILE" 8081
         sleep 2
         start_backend
         start_frontend
