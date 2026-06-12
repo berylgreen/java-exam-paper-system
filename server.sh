@@ -14,6 +14,7 @@ BACKEND_PID_FILE="$BASE_DIR/.backend.pid"
 FRONTEND_PID_FILE="$BASE_DIR/.frontend.pid"
 
 FRONTEND_PORT="${PORT:-3000}"
+export PORT="$FRONTEND_PORT"
 
 # 颜色输出
 RED='\033[0;31m'
