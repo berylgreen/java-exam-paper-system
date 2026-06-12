@@ -168,8 +168,17 @@ public class QuestionOptimizationService {
                     String.class
             );
             return parseAiResponseForSync(rawBody);
+        } catch (org.springframework.web.client.RestClientResponseException e) {
+            int statusCode = e.getStatusCode().value();
+            if (statusCode == 401) {
+                throw new RuntimeException("AI 服务调用失败：API Key 错误或无效，请检查配置。");
+            } else if (statusCode == 429) {
+                throw new RuntimeException("AI 服务调用失败：请求过于频繁或额度已用尽。");
+            } else {
+                throw new RuntimeException("AI 服务响应异常 (状态码 " + statusCode + ")：" + e.getResponseBodyAsString(), e);
+            }
         } catch (RestClientException e) {
-            throw new RuntimeException("AI 服务调用失败，请稍后重试: " + e.getMessage(), e);
+            throw new RuntimeException("AI 服务网络异常或不可达: " + e.getMessage(), e);
         }
     }
 
@@ -236,8 +245,17 @@ public class QuestionOptimizationService {
                     String.class
             );
             return parseAiResponse(rawBody);
+        } catch (org.springframework.web.client.RestClientResponseException e) {
+            int statusCode = e.getStatusCode().value();
+            if (statusCode == 401) {
+                throw new RuntimeException("AI 服务调用失败：API Key 错误或无效，请检查配置。");
+            } else if (statusCode == 429) {
+                throw new RuntimeException("AI 服务调用失败：请求过于频繁或额度已用尽。");
+            } else {
+                throw new RuntimeException("AI 服务响应异常 (状态码 " + statusCode + ")：" + e.getResponseBodyAsString(), e);
+            }
         } catch (RestClientException e) {
-            throw new RuntimeException("AI 服务调用失败，请稍后重试: " + e.getMessage(), e);
+            throw new RuntimeException("AI 服务网络异常或不可达: " + e.getMessage(), e);
         }
     }
 
