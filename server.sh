@@ -87,8 +87,8 @@ start_backend() {
     local count=0
     local max_wait=120
     while [ $count -lt $max_wait ]; do
-        if curl -s http://localhost:8081/api/papers > /dev/null 2>&1; then
-            log_info "后端服务启动成功 (PID: $pid) — http://localhost:8081"
+        if curl -s http://localhost:18080/api/papers > /dev/null 2>&1; then
+            log_info "后端服务启动成功 (PID: $pid) — http://localhost:18080"
             return 0
         fi
         # 检查进程是否还活着
@@ -216,7 +216,7 @@ show_status() {
 
     if is_running "$BACKEND_PID_FILE"; then
         local bpid=$(cat "$BACKEND_PID_FILE")
-        echo -e "  后端服务:  ${GREEN}运行中${NC} (PID: $bpid)  http://localhost:8081"
+        echo -e "  后端服务:  ${GREEN}运行中${NC} (PID: $bpid)  http://localhost:18080"
     else
         echo -e "  后端服务:  ${RED}已停止${NC}"
     fi
@@ -243,12 +243,12 @@ case "$1" in
     stop)
         log_info "========== 停止出题组卷系统 =========="
         stop_service "前端" "$FRONTEND_PID_FILE" "$FRONTEND_PORT"
-        stop_service "后端" "$BACKEND_PID_FILE" 8081
+        stop_service "后端" "$BACKEND_PID_FILE" 18080
         ;;
     restart)
         log_info "========== 重启出题组卷系统 =========="
         stop_service "前端" "$FRONTEND_PID_FILE" "$FRONTEND_PORT"
-        stop_service "后端" "$BACKEND_PID_FILE" 8081
+        stop_service "后端" "$BACKEND_PID_FILE" 18080
         sleep 2
         start_backend
         start_frontend

@@ -16,7 +16,7 @@ set "FRONTEND_DIR=%BASE_DIR%frontend"
 set "BACKEND_LOG=%BASE_DIR%backend.log"
 set "FRONTEND_LOG=%BASE_DIR%frontend.log"
 
-set "BACKEND_PORT=8081"
+set "BACKEND_PORT=18080"
 set "FRONTEND_PORT=9527"
 
 if "%1"=="" goto usage
