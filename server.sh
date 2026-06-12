@@ -13,6 +13,8 @@ FRONTEND_LOG="$BASE_DIR/frontend.log"
 BACKEND_PID_FILE="$BASE_DIR/.backend.pid"
 FRONTEND_PID_FILE="$BASE_DIR/.frontend.pid"
 
+FRONTEND_PORT="${PORT:-3000}"
+
 # 颜色输出
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -113,8 +115,8 @@ start_frontend() {
     local count=0
     local max_wait=30
     while [ $count -lt $max_wait ]; do
-        if curl -s http://localhost:3000 > /dev/null 2>&1; then
-            log_info "前端服务启动成功 (PID: $pid) — http://localhost:3000"
+        if curl -s http://localhost:$FRONTEND_PORT > /dev/null 2>&1; then
+            log_info "前端服务启动成功 (PID: $pid) — http://localhost:$FRONTEND_PORT"
             return 0
         fi
         if ! kill -0 "$pid" 2>/dev/null; then
@@ -207,7 +209,7 @@ show_status() {
 
     if is_running "$FRONTEND_PID_FILE"; then
         local fpid=$(cat "$FRONTEND_PID_FILE")
-        echo -e "  前端服务:  ${GREEN}运行中${NC} (PID: $fpid)  http://localhost:3000"
+        echo -e "  前端服务:  ${GREEN}运行中${NC} (PID: $fpid)  http://localhost:$FRONTEND_PORT"
     else
         echo -e "  前端服务:  ${RED}已停止${NC}"
     fi
@@ -226,12 +228,12 @@ case "$1" in
         ;;
     stop)
         log_info "========== 停止出题组卷系统 =========="
-        stop_service "前端" "$FRONTEND_PID_FILE" 3000
+        stop_service "前端" "$FRONTEND_PID_FILE" "$FRONTEND_PORT"
         stop_service "后端" "$BACKEND_PID_FILE" 8081
         ;;
     restart)
         log_info "========== 重启出题组卷系统 =========="
-        stop_service "前端" "$FRONTEND_PID_FILE" 3000
+        stop_service "前端" "$FRONTEND_PID_FILE" "$FRONTEND_PORT"
         stop_service "后端" "$BACKEND_PID_FILE" 8081
         sleep 2
         start_backend
