@@ -39,6 +39,6 @@ spring:
 app:
   ai:
     base-url: ${AI_BASE_URL:http://127.0.0.1:1879/v1}
-    api-key: ${AI_API_KEY:agt_codex_DK24HZklsPBHgYpSf8ZWoqgyCEmPaaJr}
+    api-key: ${AI_API_KEY:}
     model: ${AI_MODEL:gpt-5.5}
     timeout: ${AI_TIMEOUT:30000}
