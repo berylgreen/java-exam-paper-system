@@ -7,10 +7,7 @@
 
     <template v-if="paper">
       <div v-for="(section, idx) in sections" :key="idx">
-        <div class="section-title">
-          {{ sectionNum(idx) }}、{{ section.typeLabel }} (共{{ section.questions.length }}题，共{{ section.totalScore }}分)
-          <el-button v-if="allowEditScore" size="small" type="primary" link @click="openBatchEditScore(section)" style="margin-left: 10px;">批量改分值</el-button>
-        </div>
+        <div class="section-title">{{ sectionNum(idx) }}、{{ section.typeLabel }} (共{{ section.questions.length }}题，共{{ section.totalScore }}分)</div>
         <div v-for="(pq, qi) in section.questions" :key="pq.id || qi" class="question-item">
           <div class="question-content" style="display:flex;align-items:flex-start;">
             <span style="margin-right: 4px;">{{ qi + 1 }}. ({{ pq.score }}分) </span>
@@ -18,9 +15,6 @@
             <div style="display: flex; gap: 8px; margin-left: 8px;">
               <el-button v-if="allowEdit" size="small" type="warning" plain @click="emit('edit-question', pq.question)">
                 <el-icon><Edit /></el-icon> 编辑
-              </el-button>
-              <el-button v-if="allowEditScore" size="small" type="primary" plain @click="openSingleEditScore(pq)">
-                <el-icon><Edit /></el-icon> 改分
               </el-button>
               <el-button v-if="allowReplace" size="small" type="primary" plain @click="openReplaceDialog(pq)">
                 <el-icon><Refresh /></el-icon> 换题
@@ -116,14 +110,14 @@
 import { computed, ref, onMounted } from 'vue'
 import { marked } from 'marked'
 import { questionApi } from '../api'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const renderMarkdown = (text) => {
   if (!text) return ''
   return marked.parse(text)
 }
 
-const emit = defineEmits(['replace-question', 'edit-question', 'batch-update-score', 'update-single-score'])
+const emit = defineEmits(['replace-question', 'edit-question'])
 
 const props = defineProps({
   paper: {
@@ -139,10 +133,6 @@ const props = defineProps({
     default: false
   },
   allowEdit: {
-    type: Boolean,
-    default: false
-  },
-  allowEditScore: {
     type: Boolean,
     default: false
   },
@@ -184,32 +174,6 @@ const sections = computed(() => {
     totalScore: grouped[t].reduce((s, pq) => s + pq.score, 0)
   }))
 })
-
-// === 改分逻辑 ===
-const openBatchEditScore = (section) => {
-  ElMessageBox.prompt(`请输入【${section.typeLabel}】的新分值（每题）`, '批量改分值', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    inputPattern: /^[1-9]\d*$/,
-    inputErrorMessage: '分值必须为正整数'
-  }).then(({ value }) => {
-    const newScore = parseInt(value, 10)
-    emit('batch-update-score', { type: section.type, newScore })
-  }).catch(() => {})
-}
-
-const openSingleEditScore = (pq) => {
-  ElMessageBox.prompt(`请输入该题的新分值`, '修改分值', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-    inputValue: pq.score.toString(),
-    inputPattern: /^[1-9]\d*$/,
-    inputErrorMessage: '分值必须为正整数'
-  }).then(({ value }) => {
-    const newScore = parseInt(value, 10)
-    emit('update-single-score', { pq, newScore })
-  }).catch(() => {})
-}
 
 // === 换题逻辑 ===
 const chapters = ref([])

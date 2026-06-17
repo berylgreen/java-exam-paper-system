@@ -131,7 +131,7 @@
       </div>
 
       <div class="paper-preview" style="padding: 24px;">
-        <PaperViewer :paper="previewData" :show-answer="false" allow-replace allow-edit-score @replace-question="handleReplace" @batch-update-score="handleBatchUpdateScore" @update-single-score="handleUpdateSingleScore" :allowed-chapters="form.chapters" />
+        <PaperViewer :paper="previewData" :show-answer="false" allow-replace @replace-question="handleReplace" :allowed-chapters="form.chapters" />
       </div>
     </div>
 
@@ -292,31 +292,6 @@ const handleReplace = ({ oldPq, newQuestion }) => {
   if (idx !== -1) {
     previewData.value.questions[idx].question = newQuestion
     ElMessage.success('换题成功')
-  }
-}
-
-const handleBatchUpdateScore = ({ type, newScore }) => {
-  if (!previewData.value) return
-  let updatedCount = 0
-  previewData.value.questions.forEach(pq => {
-    if (pq.question.type === type) {
-      pq.score = newScore
-      updatedCount++
-    }
-  })
-  if (updatedCount > 0) {
-    previewData.value.totalScore = previewData.value.questions.reduce((sum, pq) => sum + pq.score, 0)
-    ElMessage.success(`已批量更新 ${updatedCount} 道题目的分值为 ${newScore} 分`)
-  }
-}
-
-const handleUpdateSingleScore = ({ pq, newScore }) => {
-  if (!previewData.value) return
-  const targetPq = previewData.value.questions.find(item => item.question.id === pq.question.id)
-  if (targetPq) {
-    targetPq.score = newScore
-    previewData.value.totalScore = previewData.value.questions.reduce((sum, item) => sum + item.score, 0)
-    ElMessage.success('分值修改成功')
   }
 }
 
