@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "type" : "FILL_BLANK",
     "chapter" : "第1章 Java概述与环境",
@@ -1320,36 +1320,6 @@
     "answerProjectPath" : null
   },
   {
-    "type" : "SINGLE_CHOICE",
-    "chapter" : "第4章 面向对象进阶",
-    "difficulty" : "HARD",
-    "content" : "关于\"@FunctionalInterface\"注解代表的含义，下列说法正确的是（ ）",
-    "options" : [
-      {
-        "label" : "A",
-        "text" : "主要用于编译级错误检查"
-      },
-      {
-        "label" : "B",
-        "text" : "主要用于简化Java开发"
-      },
-      {
-        "label" : "C",
-        "text" : "检查是否含有多个非抽象方法"
-      },
-      {
-        "label" : "D",
-        "text" : "当接口包含默认方法时编译报错"
-      }
-    ],
-    "answer" : "A",
-    "explanation" : "FunctionalInterface用于编译检查",
-    "defaultScore" : 2,
-    "source" : "课后习题",
-    "projectPath" : null,
-    "answerProjectPath" : null
-  },
-  {
     "type" : "SHORT_ANSWER",
     "chapter" : "第4章 面向对象进阶",
     "difficulty" : "HARD",
@@ -1782,36 +1752,6 @@
     ],
     "answer" : "B",
     "explanation" : "Vector线程安全",
-    "defaultScore" : 2,
-    "source" : "课后习题",
-    "projectPath" : null,
-    "answerProjectPath" : null
-  },
-  {
-    "type" : "SINGLE_CHOICE",
-    "chapter" : "第7章 集合框架",
-    "difficulty" : "MEDIUM",
-    "content" : "\"ArrayList list=new ArrayList(20);\"，list扩容了几次？",
-    "options" : [
-      {
-        "label" : "A",
-        "text" : "0次"
-      },
-      {
-        "label" : "B",
-        "text" : "1次"
-      },
-      {
-        "label" : "C",
-        "text" : "2次"
-      },
-      {
-        "label" : "D",
-        "text" : "3次"
-      }
-    ],
-    "answer" : "A",
-    "explanation" : "指定初始容量不扩容",
     "defaultScore" : 2,
     "source" : "课后习题",
     "projectPath" : null,
@@ -4422,7 +4362,7 @@
     "content" : "编写一个 Java 程序，定义一个 `Student` 类来描述学生信息。要求如下：\n1. 类中包含两个私有属性：`name`（姓名）和 `age`（年龄）。\n2. 提供无参构造方法和带参构造方法。\n3. 为两个属性分别提供对应的 `get` / `set` 方法。\n4. 提供一个 `show()` 方法，用于输出学生的信息。\n5. 编写测试类，创建 `Student` 对象并调用 `show()` 方法进行验证。",
     "answer" : "```java\nclass Student {\n    private String name;\n    private int age;\n\n    public Student() {\n    }\n\n    public Student(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public void setName(String name) {\n        this.name = name;\n    }\n\n    public int getAge() {\n        return age;\n    }\n\n    public void setAge(int age) {\n        this.age = age;\n    }\n\n    public void show() {\n        System.out.println(\"姓名：\" + name + \"，年龄：\" + age);\n    }\n}\n\npublic class StudentTest {\n    public static void main(String[] args) {\n        Student stu = new Student(\"张三\", 20);\n        stu.show();\n    }\n}\n```",
     "explanation" : "本题主要考查 Java 面向对象中**封装**的基本实现。\n\n```java\nclass Student {\n    private String name;\n    private int age;\n    // 私有属性，体现封装\n}\n```\n\n- `name` 和 `age` 使用 `private` 修饰，表示属性不能被类外直接访问，这样可以保护数据。\n- 通过 `get` / `set` 方法对属性进行读取和修改，是封装的典型写法。\n\n```java\npublic Student() {\n}\n\npublic Student(String name, int age) {\n    this.name = name;\n    this.age = age;\n}\n```\n\n- 无参构造方法用于先创建对象、后赋值。\n- 带参构造方法用于创建对象时直接完成属性初始化。\n\n```java\npublic void show() {\n    System.out.println(\"姓名：\" + name + \"，年龄：\" + age);\n}\n```\n\n- `show()` 方法用于输出对象当前的属性信息，体现“对象具有行为”的特点。\n\n```java\npublic class StudentTest {\n    public static void main(String[] args) {\n        Student stu = new Student(\"张三\", 20);\n        stu.show();\n    }\n}\n```\n\n- 在测试类中创建 `Student` 对象，并调用 `show()` 方法，验证类定义是否正确。\n\n本题完整涵盖了类的定义、属性封装、构造方法、访问器方法以及对象的创建与使用，是面向对象基础题中的典型练习。",
-    "defaultScore" : 10,
+    "defaultScore" : 20,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
@@ -4434,7 +4374,7 @@
     "content" : "编写一个 Java 程序，定义一个表示教师的 `Teacher` 类。\n\n要求如下：\n1. `Teacher` 类包含两个私有属性：`id`（工号）和 `subject`（教授科目）。\n2. 提供一个带参构造方法，用于在创建对象时完成这两个属性的初始化。\n3. 提供一个 `teach()` 成员方法，输出格式为：`[工号] 老师正在教 [科目]`。\n4. 编写测试类，在 `main` 方法中创建一个 `Teacher` 对象并调用 `teach()` 方法进行测试。\n\n例如：当工号为 `T001`、科目为 `Java编程` 时，输出应为：`T001 老师正在教 Java编程`。",
     "answer" : "```java\nclass Teacher {\n    private String id;\n    private String subject;\n\n    public Teacher(String id, String subject) {\n        this.id = id;\n        this.subject = subject;\n    }\n\n    public void teach() {\n        System.out.println(id + \" 老师正在教 \" + subject);\n    }\n}\n\npublic class TeacherTest {\n    public static void main(String[] args) {\n        Teacher teacher = new Teacher(\"T001\", \"Java编程\");\n        teacher.teach();\n    }\n}\n```",
     "explanation" : "本题主要考查 Java 面向对象程序设计的基础用法，包括**类的定义、私有属性、构造方法**以及**成员方法调用**。\n\n```java\nclass Teacher {\n    private String id;\n    private String subject;\n```\n- 定义 `Teacher` 类。\n- 使用 `private` 修饰 `id` 和 `subject`，体现封装性，表示这两个属性只能在类的内部直接访问。\n\n```java\n    public Teacher(String id, String subject) {\n        this.id = id;\n        this.subject = subject;\n    }\n```\n- 这是带参构造方法。\n- 当创建 `Teacher` 对象时，可以直接传入工号和教授科目，为对象完成初始化。\n- `this.id` 和 `this.subject` 表示当前对象的成员变量，用于和形参区分。\n\n```java\n    public void teach() {\n        System.out.println(id + \" 老师正在教 \" + subject);\n    }\n```\n- `teach()` 是成员方法，用于输出教师授课信息。\n- 输出内容符合题目要求的格式：`[工号] 老师正在教 [科目]`。\n\n```java\npublic class TeacherTest {\n    public static void main(String[] args) {\n        Teacher teacher = new Teacher(\"T001\", \"Java编程\");\n        teacher.teach();\n    }\n}\n```\n- 在测试类的 `main` 方法中创建 `Teacher` 对象。\n- 传入 `\"T001\"` 和 `\"Java编程\"` 作为初始化数据。\n- 调用 `teach()` 方法后，程序输出：\n\n```java\nT001 老师正在教 Java编程\n```\n\n该题通过一个简单的教师类，帮助理解对象创建与方法调用的基本过程。",
-    "defaultScore" : 10,
+    "defaultScore" : 20,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
@@ -4446,7 +4386,7 @@
     "content" : "编写一个 Java 程序，定义一个 `Car` 类，要求如下：\n1. 包含两个私有属性：`brand`（汽车品牌，`String` 类型）和 `price`（汽车价格，`double` 类型）。\n2. 提供这两个属性对应的 Getter 和 Setter 方法。\n3. 提供无参构造方法和有参构造方法。\n4. 定义一个成员方法 `drive()`，调用时输出格式如下：`驾驶一辆价值xxx的xxx汽车`。\n5. 编写测试类，创建 `Car` 对象并验证各属性和 `drive()` 方法是否正确。\n\n要求：通过封装的方式访问和修改属性。",
     "answer" : "```java\nclass Car {\n    private String brand;\n    private double price;\n\n    public Car() {\n    }\n\n    public Car(String brand, double price) {\n        this.brand = brand;\n        this.price = price;\n    }\n\n    public String getBrand() {\n        return brand;\n    }\n\n    public void setBrand(String brand) {\n        this.brand = brand;\n    }\n\n    public double getPrice() {\n        return price;\n    }\n\n    public void setPrice(double price) {\n        this.price = price;\n    }\n\n    public void drive() {\n        System.out.println(\"驾驶一辆价值\" + price + \"的\" + brand + \"汽车\");\n    }\n}\n\npublic class CarTest {\n    public static void main(String[] args) {\n        Car car = new Car(\"奥迪\", 300000.0);\n        car.drive();\n\n        Car car2 = new Car();\n        car2.setBrand(\"比亚迪\");\n        car2.setPrice(150000.0);\n        car2.drive();\n    }\n}\n```",
     "explanation" : "本题考查 Java 面向对象中的**类的定义、封装、构造方法以及成员方法的使用**。\n\n```java\nclass Car {\n    private String brand;\n    private double price;\n```\n以上代码定义了 `Car` 类，并将 `brand` 和 `price` 设为 `private`，体现了封装思想。外部不能直接访问属性，必须通过公共方法进行操作。\n\n```java\npublic Car() {\n}\n\npublic Car(String brand, double price) {\n    this.brand = brand;\n    this.price = price;\n}\n```\n这里分别定义了无参构造方法和有参构造方法：\n- 无参构造方法用于先创建对象、后赋值；\n- 有参构造方法用于创建对象时直接初始化属性。\n\n```java\npublic String getBrand() {\n    return brand;\n}\n\npublic void setBrand(String brand) {\n    this.brand = brand;\n}\n```\nGetter 和 Setter 方法用于获取和修改私有属性，是封装类中最常见的写法。\n\n```java\npublic void drive() {\n    System.out.println(\"驾驶一辆价值\" + price + \"的\" + brand + \"汽车\");\n}\n```\n`drive()` 方法用于输出汽车的品牌和价格信息，体现对象的行为。\n\n在测试类中：\n- `Car car = new Car(\"奥迪\", 300000.0);` 演示了有参构造创建对象；\n- `car2.setBrand(\"比亚迪\");` 和 `car2.setPrice(150000.0);` 演示了无参构造结合 Setter 赋值。\n\n这样既验证了构造方法，也验证了 Getter/Setter 和 `drive()` 方法的正确性。",
-    "defaultScore" : 10,
+    "defaultScore" : 20,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
@@ -4458,7 +4398,7 @@
     "content" : "定义一个 `Book` 类，要求如下：\n1. 包含两个私有属性：`title`（书名）和 `author`（作者）。\n2. 提供一个有参构造方法，用于在创建对象时完成这两个属性的初始化。\n3. 重写 `toString()` 方法，返回包含书名和作者信息的字符串。\n4. 在测试类中创建一个 `Book` 对象，并使用 `System.out.println(对象名)` 直接输出该对象，以验证 `toString()` 方法已被正确重写。\n\n要求输出结果能够清晰展示图书的书名和作者信息。",
     "answer" : "```java\nclass Book {\n    private String title;\n    private String author;\n\n    public Book(String title, String author) {\n        this.title = title;\n        this.author = author;\n    }\n\n    @Override\n    public String toString() {\n        return \"图书信息：[书名=\" + title + \", 作者=\" + author + \"]\";\n    }\n}\n\npublic class BookTest {\n    public static void main(String[] args) {\n        Book book = new Book(\"Java编程思想\", \"Bruce Eckel\");\n        System.out.println(book);\n    }\n}\n```",
     "explanation" : "本题主要考查以下知识点：\n\n1. **封装性**：`title` 和 `author` 使用 `private` 修饰，体现类的封装。\n2. **构造方法**：通过有参构造方法在创建对象时完成属性初始化。\n3. **方法重写**：`Book` 类重写了从 `Object` 类继承的 `toString()` 方法。\n4. **对象输出原理**：当执行 `System.out.println(book);` 时，实际上会自动调用对象的 `toString()` 方法。如果不重写，默认输出通常是“类名@哈希值”；重写后即可输出更有意义的对象信息。\n\n例如，下面这句代码：\n\n```java\nSystem.out.println(book);\n```\n\n等价于：\n\n```java\nSystem.out.println(book.toString());\n```\n\n因此，重写 `toString()` 的作用是让对象在输出时具有更好的可读性。该题通过定义 `Book` 类并直接打印对象，验证了 `toString()` 方法重写后的效果。",
-    "defaultScore" : 10,
+    "defaultScore" : 20,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
@@ -4470,7 +4410,7 @@
     "content" : "定义一个 `Computer` 类，包含以下成员：\n\n- 属性 `cpu`：表示 CPU 型号，类型为 `String`\n- 属性 `ram`：表示内存大小，单位为 GB，类型为 `int`\n\n要求：\n\n1. 提供一个有参构造方法，用于在创建对象时为 `cpu` 和 `ram` 赋值。\n2. 在类中定义一个普通成员方法 `start()`，输出电脑启动信息，信息中需要包含 CPU 型号和内存大小。\n3. 编写测试类，在 `main` 方法中实例化一个 `Computer` 对象，并调用 `start()` 方法进行测试。",
     "answer" : "```java\nclass Computer {\n    private String cpu;\n    private int ram;\n\n    public Computer(String cpu, int ram) {\n        this.cpu = cpu;\n        this.ram = ram;\n    }\n\n    public void start() {\n        System.out.println(\"电脑正在启动，配置为：CPU=\" + cpu + \", RAM=\" + ram + \"GB\");\n    }\n}\n\npublic class ComputerTest {\n    public static void main(String[] args) {\n        Computer pc = new Computer(\"Intel i7\", 16);\n        pc.start();\n    }\n}\n```",
     "explanation" : "本题主要考查面向对象程序设计中的类定义、构造方法和成员方法的使用。\n\n```java\nclass Computer {\n    private String cpu;\n    private int ram;\n```\n\n- 定义 `Computer` 类。\n- `cpu` 和 `ram` 是类的属性，分别表示 CPU 型号和内存大小。\n- 使用 `private` 修饰属性，体现封装思想。\n\n```java\npublic Computer(String cpu, int ram) {\n    this.cpu = cpu;\n    this.ram = ram;\n}\n```\n\n- 这是一个有参构造方法。\n- 当创建 `Computer` 对象时，可以直接为属性赋初值。\n- `this.cpu = cpu;` 和 `this.ram = ram;` 表示将传入的参数值赋给当前对象的成员变量。\n\n```java\npublic void start() {\n    System.out.println(\"电脑正在启动，配置为：CPU=\" + cpu + \", RAM=\" + ram + \"GB\");\n}\n```\n\n- `start()` 是普通成员方法。\n- 调用该方法时，会输出当前电脑对象的配置信息。\n\n```java\npublic class ComputerTest {\n    public static void main(String[] args) {\n        Computer pc = new Computer(\"Intel i7\", 16);\n        pc.start();\n    }\n}\n```\n\n- 在测试类 `ComputerTest` 的 `main` 方法中创建 `Computer` 对象。\n- 这里创建的对象 CPU 型号为 `Intel i7`，内存为 `16GB`。\n- 调用 `start()` 方法后，将输出启动信息。\n\n程序体现了以下知识点：\n\n1. 类的定义\n2. 成员变量的声明\n3. 构造方法的编写与调用\n4. 成员方法的定义与使用\n5. 对象的创建与方法调用",
-    "defaultScore" : 10,
+    "defaultScore" : 20,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
@@ -4482,7 +4422,7 @@
     "content" : "定义一个 `Phone` 类，包含以下内容：\n1. 私有属性：`brand`（品牌）和 `color`（颜色）；\n2. 一个全参构造方法，用于在创建对象时为品牌和颜色赋值；\n3. 成员方法 `call(String name)`，用于模拟“给某人打电话”的操作。\n\n请在测试类中完成以下操作：\n- 创建一个品牌为“苹果”、颜色为“黑色”的 `Phone` 对象；\n- 调用 `call(String name)` 方法，模拟给“张三”打电话。\n\n要求：\n- 属性必须使用 `private` 修饰；\n- 通过构造方法完成属性初始化；\n- 程序结构清晰，类定义与测试代码完整。",
     "answer" : "```java\nclass Phone {\n    private String brand;\n    private String color;\n\n    public Phone(String brand, String color) {\n        this.brand = brand;\n        this.color = color;\n    }\n\n    public void call(String name) {\n        System.out.println(\"使用\" + color + \"的\" + brand + \"手机给\" + name + \"打电话\");\n    }\n}\n\npublic class PhoneTest {\n    public static void main(String[] args) {\n        Phone phone = new Phone(\"苹果\", \"黑色\");\n        phone.call(\"张三\");\n    }\n}\n```",
     "explanation" : "本题主要考查类的定义、私有属性的封装、构造方法的使用，以及带参数成员方法的定义与调用。\n\n1. `Phone` 类中定义了两个私有属性：`brand` 和 `color`，体现了面向对象中的封装思想。\n2. 通过全参构造方法 `Phone(String brand, String color)`，可以在创建对象时直接为属性赋值，其中 `this.brand = brand;` 和 `this.color = color;` 用于区分成员变量和局部变量。\n3. `call(String name)` 方法接收一个字符串参数 `name`，表示通话对象，并通过 `System.out.println()` 输出模拟拨打电话的信息。\n4. 在测试类 `PhoneTest` 的 `main` 方法中，创建了一个“苹果”品牌、“黑色”颜色的手机对象，并调用 `call(\"张三\")` 方法完成题目要求。\n\n程序运行后将输出：\n\n```text\n使用黑色的苹果手机给张三打电话\n```\n\n该题的关键是：\n- 会定义类和属性；\n- 会编写构造方法初始化对象；\n- 会定义并调用带参数的成员方法。",
-    "defaultScore" : 10,
+    "defaultScore" : 20,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
@@ -4494,7 +4434,7 @@
     "content" : "定义一个员工类 `Employee`，包含以下受保护属性：\n- `name`：姓名\n- `salary`：薪水\n\n再定义一个子类 `Manager` 继承 `Employee`，并新增私有属性：\n- `bonus`：奖金\n\n要求如下：\n1. 在 `Employee` 类中编写构造方法，为 `name` 和 `salary` 赋值；\n2. 在 `Manager` 类中编写构造方法，并通过 `super` 调用父类构造方法完成父类属性初始化；\n3. 在 `Manager` 类中提供 `getIncome()` 方法，返回经理的总收入（`salary + bonus`）；\n4. 编写测试类 `EmployeeTest`，创建一个 `Manager` 对象并输出其总收入。\n\n请根据以上要求完成程序。",
     "answer" : "```java\nclass Employee {\n    protected String name;\n    protected double salary;\n\n    public Employee(String name, double salary) {\n        this.name = name;\n        this.salary = salary;\n    }\n}\n\nclass Manager extends Employee {\n    private double bonus;\n\n    public Manager(String name, double salary, double bonus) {\n        super(name, salary);\n        this.bonus = bonus;\n    }\n\n    public double getIncome() {\n        return salary + bonus;\n    }\n}\n\npublic class EmployeeTest {\n    public static void main(String[] args) {\n        Manager m = new Manager(\"李四\", 8000, 2000);\n        System.out.println(\"经理总收入：\" + m.getIncome());\n    }\n}\n```",
     "explanation" : "本题主要考查 Java 面向对象中的**继承**、**构造方法**以及**访问权限**的使用。\n\n### 1. 父类 `Employee`\n`Employee` 类表示员工，定义了两个受保护属性：\n- `name`：员工姓名\n- `salary`：员工薪水\n\n使用 `protected` 修饰后，这些成员既可以在本类中访问，也可以在子类中直接访问。\n\n```java\nclass Employee {\n    protected String name;\n    protected double salary;\n}\n```\n\n同时，通过构造方法对属性进行初始化：\n\n```java\npublic Employee(String name, double salary) {\n    this.name = name;\n    this.salary = salary;\n}\n```\n\n### 2. 子类 `Manager`\n`Manager` 继承自 `Employee`，因此拥有父类中的 `name` 和 `salary` 属性，并新增了 `bonus` 属性表示奖金。\n\n```java\nclass Manager extends Employee {\n    private double bonus;\n}\n```\n\n在 `Manager` 的构造方法中：\n- 使用 `super(name, salary)` 调用父类构造方法，完成父类属性初始化；\n- 再对本类新增的 `bonus` 属性赋值。\n\n```java\npublic Manager(String name, double salary, double bonus) {\n    super(name, salary);\n    this.bonus = bonus;\n}\n```\n\n### 3. `getIncome()` 方法\n经理的总收入等于薪水加奖金，因此可以直接返回：\n\n```java\npublic double getIncome() {\n    return salary + bonus;\n}\n```\n\n其中 `salary` 是从父类继承而来的受保护成员，子类可以直接使用。\n\n### 4. 测试类 `EmployeeTest`\n在 `main` 方法中创建 `Manager` 对象：\n\n```java\nManager m = new Manager(\"李四\", 8000, 2000);\n```\n\n调用 `getIncome()` 方法后，输出结果为：\n\n```java\n经理总收入：10000.0\n```\n\n### 5. 总结\n本题体现了以下几个知识点：\n- 使用 `extends` 实现类的继承；\n- 使用 `super(...)` 调用父类构造方法；\n- 子类在继承父类成员的基础上扩展新属性和新方法；\n- 通过测试类验证程序功能是否正确。\n\n如果从规范性角度考虑，实际开发中通常会将属性设为 `private`，再通过 getter/setter 方法访问；但本题按照题目要求使用 `protected` 完成即可。",
-    "defaultScore" : 10,
+    "defaultScore" : 20,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
@@ -4506,7 +4446,7 @@
     "content" : "定义一个抽象类 `Animal`，其中包含一个抽象方法 `makeSound()`，用于表示动物发声的行为。\n\n请编写两个 `Animal` 的子类：\n- `Dog`：重写 `makeSound()` 方法，输出“汪汪”；\n- `Cat`：重写 `makeSound()` 方法，输出“喵喵”。\n\n在主方法中，使用 `Animal` 类型的数组分别存放 `Dog` 和 `Cat` 对象，并通过遍历数组调用各对象的 `makeSound()` 方法，体现抽象类与多态的使用。",
     "answer" : "```java\nabstract class Animal {\n    public abstract void makeSound();\n}\n\nclass Dog extends Animal {\n    @Override\n    public void makeSound() {\n        System.out.println(\"汪汪\");\n    }\n}\n\nclass Cat extends Animal {\n    @Override\n    public void makeSound() {\n        System.out.println(\"喵喵\");\n    }\n}\n\npublic class AnimalTest {\n    public static void main(String[] args) {\n        Animal[] animals = {new Dog(), new Cat()};\n\n        for (Animal animal : animals) {\n            animal.makeSound();\n        }\n    }\n}\n```",
     "explanation" : "```java\nabstract class Animal {\n    public abstract void makeSound();\n}\n```\n以上代码定义了抽象类 `Animal`，其中的抽象方法 `makeSound()` 没有方法体，表示“动物会发声”这一共同行为，但具体发出什么声音由子类决定。\n\n```java\nclass Dog extends Animal {\n    @Override\n    public void makeSound() {\n        System.out.println(\"汪汪\");\n    }\n}\n\nclass Cat extends Animal {\n    @Override\n    public void makeSound() {\n        System.out.println(\"喵喵\");\n    }\n}\n```\n`Dog` 和 `Cat` 都继承自 `Animal`，并分别重写 `makeSound()` 方法，实现各自不同的发声方式。这体现了子类对父类抽象行为的具体实现。\n\n```java\nAnimal[] animals = {new Dog(), new Cat()};\nfor (Animal animal : animals) {\n    animal.makeSound();\n}\n```\n这里使用 `Animal` 类型的数组来存放不同子类对象，属于向上转型的典型应用。遍历数组时，虽然变量类型是 `Animal`，但程序会根据对象的实际类型动态调用对应子类中的 `makeSound()` 方法，这就是多态。\n\n程序运行结果为：\n```text\n汪汪\n喵喵\n```\n\n本题主要考查以下知识点：\n1. 抽象类的定义与使用；\n2. 抽象方法必须由具体子类重写；\n3. 父类引用指向子类对象的多态特性；\n4. 使用统一的父类类型处理不同子类对象。",
-    "defaultScore" : 10,
+    "defaultScore" : 20,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
@@ -4518,7 +4458,7 @@
     "content" : "定义一个接口或抽象类 `Shape`，其中声明一个用于计算面积的方法 `getArea()`，返回值类型为 `double`。\n\n请编写一个 `Rectangle`（矩形）类实现该接口或继承该抽象类，并完成以下要求：\n1. 定义表示矩形长和宽的属性；\n2. 通过构造方法为长和宽赋值；\n3. 实现 `getArea()` 方法，返回矩形面积；\n4. 在测试类中创建 `Rectangle` 对象，并调用 `getArea()` 输出面积结果，验证程序功能是否正确。\n\n要求程序结构清晰，能够体现接口（或抽象类）与实现类之间的关系。",
     "answer" : "```java\ninterface Shape {\n    double getArea();\n}\n\nclass Rectangle implements Shape {\n    private double length;\n    private double width;\n\n    public Rectangle(double length, double width) {\n        this.length = length;\n        this.width = width;\n    }\n\n    @Override\n    public double getArea() {\n        return length * width;\n    }\n}\n\npublic class ShapeTest {\n    public static void main(String[] args) {\n        Shape rectangle = new Rectangle(5.0, 4.0);\n        System.out.println(\"矩形面积为：\" + rectangle.getArea());\n    }\n}\n```",
     "explanation" : "本题主要考查接口（或抽象类）的定义、实现类的编写以及多态的基本使用。\n\n```java\ninterface Shape {\n    double getArea();\n}\n```\n- `Shape` 是一个接口，用于抽象“图形”的公共行为；\n- `getArea()` 方法没有方法体，由实现类具体完成面积计算。\n\n```java\nclass Rectangle implements Shape {\n    private double length;\n    private double width;\n```\n- `Rectangle` 类通过 `implements` 关键字实现 `Shape` 接口；\n- 使用 `length` 和 `width` 两个属性分别表示矩形的长和宽；\n- 将属性定义为 `private`，体现封装性。\n\n```java\npublic Rectangle(double length, double width) {\n    this.length = length;\n    this.width = width;\n}\n```\n- 构造方法用于在创建对象时为长和宽赋初值；\n- `this.length` 和 `this.width` 表示当前对象的成员变量。\n\n```java\n@Override\npublic double getArea() {\n    return length * width;\n}\n```\n- 重写接口中的 `getArea()` 方法；\n- 矩形面积公式为：长 × 宽。\n\n```java\nShape rectangle = new Rectangle(5.0, 4.0);\nSystem.out.println(\"矩形面积为：\" + rectangle.getArea());\n```\n- 这里使用了多态：父接口类型 `Shape` 引用指向子类对象 `Rectangle`；\n- 调用 `getArea()` 时，实际执行的是 `Rectangle` 中重写后的方法；\n- 当长为 `5.0`、宽为 `4.0` 时，输出面积应为 `20.0`。\n\n如果使用抽象类来完成，本质思路相同：先在抽象类中声明抽象方法 `getArea()`，再由 `Rectangle` 类继承并实现该方法。",
-    "defaultScore" : 10,
+    "defaultScore" : 20,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
@@ -4530,7 +4470,7 @@
     "content" : "定义一个 `Circle` 类，要求如下：\n\n1. 包含一个私有属性 `radius`，用于表示圆的半径。\n2. 提供一个带参构造方法，用于在创建对象时初始化半径。\n3. 定义一个 `getPerimeter()` 方法，返回圆的周长。\n   圆的周长计算公式为：`2 * Math.PI * radius`。\n4. 在测试类中创建 `Circle` 对象，并输出圆的周长，以验证程序结果。\n\n要求：使用 `Math.PI` 表示圆周率。",
     "answer" : "```java\nclass Circle {\n    private double radius;\n\n    public Circle(double radius) {\n        this.radius = radius;\n    }\n\n    public double getPerimeter() {\n        return 2 * Math.PI * radius;\n    }\n}\n\npublic class CircleTest {\n    public static void main(String[] args) {\n        Circle circle = new Circle(3.0);\n        System.out.println(\"圆的周长为：\" + circle.getPerimeter());\n    }\n}\n```",
     "explanation" : "本题主要考查类的定义、构造方法的使用、封装思想以及成员方法的编写。\n\n1. `radius` 使用 `private` 修饰，体现了面向对象中的封装性，表示半径属性只能在 `Circle` 类内部直接访问。\n2. 通过带参构造方法 `Circle(double radius)`，可以在创建对象时为半径赋初值。\n3. `getPerimeter()` 方法用于计算并返回圆的周长，公式为：\n\n```java\n2 * Math.PI * radius\n```\n\n其中：\n- `Math.PI` 表示 Java 提供的圆周率常量；\n- `radius` 表示圆的半径。\n\n4. 在测试类 `CircleTest` 中：\n   - 创建了一个半径为 `3.0` 的圆对象；\n   - 调用 `getPerimeter()` 方法计算周长；\n   - 使用 `System.out.println()` 输出结果，完成验证。\n\n当半径为 `3.0` 时，输出结果约为：\n\n```java\n圆的周长为：18.84955592153876\n```\n\n说明程序已正确实现圆周长的计算。",
-    "defaultScore" : 10,
+    "defaultScore" : 20,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
