@@ -164,7 +164,7 @@ const savedResult = ref(null)
 const generateDefaultTitle = () => {
   const d = new Date()
   const pad = (n) => n.toString().padStart(2, '0')
-  return `自动组卷-${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}${pad(d.getHours())}${pad(d.getMinutes())}`
+  return `组卷-${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}${pad(d.getHours())}${pad(d.getMinutes())}`
 }
 
 const form = reactive({
