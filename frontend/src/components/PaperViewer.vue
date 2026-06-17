@@ -135,6 +135,10 @@ const props = defineProps({
   allowEdit: {
     type: Boolean,
     default: false
+  },
+  allowedChapters: {
+    type: Array,
+    default: () => []
   }
 })
 
@@ -271,6 +275,15 @@ const autoReplace = async (pq) => {
         const currentIds = props.paper.questions.map(p => p.question.id)
         candidates = candidates.filter(q => !currentIds.includes(q.id))
       }
+      
+      // 限制只能在初始选定的章节范围内换题
+      if (props.allowedChapters && props.allowedChapters.length > 0) {
+        candidates = candidates.filter(q => {
+          const qChap = q.chapterName || q.chapter || ''
+          return props.allowedChapters.includes(qChap)
+        })
+      }
+      
       fromOtherChapter = true;
     }
     

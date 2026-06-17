@@ -131,7 +131,7 @@
       </div>
 
       <div class="paper-preview" style="padding: 24px;">
-        <PaperViewer :paper="previewData" :show-answer="false" allow-replace @replace-question="handleReplace" />
+        <PaperViewer :paper="previewData" :show-answer="false" allow-replace @replace-question="handleReplace" :allowed-chapters="form.chapters" />
       </div>
     </div>
 
