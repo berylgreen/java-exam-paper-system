@@ -4238,11 +4238,11 @@
   {
     "type" : "PROGRAMMING",
     "chapter" : "第2章 JAVA编程基本功",
-    "difficulty" : "MEDIUM",
+    "difficulty" : "EASY",
     "content" : "编写一个 Java 程序：声明并初始化两个 `int` 类型的整数变量，计算它们的和，并将结果输出到控制台。要求程序包含 `main` 方法，能够直接运行。",
     "answer" : "```java\npublic class SumDemo {\n    public static void main(String[] args) {\n        int a = 5;\n        int b = 10;\n        int sum = a + b;\n\n        System.out.println(\"两数之和为：\" + sum);\n    }\n}\n```",
     "explanation" : "本题主要考查 Java 程序的基本结构、整型变量的声明与初始化、算术运算以及控制台输出。\n\n1. `int a = 5;` 和 `int b = 10;`\n   - 分别声明了两个 `int` 类型变量，并完成初始化。\n   - `int` 是 Java 中常用的整数类型。\n\n2. `int sum = a + b;`\n   - 使用加法运算符 `+` 计算两个整数的和。\n   - 计算结果赋值给变量 `sum`。\n\n3. `System.out.println(...)`\n   - 用于将结果输出到控制台。\n   - 通过字符串与变量拼接，得到完整的输出信息。\n\n程序运行后，将输出如下内容：\n\n```text\n两数之和为：15\n```\n\n该题是 Java 入门中的基础练习，帮助理解变量定义、表达式计算和输出语句的基本用法。",
-    "defaultScore" : 20,
+    "defaultScore" : 10,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
@@ -4250,11 +4250,11 @@
   {
     "type" : "PROGRAMMING",
     "chapter" : "第2章 JAVA编程基本功",
-    "difficulty" : "MEDIUM",
+    "difficulty" : "EASY",
     "content" : "编写一个 Java 程序，使用循环结构计算 1 到 100 的整数累加和，并在控制台输出结果。要求必须通过循环逐步累加实现，不能直接使用求和公式。",
     "answer" : "```java\npublic class Sum1To100 {\n    public static void main(String[] args) {\n        int sum = 0;\n\n        for (int i = 1; i <= 100; i++) {\n            sum += i;\n        }\n\n        System.out.println(\"1到100的累加和为：\" + sum);\n    }\n}\n```",
     "explanation" : "本题主要考查 **for 循环** 和 **累加器变量** 的使用。\n\n解题思路如下：\n\n1. 定义一个整型变量 `sum`，初始值设为 `0`，用于保存累加结果。\n2. 使用 `for` 循环，让变量 `i` 从 `1` 开始，到 `100` 结束。\n3. 在每次循环中执行 `sum += i;`，表示将当前的 `i` 加到 `sum` 中。\n4. 循环结束后，`sum` 中保存的就是 1 到 100 的总和。\n5. 最后使用 `System.out.println()` 输出结果。\n\n程序执行过程示例：\n\n- 当 `i = 1` 时，`sum = 0 + 1 = 1`\n- 当 `i = 2` 时，`sum = 1 + 2 = 3`\n- 当 `i = 3` 时，`sum = 3 + 3 = 6`\n- ...\n- 当循环执行到 `i = 100` 时，最终得到总和 `5050`\n\n因此，程序输出结果为：\n\n```text\n1到100的累加和为：5050\n```\n\n该题是 Java 流程控制中的基础练习，有助于理解循环的执行过程以及累加思想。",
-    "defaultScore" : 20,
+    "defaultScore" : 10,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
@@ -4274,7 +4274,7 @@
   {
     "type" : "PROGRAMMING",
     "chapter" : "第2章 JAVA编程基本功",
-    "difficulty" : "MEDIUM",
+    "difficulty" : "HARD",
     "content" : "编写一个 Java 程序，输出斐波那契数列的前 20 项。\n\n要求如下：\n1. 已知斐波那契数列第 1 项和第 2 项均为 1；\n2. 从第 3 项开始，每一项等于前两项之和；\n3. 输出的 20 个数字之间使用一个空格分隔；\n4. 行末可以保留空格，也可以不保留空格。",
     "answer" : "```java\npublic class Fibonacci {\n    public static void main(String[] args) {\n        int n = 20;\n        int[] fib = new int[n];\n\n        fib[0] = 1;\n        fib[1] = 1;\n\n        for (int i = 2; i < n; i++) {\n            fib[i] = fib[i - 1] + fib[i - 2];\n        }\n\n        for (int i = 0; i < n; i++) {\n            if (i > 0) {\n                System.out.print(\" \");\n            }\n            System.out.print(fib[i]);\n        }\n    }\n}\n```",
     "explanation" : "```java\nfib[0] = 1;\nfib[1] = 1;\n```\n先初始化前两项。由于题目中第 1 项和第 2 项都为 1，因此数组中的前两个元素分别赋值为 1。\n\n```java\nfor (int i = 2; i < n; i++) {\n    fib[i] = fib[i - 1] + fib[i - 2];\n}\n```\n从第 3 项开始，按照斐波那契数列的定义进行计算：当前项等于前两项之和。\n\n```java\nfor (int i = 0; i < n; i++) {\n    if (i > 0) {\n        System.out.print(\" \");\n    }\n    System.out.print(fib[i]);\n}\n```\n最后依次输出数组中的 20 个元素。为了保证“项与项之间用空格分隔”且末尾不多输出空格，先判断是否为第一个数字：\n- 如果不是第一个数字，先输出一个空格；\n- 然后再输出当前数字。\n\n该题的核心是掌握：\n1. 数组的定义与使用；\n2. 循环结构的应用；\n3. 按递推公式计算数列。\n\n本程序输出的前 20 项为：\n```text\n1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765\n```",
@@ -4286,7 +4286,7 @@
   {
     "type" : "PROGRAMMING",
     "chapter" : "第2章 JAVA编程基本功",
-    "difficulty" : "MEDIUM",
+    "difficulty" : "HARD",
     "content" : "编写一个 Java 程序，输出所有三位“水仙花数”。\n\n说明：\n- “水仙花数”是指一个三位整数；\n- 设该数的百位、十位、个位分别为 a、b、c，如果满足 `a³ + b³ + c³ = 该数本身`，则称其为水仙花数；\n- 例如：153 是水仙花数，因为 `1³ + 5³ + 3³ = 153`。\n\n要求：\n1. 遍历所有三位数（100～999）；\n2. 分别求出每个数的百位、十位和个位；\n3. 判断其是否为水仙花数；\n4. 将所有满足条件的数输出到控制台。",
     "answer" : "```java\npublic class NarcissisticNumber {\n    public static void main(String[] args) {\n        System.out.println(\"所有水仙花数如下：\");\n\n        for (int i = 100; i <= 999; i++) {\n            int a = i / 100;          // 百位\n            int b = (i / 10) % 10;   // 十位\n            int c = i % 10;          // 个位\n\n            if (a * a * a + b * b * b + c * c * c == i) {\n                System.out.println(i);\n            }\n        }\n    }\n}\n```",
     "explanation" : "本题的核心是：**遍历三位数，并将每个数拆分为百位、十位、个位进行判断**。\n\n### 解题思路\n1. 使用 `for` 循环遍历 `100` 到 `999` 的所有三位数；\n2. 对于当前数字 `i`：\n   - `i / 100` 得到百位；\n   - `(i / 10) % 10` 得到十位；\n   - `i % 10` 得到个位；\n3. 计算三个位数字立方和：`a*a*a + b*b*b + c*c*c`；\n4. 如果该和等于原数 `i`，则 `i` 是水仙花数，输出即可。\n\n### 关键代码说明\n```java\nint a = i / 100;\nint b = (i / 10) % 10;\nint c = i % 10;\n```\n这三行代码分别用于提取一个三位数的百位、十位和个位数字。\n\n```java\nif (a * a * a + b * b * b + c * c * c == i)\n```\n用于判断当前三位数是否满足水仙花数定义。\n\n### 程序输出结果\n运行后会输出所有三位水仙花数：\n```java\n153\n370\n371\n407\n```\n\n### 总结\n本题主要考查：\n- `for` 循环的使用；\n- 整数的除法与取模运算；\n- 条件判断语句 `if` 的使用。\n\n这是一道典型的数值拆分与枚举判断题。",
@@ -4323,10 +4323,10 @@
     "type" : "PROGRAMMING",
     "chapter" : "第2章 JAVA编程基本功",
     "difficulty" : "MEDIUM",
-    "content" : "编写一个 Java 程序：已知整型数组 `int[] arr = {1, 2, 3, 4, 5};`，要求在**原数组**上将数组元素顺序反转，并遍历输出反转后的结果。\n\n要求：\n1. 必须使用原地反转的方法；\n2. 不允许创建额外的数组存储结果；\n3. 输出结果应为反转后的数组元素。",
-    "answer" : "```java\npublic class ReverseArray {\n    public static void main(String[] args) {\n        int[] arr = {1, 2, 3, 4, 5};\n\n        // 原地反转数组\n        for (int i = 0; i < arr.length / 2; i++) {\n            int temp = arr[i];\n            arr[i] = arr[arr.length - 1 - i];\n            arr[arr.length - 1 - i] = temp;\n        }\n\n        // 遍历输出反转后的数组\n        for (int num : arr) {\n            System.out.print(num + \" \");\n        }\n    }\n}\n```\n\n程序输出：\n```text\n5 4 3 2 1\n```",
-    "explanation" : "本题考查数组的**原地反转**操作。\n\n实现思路如下：\n1. 使用循环从数组首部开始遍历；\n2. 每次将第 `i` 个元素与第 `arr.length - 1 - i` 个元素交换；\n3. 只需要遍历到数组长度的一半，因为前后元素是成对交换的；\n4. 最后再遍历数组，输出反转后的结果。\n\n例如数组 `{1, 2, 3, 4, 5}` 的交换过程为：\n- 第1次交换：第0个元素和第4个元素交换，数组变为 `{5, 2, 3, 4, 1}`\n- 第2次交换：第1个元素和第3个元素交换，数组变为 `{5, 4, 3, 2, 1}`\n\n核心代码如下：\n```java\nfor (int i = 0; i < arr.length / 2; i++) {\n    int temp = arr[i];\n    arr[i] = arr[arr.length - 1 - i];\n    arr[arr.length - 1 - i] = temp;\n}\n```\n\n该方法符合题目“不使用额外数组空间”的要求。",
-    "defaultScore" : 20,
+    "content" : "编写一个 Java 程序：已知整型数组 `int[] arr = {1, 2, 3, 4, 5};`，使用循环从后往前输出数组元素。\n\n要求：\n1. 定义并使用给定数组；\n2. 使用 `for` 循环输出数组元素；\n3. 输出结果为：`5 4 3 2 1`。",
+    "answer" : "```java\npublic class ReverseArrayOutput {\n    public static void main(String[] args) {\n        int[] arr = {1, 2, 3, 4, 5};\n\n        for (int i = arr.length - 1; i >= 0; i--) {\n            System.out.print(arr[i] + \" \");\n        }\n    }\n}\n```\n\n程序输出：\n```text\n5 4 3 2 1\n```",
+    "explanation" : "本题考查数组元素的访问和 `for` 循环的使用。\n\n数组下标从 `0` 开始，数组 `arr` 的最后一个元素下标是 `arr.length - 1`。\n\n因此，可以让循环变量 `i` 从 `arr.length - 1` 开始，每次减 `1`，直到 `i` 等于 `0`，这样就能从后往前输出数组元素。\n\n核心代码如下：\n```java\nfor (int i = arr.length - 1; i >= 0; i--) {\n    System.out.print(arr[i] + \" \");\n}\n```",
+    "defaultScore" : 10,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
@@ -4350,7 +4350,7 @@
     "content" : "编写一个 Java 程序，使用嵌套的 `for` 循环在控制台输出标准的九九乘法表。输出要求如下：\n1. 共输出 9 行；\n2. 第 `i` 行输出从 `1×i` 到 `i×i` 的乘法表达式；\n3. 每个算式之间使用制表符或适当空格分隔，使整体格式尽量整齐对齐。\n\n例如，前几行输出效果应类似：\n`1*1=1`\n`1*2=2    2*2=4`\n`1*3=3    2*3=6    3*3=9`\n…",
     "answer" : "```java\npublic class MultiplicationTable {\n    public static void main(String[] args) {\n        for (int i = 1; i <= 9; i++) {\n            for (int j = 1; j <= i; j++) {\n                System.out.print(j + \"*\" + i + \"=\" + (j * i) + \"\\t\");\n            }\n            System.out.println();\n        }\n    }\n}\n```",
     "explanation" : "本题主要考查 **嵌套 `for` 循环** 的使用。\n\n- 外层循环变量 `i` 表示当前是第几行，取值范围为 `1~9`；\n- 内层循环变量 `j` 表示当前行中要输出的第几个算式，取值范围为 `1~i`；\n- 因此第 1 行输出 1 个算式，第 2 行输出 2 个算式，……，第 9 行输出 9 个算式。\n\n程序执行逻辑如下：\n\n1. 外层循环控制总行数：\n   ```java\n   for (int i = 1; i <= 9; i++)\n   ```\n2. 内层循环控制当前行输出的内容：\n   ```java\n   for (int j = 1; j <= i; j++)\n   ```\n3. 在内层循环中输出乘法表达式：\n   ```java\n   System.out.print(j + \"*\" + i + \"=\" + (j * i) + \"\\t\");\n   ```\n   其中 `\\t` 表示制表符，用于让各列之间更整齐。\n4. 每输出完一行后，使用：\n   ```java\n   System.out.println();\n   ```\n   实现换行。\n\n该题是学习循环结构时的经典练习，关键在于理解：**内层循环的结束条件依赖外层循环变量**。",
-    "defaultScore" : 20,
+    "defaultScore" : 10,
     "source" : "网络精选",
     "projectPath" : null,
     "answerProjectPath" : null
