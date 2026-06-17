@@ -105,6 +105,22 @@ public class QuestionController {
         return ResponseEntity.ok().build();
     }
 
+    public static class BatchScoreRequest {
+        private List<Long> ids;
+        private Integer score;
+        public List<Long> getIds() { return ids; }
+        public void setIds(List<Long> ids) { this.ids = ids; }
+        public Integer getScore() { return score; }
+        public void setScore(Integer score) { this.score = score; }
+    }
+
+    /** 批量修改分值 */
+    @PutMapping("/batch/score")
+    public ResponseEntity<Void> batchUpdateScore(@RequestBody BatchScoreRequest request) {
+        questionService.batchUpdateScore(request.getIds(), request.getScore());
+        return ResponseEntity.ok().build();
+    }
+
     /** 下载题目的关联工程 ZIP */
     @GetMapping("/{id}/download-project")
     public ResponseEntity<byte[]> downloadProject(@PathVariable("id") Long id) throws Exception {

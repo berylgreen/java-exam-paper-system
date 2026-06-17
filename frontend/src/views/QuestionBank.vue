@@ -4,6 +4,7 @@
       <h2 class="page-title" style="margin-bottom:0">📚 题库管理</h2>
       <div style="display:flex;gap:10px">
         <el-button type="danger" @click="batchDelQ" :disabled="selectedIds.length === 0"><el-icon><Delete /></el-icon> 批量删除</el-button>
+        <el-button type="warning" @click="batchUpdateScore" :disabled="selectedIds.length === 0"><el-icon><Edit /></el-icon> 批量改分</el-button>
         <el-button type="success" @click="exportQ"><el-icon><Download /></el-icon> 导出题库</el-button>
         <el-button type="warning" @click="triggerImport"><el-icon><Upload /></el-icon> 导入题库</el-button>
         <input ref="importInput" type="file" accept=".json" style="display:none" @change="importQ" />
@@ -304,6 +305,26 @@ const batchDelQ = async () => {
   } catch (e) {
     if (e !== 'cancel' && e !== 'close') {
       ElMessage.error('批量删除失败: ' + (e.response?.data?.message || e.message))
+    }
+  }
+}
+
+const batchUpdateScore = async () => {
+  if (!selectedIds.value.length) return
+  try {
+    const { value: scoreStr } = await ElMessageBox.prompt(`为选中的 ${selectedIds.value.length} 道题目设置新的分值:`, '批量修改分值', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      inputPattern: /^[1-9]\d*$/,
+      inputErrorMessage: '分值必须为正整数'
+    })
+    const score = parseInt(scoreStr, 10)
+    await questionApi.batchUpdateScore(selectedIds.value, score)
+    ElMessage.success('批量修改分值成功')
+    loadQ()
+  } catch (e) {
+    if (e !== 'cancel' && e !== 'close') {
+      ElMessage.error('批量修改分值失败: ' + (e?.response?.data?.message || e.message))
     }
   }
 }

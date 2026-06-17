@@ -87,6 +87,17 @@ public class QuestionService {
         questionRepository.deleteAllById(ids);
     }
 
+    /** 批量修改分值 */
+    @Transactional
+    public void batchUpdateScore(List<Long> ids, Integer score) {
+        if (ids == null || ids.isEmpty() || score == null || score < 0) return;
+        List<Question> questions = questionRepository.findAllById(ids);
+        for (Question q : questions) {
+            q.setDefaultScore(score);
+        }
+        questionRepository.saveAll(questions);
+    }
+
     /** 获取所有章节 */
     public List<com.exam.entity.Chapter> getAllChapters() {
         return chapterRepository.findAll(org.springframework.data.domain.Sort.by("sortOrder"));
