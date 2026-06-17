@@ -634,6 +634,12 @@ public class ExamPaperService {
             picked.addAll(remaining.subList(0, Math.min(need, remaining.size())));
         }
 
+        // 按要求：选择题（单选、多选）与填空题尽量按章节顺序出题
+        if (type == QuestionType.SINGLE_CHOICE || type == QuestionType.MULTIPLE_CHOICE || type == QuestionType.FILL_BLANK) {
+            picked.sort(java.util.Comparator.comparingInt(q -> 
+                    (q.getChapter() != null && q.getChapter().getSortOrder() != null) ? q.getChapter().getSortOrder() : 9999));
+        }
+
         // 构建 PaperQuestion
         for (Question q : picked) {
             currentOrder++;
