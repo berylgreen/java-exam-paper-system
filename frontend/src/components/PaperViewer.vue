@@ -19,6 +19,9 @@
               <el-button v-if="allowReplace" size="small" type="primary" plain @click="openReplaceDialog(pq)">
                 <el-icon><Refresh /></el-icon> 换题
               </el-button>
+              <el-button v-if="allowReplace" size="small" type="success" plain @click="autoReplace(pq)">
+                <el-icon><MagicStick /></el-icon> 自动换题
+              </el-button>
             </div>
           </div>
           <div v-if="pq.question.projectPath" style="margin-top:8px; padding:8px; background:#f5f7fa; border-radius:4px; font-size: 13px; color: #409EFF; border: 1px solid #d9ecff;">
@@ -107,6 +110,7 @@
 import { computed, ref, onMounted } from 'vue'
 import { marked } from 'marked'
 import { questionApi } from '../api'
+import { ElMessage } from 'element-plus'
 
 const renderMarkdown = (text) => {
   if (!text) return ''
@@ -222,6 +226,72 @@ const onFilterChange = async () => {
 const confirmReplace = (newQuestion) => {
   emit('replace-question', { oldPq: replaceDialog.value.targetPq, newQuestion })
   replaceDialog.value.visible = false
+}
+
+const autoReplace = async (pq) => {
+  const chapterName = pq.question.chapterName || pq.question.chapter || ''
+  const chapterObj = chapters.value.find(c => c.name === chapterName)
+  const chapterId = chapterObj ? chapterObj.id : undefined
+  
+  try {
+    let res = await questionApi.list({
+      type: pq.question.type,
+      chapterId: chapterId,
+      difficulty: pq.question.difficulty || undefined,
+      page: 0,
+      size: 100
+    })
+    
+    let candidates = res.data.content || []
+    
+    // 排除当前题目
+    candidates = candidates.filter(q => q.id !== pq.question.id)
+    
+    // 排除试卷中已有的题目
+    if (props.paper && props.paper.questions) {
+      const currentIds = props.paper.questions.map(p => p.question.id)
+      candidates = candidates.filter(q => !currentIds.includes(q.id))
+    }
+
+    let fromOtherChapter = false;
+    
+    if (candidates.length === 0) {
+      // 如果同章节没有多余题目，则放宽章节限制，从其它章节同难度中挑选
+      res = await questionApi.list({
+        type: pq.question.type,
+        difficulty: pq.question.difficulty || undefined,
+        page: 0,
+        size: 100
+      })
+      
+      candidates = res.data.content || []
+      candidates = candidates.filter(q => q.id !== pq.question.id)
+      
+      if (props.paper && props.paper.questions) {
+        const currentIds = props.paper.questions.map(p => p.question.id)
+        candidates = candidates.filter(q => !currentIds.includes(q.id))
+      }
+      fromOtherChapter = true;
+    }
+    
+    if (candidates.length === 0) {
+      ElMessage.warning('没有找到任何可用的替换题目')
+      return
+    }
+    
+    // 随机抽取一题
+    const randomIdx = Math.floor(Math.random() * candidates.length)
+    const newQuestion = candidates[randomIdx]
+    
+    if (fromOtherChapter) {
+      ElMessage.success('同章节无多余题目，已为您从其它章节中挑选')
+    }
+    
+    emit('replace-question', { oldPq: pq, newQuestion })
+  } catch (e) {
+    console.error('自动换题失败', e)
+    ElMessage.error('自动换题失败')
+  }
 }
 
 onMounted(async () => {
