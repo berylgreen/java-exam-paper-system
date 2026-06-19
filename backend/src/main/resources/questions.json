@@ -6201,7 +6201,8 @@
     "type" : "SHORT_ANSWER",
     "chapter" : "综合题库",
     "difficulty" : "MEDIUM",
-    "content" : "以下代码的执行结果是？\npublic static int fun() {\nint result = 5;\ntry {\nresult = result / 0;\nreturn result;\n} catch (Exception e) {\nSystem.out.println(\"Exception\");\nresult = -1;\nreturn result;\n} finally {\nresult = 10;\nSystem.out.println(\"i am in finally\");\n}\n}\npublic static void main(String[] args) {\nint x=fun();\nSystem.out.println(x);\n}",
+    "content" : "以下代码的执行结果是？\n```java\npublic static int fun() {\nint result = 5;\ntry {\nresult = result / 0;\nreturn result;\n} catch (Exception e) {\nSystem.out.println(\"Exception\");\nresult = -1;\nreturn result;\n} finally {\nresult = 10;\nSystem.out.println(\"i am in finally\");\n}\n}\npublic static void main(String[] args) {\nint x=fun();\nSystem.out.println(x);\n}\n```",
+
     "answer" : "",
     "explanation" : "Exception\nI am in finally\n-1",
     "defaultScore" : 10,
@@ -6213,7 +6214,8 @@
     "type" : "SHORT_ANSWER",
     "chapter" : "综合题库",
     "difficulty" : "MEDIUM",
-    "content" : "以下代码的执行结果是？\npublic class Example {\npublic static StringBuffer fun() {\nStringBuffer result = new StringBuffer(\"Hello\");\nInteger i = new Integer(5);\ntry {\nif (true)\nthrow new RuntimeException();\nreturn result;\n} catch (Exception e) {\nSystem.out.println(\"Exception\");\nresult.append(\" World\");\nreturn result;\n} finally {\nresult.append(\" Java\");\nSystem.out.println(\"i am in finally\");\n}\n}\npublic static void main(String[] args) {\nStringBuffer x = fun();\nSystem.out.println(x);\n}",
+    "content" : "以下代码的执行结果是？\n```java\npublic class Example {\npublic static StringBuffer fun() {\nStringBuffer result = new StringBuffer(\"Hello\");\nInteger i = new Integer(5);\ntry {\nif (true)\nthrow new RuntimeException();\nreturn result;\n} catch (Exception e) {\nSystem.out.println(\"Exception\");\nresult.append(\" World\");\nreturn result;\n} finally {\nresult.append(\" Java\");\nSystem.out.println(\"i am in finally\");\n}\n}\npublic static void main(String[] args) {\nStringBuffer x = fun();\nSystem.out.println(x);\n}\n```",
+
     "answer" : "",
     "explanation" : "Exception\ni am in finally\nHello World Java",
     "defaultScore" : 10,
@@ -7413,7 +7415,8 @@
     "type" : "SHORT_ANSWER",
     "chapter" : "综合题库",
     "difficulty" : "MEDIUM",
-    "content" : "以下代码的执行结果是？\nclass ShadowClone implements Cloneable {\nprivate int a;\nprivate int[] b;\n@Override\npublic Object clone() {\nShadowClone sc = null;\ntry {\nsc = (ShadowClone) super.clone();\n} catch (CloneNotSupportedException e) {\ne.printStackTrace();\n}\nreturn sc;\n}\npublic int getA() {\nreturn a;\n}\npublic void setA(int a) {\nthis.a = a;\n}\npublic int[] getB() {\nreturn b;\n}\npublic void setB(int[] b) {\nthis.b = b;\n}\n}\npublic class Example {\npublic static void main(String[] args) {\nShadowClone c1 = new ShadowClone();\nc1.setA(100);\nc1.setB(new int[] { 1000 });\nSystem.out.println(\"克隆前c1:  a=\" + c1.getA() + \" b[0]=\" + c1.getB()[0]);\nShadowClone c2 = (ShadowClone) c1.clone();\nc2.setA(50);\nint[] a = c2.getB();\na[0] = 5;\nc2.setB(a);\nSystem.out.println(\"克隆后c1:  a=\" + c1.getA() + \" b[0]=\" + c1.getB()[0]);\nSystem.out.println(\"克隆后c2:  a=\" + c2.getA() + \" b[0]=\" + c2.getB()[0]);\n}\n}",
+    "content" : "以下代码的执行结果是？\n```java\nclass ShadowClone implements Cloneable {\nprivate int a;\nprivate int[] b;\n@Override\npublic Object clone() {\nShadowClone sc = null;\ntry {\nsc = (ShadowClone) super.clone();\n} catch (CloneNotSupportedException e) {\ne.printStackTrace();\n}\nreturn sc;\n}\npublic int getA() {\nreturn a;\n}\npublic void setA(int a) {\nthis.a = a;\n}\npublic int[] getB() {\nreturn b;\n}\npublic void setB(int[] b) {\nthis.b = b;\n}\n}\npublic class Example {\npublic static void main(String[] args) {\nShadowClone c1 = new ShadowClone();\nc1.setA(100);\nc1.setB(new int[] { 1000 });\nSystem.out.println(\"克隆前c1:  a=\" + c1.getA() + \" b[0]=\" + c1.getB()[0]);\nShadowClone c2 = (ShadowClone) c1.clone();\nc2.setA(50);\nint[] a = c2.getB();\na[0] = 5;\nc2.setB(a);\nSystem.out.println(\"克隆后c1:  a=\" + c1.getA() + \" b[0]=\" + c1.getB()[0]);\nSystem.out.println(\"克隆后c2:  a=\" + c2.getA() + \" b[0]=\" + c2.getB()[0]);\n}\n}\n```",
+
     "answer" : "",
     "explanation" : "克隆前c1:  a=100 b[0]=1000\n克隆后c1:  a=100 b[0]=5\n克隆后c2:  a=50 b[0]=5\nJava中Object类提供的克隆方法默认为浅克隆，因此克隆后的引用属性和原始对象中的引用属性引用了同一对象，对克隆对象中引用数据的变更就直接反映到原始对象中",
     "defaultScore" : 10,
@@ -7425,7 +7428,8 @@
     "type" : "SHORT_ANSWER",
     "chapter" : "综合题库",
     "difficulty" : "MEDIUM",
-    "content" : "以下代码的执行结果是？\nclass DeepClone implements Cloneable {\nprivate int a;\nprivate int[] b;\n@Override\npublic Object clone() {\nDeepClone sc = null;\ntry {\nsc = (DeepClone) super.clone();\nint[] t = sc.getB();\nint[] b1 = new int[t.length];\nfor (int i = 0; i < b1.length; i++) {\nb1[i] = t[i];\n}\nsc.setB(b1);\n} catch (CloneNotSupportedException e) {\ne.printStackTrace();\n}\nreturn sc;\n}\npublic int getA() {\nreturn a;\n}\npublic void setA(int a) {\nthis.a = a;\n}\npublic int[] getB() {\nreturn b;\n}\npublic void setB(int[] b) {\nthis.b = b;\n}\n}\npublic class Example {\npublic static void main(String[] args) {\nDeepClone c1 = new DeepClone();\nc1.setA(100);\nc1.setB(new int[] { 1000 });\nSystem.out.println(\"克隆前c1:  a=\" + c1.getA() + \" b[0]=\" + c1.getB()[0]);\nDeepClone c2 = (DeepClone) c1.clone();\nc2.setA(50);\nint[] a = c2.getB();\na[0] = 5;\nc2.setB(a);\nSystem.out.println(\"克隆后c1:  a=\" + c1.getA() + \" b[0]=\" + c1.getB()[0]);\nSystem.out.println(\"克隆后c2:  a=\" + c2.getA() + \" b[0]=\" + c2.getB()[0]);\n}\n}",
+    "content" : "以下代码的执行结果是？\n```java\nclass DeepClone implements Cloneable {\nprivate int a;\nprivate int[] b;\n@Override\npublic Object clone() {\nDeepClone sc = null;\ntry {\nsc = (DeepClone) super.clone();\nint[] t = sc.getB();\nint[] b1 = new int[t.length];\nfor (int i = 0; i < b1.length; i++) {\nb1[i] = t[i];\n}\nsc.setB(b1);\n} catch (CloneNotSupportedException e) {\ne.printStackTrace();\n}\nreturn sc;\n}\npublic int getA() {\nreturn a;\n}\npublic void setA(int a) {\nthis.a = a;\n}\npublic int[] getB() {\nreturn b;\n}\npublic void setB(int[] b) {\nthis.b = b;\n}\n}\npublic class Example {\npublic static void main(String[] args) {\nDeepClone c1 = new DeepClone();\nc1.setA(100);\nc1.setB(new int[] { 1000 });\nSystem.out.println(\"克隆前c1:  a=\" + c1.getA() + \" b[0]=\" + c1.getB()[0]);\nDeepClone c2 = (DeepClone) c1.clone();\nc2.setA(50);\nint[] a = c2.getB();\na[0] = 5;\nc2.setB(a);\nSystem.out.println(\"克隆后c1:  a=\" + c1.getA() + \" b[0]=\" + c1.getB()[0]);\nSystem.out.println(\"克隆后c2:  a=\" + c2.getA() + \" b[0]=\" + c2.getB()[0]);\n}\n}\n```",
+
     "answer" : "",
     "explanation" : "克隆前c1:  a=100 b[0]=1000\n克隆后c1:  a=100 b[0]=1000\n克隆后c2:  a=50 b[0]=5\n自定义的深度克隆",
     "defaultScore" : 10,
@@ -7461,7 +7465,8 @@
     "type" : "SHORT_ANSWER",
     "chapter" : "综合题库",
     "difficulty" : "MEDIUM",
-    "content" : "基本数据类型，也称原始数据类型。byte,short,char,int,long,float,double,boolean\n他们之间的比较，应用双等号（==）,比较的是他们的值。\n2.复合数据类型(类)\n当他们用（==）进行比较的时候，比较的是他们在内存中的存放地址，所以，除非是同一个new出来的对象，他们的比较后的结果为true，否则比较后结果为false。 JAVA当中所有的类都是继承于Object这个基类的，在Object中的基类中定义了一个equals的方法，这个方法的初始行为是比较对象的内存地 址，但在一些类库当中这个方法被覆盖掉了，如String,Integer,Date在这些类当中equals有其自身的实现，而不再是比较类在堆内存中的存放地址了。\n对于复合数据类型之间进行equals比较，在没有覆写equals方法的情况下，他们之间的比较还是基于他们在内存中的存放位置的地址值的，因为Object的equals方法也是用双等号（==）进行比较的，所以比较后的结果跟双等号（==）的结果相同。\n101.String、StringBuffer、StringBuilder有什么区别？",
+    "content" : "基本数据类型，也称原始数据类型。byte,short,char,int,long,float,double,boolean\n他们之间的比较，应用双等号（==）,比较的是他们的值。\n2.复合数据类型(类)\n当他们用（==）进行比较的时候，比较的是他们在内存中的存放地址，所以，除非是同一个new出来的对象，他们的比较后的结果为true，否则比较后结果为false。 JAVA当中所有的类都是继承于Object这个基类的，在Object中的基类中定义了一个equals的方法，这个方法的初始行为是比较对象的内存地 址，但在一些类库当中这个方法被覆盖掉了，如String,Integer,Date在这些类当中equals有其自身的实现，而不再是比较类在堆内存中的存放地址了。\n对于复合数据类型之间进行equals比较，在没有覆写equals方法的情况下，他们之间的比较还是基于他们在内存中的存放位置的地址值的，因为Object的equals方法也是用双等号（==）进行比较的，所以比较后的结果跟双等号（==）的结果相同。\n```java\n101.String、StringBuffer、StringBuilder有什么区别？\n```",
+
     "answer" : "",
     "explanation" : "String类表示内容不可改变的字符串。\n而StringBuffer类表示内容可以被修改的字符串。当你知道字符数据要改变的时候你就可以使用StringBuffer。典型地，你可以使用StringBuffers来动态构造字符数据。\n另外，String实现了equals方法，new String(“abc”).equals(new String(“abc”)的结果为true,\n而StringBuffer没有实现equals方法，所以，new StringBuffer(“abc”).equals(new StringBuffer(“abc”)的结果为false。\nStringBuffer和StringBuilder类都表示内容可以被修改的字符串，StringBuilder是线程不安全的，运行效率高，如果一个字符串变量是在方法里面定义，这种情况只可能有一个线程访问它，不存在不安全的因素了，则用StringBuilder。\n如果要在类里面定义成员变量，并且这个类的实例对象会在多线程环境下使用，那么最好用StringBuffer。\n经典选择题",
     "defaultScore" : 10,
