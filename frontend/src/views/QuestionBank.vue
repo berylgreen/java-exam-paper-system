@@ -125,7 +125,7 @@
         <p v-if="detailQ.answerProjectPath" style="margin:12px 0; color:#67C23A; display:flex; align-items:center; gap:10px">
           <span><b>📁 答案工程：</b>{{ detailQ.answerProjectPath }}</span>
         </p>
-        <el-button type="primary" size="small" @click="downloadProject(detailQ.id)" style="margin-bottom: 12px;">
+        <el-button v-if="detailQ.projectPath || detailQ.answerProjectPath" type="primary" size="small" @click="downloadProject(detailQ.id)" style="margin-bottom: 12px;">
           <el-icon><Download /></el-icon> 下载工程
         </el-button>
         <div v-if="detailQ.options" style="margin:8px 0">
