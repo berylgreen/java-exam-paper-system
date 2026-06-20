@@ -7,7 +7,7 @@
 
     <template v-if="paper">
       <div v-for="(section, idx) in sections" :key="idx">
-        <div class="section-title">{{ sectionNum(idx) }}、{{ section.typeLabel }} (共{{ section.questions.length }}题，共{{ section.totalScore }}分)</div>
+        <div class="section-title">{{ sectionNum(idx) }}、{{ section.type === 'CODE_READING' ? section.typeLabel + ' （需要写出分析过程）' : section.typeLabel }} (共{{ section.questions.length }}题，共{{ section.totalScore }}分)</div>
         <div v-for="(pq, qi) in section.questions" :key="pq.question.id || qi" class="question-item"
              :draggable="allowReorder || allowEdit"
              @dragstart="onDragStart($event, pq, section.type, qi)"

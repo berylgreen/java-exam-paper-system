@@ -459,9 +459,10 @@ public class ExamPaperService {
 
                 // 大题标题
                 int sectionScore = questions.stream().mapToInt(PaperDTO.PaperQuestionDTO::getScore).sum();
+                String typeLabel = type == QuestionType.CODE_READING ? type.getLabel() + " （需要写出分析过程）" : type.getLabel();
                 String sectionTitle = String.format("%s、%s (共%d题，共%d分)",
                         sectionIdx < sectionNums.length ? sectionNums[sectionIdx] : String.valueOf(sectionIdx + 1),
-                        type.getLabel(), questions.size(), sectionScore);
+                        typeLabel, questions.size(), sectionScore);
                 Paragraph sectionPara = new Paragraph(sectionTitle, sectionFont);
                 sectionPara.setSpacingBefore(10);
                 sectionPara.setSpacingAfter(5);
@@ -1024,9 +1025,10 @@ public class ExamPaperService {
                 int sectionScore = questions.stream().mapToInt(PaperDTO.PaperQuestionDTO::getScore).sum();
                 XWPFParagraph sectionPara = doc.createParagraph();
                 XWPFRun sectionRun = sectionPara.createRun();
+                String typeLabel = type == QuestionType.CODE_READING ? type.getLabel() + " （需要写出分析过程）" : type.getLabel();
                 sectionRun.setText(String.format("%s、%s (共%d题，共%d分)",
                         sectionIdx < sectionNums.length ? sectionNums[sectionIdx] : String.valueOf(sectionIdx + 1),
-                        type.getLabel(), questions.size(), sectionScore));
+                        typeLabel, questions.size(), sectionScore));
                 sectionRun.setBold(true);
                 sectionRun.setFontSize(14);
                 sectionRun.setFontFamily("宋体");
