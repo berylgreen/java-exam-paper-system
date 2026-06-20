@@ -15,18 +15,19 @@ import java.util.List;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
 
-    /** 多条件分页查询 */
     @Query("SELECT q FROM Question q WHERE " +
            "(:type IS NULL OR q.type = :type) AND " +
            "(:chapterId IS NULL OR q.chapter.id = :chapterId) AND " +
            "(:difficulty IS NULL OR q.difficulty = :difficulty) AND " +
            "(:source IS NULL OR q.source = :source) AND " +
+           "(:favorite IS NULL OR (:favorite = true AND q.id IN (SELECT f.questionId FROM FavoriteQuestion f)) OR (:favorite = false AND q.id NOT IN (SELECT f.questionId FROM FavoriteQuestion f))) AND " +
            "(:keyword IS NULL OR :keyword = '' OR q.content LIKE CONCAT('%', :keyword, '%'))")
     Page<Question> findByFilters(
             @Param("type") QuestionType type,
             @Param("chapterId") Long chapterId,
             @Param("difficulty") Difficulty difficulty,
             @Param("source") String source,
+            @Param("favorite") Boolean favorite,
             @Param("keyword") String keyword,
             Pageable pageable);
 

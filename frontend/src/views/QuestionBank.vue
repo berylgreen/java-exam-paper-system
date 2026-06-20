@@ -71,6 +71,9 @@
       <el-select v-model="filter.source" placeholder="来源" clearable style="width:160px" @change="loadQ">
         <el-option v-for="s in sources" :key="s" :label="s" :value="s" />
       </el-select>
+      <el-select v-model="filter.favorite" placeholder="收藏" clearable style="width:110px" @change="loadQ">
+        <el-option label="已收藏" :value="true"/><el-option label="未收藏" :value="false"/>
+      </el-select>
     </div>
 
     <!-- 题目列表 -->
@@ -88,11 +91,19 @@
         <template #default="{row}"><el-tag size="small" :type="row.source==='课后习题原题'?'warning':'info'" effect="plain">{{ row.source || '未知' }}</el-tag></template>
       </el-table-column>
       <el-table-column label="题目内容" prop="content" min-width="250">
-        <template #default="{row}"><span style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.6">{{ row.content }}</span></template>
+        <template #default="{row}">
+          <span style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.6">
+            <el-icon v-if="row.favorite" style="color: #e6a23c; margin-right: 4px; vertical-align: middle;"><StarFilled /></el-icon>
+            {{ row.content }}
+          </span>
+        </template>
       </el-table-column>
       <el-table-column label="分值" prop="defaultScore" width="55" align="center"/>
-      <el-table-column label="操作" width="160" align="center">
+      <el-table-column label="操作" width="200" align="center">
         <template #default="{row}">
+          <el-button link :type="row.favorite ? 'warning' : 'info'" @click="toggleFav(row)" :title="row.favorite ? '取消收藏' : '加入收藏'">
+            <el-icon size="16"><StarFilled v-if="row.favorite" /><Star v-else /></el-icon>
+          </el-button>
           <el-button link type="primary" @click="viewQ(row)">查看</el-button>
           <el-button link type="warning" @click="editQ(row)">修改</el-button>
           <el-button link type="danger" @click="delQ(row.id)">删除</el-button>
@@ -201,7 +212,7 @@ const chapters = ref([])
 const sources = ref([])
 const stats = ref({})
 const activeStat = ref('source')
-const filter = reactive({ type: null, chapterId: null, difficulty: null, source: null, keyword: '' })
+const filter = reactive({ type: null, chapterId: null, difficulty: null, source: null, favorite: null, keyword: '' })
 const page = ref(1)
 const pageSize = 20
 const total = ref(0)
@@ -288,6 +299,20 @@ const delQ = async (id) => {
     if (e !== 'cancel' && e !== 'close') {
       ElMessage.error('删除失败: ' + (e.response?.data?.message || e.message))
     }
+  }
+}
+
+const toggleFav = async (row) => {
+  try {
+    const newFav = !row.favorite
+    await questionApi.toggleFavorite(row.id, newFav)
+    row.favorite = newFav
+    if (detailQ.value && detailQ.value.id === row.id) {
+      detailQ.value.favorite = newFav
+    }
+    ElMessage.success(newFav ? '已收藏' : '已取消收藏')
+  } catch (e) {
+    ElMessage.error('操作失败: ' + (e.response?.data?.message || e.message))
   }
 }
 

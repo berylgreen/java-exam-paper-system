@@ -22,4 +22,5 @@ public class QuestionDTO {
     private String source;
     private String projectPath;
     private String answerProjectPath;
+    private Boolean favorite;
 }

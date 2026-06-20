@@ -12,6 +12,7 @@ export const questionApi = {
     batchDelete: (ids) => api.delete('/questions/batch', { data: ids }),
     batchUpdateScore: (ids, score) => api.put('/questions/batch/score', { ids, score }),
     batchOptimize: (ids, prompt) => api.post('/questions/batch/optimize', { ids, prompt }),
+    toggleFavorite: (id, favorite) => api.put(`/questions/${id}/favorite?favorite=${favorite}`),
     chapters: () => api.get('/questions/chapters'),
     sources: () => api.get('/questions/sources'),
     stats: () => api.get('/questions/stats'),

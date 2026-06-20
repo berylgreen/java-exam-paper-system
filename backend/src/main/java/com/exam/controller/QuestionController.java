@@ -45,10 +45,11 @@ public class QuestionController {
             @RequestParam(value = "chapterId", required = false) Long chapterId,
             @RequestParam(value = "difficulty", required = false) Difficulty difficulty,
             @RequestParam(value = "source", required = false) String source,
+            @RequestParam(value = "favorite", required = false) Boolean favorite,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "20") int size) {
-        return questionService.findByFilters(type, chapterId, difficulty, source, keyword,
+        return questionService.findByFilters(type, chapterId, difficulty, source, favorite, keyword,
                 PageRequest.of(page, size, Sort.by("id")));
     }
 
@@ -101,6 +102,13 @@ public class QuestionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         questionService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    /** 切换收藏状态 */
+    @PutMapping("/{id}/favorite")
+    public ResponseEntity<Void> toggleFavorite(@PathVariable("id") Long id, @RequestParam("favorite") Boolean favorite) {
+        questionService.toggleFavorite(id, favorite);
         return ResponseEntity.ok().build();
     }
 

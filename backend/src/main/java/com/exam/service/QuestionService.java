@@ -6,8 +6,10 @@ import com.exam.enums.Difficulty;
 import com.exam.enums.QuestionType;
 import com.exam.repository.ChapterRepository;
 import com.exam.repository.ExamPaperRepository;
+import com.exam.repository.FavoriteQuestionRepository;
 import com.exam.repository.PaperQuestionRepository;
 import com.exam.repository.QuestionRepository;
+import com.exam.entity.FavoriteQuestion;
 import com.exam.config.MetadataConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,20 +34,33 @@ public class QuestionService {
     private final PaperQuestionRepository paperQuestionRepository;
     private final ExamPaperRepository examPaperRepository;
     private final ChapterRepository chapterRepository;
+    private final FavoriteQuestionRepository favoriteQuestionRepository;
     private final MetadataConfig metadataConfig;
 
     /** 分页条件查询 */
     public Page<QuestionDTO> findByFilters(QuestionType type, Long chapterId,
-                                           Difficulty difficulty, String source, String keyword, Pageable pageable) {
-        return questionRepository.findByFilters(type, chapterId, difficulty, source, keyword, pageable)
-                .map(this::toDTO);
+                                           Difficulty difficulty, String source, Boolean favorite, String keyword, Pageable pageable) {
+        Page<Question> page = questionRepository.findByFilters(type, chapterId, difficulty, source, favorite, keyword, pageable);
+        List<Long> qIds = page.getContent().stream().map(Question::getId).toList();
+        Set<Long> favIds = new HashSet<>();
+        if (!qIds.isEmpty()) {
+            favIds.addAll(favoriteQuestionRepository.findByQuestionIdIn(qIds).stream()
+                    .map(FavoriteQuestion::getQuestionId).toList());
+        }
+        return page.map(q -> {
+            QuestionDTO dto = toDTO(q);
+            dto.setFavorite(favIds.contains(q.getId()));
+            return dto;
+        });
     }
 
     /** 获取单题 */
     public QuestionDTO findById(Long id) {
-        return questionRepository.findById(id)
+        QuestionDTO dto = questionRepository.findById(id)
                 .map(this::toDTO)
                 .orElseThrow(() -> new RuntimeException("题目不存在: " + id));
+        dto.setFavorite(favoriteQuestionRepository.existsByQuestionId(id));
+        return dto;
     }
 
     /** 新增题目 */
@@ -76,12 +91,33 @@ public class QuestionService {
         return toDTO(questionRepository.save(q));
     }
 
+    /** 切换收藏状态 */
+    @Transactional
+    public void toggleFavorite(Long id, Boolean favorite) {
+        if (!questionRepository.existsById(id)) {
+            throw new RuntimeException("题目不存在: " + id);
+        }
+        boolean isFav = favorite != null ? favorite : false;
+        if (isFav) {
+            if (!favoriteQuestionRepository.existsByQuestionId(id)) {
+                FavoriteQuestion fq = FavoriteQuestion.builder()
+                        .questionId(id)
+                        .createTime(java.time.LocalDateTime.now())
+                        .build();
+                favoriteQuestionRepository.save(fq);
+            }
+        } else {
+            favoriteQuestionRepository.deleteByQuestionId(id);
+        }
+    }
+
     /** 删除题目（同时移除该题在所有试卷中的引用，并删除相关本地工程） */
     @Transactional
     public void delete(Long id) {
         questionRepository.findById(id).ifPresent(q -> {
             deleteProjectFiles(Collections.singletonList(q));
             paperQuestionRepository.deleteByQuestionId(id);
+            favoriteQuestionRepository.deleteByQuestionId(id);
             questionRepository.deleteById(id);
         });
     }
@@ -93,6 +129,9 @@ public class QuestionService {
         List<Question> questions = questionRepository.findAllById(ids);
         deleteProjectFiles(questions);
         paperQuestionRepository.deleteByQuestionIdIn(ids);
+        for (Long id : ids) {
+            favoriteQuestionRepository.deleteByQuestionId(id);
+        }
         questionRepository.deleteAllById(ids);
     }
 
@@ -194,9 +233,10 @@ public class QuestionService {
     /** 导入题目 (清空后批量导入) */
     @Transactional
     public Map<String, Object> importAll(List<QuestionDTO> dtos) {
-        // 导入新题库前，必须先清除关联的试卷题目和旧试卷，否则会违反外键约束
+        // 导入新题库前，必须先清除关联的试卷题目、旧试卷和收藏记录
         paperQuestionRepository.deleteAll();
         examPaperRepository.deleteAll();
+        favoriteQuestionRepository.deleteAll();
         
         questionRepository.deleteAll();
         
