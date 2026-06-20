@@ -137,6 +137,20 @@ public class ExamPaperController {
         }
     }
 
+    /** 重新排序试卷中的题目 */
+    @PutMapping("/{id}/reorder")
+    public ResponseEntity<Object> reorderQuestions(@PathVariable("id") Long id, @RequestBody ReorderRequest request) {
+        log.info("[API] PUT /api/papers/{}/reorder 开始", id);
+        try {
+            PaperDTO result = paperService.reorderQuestions(id, request);
+            log.info("[API] PUT /api/papers/{}/reorder 完成", id);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("[API] reorder 异常", e);
+            return ResponseEntity.status(500).body(java.util.Map.of("error", e.getMessage()));
+        }
+    }
+
     /** 导出试卷为 PDF/DOCX 或 ZIP */
     @GetMapping("/{id}/export")
     public ResponseEntity<byte[]> export(@PathVariable("id") Long id,

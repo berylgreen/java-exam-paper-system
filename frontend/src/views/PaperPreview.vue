@@ -12,7 +12,7 @@
     </div>
 
     <div v-loading="loading" class="paper-preview">
-      <PaperViewer v-if="paper" :paper="paper" :show-answer="showAnswer" allow-replace allow-edit @replace-question="handleReplace" @edit-question="handleEdit" />
+      <PaperViewer v-if="paper" :paper="paper" :show-answer="showAnswer" allow-replace allow-edit allow-reorder @replace-question="handleReplace" @edit-question="handleEdit" @reorder="handleReorder" />
     </div>
 
     <!-- 题目编辑对话框 -->
@@ -100,6 +100,23 @@ const handleReplace = async ({ oldPq, newQuestion }) => {
 const handleEdit = (question) => {
   editQuestionData.value = { ...question }
   showEditDialog.value = true
+}
+
+const handleReorder = async (newQuestions) => {
+  try {
+    const reqData = {
+      questions: newQuestions.map(pq => ({
+        questionId: pq.question.id,
+        questionOrder: pq.questionOrder
+      }))
+    }
+    await paperApi.reorderQuestions(route.params.id, reqData)
+    ElMessage.success('题序已自动保存')
+    await loadPaper()
+  } catch (e) {
+    ElMessage.error('保存题序失败: ' + (e.response?.data?.message || e.message))
+    await loadPaper() // 恢复原状
+  }
 }
 
 onMounted(() => {

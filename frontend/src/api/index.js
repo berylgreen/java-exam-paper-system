@@ -27,7 +27,6 @@ export const questionApi = {
     },
 }
 
-// ===== 试卷 API =====
 export const paperApi = {
     list: () => api.get('/papers'),
     getById: (id) => api.get(`/papers/${id}`),
@@ -38,6 +37,7 @@ export const paperApi = {
     delete: (id) => api.delete(`/papers/${id}`),
     batchDelete: (ids) => api.delete('/papers/batch', { data: ids }),
     replaceQuestion: (id, data) => api.put(`/papers/${id}/replace-question`, data),
+    reorderQuestions: (id, data) => api.put(`/papers/${id}/reorder`, data),
     exportUrl: (id, withAnswer = false, types = ['docx', 'pdf']) => `/api/papers/${id}/export?withAnswer=${withAnswer}&types=${types.join(',')}`,
 }
 

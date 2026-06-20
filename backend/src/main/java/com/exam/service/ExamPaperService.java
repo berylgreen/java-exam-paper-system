@@ -280,6 +280,27 @@ public class ExamPaperService {
         return toFullDTO(paper);
     }
 
+    /** 重新排序题目 */
+    @Transactional
+    public PaperDTO reorderQuestions(Long paperId, ReorderRequest req) {
+        ExamPaper paper = paperRepository.findById(paperId)
+                .orElseThrow(() -> new RuntimeException("试卷不存在: " + paperId));
+        
+        List<PaperQuestion> pqs = paperQuestionRepository.findByPaperIdOrderByQuestionOrderAsc(paperId);
+        if (req.getQuestions() != null) {
+            for (ReorderRequest.ReorderItem item : req.getQuestions()) {
+                pqs.stream()
+                   .filter(pq -> pq.getQuestion().getId().equals(item.getQuestionId()))
+                   .findFirst()
+                   .ifPresent(pq -> {
+                       pq.setQuestionOrder(item.getQuestionOrder());
+                       paperQuestionRepository.save(pq);
+                   });
+            }
+        }
+        return toFullDTO(paper);
+    }
+
     /** 导出试卷为 PDF/DOCX 文档或 ZIP 包 */
     @Transactional(readOnly = true)
     public ExportResult exportPaper(Long id, boolean withAnswer, List<String> types) throws IOException {

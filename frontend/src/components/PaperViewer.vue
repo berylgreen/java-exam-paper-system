@@ -8,8 +8,18 @@
     <template v-if="paper">
       <div v-for="(section, idx) in sections" :key="idx">
         <div class="section-title">{{ sectionNum(idx) }}、{{ section.typeLabel }} (共{{ section.questions.length }}题，共{{ section.totalScore }}分)</div>
-        <div v-for="(pq, qi) in section.questions" :key="pq.id || qi" class="question-item">
+        <div v-for="(pq, qi) in section.questions" :key="pq.question.id || qi" class="question-item"
+             :draggable="allowReorder || allowEdit"
+             @dragstart="onDragStart($event, pq, section.type, qi)"
+             @dragenter="onDragEnter($event, section.type, qi)"
+             @dragend="onDragEnd"
+             @dragover.prevent
+             @drop="onDrop($event, section.type, qi)"
+             :class="{ 'dragging': dragState.dragging && dragState.type === section.type && dragState.fromIndex === qi, 'drag-over': dragState.dragging && dragState.type === section.type && dragState.toIndex === qi && dragState.fromIndex !== qi }">
           <div class="question-content" style="display:flex;align-items:flex-start;">
+            <div v-if="allowReorder || allowEdit" class="drag-handle" style="cursor: grab; margin-right: 8px; color: #909399;">
+              <el-icon><Rank /></el-icon>
+            </div>
             <span style="margin-right: 4px;">{{ qi + 1 }}. ({{ pq.score }}分) </span>
             <div class="markdown-body" style="display:inline-block;flex:1;" v-html="renderMarkdown(pq.question.content)"></div>
             <div style="display: flex; gap: 8px; margin-left: 8px;">
@@ -106,6 +116,20 @@
   </div>
 </template>
 
+<style scoped>
+.question-item {
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+.question-item.dragging {
+  opacity: 0.5;
+  background-color: #f5f7fa;
+}
+.question-item.drag-over {
+  border-top: 2px dashed #409eff;
+}
+</style>
+
 <script setup>
 import { computed, ref, onMounted } from 'vue'
 import { marked } from 'marked'
@@ -117,7 +141,7 @@ const renderMarkdown = (text) => {
   return marked.parse(text)
 }
 
-const emit = defineEmits(['replace-question', 'edit-question'])
+const emit = defineEmits(['replace-question', 'edit-question', 'reorder'])
 
 const props = defineProps({
   paper: {
@@ -133,6 +157,10 @@ const props = defineProps({
     default: false
   },
   allowEdit: {
+    type: Boolean,
+    default: false
+  },
+  allowReorder: {
     type: Boolean,
     default: false
   },
@@ -174,6 +202,56 @@ const sections = computed(() => {
     totalScore: grouped[t].reduce((s, pq) => s + pq.score, 0)
   }))
 })
+
+// === 拖拽排序逻辑 ===
+const dragState = ref({
+  dragging: false,
+  pq: null,
+  type: null,
+  fromIndex: -1,
+  toIndex: -1
+})
+
+const onDragStart = (e, pq, type, index) => {
+  dragState.value = { dragging: true, pq, type, fromIndex: index, toIndex: index }
+  e.dataTransfer.effectAllowed = 'move'
+}
+
+const onDragEnter = (e, type, index) => {
+  if (!dragState.value.dragging || dragState.value.type !== type) return
+  dragState.value.toIndex = index
+}
+
+const onDragEnd = (e) => {
+  dragState.value.dragging = false
+}
+
+const onDrop = (e, type, index) => {
+  if (!dragState.value.dragging || dragState.value.type !== type) return
+  const from = dragState.value.fromIndex
+  const to = index
+  if (from !== to && from !== -1) {
+    const newQuestions = [...props.paper.questions]
+    const typeItems = newQuestions.filter(pq => pq.question.type === type)
+    const movedItem = typeItems.splice(from, 1)[0]
+    typeItems.splice(to, 0, movedItem)
+    
+    let typeIndex = 0
+    for (let i = 0; i < newQuestions.length; i++) {
+      if (newQuestions[i].question.type === type) {
+        newQuestions[i] = typeItems[typeIndex++]
+      }
+    }
+    
+    newQuestions.forEach((pq, i) => {
+      pq.questionOrder = i + 1
+    })
+    
+    props.paper.questions.splice(0, props.paper.questions.length, ...newQuestions)
+    emit('reorder', newQuestions)
+  }
+  dragState.value.dragging = false
+}
 
 // === 换题逻辑 ===
 const chapters = ref([])
