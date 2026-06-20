@@ -5,6 +5,7 @@
       <div style="display:flex;gap:10px">
         <el-button type="danger" @click="batchDelQ" :disabled="selectedIds.length === 0"><el-icon><Delete /></el-icon> 批量删除</el-button>
         <el-button type="warning" @click="batchUpdateScore" :disabled="selectedIds.length === 0"><el-icon><Edit /></el-icon> 批量改分</el-button>
+        <el-button type="primary" plain @click="batchOptimizeAction" :disabled="selectedIds.length === 0"><el-icon><MagicStick /></el-icon> 批量AI优化</el-button>
         <el-button type="success" @click="exportQ"><el-icon><Download /></el-icon> 导出题库</el-button>
         <el-button type="warning" @click="triggerImport"><el-icon><Upload /></el-icon> 导入题库</el-button>
         <input ref="importInput" type="file" accept=".json" style="display:none" @change="importQ" />
@@ -325,6 +326,36 @@ const batchUpdateScore = async () => {
   } catch (e) {
     if (e !== 'cancel' && e !== 'close') {
       ElMessage.error('批量修改分值失败: ' + (e?.response?.data?.message || e.message))
+    }
+  }
+}
+
+const batchOptimizeAction = async () => {
+  if (!selectedIds.value.length) return
+  try {
+    const { value: prompt } = await ElMessageBox.prompt(`为选中的 ${selectedIds.value.length} 道题目输入AI优化指令（如不填则使用默认指令）:`, '✨ 批量AI优化', {
+      confirmButtonText: '确定执行',
+      cancelButtonText: '取消',
+      inputPlaceholder: '请将题干表述更清晰，并补充更严谨的答案与解析',
+      inputValue: '请将题干表述更清晰，并补充更严谨的答案与解析'
+    })
+    const loadingInstance = ElMessage({
+      message: `正在批量优化 ${selectedIds.value.length} 道题目，请稍候...`,
+      type: 'info',
+      duration: 0
+    })
+    try {
+      await questionApi.batchOptimize(selectedIds.value, prompt)
+      loadingInstance.close()
+      ElMessage.success('批量AI优化成功')
+      loadQ()
+    } catch (apiError) {
+      loadingInstance.close()
+      throw apiError
+    }
+  } catch (e) {
+    if (e !== 'cancel' && e !== 'close') {
+      ElMessage.error('批量AI优化失败: ' + (e?.response?.data?.message || e.message))
     }
   }
 }

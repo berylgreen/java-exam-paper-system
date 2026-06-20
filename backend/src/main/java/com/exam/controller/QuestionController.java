@@ -114,10 +114,42 @@ public class QuestionController {
         public void setScore(Integer score) { this.score = score; }
     }
 
+    public static class BatchOptimizeRequest {
+        private List<Long> ids;
+        private String prompt;
+        public List<Long> getIds() { return ids; }
+        public void setIds(List<Long> ids) { this.ids = ids; }
+        public String getPrompt() { return prompt; }
+        public void setPrompt(String prompt) { this.prompt = prompt; }
+    }
+
     /** 批量修改分值 */
     @PutMapping("/batch/score")
     public ResponseEntity<Void> batchUpdateScore(@RequestBody BatchScoreRequest request) {
         questionService.batchUpdateScore(request.getIds(), request.getScore());
+        return ResponseEntity.ok().build();
+    }
+
+    /** 批量 AI 优化 */
+    @PostMapping("/batch/optimize")
+    public ResponseEntity<Void> batchOptimize(@RequestBody BatchOptimizeRequest request) {
+        String prompt = request.getPrompt();
+        if (prompt == null || prompt.trim().isEmpty()) {
+            prompt = "请将题干表述更清晰，并补充更严谨的答案与解析";
+        }
+        for (Long id : request.getIds()) {
+            try {
+                QuestionDTO original = questionService.findById(id);
+                QuestionOptimizeRequest req = new QuestionOptimizeRequest();
+                req.setQuestion(original);
+                req.setPrompt(prompt);
+                QuestionOptimizeResponse res = questionOptimizationService.optimizePreview(req);
+                questionService.update(id, res.getOptimizedQuestion());
+            } catch (Exception e) {
+                // 忽略单题的优化失败，继续下一个
+                e.printStackTrace();
+            }
+        }
         return ResponseEntity.ok().build();
     }
 
