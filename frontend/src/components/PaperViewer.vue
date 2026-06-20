@@ -71,12 +71,19 @@
           <el-option label="中等" value="MEDIUM" />
           <el-option label="困难" value="HARD" />
         </el-select>
+        <el-select v-model="replaceDialog.searchForm.favorite" placeholder="筛选收藏" clearable size="small" style="width: 110px" @change="onFilterChange">
+          <el-option label="已收藏" :value="true" />
+          <el-option label="未收藏" :value="false" />
+        </el-select>
       </div>
       
       <el-table :data="replaceDialog.candidates" v-loading="replaceDialog.loading" max-height="500px">
         <el-table-column label="题目内容" min-width="300">
           <template #default="{ row }">
-            <div class="markdown-body" v-html="renderMarkdown(row.content)"></div>
+            <div style="display:flex;">
+              <el-icon v-if="row.favorite" style="color: #e6a23c; margin-right: 4px; margin-top: 4px;"><StarFilled /></el-icon>
+              <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(row.content)"></div>
+            </div>
             <div v-if="row.options" style="margin-top: 8px; color: #666; font-size: 13px;">
               <span v-for="opt in parseOpts(row.options)" :key="opt.label" style="margin-right: 12px;">{{ opt.label }}. {{ opt.text }}</span>
             </div>
@@ -265,6 +272,7 @@ const replaceDialog = ref({
   searchForm: {
     chapterId: null,
     difficulty: '',
+    favorite: null,
     page: 1,
     size: 10
   }
@@ -277,6 +285,7 @@ const openReplaceDialog = async (pq) => {
   const chapterObj = chapters.value.find(c => c.name === chapterName)
   replaceDialog.value.searchForm.chapterId = chapterObj ? chapterObj.id : null
   replaceDialog.value.searchForm.difficulty = pq.question.difficulty || ''
+  replaceDialog.value.searchForm.favorite = null
   replaceDialog.value.searchForm.page = 1
   replaceDialog.value.visible = true
   await searchAlternatives()
@@ -289,6 +298,7 @@ const searchAlternatives = async () => {
       type: replaceDialog.value.targetType,
       chapterId: replaceDialog.value.searchForm.chapterId || undefined,
       difficulty: replaceDialog.value.searchForm.difficulty || undefined,
+      favorite: replaceDialog.value.searchForm.favorite !== null && replaceDialog.value.searchForm.favorite !== '' ? replaceDialog.value.searchForm.favorite : undefined,
       page: replaceDialog.value.searchForm.page - 1, // 后端分页从0开始
       size: replaceDialog.value.searchForm.size
     })
