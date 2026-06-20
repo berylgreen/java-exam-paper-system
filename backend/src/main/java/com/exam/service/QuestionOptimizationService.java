@@ -66,21 +66,27 @@ public class QuestionOptimizationService {
         if (request == null || request.getAnswerText() == null || request.getAnswerProjectPath() == null) {
             throw new RuntimeException("参数不能为空");
         }
+        return syncTextToProject(request.getAnswerText(), request.getAnswerProjectPath(), "标准答案");
+    }
+
+    public SyncAnswerResponse syncTextToProject(String text, String projectPathStr, String textType) {
+        if (text == null || text.isBlank() || projectPathStr == null || projectPathStr.isBlank()) {
+            return new SyncAnswerResponse();
+        }
         
-        String initialPathStr = request.getAnswerProjectPath().trim();
+        String initialPathStr = projectPathStr.trim();
         Path initialPath = Paths.get(initialPathStr);
         if (!initialPath.isAbsolute()) {
             initialPath = Paths.get(System.getProperty("user.dir")).getParent().resolve(initialPath).normalize();
         }
         final Path projectPath = initialPath;
-        String projectPathStr = projectPath.toString();
+        String absProjectPathStr = projectPath.toString();
         
         if (!Files.exists(projectPath)) {
-            // Option to create dir if it doesn't exist, but maybe we just proceed or create.
             try {
                 Files.createDirectories(projectPath);
             } catch (Exception e) {
-                throw new RuntimeException("无法创建目标工程目录: " + projectPathStr);
+                throw new RuntimeException("无法创建目标工程目录: " + absProjectPathStr);
             }
         }
         
@@ -94,14 +100,18 @@ public class QuestionOptimizationService {
             structure.append("(无现有Java文件或读取失败)");
         }
 
-        String prompt = "你是一个代码同步助手。以下是一道题目标准答案的文本，其中可能包含Java代码（如markdown标记）。\n"
-                + "目标工程路径: " + projectPathStr + "\n"
+        String prompt = "你是一个代码同步助手。以下是一道题目的" + textType + "文本，其中可能包含Java代码（如markdown标记）。\n"
+                + "目标工程路径: " + absProjectPathStr + "\n"
                 + "该目录下已有的Java文件结构:\n" + structure.toString() + "\n\n"
                 + "请剥离说明性文字，提取纯正的Java代码。并结合目标工程路径，推理出代码应该存放的完整绝对路径。\n"
+                + "【重要警告】：\n"
+                + "1. Java代码（.java文件）必须放在正确的源码包目录下（例如 src/main/java/... 或 src/...），请参考现有的文件结构来推断存放路径。\n"
+                + "2. 即使代码片段中没有 package 声明，也绝对不允许将 .java 文件直接存放在工程的根目录下！\n"
+                + "3. 如果已有同名文件在 src 深层目录中，请覆盖对应的文件。\n"
                 + "返回严格的JSON数组格式，最外层不要```json标记。\n"
                 + "结构要求：\n[\n  {\"filePath\": \"绝对路径\", \"content\": \"纯Java代码\"}\n]";
 
-        AiResponse aiResponse = callAiForSync(request.getAnswerText(), prompt);
+        AiResponse aiResponse = callAiForSync(text, prompt);
         
         // Parse the raw content returned by AI, which should be the JSON array
         List<String> updatedFiles = new ArrayList<>();

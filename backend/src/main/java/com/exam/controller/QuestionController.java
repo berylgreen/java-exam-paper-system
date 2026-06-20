@@ -12,6 +12,7 @@ import com.exam.service.QuestionService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,6 +28,7 @@ import java.util.Map;
 /**
  * 题目管理 API
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/questions")
 @RequiredArgsConstructor
@@ -82,7 +84,11 @@ public class QuestionController {
         req.setQuestion(original);
         req.setPrompt(payload.getOrDefault("prompt", "请将题干表述更清晰，并补充更严谨的答案与解析"));
         QuestionOptimizeResponse res = questionOptimizationService.optimizePreview(req);
-        return questionService.update(id, res.getOptimizedQuestion());
+        QuestionDTO optimized = res.getOptimizedQuestion();
+        autoSyncProjects(optimized);
+        QuestionDTO updated = questionService.update(id, optimized);
+        log.info("单题 AI 优化成功，题目ID: {}", id);
+        return updated;
     }
 
     /** 同步答案到目标工程 */
@@ -144,13 +150,41 @@ public class QuestionController {
                 req.setQuestion(original);
                 req.setPrompt(prompt);
                 QuestionOptimizeResponse res = questionOptimizationService.optimizePreview(req);
-                questionService.update(id, res.getOptimizedQuestion());
+                QuestionDTO optimized = res.getOptimizedQuestion();
+                autoSyncProjects(optimized);
+                questionService.update(id, optimized);
+                log.info("批量优化单题成功，题目ID: {}", id);
             } catch (Exception e) {
                 // 忽略单题的优化失败，继续下一个
-                e.printStackTrace();
+                log.error("批量优化单题失败，题目ID: {}", id, e);
+            }
+            try {
+                // 增加延时，防止触发第三方 AI 接口的速率限制 (Rate Limit) 或并发限制
+                Thread.sleep(1500);
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
             }
         }
         return ResponseEntity.ok().build();
+    }
+
+    private void autoSyncProjects(QuestionDTO optimized) {
+        if (optimized.getProjectPath() != null && !optimized.getProjectPath().isBlank() &&
+            optimized.getContent() != null && !optimized.getContent().isBlank()) {
+            try {
+                questionOptimizationService.syncTextToProject(optimized.getContent(), optimized.getProjectPath(), "题干");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (optimized.getAnswerProjectPath() != null && !optimized.getAnswerProjectPath().isBlank() &&
+            optimized.getAnswer() != null && !optimized.getAnswer().isBlank()) {
+            try {
+                questionOptimizationService.syncTextToProject(optimized.getAnswer(), optimized.getAnswerProjectPath(), "标准答案");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /** 下载题目的关联工程 ZIP */
