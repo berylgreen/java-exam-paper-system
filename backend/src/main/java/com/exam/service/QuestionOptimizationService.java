@@ -46,7 +46,8 @@ public class QuestionOptimizationService {
         validateRequest(request);
 
         QuestionDTO original = request.getQuestion();
-        AiResponse aiResponse = callAi(original, request.getPrompt().trim());
+        String projectCode = readProjectCode(original.getProjectPath());
+        AiResponse aiResponse = callAi(original, request.getPrompt().trim(), projectCode);
 
         QuestionDTO optimized = copyQuestion(original);
         optimized.setContent(readText(aiResponse.content(), original.getContent()));
@@ -57,9 +58,55 @@ public class QuestionOptimizationService {
             optimized.setOptions(serializeOptions(aiResponse.options()));
         }
 
+        List<String> updatedFiles = new ArrayList<>();
+        if (aiResponse.projectFiles() != null && !aiResponse.projectFiles().isEmpty() && original.getProjectPath() != null) {
+            Path projectPath = Paths.get(original.getProjectPath().trim());
+            if (!projectPath.isAbsolute()) {
+                projectPath = Paths.get(System.getProperty("user.dir")).getParent().resolve(projectPath).normalize();
+            }
+            for (ProjectFileItem pf : aiResponse.projectFiles()) {
+                try {
+                    Path targetPath = projectPath.resolve(pf.filePath());
+                    Files.createDirectories(targetPath.getParent());
+                    Files.writeString(targetPath, pf.content());
+                    updatedFiles.add(targetPath.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         QuestionOptimizeResponse response = new QuestionOptimizeResponse();
         response.setOptimizedQuestion(optimized);
+        response.setUpdatedProjectFiles(updatedFiles);
         return response;
+    }
+
+    private String readProjectCode(String projectPathStr) {
+        if (projectPathStr == null || projectPathStr.isBlank()) return "";
+        Path projectPath = Paths.get(projectPathStr.trim());
+        if (!projectPath.isAbsolute()) {
+            projectPath = Paths.get(System.getProperty("user.dir")).getParent().resolve(projectPath).normalize();
+        }
+        if (!Files.exists(projectPath)) return "";
+
+        StringBuilder code = new StringBuilder();
+        final Path finalProjectPath = projectPath;
+        try (Stream<Path> paths = Files.walk(finalProjectPath, 3)) {
+            paths.filter(Files::isRegularFile)
+                 .filter(p -> p.toString().endsWith(".java"))
+                 .forEach(p -> {
+                     try {
+                         code.append("--- File: ").append(finalProjectPath.relativize(p)).append(" ---\n");
+                         code.append(Files.readString(p)).append("\n\n");
+                     } catch (Exception e) {
+                         // ignore
+                     }
+                 });
+        } catch (Exception e) {
+            return "";
+        }
+        return code.toString();
     }
 
     public SyncAnswerResponse syncAnswerToProject(SyncAnswerRequest request) {
@@ -201,7 +248,7 @@ public class QuestionOptimizationService {
             if (content == null || content.isBlank()) {
                 throw new RuntimeException("AI 返回内容为空");
             }
-            return new AiResponse(content, null, null, null);
+            return new AiResponse(content, null, null, null, null);
         } catch (Exception e) {
             throw new RuntimeException("解析AI响应失败", e);
         }
@@ -225,7 +272,7 @@ public class QuestionOptimizationService {
         }
     }
 
-    private AiResponse callAi(QuestionDTO question, String prompt) {
+    private AiResponse callAi(QuestionDTO question, String prompt, String projectCode) {
         RestTemplate restTemplate = getRestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -238,7 +285,7 @@ public class QuestionOptimizationService {
         body.put("response_format", Map.of("type", "json_object"));
         body.put("messages", List.of(
                 Map.of("role", "system", "content", buildSystemPrompt()),
-                Map.of("role", "user", "content", buildUserPrompt(question, prompt))
+                Map.of("role", "user", "content", buildUserPrompt(question, prompt, projectCode))
         ));
 
         String jsonBody;
@@ -281,18 +328,23 @@ public class QuestionOptimizationService {
 
     private String buildSystemPrompt() {
         return "你是一名 Java 程序设计基础课程命题优化助手。"
-                + "请根据用户给定的题目与优化要求，只优化题干、答案、解析，以及选择题选项。"
+                + "请根据用户给定的题目与优化要求，优化题干、答案、解析，以及选择题选项。"
+                + "如果用户传入了 projectCode (当前代码工程的内容)，请结合题目和优化要求，判断是否需要修改代码工程中的代码。"
+                + "如果需要修改，请将修改后的完整文件内容放入 projectFiles 数组中。如果不需要修改代码，可以省略 projectFiles 字段或返回空数组。"
                 + "不要修改题型、章节、难度、来源、分值、工程路径等元数据。"
                 + "必须只返回 JSON，最外层不要使用 ```json 这样的 Markdown 标记，也不要包含任何额外的说明文字。"
                 + "注意：在 JSON 内部的 answer 和 explanation 字段中，如果涉及代码展示，请务必保留或使用 Markdown 格式（如 ```java 等代码块标记）进行排版。"
-                + "JSON 结构必须为 {\"content\":string,\"answer\":string,\"explanation\":string,\"options\":[{\"label\":string,\"text\":string}]}。"
+                + "JSON 结构必须为 {\"content\":string,\"answer\":string,\"explanation\":string,\"options\":[{\"label\":string,\"text\":string}], \"projectFiles\":[{\"filePath\":\"相对路径\",\"content\":\"完整的Java代码\"}]}。"
                 + "如果不是单选题或多选题，可省略 options 字段或返回 null。";
     }
 
-    private String buildUserPrompt(QuestionDTO question, String prompt) {
+    private String buildUserPrompt(QuestionDTO question, String prompt, String projectCode) {
         Map<String, Object> payload = new LinkedHashMap<>();
         payload.put("prompt", prompt);
         payload.put("question", question);
+        if (projectCode != null && !projectCode.isEmpty()) {
+            payload.put("projectCode", projectCode);
+        }
         try {
             return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(payload);
         } catch (JsonProcessingException e) {
@@ -317,11 +369,17 @@ public class QuestionOptimizationService {
             if (optionsNode != null && !optionsNode.isNull()) {
                 options = parseOptions(optionsNode);
             }
+            List<ProjectFileItem> projectFiles = null;
+            JsonNode filesNode = node.get("projectFiles");
+            if (filesNode != null && filesNode.isArray()) {
+                projectFiles = parseProjectFiles(filesNode);
+            }
             return new AiResponse(
                     node.path("content").asText(null),
                     node.path("answer").asText(null),
                     node.path("explanation").asText(null),
-                    options
+                    options,
+                    projectFiles
             );
         } catch (RuntimeException e) {
             throw e;
@@ -441,6 +499,18 @@ public class QuestionOptimizationService {
         return options;
     }
 
+    private List<ProjectFileItem> parseProjectFiles(JsonNode filesNode) {
+        List<ProjectFileItem> list = new ArrayList<>();
+        for (JsonNode item : filesNode) {
+            String path = item.path("filePath").asText(null);
+            String content = item.path("content").asText(null);
+            if (path != null && !path.isBlank() && content != null && !content.isBlank()) {
+                list.add(new ProjectFileItem(path.trim(), content));
+            }
+        }
+        return list;
+    }
+
     private String serializeOptions(List<OptionItem> options) {
         try {
             List<Map<String, String>> normalized = new ArrayList<>();
@@ -485,9 +555,12 @@ public class QuestionOptimizationService {
         return baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
     }
 
-    private record AiResponse(String content, String answer, String explanation, List<OptionItem> options) {
+    private record AiResponse(String content, String answer, String explanation, List<OptionItem> options, List<ProjectFileItem> projectFiles) {
     }
 
     private record OptionItem(String label, String text) {
+    }
+
+    private record ProjectFileItem(String filePath, String content) {
     }
 }
