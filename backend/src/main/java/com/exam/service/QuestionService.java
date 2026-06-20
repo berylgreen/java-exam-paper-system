@@ -14,7 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileSystemUtils;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -72,19 +74,44 @@ public class QuestionService {
         return toDTO(questionRepository.save(q));
     }
 
-    /** 删除题目（同时移除该题在所有试卷中的引用） */
+    /** 删除题目（同时移除该题在所有试卷中的引用，并删除相关本地工程） */
     @Transactional
     public void delete(Long id) {
-        paperQuestionRepository.deleteByQuestionId(id);
-        questionRepository.deleteById(id);
+        questionRepository.findById(id).ifPresent(q -> {
+            deleteProjectFiles(Collections.singletonList(q));
+            paperQuestionRepository.deleteByQuestionId(id);
+            questionRepository.deleteById(id);
+        });
     }
 
-    /** 批量删除题目 */
+    /** 批量删除题目（并删除相关本地工程） */
     @Transactional
     public void deleteBatch(List<Long> ids) {
         if (ids == null || ids.isEmpty()) return;
+        List<Question> questions = questionRepository.findAllById(ids);
+        deleteProjectFiles(questions);
         paperQuestionRepository.deleteByQuestionIdIn(ids);
         questionRepository.deleteAllById(ids);
+    }
+
+    /** 删除题目对应的工程文件 */
+    private void deleteProjectFiles(List<Question> questions) {
+        for (Question q : questions) {
+            if (q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty()) {
+                try {
+                    FileSystemUtils.deleteRecursively(new File(q.getProjectPath()));
+                } catch (Exception e) {
+                    System.err.println("Failed to delete project path: " + q.getProjectPath());
+                }
+            }
+            if (q.getAnswerProjectPath() != null && !q.getAnswerProjectPath().trim().isEmpty()) {
+                try {
+                    FileSystemUtils.deleteRecursively(new File(q.getAnswerProjectPath()));
+                } catch (Exception e) {
+                    System.err.println("Failed to delete answer project path: " + q.getAnswerProjectPath());
+                }
+            }
+        }
     }
 
     /** 批量修改分值 */
