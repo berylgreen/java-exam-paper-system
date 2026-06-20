@@ -12,5 +12,5 @@ public class AiProperties {
     private String baseUrl;
     private String apiKey;
     private String model = "gpt-5.4";
-    private long timeout = 30000;
+    private long timeout = 60000;
 }

@@ -1,16 +1,15 @@
 package com.exam.service;
 
-import com.exam.config.AiProperties;
+
 import com.exam.dto.QuestionDTO;
 import com.exam.dto.QuestionOptimizeRequest;
 import com.exam.dto.QuestionOptimizeResponse;
 import com.exam.enums.QuestionType;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
@@ -25,27 +24,20 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("test")
 class QuestionOptimizationServiceTest {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private AiProperties aiProperties;
+    @Autowired
     private QuestionOptimizationService service;
+
     private MockRestServiceServer server;
 
     @BeforeEach
     void setUp() {
-        aiProperties = new AiProperties();
-        aiProperties.setBaseUrl("http://localhost:1879/v1");
-        aiProperties.setApiKey("test-key");
-        aiProperties.setModel("gpt-5.4");
-        aiProperties.setTimeout(30000);
-
         RestTemplate restTemplate = new RestTemplate();
         server = MockRestServiceServer.bindTo(restTemplate).build();
 
-        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
-        service = new QuestionOptimizationService(objectMapper, aiProperties, restTemplateBuilder);
         org.springframework.test.util.ReflectionTestUtils.setField(service, "restTemplate", restTemplate);
     }
 
