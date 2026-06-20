@@ -329,8 +329,11 @@ public class ExamPaperService {
             originalWordBytes = generateWordBytes(paper, false, projectPaths);
         }
 
-        // 如果只选了一种格式，且没有答案版，且没有工程代码，则直接返回单文件
-        if (!withAnswer && projectPaths.isEmpty()) {
+        byte[] answerSheetBytes = generateAnswerSheetBytes(paper);
+        boolean hasAnswerSheet = (answerSheetBytes != null);
+
+        // 如果只选了一种格式，且没有答案版，且没有工程代码，且没有答题纸，则直接返回单文件
+        if (!withAnswer && projectPaths.isEmpty() && !hasAnswerSheet) {
             if (exportPdf && !exportDocx) {
                 return new ExportResult("试卷_" + id + ".pdf", "application/pdf", originalPdfBytes);
             }
@@ -401,10 +404,50 @@ public class ExamPaperService {
                     System.err.println("打包答案工程失败: " + answerProjectPath);
                 }
             }
+
+            // 写入答题纸
+            if (hasAnswerSheet) {
+                java.util.zip.ZipEntry sheetEntry = new java.util.zip.ZipEntry("试卷_" + id + "_答题纸.docx");
+                zos.putNextEntry(sheetEntry);
+                zos.write(answerSheetBytes);
+                zos.closeEntry();
+            }
         }
 
         String zipFilename = "试卷_" + id + (withAnswer ? "_含答案" : "") + (projectPaths.isEmpty() && answerProjectPaths.isEmpty() ? "" : "_含代码工程") + ".zip";
         return new ExportResult(zipFilename, "application/zip", zipBaos.toByteArray());
+    }
+
+    private byte[] generateAnswerSheetBytes(PaperDTO paper) {
+        try {
+            org.springframework.core.io.Resource resource = new org.springframework.core.io.ClassPathResource("学号_姓名_答题纸A卷.docx");
+            if (!resource.exists()) {
+                return null;
+            }
+            try (java.io.InputStream is = resource.getInputStream();
+                 XWPFDocument doc = new XWPFDocument(is)) {
+                 
+                // 尝试将模板中的标题替换为试卷的标题
+                for (XWPFParagraph p : doc.getParagraphs()) {
+                    String text = p.getText();
+                    if (text != null && text.contains("答题纸")) {
+                        for (XWPFRun run : p.getRuns()) {
+                            String runText = run.getText(0);
+                            if (runText != null && runText.contains("JAVA程序设计机考试卷答题纸（A卷）")) {
+                                run.setText(runText.replace("JAVA程序设计机考试卷答题纸（A卷）", paper.getTitle() + "答题纸"), 0);
+                            }
+                        }
+                    }
+                }
+                
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                doc.write(out);
+                return out.toByteArray();
+            }
+        } catch (Exception e) {
+            System.err.println("读取答题纸模板失败: " + e.getMessage());
+            return null;
+        }
     }
 
     private byte[] generatePdfBytes(PaperDTO paper, boolean withAnswer, Set<String> projectPaths) throws IOException {
