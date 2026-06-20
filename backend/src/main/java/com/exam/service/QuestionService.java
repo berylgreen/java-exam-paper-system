@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.FileSystemUtils;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -99,14 +101,18 @@ public class QuestionService {
         for (Question q : questions) {
             if (q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty()) {
                 try {
-                    FileSystemUtils.deleteRecursively(new File(q.getProjectPath()));
+                    Path p = Paths.get(q.getProjectPath().trim());
+                    if (!p.isAbsolute()) p = Paths.get(System.getProperty("user.dir")).getParent().resolve(p).normalize();
+                    FileSystemUtils.deleteRecursively(p.toFile());
                 } catch (Exception e) {
                     System.err.println("Failed to delete project path: " + q.getProjectPath());
                 }
             }
             if (q.getAnswerProjectPath() != null && !q.getAnswerProjectPath().trim().isEmpty()) {
                 try {
-                    FileSystemUtils.deleteRecursively(new File(q.getAnswerProjectPath()));
+                    Path p = Paths.get(q.getAnswerProjectPath().trim());
+                    if (!p.isAbsolute()) p = Paths.get(System.getProperty("user.dir")).getParent().resolve(p).normalize();
+                    FileSystemUtils.deleteRecursively(p.toFile());
                 } catch (Exception e) {
                     System.err.println("Failed to delete answer project path: " + q.getAnswerProjectPath());
                 }
