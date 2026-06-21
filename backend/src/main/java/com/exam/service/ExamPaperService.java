@@ -340,7 +340,7 @@ public class ExamPaperService {
         }
 
         byte[] answerSheetBytes = null;
-        String answerSheetFilename = "试卷_" + id + "_答题纸.docx";
+        String answerSheetFilename = paper.getTitle() + "答题纸.docx";
         
         if ("generate".equals(answerSheetType)) {
             answerSheetBytes = generateAnswerSheetBytes(paper);
@@ -356,7 +356,7 @@ public class ExamPaperService {
                     }
                     answerSheetBytes = baos.toByteArray();
                 }
-                answerSheetFilename = "试卷_" + id + "_空白答题纸模板.docx";
+                answerSheetFilename = paper.getTitle() + "空白答题纸模板.docx";
             }
         }
         
@@ -365,10 +365,10 @@ public class ExamPaperService {
         // 如果只选了一种格式，且没有答案版，且没有工程代码，且没有答题纸，则直接返回单文件
         if (!withAnswer && projectPaths.isEmpty() && !hasAnswerSheet) {
             if (exportPdf && !exportDocx) {
-                return new ExportResult("试卷_" + id + ".pdf", "application/pdf", originalPdfBytes);
+                return new ExportResult(paper.getTitle() + ".pdf", "application/pdf", originalPdfBytes);
             }
             if (exportDocx && !exportPdf) {
-                return new ExportResult("试卷_" + id + ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", originalWordBytes);
+                return new ExportResult(paper.getTitle() + ".docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", originalWordBytes);
             }
         }
 
@@ -376,7 +376,7 @@ public class ExamPaperService {
         ByteArrayOutputStream zipBaos = new ByteArrayOutputStream();
         try (java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(zipBaos)) {
             if (exportPdf) {
-                java.util.zip.ZipEntry pdfEntry = new java.util.zip.ZipEntry("试卷_" + id + ".pdf");
+                java.util.zip.ZipEntry pdfEntry = new java.util.zip.ZipEntry(paper.getTitle() + ".pdf");
                 zos.putNextEntry(pdfEntry);
                 zos.write(originalPdfBytes);
                 zos.closeEntry();
@@ -384,7 +384,7 @@ public class ExamPaperService {
                 if (withAnswer) {
                     Set<String> dummyPaths = new HashSet<>();
                     byte[] answerPdfBytes = generatePdfBytes(paper, true, dummyPaths);
-                    java.util.zip.ZipEntry answerPdfEntry = new java.util.zip.ZipEntry("试卷_" + id + "_答案版.pdf");
+                    java.util.zip.ZipEntry answerPdfEntry = new java.util.zip.ZipEntry(paper.getTitle() + "_答案版.pdf");
                     zos.putNextEntry(answerPdfEntry);
                     zos.write(answerPdfBytes);
                     zos.closeEntry();
@@ -392,7 +392,7 @@ public class ExamPaperService {
             }
 
             if (exportDocx) {
-                java.util.zip.ZipEntry docxEntry = new java.util.zip.ZipEntry("试卷_" + id + ".docx");
+                java.util.zip.ZipEntry docxEntry = new java.util.zip.ZipEntry(paper.getTitle() + ".docx");
                 zos.putNextEntry(docxEntry);
                 zos.write(originalWordBytes);
                 zos.closeEntry();
@@ -400,7 +400,7 @@ public class ExamPaperService {
                 if (withAnswer) {
                     Set<String> dummyPaths = new HashSet<>();
                     byte[] answerWordBytes = generateWordBytes(paper, true, dummyPaths);
-                    java.util.zip.ZipEntry answerDocxEntry = new java.util.zip.ZipEntry("试卷_" + id + "_答案版.docx");
+                    java.util.zip.ZipEntry answerDocxEntry = new java.util.zip.ZipEntry(paper.getTitle() + "_答案版.docx");
                     zos.putNextEntry(answerDocxEntry);
                     zos.write(answerWordBytes);
                     zos.closeEntry();
@@ -444,7 +444,7 @@ public class ExamPaperService {
             }
         }
 
-        String zipFilename = "试卷_" + id + (withAnswer ? "_含答案" : "") + (projectPaths.isEmpty() && answerProjectPaths.isEmpty() ? "" : "_含代码工程") + ".zip";
+        String zipFilename = paper.getTitle() + (withAnswer ? "_含答案" : "") + (projectPaths.isEmpty() && answerProjectPaths.isEmpty() ? "" : "_含代码工程") + ".zip";
         return new ExportResult(zipFilename, "application/zip", zipBaos.toByteArray());
     }
 
