@@ -130,6 +130,14 @@
           <b style="white-space:nowrap;margin-right:4px;">题目：</b>
           <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(detailQ.content)"></div>
         </div>
+        <p v-if="detailQ.projectPath" style="margin:12px 0; color:#409EFF; display:flex; align-items:center; gap:10px">
+          <span><b>📁 题目工程：</b><a href="javascript:void(0)" @click="downloadProject(detailQ.id, 'project')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载工程">{{ detailQ.projectPath }}</a></span>
+        </p>
+
+        <p v-if="detailQ.answerProjectPath" style="margin:12px 0; color:#67C23A; display:flex; align-items:center; gap:10px">
+          <span><b>📁 答案工程：</b><a href="javascript:void(0)" @click="downloadProject(detailQ.id, 'answer')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载答案工程">{{ detailQ.answerProjectPath }}</a></span>
+        </p>
+
         <!-- 题目代码展示区 -->
         <div v-if="projectCodes && Object.keys(projectCodes).length > 0" style="margin: 12px 0;">
           <b style="color: #409EFF; display: block; margin-bottom: 8px;">题目代码：</b>
@@ -138,14 +146,6 @@
             <pre style="margin: 0; padding: 12px; background: #f5f7fa; border: 1px solid #d9ecff; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; font-size: 13px; overflow-x: auto;"><code>{{ code }}</code></pre>
           </div>
         </div>
-
-        <p v-if="detailQ.projectPath" style="margin:12px 0; color:#409EFF; display:flex; align-items:center; gap:10px">
-          <span><b>📁 题目工程：</b><a href="javascript:void(0)" @click="downloadProject(detailQ.id, 'project')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载工程">{{ detailQ.projectPath }}</a></span>
-        </p>
-
-        <p v-if="detailQ.answerProjectPath" style="margin:12px 0; color:#67C23A; display:flex; align-items:center; gap:10px">
-          <span><b>📁 答案工程：</b><a href="javascript:void(0)" @click="downloadProject(detailQ.id, 'answer')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载答案工程">{{ detailQ.answerProjectPath }}</a></span>
-        </p>
         <div v-if="detailQ.options" style="margin:8px 0">
           <b>选项：</b>
           <div v-for="opt in parseOpts(detailQ.options)" :key="opt.label" style="margin-left:16px">{{ opt.label }}. {{ opt.text }}</div>
