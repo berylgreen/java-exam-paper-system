@@ -280,6 +280,16 @@ public class ExamPaperService {
         return toFullDTO(paper);
     }
 
+    /** 更新试卷名称 */
+    @Transactional
+    public PaperDTO updateTitle(Long paperId, String newTitle) {
+        ExamPaper paper = paperRepository.findById(paperId)
+                .orElseThrow(() -> new RuntimeException("试卷不存在: " + paperId));
+        paper.setTitle(newTitle);
+        paperRepository.save(paper);
+        return toFullDTO(paper);
+    }
+
     /** 重新排序题目 */
     @Transactional
     public PaperDTO reorderQuestions(Long paperId, ReorderRequest req) {

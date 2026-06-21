@@ -12,7 +12,7 @@
     </div>
 
     <div v-loading="loading" class="paper-preview">
-      <PaperViewer v-if="paper" :paper="paper" :show-answer="showAnswer" allow-replace allow-edit allow-reorder @replace-question="handleReplace" @edit-question="handleEdit" @reorder="handleReorder" />
+      <PaperViewer v-if="paper" :paper="paper" :show-answer="showAnswer" allow-replace allow-edit allow-reorder @replace-question="handleReplace" @edit-question="handleEdit" @reorder="handleReorder" @update-title="handleUpdateTitle" />
     </div>
 
     <!-- 题目编辑对话框 -->
@@ -116,6 +116,16 @@ const handleReorder = async (newQuestions) => {
   } catch (e) {
     ElMessage.error('保存题序失败: ' + (e.response?.data?.message || e.message))
     await loadPaper() // 恢复原状
+  }
+}
+
+const handleUpdateTitle = async (newTitle) => {
+  try {
+    await paperApi.updateTitle(route.params.id, newTitle)
+    ElMessage.success('标题修改成功')
+    paper.value.title = newTitle
+  } catch (e) {
+    ElMessage.error('修改标题失败: ' + (e.response?.data?.message || e.message))
   }
 }
 

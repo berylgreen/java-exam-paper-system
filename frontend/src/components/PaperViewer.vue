@@ -1,7 +1,15 @@
 <template>
   <div>
     <div v-if="paper" class="paper-header">
-      <h1>{{ paper.title }}</h1>
+      <h1 v-if="!isEditingTitle" @dblclick="startEditTitle" :style="allowEdit ? 'cursor: pointer;' : ''" :title="allowEdit ? '双击修改试卷名' : ''">{{ paper.title }}</h1>
+      <el-input 
+        v-else
+        v-model="editTitleValue"
+        class="title-edit-input"
+        @blur="finishEditTitle"
+        @keyup.enter="finishEditTitle"
+        ref="titleInputRef"
+      />
       <p>总分: {{ paper.totalScore }}分 &nbsp;|&nbsp; 时间: {{ paper.durationMinutes }}分钟 &nbsp;|&nbsp; 共{{ paper.questions ? paper.questions.length : 0 }}题</p>
     </div>
 
@@ -135,10 +143,23 @@
 .question-item.drag-over {
   border-top: 2px dashed #409eff;
 }
+.title-edit-input {
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.67em;
+  width: 80%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.title-edit-input :deep(.el-input__inner) {
+  text-align: center;
+}
 </style>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, onMounted, nextTick } from 'vue'
 import { marked } from 'marked'
 import { questionApi } from '../api'
 import { ElMessage } from 'element-plus'
@@ -148,7 +169,28 @@ const renderMarkdown = (text) => {
   return marked.parse(text)
 }
 
-const emit = defineEmits(['replace-question', 'edit-question', 'reorder'])
+const emit = defineEmits(['replace-question', 'edit-question', 'reorder', 'update-title'])
+
+const isEditingTitle = ref(false)
+const editTitleValue = ref('')
+const titleInputRef = ref(null)
+
+const startEditTitle = () => {
+  if (!props.allowEdit) return
+  editTitleValue.value = props.paper.title
+  isEditingTitle.value = true
+  nextTick(() => {
+    titleInputRef.value?.focus()
+  })
+}
+
+const finishEditTitle = () => {
+  if (!isEditingTitle.value) return
+  isEditingTitle.value = false
+  if (editTitleValue.value && editTitleValue.value.trim() !== props.paper.title) {
+    emit('update-title', editTitleValue.value.trim())
+  }
+}
 
 const props = defineProps({
   paper: {

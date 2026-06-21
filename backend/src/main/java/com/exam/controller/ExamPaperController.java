@@ -137,6 +137,20 @@ public class ExamPaperController {
         }
     }
 
+    /** 修改试卷名称 */
+    @PutMapping("/{id}/title")
+    public ResponseEntity<Object> updateTitle(@PathVariable("id") Long id, @RequestBody java.util.Map<String, String> request) {
+        log.info("[API] PUT /api/papers/{}/title 开始, newTitle={}", id, request.get("title"));
+        try {
+            PaperDTO result = paperService.updateTitle(id, request.get("title"));
+            log.info("[API] PUT /api/papers/{}/title 完成", id);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("[API] updateTitle 异常", e);
+            return ResponseEntity.status(500).body(java.util.Map.of("error", e.getMessage()));
+        }
+    }
+
     /** 重新排序试卷中的题目 */
     @PutMapping("/{id}/reorder")
     public ResponseEntity<Object> reorderQuestions(@PathVariable("id") Long id, @RequestBody ReorderRequest request) {
