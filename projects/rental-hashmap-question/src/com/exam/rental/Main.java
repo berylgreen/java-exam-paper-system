@@ -7,7 +7,7 @@ public class Main {
         storage.add("001", new Vehicle("001", "Info 1"));
         
         Vehicle item = storage.get("001");
-        System.out.println("获取到: " + (item != null ? item.info : "null"));
+        System.out.println("获取到: " + (item != null ? item.getName() : "null"));
         
         // TODO: 使用 HashMap 优化存储结构，提升查询效率
     }

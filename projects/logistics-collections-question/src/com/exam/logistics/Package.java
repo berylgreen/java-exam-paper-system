@@ -1,7 +1,7 @@
 package com.exam.logistics;
 
 public class Package {
-    public String id;
+    private String id;
     
     public Package(String id) {
         this.id = id;
@@ -9,4 +9,12 @@ public class Package {
     
     // TODO: 1. 重写 equals() 和 hashCode() 以实现去重
 
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

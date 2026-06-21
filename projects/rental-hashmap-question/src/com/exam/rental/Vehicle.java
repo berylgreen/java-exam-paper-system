@@ -1,11 +1,27 @@
 package com.exam.rental;
 
 public class Vehicle {
-    public String id;
-    public String info;
+    private String id;
+    private String name;
     
-    public Vehicle(String id, String info) {
+    public Vehicle(String id, String name) {
         this.id = id;
-        this.info = info;
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
