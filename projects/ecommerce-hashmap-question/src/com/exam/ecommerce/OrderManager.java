@@ -7,7 +7,7 @@ public class OrderManager {
     // 原始设计：使用一个 List 存储对象，查询时需要遍历整个列表，效率低
     private List<Order> items = new ArrayList<>();
     
-    public void add(String id, Order item) {
+    public void add(Order item) {
         items.add(item);
     }
     

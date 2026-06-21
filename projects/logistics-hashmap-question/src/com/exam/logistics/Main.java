@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("启动 物流系统 模块测试...");
         Storage storage = new Storage();
-        storage.add("001", new Package("001", "Info 1"));
+        storage.add(new Package("001", "Info 1"));
         
         Package item = storage.get("001");
         System.out.println("获取到: " + (item != null ? item.getName() : "null"));

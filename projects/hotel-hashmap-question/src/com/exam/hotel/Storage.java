@@ -7,7 +7,7 @@ public class Storage {
     // 原始设计：使用一个 List 存储对象，查询时需要遍历整个列表，效率低
     private List<Room> items = new ArrayList<>();
     
-    public void add(String id, Room item) {
+    public void add(Room item) {
         items.add(item);
     }
     
