@@ -4,28 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
-    // 原始设计：使用两个平行 List 存储 ID 和对象，查询效率低
-    private List<String> ids = new ArrayList<>();
+    // 原始设计：使用一个 List 存储对象，查询时需要遍历整个列表，效率低
     private List<Package> items = new ArrayList<>();
     
     public void add(String id, Package item) {
-        ids.add(id);
         items.add(item);
     }
     
     public Package get(String id) {
-        int index = ids.indexOf(id);
-        if (index != -1) {
-            return items.get(index);
+        for (Package item : items) {
+            if (item.getId().equals(id)) {
+                return item;
+            }
         }
         return null;
     }
     
     public void remove(String id) {
-        int index = ids.indexOf(id);
-        if (index != -1) {
-            ids.remove(index);
-            items.remove(index);
+        Package target = null;
+        for (Package item : items) {
+            if (item.getId().equals(id)) {
+                target = item;
+                break;
+            }
+        }
+        if (target != null) {
+            items.remove(target);
         }
     }
 }
