@@ -67,7 +67,9 @@ public class QuestionService {
     @Transactional
     public QuestionDTO create(QuestionDTO dto) {
         Question q = toEntity(dto);
-        return toDTO(questionRepository.save(q));
+        Question saved = questionRepository.save(q);
+        syncContentToReadme(saved);
+        return toDTO(saved);
     }
 
     /** 修改题目 */
@@ -88,7 +90,45 @@ public class QuestionService {
         q.setSource(dto.getSource());
         q.setProjectPath(dto.getProjectPath());
         q.setAnswerProjectPath(dto.getAnswerProjectPath());
-        return toDTO(questionRepository.save(q));
+        Question saved = questionRepository.save(q);
+        syncContentToReadme(saved);
+        return toDTO(saved);
+    }
+
+    /** 同步题干到工程的 README.md */
+    private void syncContentToReadme(Question q) {
+        if (q.getProjectPath() != null && !q.getProjectPath().trim().isEmpty() &&
+            q.getContent() != null && !q.getContent().isEmpty()) {
+            try {
+                Path p = Paths.get(q.getProjectPath().trim());
+                if (!p.isAbsolute()) {
+                    p = Paths.get(System.getProperty("user.dir")).getParent().resolve(p).normalize();
+                }
+                Path readme = p.resolve("README.md");
+                String title = "";
+                if (java.nio.file.Files.exists(readme)) {
+                    String oldContent = java.nio.file.Files.readString(readme);
+                    if (oldContent.startsWith("# ")) {
+                        int index = oldContent.indexOf('\n');
+                        if (index != -1) {
+                            title = oldContent.substring(0, index).trim() + "\n\n";
+                        } else {
+                            title = oldContent.trim() + "\n\n";
+                        }
+                    }
+                } else {
+                    java.nio.file.Files.createDirectories(p);
+                }
+                
+                String newContent = q.getContent();
+                if (!newContent.startsWith("# ") && !title.isEmpty()) {
+                    newContent = title + newContent;
+                }
+                java.nio.file.Files.writeString(readme, newContent);
+            } catch (Exception e) {
+                System.err.println("Failed to sync README.md for project: " + q.getProjectPath());
+            }
+        }
     }
 
     /** 切换收藏状态 */
@@ -252,7 +292,11 @@ public class QuestionService {
             index++;
         }
         
-        questionRepository.saveAll(questions);
+        List<Question> savedQuestions = questionRepository.saveAll(questions);
+        for (Question q : savedQuestions) {
+            syncContentToReadme(q);
+        }
+        
         return Map.of(
             "successCount", questions.size(),
             "errors", errors
