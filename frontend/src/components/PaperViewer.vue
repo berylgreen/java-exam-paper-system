@@ -43,10 +43,10 @@
             </div>
           </div>
           <div v-if="pq.question.projectPath" style="margin-top:8px; padding:8px; background:#f5f7fa; border-radius:4px; font-size: 13px; color: #409EFF; border: 1px solid #d9ecff;">
-            <b>📁 关联代码工程:</b> {{ pq.question.projectPath }}
+            <b>📁 题目工程:</b> <a href="javascript:void(0)" @click="downloadProject(pq.question.id, 'project')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载工程">{{ pq.question.projectPath }}</a>
           </div>
           <div v-if="pq.question.answerProjectPath" style="margin-top:8px; padding:8px; background:#f0f9eb; border-radius:4px; font-size: 13px; color: #67C23A; border: 1px solid #e1f3d8;">
-            <b>📁 答案工程:</b> {{ pq.question.answerProjectPath }}
+            <b>📁 答案工程:</b> <a href="javascript:void(0)" @click="downloadProject(pq.question.id, 'answer')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载答案工程">{{ pq.question.answerProjectPath }}</a>
           </div>
           <!-- 选项 -->
           <div v-if="pq.question.options" class="question-options">
@@ -96,10 +96,10 @@
               <span v-for="opt in parseOpts(row.options)" :key="opt.label" style="margin-right: 12px;">{{ opt.label }}. {{ opt.text }}</span>
             </div>
             <div v-if="row.projectPath" style="margin-top: 4px; color: #409EFF; font-size: 12px;">
-              📁 {{ row.projectPath }}
+              📁 <a href="javascript:void(0)" @click="downloadProject(row.id, 'project')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载工程">{{ row.projectPath }}</a>
             </div>
             <div v-if="row.answerProjectPath" style="margin-top: 4px; color: #67C23A; font-size: 12px;">
-              📁 {{ row.answerProjectPath }}
+              📁 <a href="javascript:void(0)" @click="downloadProject(row.id, 'answer')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载答案工程">{{ row.answerProjectPath }}</a>
             </div>
           </template>
         </el-table-column>
@@ -170,6 +170,10 @@ const renderMarkdown = (text) => {
 }
 
 const emit = defineEmits(['replace-question', 'edit-question', 'reorder', 'update-title'])
+
+const downloadProject = (id, type = 'project') => {
+  window.open(`/api/questions/${id}/download-project?type=${type}`, '_blank')
+}
 
 const isEditingTitle = ref(false)
 const editTitleValue = ref('')

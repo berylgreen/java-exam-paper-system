@@ -131,14 +131,11 @@
           <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(detailQ.content)"></div>
         </div>
         <p v-if="detailQ.projectPath" style="margin:12px 0; color:#409EFF; display:flex; align-items:center; gap:10px">
-          <span><b>📁 关联工程：</b>{{ detailQ.projectPath }}</span>
+          <span><b>📁 题目工程：</b><a href="javascript:void(0)" @click="downloadProject(detailQ.id, 'project')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载工程">{{ detailQ.projectPath }}</a></span>
         </p>
         <p v-if="detailQ.answerProjectPath" style="margin:12px 0; color:#67C23A; display:flex; align-items:center; gap:10px">
-          <span><b>📁 答案工程：</b>{{ detailQ.answerProjectPath }}</span>
+          <span><b>📁 答案工程：</b><a href="javascript:void(0)" @click="downloadProject(detailQ.id, 'answer')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载答案工程">{{ detailQ.answerProjectPath }}</a></span>
         </p>
-        <el-button v-if="detailQ.projectPath || detailQ.answerProjectPath" type="primary" size="small" @click="downloadProject(detailQ.id)" style="margin-bottom: 12px;">
-          <el-icon><Download /></el-icon> 下载工程
-        </el-button>
         <div v-if="detailQ.options" style="margin:8px 0">
           <b>选项：</b>
           <div v-for="opt in parseOpts(detailQ.options)" :key="opt.label" style="margin-left:16px">{{ opt.label }}. {{ opt.text }}</div>
@@ -404,8 +401,8 @@ const exportQ = () => {
   window.open(questionApi.exportUrl, '_blank')
 }
 
-const downloadProject = (id) => {
-  window.open(`/api/questions/${id}/download-project`, '_blank')
+const downloadProject = (id, type = 'project') => {
+  window.open(`/api/questions/${id}/download-project?type=${type}`, '_blank')
 }
 
 const triggerImport = () => {

@@ -195,16 +195,18 @@ public class QuestionController {
         }
     }
 
-    /** 下载题目的关联工程 ZIP */
+    /** 下载题目的关联工程或答案工程 ZIP */
     @GetMapping("/{id}/download-project")
-    public ResponseEntity<byte[]> downloadProject(@PathVariable("id") Long id) throws Exception {
+    public ResponseEntity<byte[]> downloadProject(@PathVariable("id") Long id, @RequestParam(value = "type", defaultValue = "project") String type) throws Exception {
         QuestionDTO q = questionService.findById(id);
-        if (q.getProjectPath() == null || q.getProjectPath().trim().isEmpty()) {
+        String path = "answer".equals(type) ? q.getAnswerProjectPath() : q.getProjectPath();
+        
+        if (path == null || path.trim().isEmpty()) {
             return ResponseEntity.badRequest().body(null);
         }
         
-        byte[] zipBytes = com.exam.util.ZipUtils.zipDirectoryToBytes(q.getProjectPath());
-        String projectName = new java.io.File(q.getProjectPath()).getName();
+        byte[] zipBytes = com.exam.util.ZipUtils.zipDirectoryToBytes(path);
+        String projectName = new java.io.File(path).getName();
         String filename = java.net.URLEncoder.encode(projectName + ".zip", java.nio.charset.StandardCharsets.UTF_8);
         
         return ResponseEntity.ok()
