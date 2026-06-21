@@ -39,7 +39,7 @@ export const paperApi = {
     batchDelete: (ids) => api.delete('/papers/batch', { data: ids }),
     replaceQuestion: (id, data) => api.put(`/papers/${id}/replace-question`, data),
     reorderQuestions: (id, data) => api.put(`/papers/${id}/reorder`, data),
-    exportUrl: (id, withAnswer = false, types = ['docx', 'pdf']) => `/api/papers/${id}/export?withAnswer=${withAnswer}&types=${types.join(',')}`,
+    exportUrl: (id, withAnswer = false, types = ['docx', 'pdf'], answerSheetType = 'generate') => `/api/papers/${id}/export?withAnswer=${withAnswer}&types=${types.join(',')}&answerSheetType=${answerSheetType}`,
 }
 
 export default api

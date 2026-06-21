@@ -10,6 +10,13 @@
       <el-form-item label="包含答案" v-if="showAnswerOption">
         <el-switch v-model="withAnswer" active-text="是" inactive-text="否" />
       </el-form-item>
+      <el-form-item label="答题纸选项">
+        <el-radio-group v-model="answerSheetType">
+          <el-radio label="generate">按题目生成</el-radio>
+          <el-radio label="template">下载空白模板</el-radio>
+          <el-radio label="none">不导出答题纸</el-radio>
+        </el-radio-group>
+      </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -34,6 +41,7 @@ const emit = defineEmits(['update:modelValue', 'confirm'])
 const visible = ref(props.modelValue)
 const exportTypes = ref(['docx', 'pdf'])
 const withAnswer = ref(props.defaultWithAnswer)
+const answerSheetType = ref('generate')
 
 watch(() => props.modelValue, (val) => {
   visible.value = val
@@ -49,7 +57,8 @@ watch(visible, (val) => {
 const confirm = () => {
   emit('confirm', {
     types: exportTypes.value,
-    withAnswer: withAnswer.value
+    withAnswer: withAnswer.value,
+    answerSheetType: answerSheetType.value
   })
   visible.value = false
 }

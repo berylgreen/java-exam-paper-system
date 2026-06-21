@@ -155,9 +155,10 @@ public class ExamPaperController {
     @GetMapping("/{id}/export")
     public ResponseEntity<byte[]> export(@PathVariable("id") Long id,
                                          @RequestParam(value = "withAnswer", defaultValue = "false") boolean withAnswer,
-                                         @RequestParam(value = "types", defaultValue = "docx,pdf") String types) throws IOException {
+                                         @RequestParam(value = "types", defaultValue = "docx,pdf") String types,
+                                         @RequestParam(value = "answerSheetType", defaultValue = "generate") String answerSheetType) throws IOException {
         List<String> exportTypes = Arrays.asList(types.toLowerCase().split(","));
-        ExportResult exportResult = paperService.exportPaper(id, withAnswer, exportTypes);
+        ExportResult exportResult = paperService.exportPaper(id, withAnswer, exportTypes, answerSheetType);
         String filename = URLEncoder.encode(exportResult.getFilename(), StandardCharsets.UTF_8);
 
         return ResponseEntity.ok()

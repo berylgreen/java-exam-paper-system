@@ -303,7 +303,7 @@ public class ExamPaperService {
 
     /** 导出试卷为 PDF/DOCX 文档或 ZIP 包 */
     @Transactional(readOnly = true)
-    public ExportResult exportPaper(Long id, boolean withAnswer, List<String> types) throws IOException {
+    public ExportResult exportPaper(Long id, boolean withAnswer, List<String> types, String answerSheetType) throws IOException {
         PaperDTO paper = findById(id);
         Set<String> projectPaths = new HashSet<>();
         Set<String> answerProjectPaths = new HashSet<>();
@@ -329,7 +329,27 @@ public class ExamPaperService {
             originalWordBytes = generateWordBytes(paper, false, projectPaths);
         }
 
-        byte[] answerSheetBytes = generateAnswerSheetBytes(paper);
+        byte[] answerSheetBytes = null;
+        String answerSheetFilename = "试卷_" + id + "_答题纸.docx";
+        
+        if ("generate".equals(answerSheetType)) {
+            answerSheetBytes = generateAnswerSheetBytes(paper);
+        } else if ("template".equals(answerSheetType)) {
+            org.springframework.core.io.Resource resource = new org.springframework.core.io.ClassPathResource("学号_姓名_答题纸A卷.docx");
+            if (resource.exists()) {
+                try (java.io.InputStream is = resource.getInputStream();
+                     java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream()) {
+                    byte[] buffer = new byte[1024];
+                    int len;
+                    while ((len = is.read(buffer)) > -1) {
+                        baos.write(buffer, 0, len);
+                    }
+                    answerSheetBytes = baos.toByteArray();
+                }
+                answerSheetFilename = "试卷_" + id + "_空白答题纸模板.docx";
+            }
+        }
+        
         boolean hasAnswerSheet = (answerSheetBytes != null);
 
         // 如果只选了一种格式，且没有答案版，且没有工程代码，且没有答题纸，则直接返回单文件
@@ -407,7 +427,7 @@ public class ExamPaperService {
 
             // 写入答题纸
             if (hasAnswerSheet) {
-                java.util.zip.ZipEntry sheetEntry = new java.util.zip.ZipEntry("试卷_" + id + "_答题纸.docx");
+                java.util.zip.ZipEntry sheetEntry = new java.util.zip.ZipEntry(answerSheetFilename);
                 zos.putNextEntry(sheetEntry);
                 zos.write(answerSheetBytes);
                 zos.closeEntry();

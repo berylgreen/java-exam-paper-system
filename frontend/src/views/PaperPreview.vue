@@ -66,8 +66,8 @@ const handleExportClick = () => {
   exportDialogVisible.value = true
 }
 
-const onExportConfirm = ({ types, withAnswer }) => {
-  window.open(paperApi.exportUrl(route.params.id, withAnswer, types), '_blank')
+const onExportConfirm = ({ types, withAnswer, answerSheetType }) => {
+  window.open(paperApi.exportUrl(route.params.id, withAnswer, types, answerSheetType), '_blank')
 }
 
 const loadPaper = async () => {
