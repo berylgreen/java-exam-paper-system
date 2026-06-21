@@ -418,6 +418,9 @@ public class ExamPaperService {
         return new ExportResult(zipFilename, "application/zip", zipBaos.toByteArray());
     }
 
+    /**
+     * 根据试卷内容动态生成答题纸 — 保留原模板的页眉、密封线、考生信息栏，动态替换题目区域
+     */
     private byte[] generateAnswerSheetBytes(PaperDTO paper) {
         try {
             org.springframework.core.io.Resource resource = new org.springframework.core.io.ClassPathResource("学号_姓名_答题纸A卷.docx");
@@ -426,8 +429,8 @@ public class ExamPaperService {
             }
             try (java.io.InputStream is = resource.getInputStream();
                  XWPFDocument doc = new XWPFDocument(is)) {
-                 
-                // 尝试将模板中的标题替换为试卷的标题
+
+                // 1. 尝试将模板中的标题替换为试卷的标题
                 for (XWPFParagraph p : doc.getParagraphs()) {
                     String text = p.getText();
                     if (text != null && text.contains("答题纸")) {
@@ -439,14 +442,307 @@ public class ExamPaperService {
                         }
                     }
                 }
-                
+
+                // 2. 找到第一个题目大项的起始位置（通常是含有“单项选择题”或“一、”的段落）
+                int firstSectionParaIdx = -1;
+                List<IBodyElement> elements = doc.getBodyElements();
+                for (int i = 0; i < elements.size(); i++) {
+                    IBodyElement elem = elements.get(i);
+                    if (elem instanceof XWPFParagraph) {
+                        String text = ((XWPFParagraph) elem).getText().trim();
+                        if (text.startsWith("单项选择题") || text.startsWith("一、") || text.contains("本大题共")) {
+                            firstSectionParaIdx = i;
+                            break;
+                        }
+                    }
+                }
+
+                // 3. 截断模板：删除原有的全部题目区域，同时保留段落上悬浮的“密封线”和“姓名栏”
+                if (firstSectionParaIdx != -1) {
+                    int oldTableIdx = -1;
+                    // 检查前一个元素是否是模板自带的"得分/评卷人"小表格
+                    if (firstSectionParaIdx > 0) {
+                        IBodyElement prevElem = elements.get(firstSectionParaIdx - 1);
+                        if (prevElem instanceof XWPFTable) {
+                            XWPFTable prevTable = (XWPFTable) prevElem;
+                            String tblText = prevTable.getText();
+                            if (tblText != null && tblText.contains("得分") && tblText.contains("评卷人")) {
+                                oldTableIdx = firstSectionParaIdx - 1;
+                            }
+                        }
+                    }
+
+                    // 删除 firstSectionParaIdx 之后的所有元素
+                    for (int i = elements.size() - 1; i > firstSectionParaIdx; i--) {
+                        doc.removeBodyElement(i);
+                    }
+
+                    // 清空 firstSectionParaIdx 这一段落的文本内容，但不要删除它！
+                    // 因为原模板中的“密封线”和左侧栏是作为悬浮元素(shape)挂载在这个段落上的
+                    XWPFParagraph p = (XWPFParagraph) elements.get(firstSectionParaIdx);
+                    for (XWPFRun run : p.getRuns()) {
+                        int textCount = run.getCTR().sizeOfTArray();
+                        for (int i = textCount - 1; i >= 0; i--) {
+                            run.getCTR().removeT(i);
+                        }
+                    }
+                    // 清除该锚点段落的自动编号、大纲级别和段落样式，防止在目录中出现幽灵标题（例如空的"一、"）
+                    if (p.getCTP().getPPr() != null) {
+                        if (p.getCTP().getPPr().isSetNumPr()) p.getCTP().getPPr().unsetNumPr();
+                        if (p.getCTP().getPPr().isSetOutlineLvl()) p.getCTP().getPPr().unsetOutlineLvl();
+                        if (p.getCTP().getPPr().isSetPStyle()) p.getCTP().getPPr().unsetPStyle();
+                    }
+
+                    // 删除发现的旧"得分/评卷人"小表格
+                    if (oldTableIdx != -1) {
+                        doc.removeBodyElement(oldTableIdx);
+                    }
+                }
+
+                // 4. 动态生成新的题目区域
+                QuestionType[] typeOrder = {
+                    QuestionType.SINGLE_CHOICE, QuestionType.MULTIPLE_CHOICE,
+                    QuestionType.TRUE_FALSE, QuestionType.FILL_BLANK,
+                    QuestionType.SHORT_ANSWER, QuestionType.CODE_READING, QuestionType.PROGRAMMING
+                };
+                Map<QuestionType, List<PaperDTO.PaperQuestionDTO>> grouped = paper.getQuestions().stream()
+                        .collect(Collectors.groupingBy(
+                                pq -> pq.getQuestion().getType(),
+                                LinkedHashMap::new,
+                                Collectors.toList()));
+
+                List<QuestionType> activeSections = new ArrayList<>();
+                for (QuestionType t : typeOrder) {
+                    if (grouped.containsKey(t) && !grouped.get(t).isEmpty()) {
+                        activeSections.add(t);
+                    }
+                }
+                String[] sectionNums = {"一", "二", "三", "四", "五", "六", "七", "八", "九", "十"};
+
+                int sectionIdx = 0;
+                for (QuestionType type : activeSections) {
+                    List<PaperDTO.PaperQuestionDTO> questions = grouped.get(type);
+                    int sectionScore = questions.stream().mapToInt(PaperDTO.PaperQuestionDTO::getScore).sum();
+                    String typeLabel = type == QuestionType.CODE_READING
+                            ? type.getLabel() + " （需要写出分析过程）"
+                            : type.getLabel();
+
+                    // -- 1. 独立悬浮得分/评卷人小表格 (排在标题之前，通过悬浮属性与标题上沿对齐) --
+                    XWPFTable scoreTable = doc.createTable(2, 2);
+                    org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr tblPr = scoreTable.getCTTbl().getTblPr();
+                    if (tblPr == null) tblPr = scoreTable.getCTTbl().addNewTblPr();
+                    
+                    // 设置宽度
+                    org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth tblW = tblPr.isSetTblW() ? tblPr.getTblW() : tblPr.addNewTblW();
+                    tblW.setW(java.math.BigInteger.valueOf(2000));
+                    tblW.setType(org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth.DXA);
+
+                    // 使用 XmlCursor 动态注入悬浮属性，避免依赖底层 Schema 枚举类编译报错
+                    // 使其相对于后面的段落（标题）悬浮靠右，并且垂直对齐于文本上沿
+                    org.apache.xmlbeans.XmlCursor cursor = tblPr.newCursor();
+                    cursor.toEndToken(); // 移动到 tblPr 结束标签前
+                    cursor.insertElement(new javax.xml.namespace.QName("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "tblpPr"));
+                    cursor.toPrevToken(); // 进入新创建的 tblpPr 元素内部
+                    cursor.insertAttributeWithValue(new javax.xml.namespace.QName("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "tblpXSpec"), "right");
+                    cursor.insertAttributeWithValue(new javax.xml.namespace.QName("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "tblpY"), "0");
+                    cursor.insertAttributeWithValue(new javax.xml.namespace.QName("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "vertAnchor"), "text");
+                    cursor.insertAttributeWithValue(new javax.xml.namespace.QName("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "horzAnchor"), "margin");
+                    cursor.dispose();
+
+                    scoreTable.getRow(0).getCell(0).setText("得分");
+                    scoreTable.getRow(0).getCell(1).setText("评卷人");
+                    scoreTable.getRow(1).getCell(0).setText("");
+                    scoreTable.getRow(1).getCell(1).setText("");
+
+                    for (int r = 0; r < 2; r++) {
+                        for (int c = 0; c < 2; c++) {
+                            XWPFTableCell cell = scoreTable.getRow(r).getCell(c);
+                            cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
+                            if (!cell.getParagraphs().isEmpty()) {
+                                XWPFParagraph cp = cell.getParagraphs().get(0);
+                                cp.setAlignment(ParagraphAlignment.CENTER);
+                                if (!cp.getRuns().isEmpty()) {
+                                    cp.getRuns().get(0).setFontFamily("黑体");
+                                    cp.getRuns().get(0).setFontSize(12); // 小四
+                                }
+                            }
+                        }
+                    }
+                    // 将第二行（留给老师手写填写的空白行）的行高设置为两倍（约 600 缇），提供足够的书写空间
+                    scoreTable.getRow(1).setHeight(600);
+
+                    // -- 2. 大题标题段落 --
+                    XWPFParagraph titlePara = doc.createParagraph();
+                    titlePara.setSpacingBefore(10);
+                    titlePara.setSpacingAfter(10);
+                    
+                    // 加上大纲级别0（对应标题1），让它能在左侧目录中显示
+                    if (titlePara.getCTP().getPPr() == null) titlePara.getCTP().addNewPPr();
+                    titlePara.getCTP().getPPr().addNewOutlineLvl().setVal(java.math.BigInteger.valueOf(0));
+
+                    XWPFRun titleRun = titlePara.createRun();
+                    titleRun.setText(String.format("%s、%s（本大题共 %d 小题，共 %d 分）",
+                            sectionIdx < sectionNums.length ? sectionNums[sectionIdx] : String.valueOf(sectionIdx + 1),
+                            typeLabel, questions.size(), sectionScore));
+                    titleRun.setBold(true);
+                    titleRun.setFontSize(12);
+                    titleRun.setFontFamily("黑体");
+
+                    // -- 根据题型生成不同的答题区 --
+                    switch (type) {
+                        case SINGLE_CHOICE:
+                        case MULTIPLE_CHOICE:
+                        case TRUE_FALSE:
+                            generateChoiceAnswerArea(doc, questions);
+                            break;
+                        case FILL_BLANK:
+                            generateFillBlankAnswerArea(doc, questions);
+                            break;
+                        case SHORT_ANSWER:
+                        case CODE_READING:
+                            generateWrittenAnswerArea(doc, questions, false);
+                            break;
+                        case PROGRAMMING:
+                            generateWrittenAnswerArea(doc, questions, true);
+                            break;
+                    }
+
+                    sectionIdx++;
+                }
+
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 doc.write(out);
                 return out.toByteArray();
             }
         } catch (Exception e) {
-            System.err.println("读取答题纸模板失败: " + e.getMessage());
+            System.err.println("生成答题纸失败: " + e.getMessage());
+            e.printStackTrace();
             return null;
+        }
+    }
+
+    /** 选择题/判断题答题区：题号 + 格式化下划线的空格，每行5个 */
+    private void generateChoiceAnswerArea(XWPFDocument doc, List<PaperDTO.PaperQuestionDTO> questions) {
+        int perRow = 5;
+        int total = questions.size();
+        for (int i = 0; i < total; i += perRow) {
+            XWPFParagraph rowPara = doc.createParagraph();
+            rowPara.setSpacingBetween(1.5);
+            int end = Math.min(i + perRow, total);
+            for (int j = i; j < end; j++) {
+                // 1. 题号部分
+                XWPFRun numRun = rowPara.createRun();
+                numRun.setText(String.format("%d、", j + 1));
+                numRun.setFontSize(12);
+                numRun.setFontFamily("宋体");
+
+                // 2. 下划线空格部分 (提供打字的下划线效果)
+                XWPFRun blankRun = rowPara.createRun();
+                blankRun.setText("    "); // 4个空格
+                blankRun.setUnderline(UnderlinePatterns.SINGLE);
+                blankRun.setFontSize(12);
+                blankRun.setFontFamily("宋体");
+
+                // 3. 题与题之间的间隔空格
+                XWPFRun spaceRun = rowPara.createRun();
+                spaceRun.setText(" "); // 1个间隔空格
+                spaceRun.setFontSize(12);
+                spaceRun.setFontFamily("宋体");
+            }
+        }
+        doc.createParagraph(); // 留空
+    }
+
+    /** 填空题答题区：每题一行编号 + 格式化下划线的空格 */
+    private void generateFillBlankAnswerArea(XWPFDocument doc, List<PaperDTO.PaperQuestionDTO> questions) {
+        for (int i = 0; i < questions.size(); i++) {
+            XWPFParagraph p = doc.createParagraph();
+            p.setSpacingBetween(2.0);
+            
+            // 给填空题小题加上大纲级别1（对应标题2）
+            if (p.getCTP().getPPr() == null) p.getCTP().addNewPPr();
+            p.getCTP().getPPr().addNewOutlineLvl().setVal(java.math.BigInteger.valueOf(1));
+            
+            // 1. 题号部分
+            XWPFRun numRun = p.createRun();
+            numRun.setText(String.format("%d、", i + 1));
+            numRun.setFontSize(12);
+            numRun.setFontFamily("宋体");
+
+            // 2. 下划线空格部分
+            XWPFRun blankRun = p.createRun();
+            blankRun.setText("                                   "); // 35个空格（半行左右）
+            blankRun.setUnderline(UnderlinePatterns.SINGLE);
+            blankRun.setFontSize(12);
+            blankRun.setFontFamily("宋体");
+        }
+        doc.createParagraph(); // 留空
+    }
+
+    /** 简答/程序分析/编程题答题区 */
+    private void generateWrittenAnswerArea(XWPFDocument doc, List<PaperDTO.PaperQuestionDTO> questions, boolean isProgramming) {
+        for (int i = 0; i < questions.size(); i++) {
+            PaperDTO.PaperQuestionDTO pq = questions.get(i);
+
+            // 题号和分值
+            XWPFParagraph qPara = doc.createParagraph();
+            
+            // 给所有主观题小题（简答、程序分析、编程题）加上大纲级别1（对应标题2）
+            if (qPara.getCTP().getPPr() == null) qPara.getCTP().addNewPPr();
+            qPara.getCTP().getPPr().addNewOutlineLvl().setVal(java.math.BigInteger.valueOf(1));
+
+            XWPFRun qRun = qPara.createRun();
+            qRun.setText(String.format("%d.（%d分）", i + 1, pq.getScore()));
+            qRun.setBold(true);
+            qRun.setFontSize(12);
+            qRun.setFontFamily("宋体");
+
+            if (isProgramming) {
+                // 编程题特有：运行结果截图区域
+                XWPFParagraph screenshotLabel = doc.createParagraph();
+                screenshotLabel.setIndentationLeft(240);
+                XWPFRun ssRun = screenshotLabel.createRun();
+                ssRun.setText("运行结果截图：");
+                ssRun.setFontSize(11);
+                ssRun.setFontFamily("宋体");
+
+                // 截图框（用单行单列表格模拟边框）
+                XWPFTable ssTable = doc.createTable(1, 1);
+                ssTable.setWidth("100%");
+                XWPFParagraph ssCell = ssTable.getRow(0).getCell(0).getParagraphArray(0);
+                ssCell.setSpacingBetween(1.0);
+                for (int k = 0; k < 2; k++) {
+                    ssTable.getRow(0).getCell(0).addParagraph();
+                }
+                
+                doc.createParagraph(); // 表格后的留空
+
+                // 相关源代码区域
+                XWPFParagraph codeLabel = doc.createParagraph();
+                codeLabel.setIndentationLeft(240);
+                XWPFRun codeRun = codeLabel.createRun();
+                codeRun.setText("相关源代码：");
+                codeRun.setFontSize(11);
+                codeRun.setFontFamily("宋体");
+
+                // 源代码框（两行框，用表格模拟）
+                XWPFTable codeTable = doc.createTable(2, 1);
+                codeTable.setWidth("100%");
+                for (int r = 0; r < 2; r++) {
+                    XWPFParagraph codeCell = codeTable.getRow(r).getCell(0).getParagraphArray(0);
+                    codeCell.setSpacingBetween(1.0);
+                    for (int k = 0; k < 2; k++) {
+                        codeTable.getRow(r).getCell(0).addParagraph();
+                    }
+                }
+                
+                doc.createParagraph(); // 题与题之间的留空
+            } else {
+                // 简答/程序分析：留8行空白
+                for (int k = 0; k < 8; k++) {
+                    doc.createParagraph();
+                }
+            }
         }
     }
 
