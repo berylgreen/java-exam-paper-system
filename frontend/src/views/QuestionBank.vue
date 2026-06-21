@@ -130,9 +130,19 @@
           <b style="white-space:nowrap;margin-right:4px;">题目：</b>
           <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(detailQ.content)"></div>
         </div>
+        <!-- 题目代码展示区 -->
+        <div v-if="projectCodes && Object.keys(projectCodes).length > 0" style="margin: 12px 0;">
+          <b style="color: #409EFF; display: block; margin-bottom: 8px;">题目代码：</b>
+          <div v-for="(code, path) in projectCodes" :key="path" style="margin-bottom: 12px;">
+            <div style="background: #e6f0fa; padding: 4px 12px; font-size: 13px; font-weight: bold; border-top-left-radius: 4px; border-top-right-radius: 4px; color: #333; border: 1px solid #d9ecff; border-bottom: none;">📄 {{ path }}</div>
+            <pre style="margin: 0; padding: 12px; background: #f5f7fa; border: 1px solid #d9ecff; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; font-size: 13px; overflow-x: auto;"><code>{{ code }}</code></pre>
+          </div>
+        </div>
+
         <p v-if="detailQ.projectPath" style="margin:12px 0; color:#409EFF; display:flex; align-items:center; gap:10px">
           <span><b>📁 题目工程：</b><a href="javascript:void(0)" @click="downloadProject(detailQ.id, 'project')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载工程">{{ detailQ.projectPath }}</a></span>
         </p>
+
         <p v-if="detailQ.answerProjectPath" style="margin:12px 0; color:#67C23A; display:flex; align-items:center; gap:10px">
           <span><b>📁 答案工程：</b><a href="javascript:void(0)" @click="downloadProject(detailQ.id, 'answer')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载答案工程">{{ detailQ.answerProjectPath }}</a></span>
         </p>
@@ -217,6 +227,7 @@ const selectedIds = ref([])
 const showDetail = ref(false)
 const detailQ = ref({})
 const currentQIndex = ref(-1)
+const projectCodes = ref(null)
 const showAdd = ref(false)
 const isEdit = ref(false)
 const importInput = ref(null)
@@ -257,34 +268,43 @@ const loadMeta = async () => {
   } catch {}
 }
 
-const viewQ = (row) => { 
+const viewQ = async (row) => { 
   detailQ.value = row; 
   currentQIndex.value = questions.value.findIndex(q => q.id === row.id);
+  projectCodes.value = null;
   showDetail.value = true; 
+  if (row.projectPath) {
+    try {
+      const res = await questionApi.getProjectCode(row.id);
+      projectCodes.value = res.data;
+    } catch (e) {
+      console.error('获取题目工程代码失败', e);
+    }
+  }
 }
 const prevQ = async () => {
   if (currentQIndex.value > 0) {
     currentQIndex.value--;
-    detailQ.value = questions.value[currentQIndex.value];
+    await viewQ(questions.value[currentQIndex.value]);
   } else if (page.value > 1) {
     page.value--;
     await loadQ();
     if (questions.value.length > 0) {
       currentQIndex.value = questions.value.length - 1;
-      detailQ.value = questions.value[currentQIndex.value];
+      await viewQ(questions.value[currentQIndex.value]);
     }
   }
 }
 const nextQ = async () => {
   if (currentQIndex.value >= 0 && currentQIndex.value < questions.value.length - 1) {
     currentQIndex.value++;
-    detailQ.value = questions.value[currentQIndex.value];
+    await viewQ(questions.value[currentQIndex.value]);
   } else if (page.value * pageSize < total.value) {
     page.value++;
     await loadQ();
     if (questions.value.length > 0) {
       currentQIndex.value = 0;
-      detailQ.value = questions.value[0];
+      await viewQ(questions.value[0]);
     }
   }
 }

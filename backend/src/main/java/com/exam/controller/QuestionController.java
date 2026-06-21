@@ -215,6 +215,45 @@ public class QuestionController {
                 .body(zipBytes);
     }
 
+    /** 获取题目工程中的所有代码 */
+    @GetMapping("/{id}/project-code")
+    public ResponseEntity<Map<String, String>> getProjectCode(@PathVariable("id") Long id) {
+        QuestionDTO q = questionService.findById(id);
+        String path = q.getProjectPath();
+        if (path == null || path.trim().isEmpty()) {
+            return ResponseEntity.ok(java.util.Collections.emptyMap());
+        }
+        
+        try {
+            Map<String, String> codes = new java.util.LinkedHashMap<>();
+            java.nio.file.Path tempPath = java.nio.file.Paths.get(path);
+            if (!tempPath.isAbsolute()) {
+                tempPath = java.nio.file.Paths.get(System.getProperty("user.dir")).getParent().resolve(tempPath).normalize();
+            }
+            final java.nio.file.Path projectPath = tempPath;
+            java.io.File dir = projectPath.toFile();
+            if (dir.exists() && dir.isDirectory()) {
+                java.nio.file.Files.walk(projectPath)
+                    .filter(java.nio.file.Files::isRegularFile)
+                    .forEach(file -> {
+                        String name = file.getFileName().toString();
+                        if (name.endsWith(".java") || name.endsWith(".xml") || name.endsWith(".txt") || name.endsWith(".md") || name.endsWith(".sql") || name.endsWith(".properties") || name.endsWith(".yml") || name.endsWith(".yaml") || name.endsWith(".html") || name.endsWith(".js") || name.endsWith(".css") || name.endsWith(".vue")) {
+                            try {
+                                String content = java.nio.file.Files.readString(file);
+                                codes.put(projectPath.relativize(file).toString().replace("\\", "/"), content);
+                            } catch (Exception e) {
+                                // ignore
+                            }
+                        }
+                    });
+            }
+            return ResponseEntity.ok(codes);
+        } catch (Exception e) {
+            log.error("读取题目工程代码失败", e);
+            return ResponseEntity.status(500).build();
+        }
+    }
+
     /** 获取所有章节 */
     @GetMapping("/chapters")
     public List<com.exam.entity.Chapter> chapters() {
