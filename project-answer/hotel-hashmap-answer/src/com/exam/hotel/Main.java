@@ -10,6 +10,6 @@ public class Main {
         Room item = storage.get("102");
         System.out.println("查询 id=102 的客房：" + (item != null ? item.getName() : "null"));
         storage.remove("102");
-        System.out.println("删除后再次查询 id=102：" + (storage.get("102") != null ? storage.get("102").getName() : "null"));
+        System.out.println("删除后再次查询 id=102：" + (storage.get("102") != null ? storage.get("102").getName() : "未找到"));
     }
 }
