@@ -7653,7 +7653,7 @@
     "type": "SINGLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "以下代码，描述正确的有：\n```java\ninterface IDemo {\n    public static final String name; // 1\n    void print();                    // 2\n    public void getInfo();           // 3\n}\n\nabstract class Person implements IDemo { // 4\n    public void print() {\n    }\n}```",
+    "content": "以下代码，描述正确的有：\n\n```java\ninterface IDemo {\n    public static final String name; // 1\n    void print();                    // 2\n    public void getInfo();           // 3\n}\n\nabstract class Person implements IDemo { // 4\n    public void print() {\n    }\n}\n```",
     "options": [
       {
         "label": "A",
