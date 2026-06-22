@@ -5,22 +5,20 @@ public class TicketWindow implements Runnable {
 
     @Override
     public void run() {
-        while (sellTicket()) {
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+        while (true) {
+            // FIXME: 以下售票逻辑非线程安全
+            if (tickets > 0) {
+                try {
+                    // 模拟网络延迟，放大并发问题
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(Thread.currentThread().getName() + " 卖出了第 " + tickets + " 张票");
+                tickets--;
+            } else {
                 break;
             }
         }
-    }
-
-    private synchronized boolean sellTicket() {
-        if (tickets <= 0) {
-            return false;
-        }
-        System.out.println(Thread.currentThread().getName() + " sold ticket: " + tickets);
-        tickets--;
-        return true;
     }
 }

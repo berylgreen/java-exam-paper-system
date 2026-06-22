@@ -53,19 +53,8 @@ catch (IOException e) {
 ### 参考代码
 
 ```java
+// Main.java
 package com.exam.bank;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-class FileStorage {
-    public void saveRecord(String id, String content) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt", true))) {
-            bw.write(id + ": " + content + "操作成功\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -77,3 +66,51 @@ public class Main {
 }
 
 ```
+
+```java
+// Account.java
+package com.exam.bank;
+
+public class Account {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Account() {}
+    
+    public Account(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Account{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+
+```java
+// FileStorage.java
+package com.exam.bank;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt", true))) {
+            bw.write(id + ": " + content + "操作成功\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+```
+

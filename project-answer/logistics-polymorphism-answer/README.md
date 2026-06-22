@@ -78,18 +78,48 @@ for (Package p : packages) {
 ### 参考代码
 
 ```java
+// StandardPackage.java
 package com.exam.logistics;
-interface PackageProcessor { void process(); }
-class StandardPackage implements PackageProcessor {
+public class StandardPackage implements PackageProcessor {
     private String name;
     public StandardPackage(String name) { this.name = name; }
     @Override public void process() { System.out.println("统一处理基础包裹：" + name); }
 }
-class FragilePackage implements PackageProcessor {
-    private String name;
-    public FragilePackage(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理高级包裹：" + name); }
+
+```
+
+```java
+// Package.java
+package com.exam.logistics;
+
+public class Package {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Package() {}
+    
+    public Package(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Package{id='" + id + "', name='" + name + "'}";
+    }
 }
+
+```
+
+```java
+// Main.java
+package com.exam.logistics;
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -99,3 +129,34 @@ public class Main {
 }
 
 ```
+
+```java
+// FragilePackage.java
+package com.exam.logistics;
+public class FragilePackage implements PackageProcessor {
+    private String name;
+    public FragilePackage(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级包裹：" + name); }
+}
+
+```
+
+```java
+// PackageProcessor.java
+package com.exam.logistics;
+public interface PackageProcessor { void process(); }
+
+```
+
+```java
+// FileStorage.java
+package com.exam.logistics;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+

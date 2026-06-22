@@ -1,31 +1,11 @@
 package com.exam.parser;
 
-class InvalidDataException extends Exception {
-    public InvalidDataException(String message) {
-        super(message);
-    }
-}
-
 public class DataParser {
-    public void parseScores(String[] data) {
-        for (String s : data) {
-            try {
-                try {
-                    if (s == null) {
-                        throw new NullPointerException("数据为 null");
-                    }
-                    int score = Integer.parseInt(s);
-                    System.out.println("Parsed: " + score);
-                } catch (NumberFormatException e) {
-                    throw new InvalidDataException("数据格式非法：" + s);
-                } catch (NullPointerException e) {
-                    throw new InvalidDataException("数据不能为空");
-                }
-            } catch (InvalidDataException e) {
-                System.err.println("解析失败：" + e.getMessage());
-            } finally {
-                System.out.println("解析过程结束");
-            }
+    public void parseScores(String[] rawData) {
+        for (String data : rawData) {
+            // FIXME: 这里遇到 null 或字母会抛出未捕获的运行时异常，导致循环中断
+            int score = Integer.parseInt(data);
+            System.out.println("成功解析分数: " + score);
         }
     }
 }

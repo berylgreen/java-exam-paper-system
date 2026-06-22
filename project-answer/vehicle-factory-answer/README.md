@@ -66,18 +66,8 @@ new Truck();
 ### 参考代码
 
 ```java
+// Main.java
 package com.exam.vehicle;
-interface VehicleProcessor { void process(); }
-class Car implements VehicleProcessor {
-    private String name;
-    public Car(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理基础交通工具：" + name); }
-}
-class Truck implements VehicleProcessor {
-    private String name;
-    public Truck(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理高级交通工具：" + name); }
-}
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -87,3 +77,74 @@ public class Main {
 }
 
 ```
+
+```java
+// VehicleProcessor.java
+package com.exam.vehicle;
+public interface VehicleProcessor { void process(); }
+
+```
+
+```java
+// Car.java
+package com.exam.vehicle;
+public class Car implements VehicleProcessor {
+    private String name;
+    public Car(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础交通工具：" + name); }
+}
+
+```
+
+```java
+// Vehicle.java
+package com.exam.vehicle;
+
+public class Vehicle {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Vehicle() {}
+    
+    public Vehicle(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Vehicle{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+
+```java
+// FileStorage.java
+package com.exam.vehicle;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+
+```java
+// Truck.java
+package com.exam.vehicle;
+public class Truck implements VehicleProcessor {
+    private String name;
+    public Truck(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级交通工具：" + name); }
+}
+
+```
+

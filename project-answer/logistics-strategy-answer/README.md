@@ -61,19 +61,37 @@ class OldPackageProcessor {
 ### 参考代码
 
 ```java
+// Package.java
 package com.exam.logistics;
-interface Strategy { void execute(String data); }
-class StrategyA implements Strategy {
-    @Override public void execute(String data) { System.out.println("执行策略A：处理 " + data); }
+
+public class Package {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Package() {}
+    
+    public Package(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Package{id='" + id + "', name='" + name + "'}";
+    }
 }
-class StrategyB implements Strategy {
-    @Override public void execute(String data) { System.out.println("执行策略B：处理 " + data); }
-}
-class Context {
-    private Strategy strategy;
-    public void setStrategy(Strategy strategy) { this.strategy = strategy; }
-    public void executeStrategy(String data) { if (strategy != null) strategy.execute(data); }
-}
+
+```
+
+```java
+// Main.java
+package com.exam.logistics;
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -88,3 +106,56 @@ public class Main {
 }
 
 ```
+
+```java
+// BusinessHandler.java
+package com.exam.logistics;
+
+public class BusinessHandler {
+    // 原始设计：随着业务增加，switch-case 越来越长，难以维护
+    public void handle(String type, String data) {
+        switch (type) {
+            case "TYPE_A":
+                System.out.println("执行策略A: 处理 " + data);
+                break;
+            case "TYPE_B":
+                System.out.println("执行策略B: 处理 " + data);
+                break;
+            default:
+                System.out.println("未知策略");
+        }
+    }
+}
+
+```
+
+```java
+// StrategyContext.java
+package com.exam.logistics;
+interface Strategy { void execute(String data); }
+class StrategyA implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略A：处理 " + data); }
+}
+class StrategyB implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略B：处理 " + data); }
+}
+class Context {
+    private Strategy strategy;
+    public void setStrategy(Strategy strategy) { this.strategy = strategy; }
+    public void executeStrategy(String data) { if (strategy != null) strategy.execute(data); }
+}
+
+```
+
+```java
+// FileStorage.java
+package com.exam.logistics;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+

@@ -78,7 +78,36 @@ public class Device {
 ### 参考代码
 
 ```java
-// Object.java 等实体类
+// Main.java
+package com.exam.smarthome;
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        Device obj = new Device();
+        try {
+            obj.setId("101");
+            obj.setName("智能灯");
+            System.out.println("正常设置成功：id=" + obj.getId() + ", 名称=" + obj.getName());
+        } catch (Exception e) {
+            System.out.println("正常设置失败：" + e.getMessage());
+        }
+        try {
+            obj.setId("");
+        } catch (IllegalArgumentException e) {
+            System.out.println("设置编号失败：" + e.getMessage());
+        }
+        try {
+            obj.setValue(-100);
+        } catch (IllegalArgumentException e) {
+            System.out.println("设置数值失败：" + e.getMessage());
+        }
+    }
+}
+
+```
+
+```java
+// Device.java
 package com.exam.smarthome;
 import java.util.Objects;
 public class Device implements Comparable<Device> {
@@ -116,31 +145,3 @@ public class Device implements Comparable<Device> {
 
 ```
 
-```java
-// Main.java 等核心逻辑
-package com.exam.smarthome;
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("--- 执行测试用例 ---");
-        Device obj = new Device();
-        try {
-            obj.setId("101");
-            obj.setName("智能灯");
-            System.out.println("正常设置成功：id=" + obj.getId() + ", 名称=" + obj.getName());
-        } catch (Exception e) {
-            System.out.println("正常设置失败：" + e.getMessage());
-        }
-        try {
-            obj.setId("");
-        } catch (IllegalArgumentException e) {
-            System.out.println("设置编号失败：" + e.getMessage());
-        }
-        try {
-            obj.setValue(-100);
-        } catch (IllegalArgumentException e) {
-            System.out.println("设置数值失败：" + e.getMessage());
-        }
-    }
-}
-
-```

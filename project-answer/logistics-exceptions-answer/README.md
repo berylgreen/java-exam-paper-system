@@ -79,11 +79,52 @@ for (String data : dataList) {
 ### 参考代码
 
 ```java
+// Package.java
 package com.exam.logistics;
-class CustomException extends Exception {
-    public CustomException(String msg) { super(msg); }
+
+public class Package {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Package() {}
+    
+    public Package(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Package{id='" + id + "', name='" + name + "'}";
+    }
 }
-class DataParser {
+
+```
+
+```java
+// Main.java
+package com.exam.logistics;
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        DataParser parser = new DataParser();
+        String[] data = {"数据1", "error", "数据3"}; 
+        parser.parseData(data);
+    }
+}
+
+```
+
+```java
+// DataParser.java
+package com.exam.logistics;
+public class DataParser {
     public void parseData(String[] data) {
         for (String item : data) {
             try {
@@ -96,13 +137,13 @@ class DataParser {
         System.out.println("全部数据处理完毕");
     }
 }
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("--- 执行测试用例 ---");
-        DataParser parser = new DataParser();
-        String[] data = {"数据1", "error", "数据3"}; 
-        parser.parseData(data);
-    }
-}
 
 ```
+
+```java
+// CustomException.java
+package com.exam.logistics;
+public class CustomException extends Exception { public CustomException(String m) { super(m); } }
+
+```
+

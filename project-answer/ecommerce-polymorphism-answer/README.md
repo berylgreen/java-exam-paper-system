@@ -73,18 +73,8 @@ if (obj instanceof RegularOrder) {
 ### 参考代码
 
 ```java
+// Main.java
 package com.exam.ecommerce;
-interface OrderProcessor { void process(); }
-class StandardOrder implements OrderProcessor {
-    private String name;
-    public StandardOrder(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理基础商品：" + name); }
-}
-class ExpressOrder implements OrderProcessor {
-    private String name;
-    public ExpressOrder(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理高级商品：" + name); }
-}
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -94,3 +84,74 @@ public class Main {
 }
 
 ```
+
+```java
+// Order.java
+package com.exam.ecommerce;
+
+public class Order {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Order() {}
+    
+    public Order(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Order{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+
+```java
+// ExpressOrder.java
+package com.exam.ecommerce;
+public class ExpressOrder implements OrderProcessor {
+    private String name;
+    public ExpressOrder(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级商品：" + name); }
+}
+
+```
+
+```java
+// StandardOrder.java
+package com.exam.ecommerce;
+public class StandardOrder implements OrderProcessor {
+    private String name;
+    public StandardOrder(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础商品：" + name); }
+}
+
+```
+
+```java
+// OrderProcessor.java
+package com.exam.ecommerce;
+public interface OrderProcessor { void process(); }
+
+```
+
+```java
+// FileStorage.java
+package com.exam.ecommerce;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+

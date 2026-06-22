@@ -62,18 +62,26 @@ if (obj instanceof LightDevice) {
 ### 参考代码
 
 ```java
+// DeviceProcessor.java
 package com.exam.smarthome;
-interface DeviceProcessor { void process(); }
-class Sensor implements DeviceProcessor {
-    private String name;
-    public Sensor(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理基础设备：" + name); }
-}
-class Controller implements DeviceProcessor {
+public interface DeviceProcessor { void process(); }
+
+```
+
+```java
+// Controller.java
+package com.exam.smarthome;
+public class Controller implements DeviceProcessor {
     private String name;
     public Controller(String name) { this.name = name; }
     @Override public void process() { System.out.println("统一处理高级设备：" + name); }
 }
+
+```
+
+```java
+// Main.java
+package com.exam.smarthome;
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -83,3 +91,56 @@ public class Main {
 }
 
 ```
+
+```java
+// Sensor.java
+package com.exam.smarthome;
+public class Sensor implements DeviceProcessor {
+    private String name;
+    public Sensor(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础设备：" + name); }
+}
+
+```
+
+```java
+// FileStorage.java
+package com.exam.smarthome;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+
+```java
+// Device.java
+package com.exam.smarthome;
+
+public class Device {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Device() {}
+    
+    public Device(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Device{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+

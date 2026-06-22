@@ -65,18 +65,8 @@ room.process();
 ### 参考代码
 
 ```java
+// Main.java
 package com.exam.hotel;
-interface RoomProcessor { void process(); }
-class RegularRoom implements RoomProcessor {
-    private String name;
-    public RegularRoom(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理基础客房：" + name); }
-}
-class VIPRoom implements RoomProcessor {
-    private String name;
-    public VIPRoom(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理高级客房：" + name); }
-}
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -86,3 +76,74 @@ public class Main {
 }
 
 ```
+
+```java
+// Room.java
+package com.exam.hotel;
+
+public class Room {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Room() {}
+    
+    public Room(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Room{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+
+```java
+// RegularRoom.java
+package com.exam.hotel;
+public class RegularRoom implements RoomProcessor {
+    private String name;
+    public RegularRoom(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础客房：" + name); }
+}
+
+```
+
+```java
+// RoomProcessor.java
+package com.exam.hotel;
+public interface RoomProcessor { void process(); }
+
+```
+
+```java
+// FileStorage.java
+package com.exam.hotel;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+
+```java
+// VIPRoom.java
+package com.exam.hotel;
+public class VIPRoom implements RoomProcessor {
+    private String name;
+    public VIPRoom(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级客房：" + name); }
+}
+
+```
+

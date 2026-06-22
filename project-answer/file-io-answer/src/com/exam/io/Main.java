@@ -1,39 +1,22 @@
 package com.exam.io;
 
-import java.io.*;
-
-class LogBackup {
-    public static void backup(String src, String dest) {
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(src));
-             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(dest))) {
-
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = bis.read(buffer)) != -1) {
-                bos.write(buffer, 0, len);
-            }
-            bos.flush();
-        } catch (IOException e) {
-            System.out.println("文件备份失败：" + e.getMessage());
-        }
-    }
-}
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
-        String src = "temp.log";
-        String dest = "backup.log";
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(src))) {
-            writer.write("[INFO] System started\n");
-            writer.write("[INFO] User login success\n");
-            writer.write("[ERROR] Disk space low\n");
-        } catch (IOException e) {
-            System.out.println("测试文件创建失败：" + e.getMessage());
-            return;
+    public static void main(String[] args) throws IOException {
+        String sourceFile = "server.log";
+        String backupFile = "server_backup.log";
+        
+        // 模拟生成日志文件
+        try (FileWriter fw = new FileWriter(sourceFile)) {
+            fw.write("2026-05-31 INFO System started.\n");
+            fw.write("2026-05-31 ERROR Out of memory.\n");
         }
-
-        LogBackup.backup(src, dest);
-        System.out.println("文件备份完成。");
+        
+        LogBackupTool tool = new LogBackupTool();
+        tool.backupLog(sourceFile, backupFile);
+        
+        System.out.println("备份完成，请检查是否生成了 " + backupFile);
     }
 }

@@ -69,7 +69,7 @@ pkg.setAmount(-10);
 ### 参考代码
 
 ```java
-// Object.java 等实体类
+// Package.java
 package com.exam.logistics;
 import java.util.Objects;
 public class Package implements Comparable<Package> {
@@ -108,7 +108,7 @@ public class Package implements Comparable<Package> {
 ```
 
 ```java
-// Main.java 等核心逻辑
+// Main.java
 package com.exam.logistics;
 public class Main {
     public static void main(String[] args) {
@@ -135,3 +135,4 @@ public class Main {
 }
 
 ```
+

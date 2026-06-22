@@ -19,7 +19,7 @@ public class MyObject implements Comparable<MyObject> {
         this.value = value;
     }
     @Override
-    public boolean equals(MyObject o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MyObject that = (MyObject) o;

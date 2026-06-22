@@ -1,10 +1,4 @@
 package com.exam.library;
-class SharedResource {
-    private int count;
-    public SharedResource(int initialCount) { this.count = initialCount; }
-    public synchronized void decrement(int amount) { this.count -= amount; }
-    public int getCount() { return count; }
-}
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");

@@ -88,18 +88,8 @@ station.removeObserver(phoneApp);
 ### 参考代码
 
 ```java
+// Main.java
 package com.exam.weather;
-interface WeatherDataProcessor { void process(); }
-class TypeA implements WeatherDataProcessor {
-    private String name;
-    public TypeA(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理基础气象数据：" + name); }
-}
-class TypeB implements WeatherDataProcessor {
-    private String name;
-    public TypeB(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理高级气象数据：" + name); }
-}
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -109,3 +99,74 @@ public class Main {
 }
 
 ```
+
+```java
+// TypeA.java
+package com.exam.weather;
+public class TypeA implements WeatherDataProcessor {
+    private String name;
+    public TypeA(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础气象数据：" + name); }
+}
+
+```
+
+```java
+// WeatherData.java
+package com.exam.weather;
+
+public class WeatherData {
+    public String id;
+    public String name;
+    public double value;
+    
+    public WeatherData() {}
+    
+    public WeatherData(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "WeatherData{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+
+```java
+// FileStorage.java
+package com.exam.weather;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+
+```java
+// WeatherDataProcessor.java
+package com.exam.weather;
+public interface WeatherDataProcessor { void process(); }
+
+```
+
+```java
+// TypeB.java
+package com.exam.weather;
+public class TypeB implements WeatherDataProcessor {
+    private String name;
+    public TypeB(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级气象数据：" + name); }
+}
+
+```
+

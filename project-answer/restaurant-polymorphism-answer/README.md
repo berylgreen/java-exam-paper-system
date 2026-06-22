@@ -81,18 +81,8 @@ dish.process();
 ### 参考代码
 
 ```java
+// Main.java
 package com.exam.restaurant;
-interface DishProcessor { void process(); }
-class ColdDish implements DishProcessor {
-    private String name;
-    public ColdDish(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理基础菜品：" + name); }
-}
-class HotDish implements DishProcessor {
-    private String name;
-    public HotDish(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理高级菜品：" + name); }
-}
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -102,3 +92,74 @@ public class Main {
 }
 
 ```
+
+```java
+// HotDish.java
+package com.exam.restaurant;
+public class HotDish implements DishProcessor {
+    private String name;
+    public HotDish(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级菜品：" + name); }
+}
+
+```
+
+```java
+// DishProcessor.java
+package com.exam.restaurant;
+public interface DishProcessor { void process(); }
+
+```
+
+```java
+// Dish.java
+package com.exam.restaurant;
+
+public class Dish {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Dish() {}
+    
+    public Dish(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Dish{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+
+```java
+// ColdDish.java
+package com.exam.restaurant;
+public class ColdDish implements DishProcessor {
+    private String name;
+    public ColdDish(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础菜品：" + name); }
+}
+
+```
+
+```java
+// FileStorage.java
+package com.exam.restaurant;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+

@@ -94,7 +94,47 @@ integerBox.set(100);
 ### 参考代码
 
 ```java
-// MyObject.java 等实体类
+// Main.java
+package com.exam.generic;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        Set<MyObject> set = new HashSet<>();
+        set.add(new MyObject("103", "对象C"));
+        set.add(new MyObject("101", "对象A"));
+        set.add(new MyObject("102", "对象B"));
+        set.add(new MyObject("102", "对象B")); // 重复对象
+        System.out.println("添加后去重的对象数量：" + set.size());
+        List<MyObject> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (MyObject item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
+        }
+    }
+}
+
+```
+
+```java
+// FileStorage.java
+package com.exam.generic;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+
+```java
+// MyObject.java
 package com.exam.generic;
 import java.util.Objects;
 public class MyObject implements Comparable<MyObject> {
@@ -127,35 +167,8 @@ public class MyObject implements Comparable<MyObject> {
     @Override
     public int compareTo(MyObject other) { return this.id.compareTo(other.id); }
     @Override
-    public String toString() { return "Object{id='" + id + "', name='" + name + "'}"; }
+    public String toString() { return "MyObject{id='" + id + "', name='" + name + "'}"; }
 }
 
 ```
 
-```java
-// Main.java 等核心逻辑
-package com.exam.generic;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("--- 执行测试用例 ---");
-        Set<MyObject> set = new HashSet<>();
-        set.add(new MyObject("103", "对象C"));
-        set.add(new MyObject("101", "对象A"));
-        set.add(new MyObject("102", "对象B"));
-        set.add(new MyObject("102", "对象B")); // 重复对象
-        System.out.println("添加后去重的对象数量：" + set.size());
-        List<MyObject> list = new ArrayList<>(set);
-        Collections.sort(list);
-        System.out.println("排序后输出：");
-        for (MyObject item : list) {
-            System.out.println("id=" + item.getId() + ": " + item.getName());
-        }
-    }
-}
-
-```

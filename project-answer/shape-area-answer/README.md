@@ -75,18 +75,8 @@ shape.calculateArea()
 ### 参考代码
 
 ```java
+// Main.java
 package com.exam.shape;
-interface ShapeProcessor { void process(); }
-class Circle implements ShapeProcessor {
-    private String name;
-    public Circle(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理基础图形：" + name); }
-}
-class Rectangle implements ShapeProcessor {
-    private String name;
-    public Rectangle(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理高级图形：" + name); }
-}
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -96,3 +86,74 @@ public class Main {
 }
 
 ```
+
+```java
+// Circle.java
+package com.exam.shape;
+public class Circle implements ShapeProcessor {
+    private String name;
+    public Circle(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础图形：" + name); }
+}
+
+```
+
+```java
+// ShapeProcessor.java
+package com.exam.shape;
+public interface ShapeProcessor { void process(); }
+
+```
+
+```java
+// FileStorage.java
+package com.exam.shape;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+
+```java
+// Rectangle.java
+package com.exam.shape;
+public class Rectangle implements ShapeProcessor {
+    private String name;
+    public Rectangle(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级图形：" + name); }
+}
+
+```
+
+```java
+// Shape.java
+package com.exam.shape;
+
+public class Shape {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Shape() {}
+    
+    public Shape(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Shape{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+

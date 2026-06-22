@@ -1,17 +1,23 @@
 package com.exam.hotel;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
-        Map<String, Room> map = new HashMap<>();
-        map.put("101", new Room("101", "总统套房"));
-        map.put("102", new Room("102", "豪华大床房"));
-        map.put("103", new Room("103", "标准间"));
-        System.out.println("添加后客房数量：" + map.size());
-        Room item = map.get("102");
-        System.out.println("查询 id=102 的客房：" + (item != null ? item.getName() : "null"));
-        map.remove("102");
-        System.out.println("删除后再次查询 id=102：" + (map.get("102") != null ? map.get("102").getName() : "null"));
+        Set<Room> set = new HashSet<>();
+        set.add(new Room("103", "标准间"));
+        set.add(new Room("101", "总统套房"));
+        set.add(new Room("102", "豪华大床房"));
+        set.add(new Room("102", "豪华大床房")); // 重复对象
+        System.out.println("添加后去重的客房数量：" + set.size());
+        List<Room> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (Room item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
+        }
     }
 }

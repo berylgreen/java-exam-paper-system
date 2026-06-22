@@ -58,13 +58,45 @@ if (roomCount > 0) {
 ### 参考代码
 
 ```java
+// SharedResource.java
 package com.exam.hotel;
-class SharedResource {
+
+public class SharedResource {
     private int count;
-    public SharedResource(int initialCount) { this.count = initialCount; }
+    
+    public SharedResource(int initialCount) {
+        this.count = initialCount;
+    }
+    
+    // 原始设计：非原子性操作，多线程并发时会出现竞态条件
+    public void decrement() {
+        int temp = count;
+        temp = temp - 1;
+        count = temp;
+    }
+    
+    public int getCount() {
+        return count;
+    }
+}
+
+```
+
+```java
+// Inventory.java
+package com.exam.hotel;
+public class Inventory {
+    private int count;
+    public Inventory(int initialCount) { this.count = initialCount; }
     public synchronized void decrement(int amount) { this.count -= amount; }
     public int getCount() { return count; }
 }
+
+```
+
+```java
+// Main.java
+package com.exam.hotel;
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -77,3 +109,45 @@ public class Main {
 }
 
 ```
+
+```java
+// Room.java
+package com.exam.hotel;
+
+public class Room {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Room() {}
+    
+    public Room(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Room{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+
+```java
+// FileStorage.java
+package com.exam.hotel;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+

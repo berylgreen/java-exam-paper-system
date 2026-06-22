@@ -82,19 +82,37 @@ while ((len = bis.read(buffer)) != -1) {
 ### 参考代码
 
 ```java
+// Record.java
 package com.exam.file;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-class FileStorage {
-    public void saveRecord(String id, String content) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt", true))) {
-            bw.write(id + ": " + content + "操作成功\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+public class Record {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Record() {}
+    
+    public Record(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Record{id='" + id + "', name='" + name + "'}";
     }
 }
+
+```
+
+```java
+// Main.java
+package com.exam.file;
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -106,3 +124,22 @@ public class Main {
 }
 
 ```
+
+```java
+// FileStorage.java
+package com.exam.file;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt", true))) {
+            bw.write(id + ": " + content + "操作成功\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+```
+

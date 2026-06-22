@@ -1,17 +1,23 @@
 package com.exam.smarthome;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
-        Map<String, Device> map = new HashMap<>();
-        map.put("101", new Device("101", "智能灯"));
-        map.put("102", new Device("102", "智能空调"));
-        map.put("103", new Device("103", "智能门锁"));
-        System.out.println("添加后设备数量：" + map.size());
-        Device item = map.get("102");
-        System.out.println("查询 id=102 的设备：" + (item != null ? item.getName() : "null"));
-        map.remove("102");
-        System.out.println("删除后再次查询 id=102：" + (map.get("102") != null ? map.get("102").getName() : "null"));
+        Set<Device> set = new HashSet<>();
+        set.add(new Device("103", "智能门锁"));
+        set.add(new Device("101", "智能灯"));
+        set.add(new Device("102", "智能空调"));
+        set.add(new Device("102", "智能空调")); // 重复对象
+        System.out.println("添加后去重的设备数量：" + set.size());
+        List<Device> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (Device item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
+        }
     }
 }

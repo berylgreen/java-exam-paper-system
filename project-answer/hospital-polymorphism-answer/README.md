@@ -68,18 +68,8 @@ patient.process();
 ### 参考代码
 
 ```java
+// Main.java
 package com.exam.hospital;
-interface PatientProcessor { void process(); }
-class Outpatient implements PatientProcessor {
-    private String name;
-    public Outpatient(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理基础病历：" + name); }
-}
-class Emergency implements PatientProcessor {
-    private String name;
-    public Emergency(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理高级病历：" + name); }
-}
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -89,3 +79,74 @@ public class Main {
 }
 
 ```
+
+```java
+// Emergency.java
+package com.exam.hospital;
+public class Emergency implements PatientProcessor {
+    private String name;
+    public Emergency(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级病历：" + name); }
+}
+
+```
+
+```java
+// Outpatient.java
+package com.exam.hospital;
+public class Outpatient implements PatientProcessor {
+    private String name;
+    public Outpatient(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础病历：" + name); }
+}
+
+```
+
+```java
+// Patient.java
+package com.exam.hospital;
+
+public class Patient {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Patient() {}
+    
+    public Patient(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Patient{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+
+```java
+// FileStorage.java
+package com.exam.hospital;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+
+```java
+// PatientProcessor.java
+package com.exam.hospital;
+public interface PatientProcessor { void process(); }
+
+```
+

@@ -68,18 +68,8 @@ for (Book book : books) {
 ### 参考代码
 
 ```java
+// Main.java
 package com.exam.library;
-interface BookProcessor { void process(); }
-class Textbook implements BookProcessor {
-    private String name;
-    public Textbook(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理基础图书：" + name); }
-}
-class Magazine implements BookProcessor {
-    private String name;
-    public Magazine(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理高级图书：" + name); }
-}
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -89,3 +79,74 @@ public class Main {
 }
 
 ```
+
+```java
+// Magazine.java
+package com.exam.library;
+public class Magazine implements BookProcessor {
+    private String name;
+    public Magazine(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级图书：" + name); }
+}
+
+```
+
+```java
+// BookProcessor.java
+package com.exam.library;
+public interface BookProcessor { void process(); }
+
+```
+
+```java
+// Book.java
+package com.exam.library;
+
+public class Book {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Book() {}
+    
+    public Book(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Book{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+
+```java
+// Textbook.java
+package com.exam.library;
+public class Textbook implements BookProcessor {
+    private String name;
+    public Textbook(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础图书：" + name); }
+}
+
+```
+
+```java
+// FileStorage.java
+package com.exam.library;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+

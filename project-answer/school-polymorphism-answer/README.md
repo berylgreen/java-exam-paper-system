@@ -59,18 +59,8 @@ if (obj instanceof RegularStudent) {
 ### 参考代码
 
 ```java
+// Main.java
 package com.exam.school;
-interface StudentProcessor { void process(); }
-class Undergraduate implements StudentProcessor {
-    private String name;
-    public Undergraduate(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理基础课程：" + name); }
-}
-class Graduate implements StudentProcessor {
-    private String name;
-    public Graduate(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理高级课程：" + name); }
-}
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -80,3 +70,74 @@ public class Main {
 }
 
 ```
+
+```java
+// Student.java
+package com.exam.school;
+
+public class Student {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Student() {}
+    
+    public Student(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Student{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+
+```java
+// Graduate.java
+package com.exam.school;
+public class Graduate implements StudentProcessor {
+    private String name;
+    public Graduate(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级课程：" + name); }
+}
+
+```
+
+```java
+// StudentProcessor.java
+package com.exam.school;
+public interface StudentProcessor { void process(); }
+
+```
+
+```java
+// Undergraduate.java
+package com.exam.school;
+public class Undergraduate implements StudentProcessor {
+    private String name;
+    public Undergraduate(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础课程：" + name); }
+}
+
+```
+
+```java
+// FileStorage.java
+package com.exam.school;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+

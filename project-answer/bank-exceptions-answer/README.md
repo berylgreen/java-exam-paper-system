@@ -69,11 +69,23 @@ public void parseList(String[] data) {
 ### 参考代码
 
 ```java
+// Main.java
 package com.exam.bank;
-class CustomException extends Exception {
-    public CustomException(String msg) { super(msg); }
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        DataParser parser = new DataParser();
+        String[] data = {"数据1", "error", "数据3"}; 
+        parser.parseData(data);
+    }
 }
-class DataParser {
+
+```
+
+```java
+// DataParser.java
+package com.exam.bank;
+public class DataParser {
     public void parseData(String[] data) {
         for (String item : data) {
             try {
@@ -86,13 +98,42 @@ class DataParser {
         System.out.println("全部数据处理完毕");
     }
 }
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("--- 执行测试用例 ---");
-        DataParser parser = new DataParser();
-        String[] data = {"数据1", "error", "数据3"}; 
-        parser.parseData(data);
+
+```
+
+```java
+// Account.java
+package com.exam.bank;
+
+public class Account {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Account() {}
+    
+    public Account(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Account{id='" + id + "', name='" + name + "'}";
     }
 }
 
 ```
+
+```java
+// CustomException.java
+package com.exam.bank;
+public class CustomException extends Exception { public CustomException(String m) { super(m); } }
+
+```
+

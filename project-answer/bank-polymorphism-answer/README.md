@@ -77,18 +77,8 @@ for (Account account : accounts) {
 ### 参考代码
 
 ```java
+// Main.java
 package com.exam.bank;
-interface AccountProcessor { void process(); }
-class NormalAccount implements AccountProcessor {
-    private String name;
-    public NormalAccount(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理基础账户：" + name); }
-}
-class VIPAccount implements AccountProcessor {
-    private String name;
-    public VIPAccount(String name) { this.name = name; }
-    @Override public void process() { System.out.println("统一处理高级账户：" + name); }
-}
 public class Main {
     public static void main(String[] args) {
         System.out.println("--- 执行测试用例 ---");
@@ -98,3 +88,74 @@ public class Main {
 }
 
 ```
+
+```java
+// AccountProcessor.java
+package com.exam.bank;
+public interface AccountProcessor { void process(); }
+
+```
+
+```java
+// NormalAccount.java
+package com.exam.bank;
+public class NormalAccount implements AccountProcessor {
+    private String name;
+    public NormalAccount(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础账户：" + name); }
+}
+
+```
+
+```java
+// Account.java
+package com.exam.bank;
+
+public class Account {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Account() {}
+    
+    public Account(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Account{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+```
+
+```java
+// FileStorage.java
+package com.exam.bank;
+
+public class FileStorage {
+    public void saveRecord(String id, String content) {
+        // TODO: 完善此方法，使用 try-with-resources 写入文件
+    }
+}
+
+```
+
+```java
+// VIPAccount.java
+package com.exam.bank;
+public class VIPAccount implements AccountProcessor {
+    private String name;
+    public VIPAccount(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级账户：" + name); }
+}
+
+```
+
