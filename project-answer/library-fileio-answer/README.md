@@ -2,10 +2,10 @@
 
 图书馆系统需要将当天的图书操作记录持久化到本地 `.txt` 文件中。请补全或编写一个方法，实现将一条记录追加写入指定文件。
 
-**要求：**
-(1) 使用 `FileWriter` 和 `BufferedWriter` 按行写入文本内容。
-(2) 写入时采用追加模式，避免覆盖原有记录。
-(3) 正确处理可能出现的 `IOException` 异常。
+**要求：**  
+(1) 使用 `FileWriter` 和 `BufferedWriter` 按行写入文本内容。  
+(2) 写入时采用追加模式，避免覆盖原有记录。  
+(3) 正确处理可能出现的 `IOException` 异常。  
 (4) 使用 `try-with-resources` 或 `finally` 确保流对象被安全关闭。
 
 ## 测试数据示例
@@ -28,8 +28,8 @@
 ```java
 try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true)))
 ```
-这行代码同时完成了两件事：
-(1) `new FileWriter(file, true)`：以追加模式打开文件，`true` 表示新内容会写到文件末尾，不会覆盖原有内容。
+这行代码同时完成了两件事：  
+(1) `new FileWriter(file, true)`：以追加模式打开文件，`true` 表示新内容会写到文件末尾，不会覆盖原有内容。  
 (2) `new BufferedWriter(...)`：使用缓冲字符输出流包装 `FileWriter`，可以提高写入效率。
 
 ```java

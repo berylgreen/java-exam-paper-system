@@ -41,15 +41,15 @@
 
 重构前，如果 `PaymentProcessor` 内部写死现金支付逻辑，那么每增加一种支付方式，都需要直接修改处理器代码。这种做法会导致类之间耦合严重，也不利于后续扩展。
 
-重构后的设计思路如下：
+重构后的设计思路如下：  
 
-(1) `PaymentStrategy` 接口定义统一的支付行为 `pay(Order order)`，表示“任何支付方式都必须具备支付功能”。
+(1) `PaymentStrategy` 接口定义统一的支付行为 `pay(Order order)`，表示“任何支付方式都必须具备支付功能”。  
 
-(2) `WechatPay` 和 `Alipay` 分别实现该接口，各自给出具体的支付实现。这样，不同支付方式之间遵循同一套调用规范。
+(2) `WechatPay` 和 `Alipay` 分别实现该接口，各自给出具体的支付实现。这样，不同支付方式之间遵循同一套调用规范。  
 
-(3) `PaymentProcessor` 不再依赖具体类，而是依赖抽象接口 `PaymentStrategy`。这体现了“面向接口编程”的思想。通过 `setPaymentStrategy()` 方法，可以在程序运行过程中灵活切换支付方式。
+(3) `PaymentProcessor` 不再依赖具体类，而是依赖抽象接口 `PaymentStrategy`。这体现了“面向接口编程”的思想。通过 `setPaymentStrategy()` 方法，可以在程序运行过程中灵活切换支付方式。  
 
-(4) `processPayment(Order order)` 中只负责调用 `paymentStrategy.pay(order)`。如果尚未设置策略，则进行必要的空值判断并输出提示信息，避免程序出错。
+(4) `processPayment(Order order)` 中只负责调用 `paymentStrategy.pay(order)`。如果尚未设置策略，则进行必要的空值判断并输出提示信息，避免程序出错。  
 
 (5) 在 `Main` 中，同一个 `PaymentProcessor` 对象先后设置为 `WechatPay` 和 `Alipay`，说明策略可以动态替换，这正是策略模式的典型应用。
 

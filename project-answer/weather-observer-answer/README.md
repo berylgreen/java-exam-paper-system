@@ -2,15 +2,15 @@
 
 某气象站系统 `WeatherStation` 在气象数据发生变化时，原先通过硬编码方式直接调用具体显示设备（如 `PhoneApp`、`DisplayPanel`）的方法。这种实现方式使 `WeatherStation` 与具体设备强耦合，导致系统难以扩展：每增加一种新设备，都需要修改气象站代码。
 
-请使用**观察者模式（Observer Pattern）**对该系统进行重构，要求如下：
+请使用**观察者模式（Observer Pattern）**对该系统进行重构，要求如下：  
 
-(1) 定义观察者接口 `Observer`，包含方法：`void update(float temp, float humidity, float pressure)`。
+(1) 定义观察者接口 `Observer`，包含方法：`void update(float temp, float humidity, float pressure)`。  
 (2) 定义主题接口 `Subject`，至少包含以下方法：
    - `void registerObserver(Observer o)`
    - `void removeObserver(Observer o)`
-   - `void notifyObservers()`
-(3) 重构 `WeatherStation` 类，使其实现 `Subject` 接口，并在类中维护一个 `List<Observer>` 类型的订阅者列表。
-(4) 让不同的显示设备（如 `PhoneApp`、`DisplayPanel`）实现 `Observer` 接口。
+   - `void notifyObservers()`  
+(3) 重构 `WeatherStation` 类，使其实现 `Subject` 接口，并在类中维护一个 `List<Observer>` 类型的订阅者列表。  
+(4) 让不同的显示设备（如 `PhoneApp`、`DisplayPanel`）实现 `Observer` 接口。  
 (5) 编写测试代码，演示：
    - 观察者的动态注册；
    - 气象数据更新后自动通知所有已订阅设备；
@@ -63,10 +63,10 @@ station.registerObserver(displayPanel);
 station.setMeasurements(26.5f, 65.0f, 1012.3f);
 ```
 
-执行流程为：
-(1) `phoneApp` 和 `displayPanel` 注册到 `station`；
-(2) `station` 更新内部气象数据；
-(3) `station.notifyObservers()` 遍历观察者列表；
+执行流程为：  
+(1) `phoneApp` 和 `displayPanel` 注册到 `station`；  
+(2) `station` 更新内部气象数据；  
+(3) `station.notifyObservers()` 遍历观察者列表；  
 (4) 每个观察者都会收到 `update(temp, humidity, pressure)` 调用。
 
 当执行：
