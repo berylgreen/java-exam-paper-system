@@ -8,20 +8,6 @@ import java.util.Objects;
 import java.util.Set;
 
 class Vehicle implements Comparable<Vehicle> {
-    private boolean valid;
-    private String name = "";
-    private int value;
-    public Vehicle() {}
-    public Vehicle(boolean valid, String name) { this.valid = valid; this.name = name; }
-    public boolean isValid() { return valid; }
-    public void setValid(boolean valid) { this.valid = valid; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public int getValue() { return value; }
-    public void setValue(int value) { this.value = value; }
-    public void setId(String id) { this.id = id; }
-
-
     private String id;
     private String brand;
 
@@ -43,7 +29,7 @@ class Vehicle implements Comparable<Vehicle> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Vehicle vehicle = (Vehicle) o;
-        return Objects.equals(id, vehicle.getId());
+        return Objects.equals(id, vehicle.id);
     }
 
     @Override
@@ -53,7 +39,7 @@ class Vehicle implements Comparable<Vehicle> {
 
     @Override
     public int compareTo(Vehicle other) {
-        return this.getId().compareTo(other.getId());
+        return this.id.compareTo(other.id);
     }
 
     @Override

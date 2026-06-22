@@ -44,3 +44,23 @@ public class TestPatientRecord {
         System.out.println("最终结果：" + record.getCount());
     }
 }
+```
+
+也可以使用同步代码块实现：
+
+```java
+class PatientRecord {
+    private int count = 100;
+
+    public void update() {
+        synchronized (this) {
+            if (count > 0) {
+                count--;
+            }
+        }
+    }
+
+    public int getCount() {
+        return count;
+    }
+}

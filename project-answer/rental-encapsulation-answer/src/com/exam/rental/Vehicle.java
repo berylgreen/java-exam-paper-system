@@ -1,20 +1,6 @@
 package com.exam.rental;
 
 public class Vehicle {
-    private boolean valid;
-    private String name = "";
-    private int value;
-    
-    public Vehicle() {}
-    public Vehicle(boolean valid, String name) { this.valid = valid; this.name = name; }
-    
-    public boolean isValid() { return valid; }
-    public void setValid(boolean valid) { this.valid = valid; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public int getValue() { return value; }
-    public void setValue(int value) { this.value = value; }
-
     private String id;
     private double amount;
 
@@ -26,7 +12,7 @@ public class Vehicle {
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("id 不能为空");
         }
-        this.setId(id);
+        this.id = id;
     }
 
     public double getAmount() {
@@ -37,6 +23,6 @@ public class Vehicle {
         if (amount < 0) {
             throw new IllegalArgumentException("amount 不能为负数");
         }
-        this.setAmount(amount);
+        this.amount = amount;
     }
 }

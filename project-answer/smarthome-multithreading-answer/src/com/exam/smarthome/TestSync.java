@@ -41,3 +41,24 @@ public class TestSync {
         System.out.println("最终库存：" + updater.getStock());
     }
 }
+```
+
+也可以使用同步代码块实现：
+
+```java
+class DeviceUpdater {
+    private int stock = 100;
+
+    public void updateStock() {
+        synchronized (this) {
+            if (stock > 0) {
+                stock--;
+                System.out.println(Thread.currentThread().getName() + " 更新后库存：" + stock);
+            }
+        }
+    }
+
+    public int getStock() {
+        return stock;
+    }
+}

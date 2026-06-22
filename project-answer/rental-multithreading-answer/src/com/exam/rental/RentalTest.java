@@ -41,3 +41,23 @@ public class RentalTest {
         System.out.println("最终库存：" + inventory.getStock());
     }
 }
+```
+
+也可以使用同步代码块实现：
+
+```java
+class CarInventory {
+    private int stock = 100;
+
+    public void rentCar() {
+        synchronized (this) {
+            if (stock > 0) {
+                stock--;
+            }
+        }
+    }
+
+    public int getStock() {
+        return stock;
+    }
+}

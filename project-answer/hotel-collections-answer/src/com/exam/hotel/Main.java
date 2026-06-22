@@ -3,23 +3,6 @@ package com.exam.hotel;
 import java.util.*;
 
 class Room implements Comparable<Room> {
-    private boolean valid;
-    private String name = "";
-    private int value;
-    private String id;
-    
-    public Room() {}
-    public Room(boolean valid, String name) { this.valid = valid; this.name = name; }
-    
-    public boolean isValid() { return valid; }
-    public void setValid(boolean valid) { this.valid = valid; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public int getValue() { return value; }
-    public void setValue(int value) { this.value = value; }
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
     private String roomId;
 
     public Room(String roomId) {

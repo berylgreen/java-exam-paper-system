@@ -72,6 +72,7 @@ class DisplayPanel implements Observer {
 }
 
 // 测试类
+
 public class Main {
     public static void main(String[] args) {
         WeatherStation station = new WeatherStation();

@@ -1,23 +1,6 @@
 package com.exam.logistics;
 
 abstract class Package {
-    private boolean valid;
-    private String name = "";
-    private int value;
-    private String id;
-    
-    public Package() {}
-    public Package(boolean valid, String name) { this.valid = valid; this.name = name; }
-    
-    public boolean isValid() { return valid; }
-    public void setValid(boolean valid) { this.valid = valid; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public int getValue() { return value; }
-    public void setValue(int value) { this.value = value; }
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
-
     // 统一的抽象处理方法
     public abstract void process();
 }

@@ -41,3 +41,15 @@ public class Main {
         System.out.println("最终分数：" + record.getScore());
     }
 }
+```
+
+也可以使用同步代码块实现：
+
+```java
+public void updateScore() {
+    synchronized (this) {
+        if (score > 0) {
+            score--;
+        }
+    }
+}

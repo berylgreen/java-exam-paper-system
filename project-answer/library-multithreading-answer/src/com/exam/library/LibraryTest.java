@@ -41,3 +41,23 @@ public class LibraryTest {
         System.out.println("最终库存：" + bookStock.getStock());
     }
 }
+```
+
+也可以使用同步代码块实现：
+
+```java
+class BookStock {
+    private int stock = 100;
+
+    public void updateStock() {
+        synchronized (this) {
+            if (stock > 0) {
+                stock--;
+            }
+        }
+    }
+
+    public int getStock() {
+        return stock;
+    }
+}

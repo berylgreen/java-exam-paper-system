@@ -44,3 +44,23 @@ public class TestStockUpdater {
         System.out.println("Final stock: " + updater.getStock());
     }
 }
+```
+
+也可以使用同步代码块：
+
+```java
+class StockUpdater {
+    private int stock = 100;
+
+    public void updateStock() {
+        synchronized (this) {
+            if (stock > 0) {
+                stock--;
+            }
+        }
+    }
+
+    public int getStock() {
+        return stock;
+    }
+}

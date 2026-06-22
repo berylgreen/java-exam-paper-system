@@ -8,18 +8,6 @@ import java.util.Objects;
 import java.util.Set;
 
 class Patient implements Comparable<Patient> {
-    private boolean valid;
-    private int value;
-    public Patient() {}
-    public Patient(boolean valid, String name) { this.valid = valid; this.name = name; }
-    public boolean isValid() { return valid; }
-    public void setValid(boolean valid) { this.valid = valid; }
-    public void setName(String name) { this.name = name; }
-    public int getValue() { return value; }
-    public void setValue(int value) { this.value = value; }
-    public void setId(String id) { this.id = id; }
-
-
     private String id;
     private String name;
 
@@ -41,7 +29,7 @@ class Patient implements Comparable<Patient> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Patient patient = (Patient) o;
-        return Objects.equals(id, patient.getId());
+        return Objects.equals(id, patient.id);
     }
 
     @Override
@@ -51,7 +39,7 @@ class Patient implements Comparable<Patient> {
 
     @Override
     public int compareTo(Patient other) {
-        return this.getId().compareTo(other.getId());
+        return this.id.compareTo(other.id);
     }
 
     @Override
