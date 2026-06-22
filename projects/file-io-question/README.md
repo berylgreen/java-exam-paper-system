@@ -4,11 +4,11 @@
 
 请补全程序，要求如下：
 
-1. 使用 `FileInputStream` 和 `FileOutputStream` 完成文件复制。
-2. 为提高读写效率，必须分别使用 `BufferedInputStream` 和 `BufferedOutputStream` 对字节流进行包装。
-3. 复制时应按字节数组分批读取和写入，直到源文件末尾。
-4. 必须正确处理 `IOException` 异常，并使用 `try-with-resources` 或 `finally` 确保流被正常关闭。
-5. 编写 `Main` 类：先创建一个测试日志文件并写入示例内容，再调用备份方法完成复制。
+(1) 使用 `FileInputStream` 和 `FileOutputStream` 完成文件复制。
+(2) 为提高读写效率，必须分别使用 `BufferedInputStream` 和 `BufferedOutputStream` 对字节流进行包装。
+(3) 复制时应按字节数组分批读取和写入，直到源文件末尾。
+(4) 必须正确处理 `IOException` 异常，并使用 `try-with-resources` 或 `finally` 确保流被正常关闭。
+(5) 编写 `Main` 类：先创建一个测试日志文件并写入示例内容，再调用备份方法完成复制。
 
 请给出完整实现。
 

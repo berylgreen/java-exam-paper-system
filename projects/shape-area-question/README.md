@@ -4,10 +4,10 @@
 
 请按照面向对象设计思想对程序进行重构，完成以下任务：
 
-1. 定义一个抽象类 `Shape`，其中声明抽象方法 `double calculateArea()`，用于计算图形面积。
-2. 编写 `Circle`、`Rectangle` 和 `Triangle` 三个具体图形类，使其继承 `Shape` 并分别实现 `calculateArea()` 方法。
-3. 重构 `ShapeCalculator` 类，使其不再依赖 `if-else if` 判断图形类型，而是接收 `Shape[]` 数组，并通过多态统一调用各图形对象的 `calculateArea()` 方法来计算总面积。
-4. 在 `Main` 类中创建若干图形对象，测试各图形面积及总面积的计算结果。
+(1) 定义一个抽象类 `Shape`，其中声明抽象方法 `double calculateArea()`，用于计算图形面积。
+(2) 编写 `Circle`、`Rectangle` 和 `Triangle` 三个具体图形类，使其继承 `Shape` 并分别实现 `calculateArea()` 方法。
+(3) 重构 `ShapeCalculator` 类，使其不再依赖 `if-else if` 判断图形类型，而是接收 `Shape[]` 数组，并通过多态统一调用各图形对象的 `calculateArea()` 方法来计算总面积。
+(4) 在 `Main` 类中创建若干图形对象，测试各图形面积及总面积的计算结果。
 
 要求：程序结构清晰，能够体现“面向抽象编程”和“使用多态替代条件分支”的设计思想。
 

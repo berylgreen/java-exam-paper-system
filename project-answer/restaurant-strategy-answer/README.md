@@ -3,10 +3,10 @@
 餐饮系统在处理不同菜品业务时，原先将所有分支逻辑集中写在冗长的 `switch-case` 中，导致核心类职责过重，且每次新增业务类型都需要直接修改原有代码。
 
 **任务要求：**
-1. 使用策略模式重构该场景，定义一个统一的 `DishStrategy` 策略接口。
-2. 针对不同业务类型，分别编写实现该接口的具体策略类。
-3. 编写上下文类，在运行时动态注入具体策略对象，替代原有的 `switch-case` 分支处理逻辑。
-4. 给出一个简单的测试示例，展示如何切换不同策略完成不同业务处理。
+(1) 使用策略模式重构该场景，定义一个统一的 `DishStrategy` 策略接口。
+(2) 针对不同业务类型，分别编写实现该接口的具体策略类。
+(3) 编写上下文类，在运行时动态注入具体策略对象，替代原有的 `switch-case` 分支处理逻辑。
+(4) 给出一个简单的测试示例，展示如何切换不同策略完成不同业务处理。
 
 ## 测试数据示例
 请在 `Main` 类中使用以下测试数据进行演示：
@@ -51,10 +51,10 @@ public void process(String type, String dishName) {
 
 本题中各部分职责如下：
 
-1. `DishStrategy`：策略接口，定义统一的处理方法 `process(String dishName)`。
-2. `DineInStrategy`、`TakeAwayStrategy`、`UrgentStrategy`：具体策略类，分别实现不同业务逻辑。
-3. `DishContext`：上下文类，负责持有当前策略对象，并在执行时调用对应策略。
-4. `Main`：演示如何在运行时动态切换策略。
+(1) `DishStrategy`：策略接口，定义统一的处理方法 `process(String dishName)`。
+(2) `DineInStrategy`、`TakeAwayStrategy`、`UrgentStrategy`：具体策略类，分别实现不同业务逻辑。
+(3) `DishContext`：上下文类，负责持有当前策略对象，并在执行时调用对应策略。
+(4) `Main`：演示如何在运行时动态切换策略。
 
 这样重构后的优点有：
 

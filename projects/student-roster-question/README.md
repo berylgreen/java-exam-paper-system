@@ -4,10 +4,10 @@
 
 请根据集合框架知识完成下列改造任务：
 
-1. 将 `StudentManager` 中保存学生信息的结构改为集合类型。可使用 `HashSet<Student>` 实现自动去重。
-2. 完善 `Student` 类，重写 `equals` 和 `hashCode` 方法，并规定：如果两个学生的 `studentId` 相同，则认为是同一个学生。
-3. 让 `Student` 类实现 `Comparable<Student>`接口或创建 `Comparator`，使学生对象能够按照学号升序排序。
-4. 在 `Main` 类中输出“去重并排序后”的学生名单。
+(1) 将 `StudentManager` 中保存学生信息的结构改为集合类型。可使用 `HashSet<Student>` 实现自动去重。
+(2) 完善 `Student` 类，重写 `equals` 和 `hashCode` 方法，并规定：如果两个学生的 `studentId` 相同，则认为是同一个学生。
+(3) 让 `Student` 类实现 `Comparable<Student>`接口或创建 `Comparator`，使学生对象能够按照学号升序排序。
+(4) 在 `Main` 类中输出“去重并排序后”的学生名单。
 
 要求：程序运行结果应体现出“重复学号不会重复保存”以及“输出结果按学号升序排列”。
 

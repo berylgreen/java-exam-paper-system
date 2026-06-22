@@ -3,10 +3,10 @@
 物流系统需要将当天所有包裹的操作流转记录持久化到本地 `.txt` 文件中。现请补全相关功能，完成一个用于写入日志的方法。
 
 **任务要求：**
-1. 使用 `FileWriter` 与 `BufferedWriter` 将一条记录追加写入指定文本文件；
-2. 每条记录单独占一行；
-3. 正确处理可能出现的 `IOException`；
-4. 使用 `try-with-resources` 或 `finally` 确保流资源被安全关闭。
+(1) 使用 `FileWriter` 与 `BufferedWriter` 将一条记录追加写入指定文本文件；
+(2) 每条记录单独占一行；
+(3) 正确处理可能出现的 `IOException`；
+(4) 使用 `try-with-resources` 或 `finally` 确保流资源被安全关闭。
 
 ## 测试数据示例
 请在 `Main` 类中使用以下测试数据进行演示：

@@ -4,14 +4,14 @@
 
 请使用**观察者模式（Observer Pattern）**对该系统进行重构，要求如下：
 
-1. 定义观察者接口 `Observer`，包含方法：`void update(float temp, float humidity, float pressure)`。
-2. 定义主题接口 `Subject`，至少包含以下方法：
+(1) 定义观察者接口 `Observer`，包含方法：`void update(float temp, float humidity, float pressure)`。
+(2) 定义主题接口 `Subject`，至少包含以下方法：
    - `void registerObserver(Observer o)`
    - `void removeObserver(Observer o)`
    - `void notifyObservers()`
-3. 重构 `WeatherStation` 类，使其实现 `Subject` 接口，并在类中维护一个 `List<Observer>` 类型的订阅者列表。
-4. 让不同的显示设备（如 `PhoneApp`、`DisplayPanel`）实现 `Observer` 接口。
-5. 编写测试代码，演示：
+(3) 重构 `WeatherStation` 类，使其实现 `Subject` 接口，并在类中维护一个 `List<Observer>` 类型的订阅者列表。
+(4) 让不同的显示设备（如 `PhoneApp`、`DisplayPanel`）实现 `Observer` 接口。
+(5) 编写测试代码，演示：
    - 观察者的动态注册；
    - 气象数据更新后自动通知所有已订阅设备；
    - 移除某个观察者后，该设备不再接收更新。

@@ -4,11 +4,11 @@
 
 请补全程序，要求如下：
 
-1. 使用 `FileInputStream` 和 `FileOutputStream` 完成文件复制。
-2. 为提高读写效率，必须分别使用 `BufferedInputStream` 和 `BufferedOutputStream` 对字节流进行包装。
-3. 复制时应按字节数组分批读取和写入，直到源文件末尾。
-4. 必须正确处理 `IOException` 异常，并使用 `try-with-resources` 或 `finally` 确保流被正常关闭。
-5. 编写 `Main` 类：先创建一个测试日志文件并写入示例内容，再调用备份方法完成复制。
+(1) 使用 `FileInputStream` 和 `FileOutputStream` 完成文件复制。
+(2) 为提高读写效率，必须分别使用 `BufferedInputStream` 和 `BufferedOutputStream` 对字节流进行包装。
+(3) 复制时应按字节数组分批读取和写入，直到源文件末尾。
+(4) 必须正确处理 `IOException` 异常，并使用 `try-with-resources` 或 `finally` 确保流被正常关闭。
+(5) 编写 `Main` 类：先创建一个测试日志文件并写入示例内容，再调用备份方法完成复制。
 
 请给出完整实现。
 
@@ -33,24 +33,24 @@
 
 ### 实现思路
 
-1. **底层字节流**
+(1) **底层字节流**
    - `FileInputStream`：用于从源文件读取字节。
    - `FileOutputStream`：用于向目标文件写入字节。
 
-2. **缓冲流包装**
+(2) **缓冲流包装**
    - `BufferedInputStream` 和 `BufferedOutputStream` 可以减少实际磁盘读写次数，提高复制效率。
 
-3. **循环复制**
+(3) **循环复制**
    - 使用 `byte[] buffer = new byte[1024];` 作为缓冲区。
    - `read(buffer)` 每次读取若干字节，返回实际读取长度 `len`。
    - `write(buffer, 0, len)` 只写入本次实际读取到的数据。
    - 当 `read()` 返回 `-1` 时，表示文件读取结束。
 
-4. **资源关闭**
+(4) **资源关闭**
    - 本题使用 `try-with-resources`，流对象会在使用结束后自动关闭。
    - 这是比手动在 `finally` 中关闭资源更简洁、安全的写法。
 
-5. **测试文件生成**
+(5) **测试文件生成**
    - 在 `Main` 类中先创建 `temp.log`，写入若干行日志内容。
    - 然后调用 `LogBackup.backup(src, dest)` 将其复制为 `backup.log`。
 
