@@ -73,7 +73,7 @@ for (let q of data) {
         const projectName = path.basename(q.projectPath);
         // 如果是以 -question 结尾的，替换为 -answer，否则加 -answer
         const newProjectName = projectName.endsWith('-question') ? projectName.replace('-question', '-answer') : projectName + '-answer';
-        const answerProjectPath = path.join('answer-projects', newProjectName).replace(/\\/g, '/');
+        const answerProjectPath = path.join('project-answer', newProjectName).replace(/\\/g, '/');
 
         // 如果该题尚未生成，或者我们需要覆盖它
         console.log(`Processing: ${q.projectPath} -> ${answerProjectPath}`);

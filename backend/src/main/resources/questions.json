@@ -2889,7 +2889,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/payment-system-question",
-    "answerProjectPath" : "answer-projects/payment-system-answer"
+    "answerProjectPath" : "project-answer/payment-system-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -2901,7 +2901,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/shape-area-question",
-    "answerProjectPath" : "answer-projects/shape-area-answer"
+    "answerProjectPath" : "project-answer/shape-area-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -2913,7 +2913,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/student-roster-question",
-    "answerProjectPath" : "answer-projects/student-roster-answer"
+    "answerProjectPath" : "project-answer/student-roster-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -2925,7 +2925,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/exception-parser-question",
-    "answerProjectPath" : "answer-projects/exception-parser-answer"
+    "answerProjectPath" : "project-answer/exception-parser-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -2937,7 +2937,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/file-io-question",
-    "answerProjectPath" : "answer-projects/file-io-answer"
+    "answerProjectPath" : "project-answer/file-io-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -2949,7 +2949,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/ticket-thread-question",
-    "answerProjectPath" : "answer-projects/ticket-thread-answer"
+    "answerProjectPath" : "project-answer/ticket-thread-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -2961,7 +2961,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/weather-observer-question",
-    "answerProjectPath" : "answer-projects/weather-observer-answer"
+    "answerProjectPath" : "project-answer/weather-observer-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -2973,7 +2973,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/vehicle-factory-question",
-    "answerProjectPath" : "answer-projects/vehicle-factory-answer"
+    "answerProjectPath" : "project-answer/vehicle-factory-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -2985,7 +2985,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/generic-box-question",
-    "answerProjectPath" : "answer-projects/generic-box-answer"
+    "answerProjectPath" : "project-answer/generic-box-answer"
   },
   {
     "type" : "CODE_READING",
@@ -3165,7 +3165,7 @@
     "defaultScore" : 10,
     "source" : "原创",
     "projectPath" : "projects/ecommerce-encapsulation-question",
-    "answerProjectPath" : "answer-projects/ecommerce-encapsulation-answer"
+    "answerProjectPath" : "project-answer/ecommerce-encapsulation-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3177,7 +3177,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/ecommerce-polymorphism-question",
-    "answerProjectPath" : "answer-projects/ecommerce-polymorphism-answer"
+    "answerProjectPath" : "project-answer/ecommerce-polymorphism-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3189,7 +3189,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/ecommerce-strategy-question",
-    "answerProjectPath" : "answer-projects/ecommerce-strategy-answer"
+    "answerProjectPath" : "project-answer/ecommerce-strategy-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3201,7 +3201,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/ecommerce-exceptions-question",
-    "answerProjectPath" : "answer-projects/ecommerce-exceptions-answer"
+    "answerProjectPath" : "project-answer/ecommerce-exceptions-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3213,7 +3213,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/ecommerce-collections-question",
-    "answerProjectPath" : "answer-projects/ecommerce-collections-answer"
+    "answerProjectPath" : "project-answer/ecommerce-collections-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3237,7 +3237,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/ecommerce-fileio-question",
-    "answerProjectPath" : "answer-projects/ecommerce-fileio-answer"
+    "answerProjectPath" : "project-answer/ecommerce-fileio-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3249,7 +3249,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/ecommerce-multithreading-question",
-    "answerProjectPath" : "answer-projects/ecommerce-multithreading-answer"
+    "answerProjectPath" : "project-answer/ecommerce-multithreading-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3261,7 +3261,7 @@
     "defaultScore" : 10,
     "source" : "原创",
     "projectPath" : "projects/bank-encapsulation-question",
-    "answerProjectPath" : "answer-projects/bank-encapsulation-answer"
+    "answerProjectPath" : "project-answer/bank-encapsulation-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3273,7 +3273,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/bank-polymorphism-question",
-    "answerProjectPath" : "answer-projects/bank-polymorphism-answer"
+    "answerProjectPath" : "project-answer/bank-polymorphism-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3285,7 +3285,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/bank-strategy-question",
-    "answerProjectPath" : "answer-projects/bank-strategy-answer"
+    "answerProjectPath" : "project-answer/bank-strategy-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3297,7 +3297,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/bank-exceptions-question",
-    "answerProjectPath" : "answer-projects/bank-exceptions-answer"
+    "answerProjectPath" : "project-answer/bank-exceptions-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3309,7 +3309,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/bank-collections-question",
-    "answerProjectPath" : "answer-projects/bank-collections-answer"
+    "answerProjectPath" : "project-answer/bank-collections-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3333,7 +3333,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/bank-fileio-question",
-    "answerProjectPath" : "answer-projects/bank-fileio-answer"
+    "answerProjectPath" : "project-answer/bank-fileio-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3345,7 +3345,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/bank-multithreading-question",
-    "answerProjectPath" : "answer-projects/bank-multithreading-answer"
+    "answerProjectPath" : "project-answer/bank-multithreading-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3357,7 +3357,7 @@
     "defaultScore" : 10,
     "source" : "原创",
     "projectPath" : "projects/library-encapsulation-question",
-    "answerProjectPath" : "answer-projects/library-encapsulation-answer"
+    "answerProjectPath" : "project-answer/library-encapsulation-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3369,7 +3369,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/library-polymorphism-question",
-    "answerProjectPath" : "answer-projects/library-polymorphism-answer"
+    "answerProjectPath" : "project-answer/library-polymorphism-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3381,7 +3381,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/library-strategy-question",
-    "answerProjectPath" : "answer-projects/library-strategy-answer"
+    "answerProjectPath" : "project-answer/library-strategy-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3393,7 +3393,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/library-exceptions-question",
-    "answerProjectPath" : "answer-projects/library-exceptions-answer"
+    "answerProjectPath" : "project-answer/library-exceptions-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3405,7 +3405,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/library-collections-question",
-    "answerProjectPath" : "answer-projects/library-collections-answer"
+    "answerProjectPath" : "project-answer/library-collections-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3429,7 +3429,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/library-fileio-question",
-    "answerProjectPath" : "answer-projects/library-fileio-answer"
+    "answerProjectPath" : "project-answer/library-fileio-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3441,7 +3441,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/library-multithreading-question",
-    "answerProjectPath" : "answer-projects/library-multithreading-answer"
+    "answerProjectPath" : "project-answer/library-multithreading-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3453,7 +3453,7 @@
     "defaultScore" : 10,
     "source" : "原创",
     "projectPath" : "projects/hotel-encapsulation-question",
-    "answerProjectPath" : "answer-projects/hotel-encapsulation-answer"
+    "answerProjectPath" : "project-answer/hotel-encapsulation-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3465,7 +3465,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/hotel-polymorphism-question",
-    "answerProjectPath" : "answer-projects/hotel-polymorphism-answer"
+    "answerProjectPath" : "project-answer/hotel-polymorphism-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3477,7 +3477,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/hotel-strategy-question",
-    "answerProjectPath" : "answer-projects/hotel-strategy-answer"
+    "answerProjectPath" : "project-answer/hotel-strategy-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3489,7 +3489,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/hotel-exceptions-question",
-    "answerProjectPath" : "answer-projects/hotel-exceptions-answer"
+    "answerProjectPath" : "project-answer/hotel-exceptions-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3501,7 +3501,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/hotel-collections-question",
-    "answerProjectPath" : "answer-projects/hotel-collections-answer"
+    "answerProjectPath" : "project-answer/hotel-collections-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3525,7 +3525,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/hotel-fileio-question",
-    "answerProjectPath" : "answer-projects/hotel-fileio-answer"
+    "answerProjectPath" : "project-answer/hotel-fileio-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3537,7 +3537,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/hotel-multithreading-question",
-    "answerProjectPath" : "answer-projects/hotel-multithreading-answer"
+    "answerProjectPath" : "project-answer/hotel-multithreading-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3549,7 +3549,7 @@
     "defaultScore" : 10,
     "source" : "原创",
     "projectPath" : "projects/hospital-encapsulation-question",
-    "answerProjectPath" : "answer-projects/hospital-encapsulation-answer"
+    "answerProjectPath" : "project-answer/hospital-encapsulation-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3561,7 +3561,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/hospital-polymorphism-question",
-    "answerProjectPath" : "answer-projects/hospital-polymorphism-answer"
+    "answerProjectPath" : "project-answer/hospital-polymorphism-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3573,7 +3573,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/hospital-strategy-question",
-    "answerProjectPath" : "answer-projects/hospital-strategy-answer"
+    "answerProjectPath" : "project-answer/hospital-strategy-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3585,7 +3585,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/hospital-exceptions-question",
-    "answerProjectPath" : "answer-projects/hospital-exceptions-answer"
+    "answerProjectPath" : "project-answer/hospital-exceptions-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3597,7 +3597,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/hospital-collections-question",
-    "answerProjectPath" : "answer-projects/hospital-collections-answer"
+    "answerProjectPath" : "project-answer/hospital-collections-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3621,7 +3621,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/hospital-fileio-question",
-    "answerProjectPath" : "answer-projects/hospital-fileio-answer"
+    "answerProjectPath" : "project-answer/hospital-fileio-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3633,7 +3633,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/hospital-multithreading-question",
-    "answerProjectPath" : "answer-projects/hospital-multithreading-answer"
+    "answerProjectPath" : "project-answer/hospital-multithreading-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3645,7 +3645,7 @@
     "defaultScore" : 10,
     "source" : "原创",
     "projectPath" : "projects/restaurant-encapsulation-question",
-    "answerProjectPath" : "answer-projects/restaurant-encapsulation-answer"
+    "answerProjectPath" : "project-answer/restaurant-encapsulation-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3657,7 +3657,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/restaurant-polymorphism-question",
-    "answerProjectPath" : "answer-projects/restaurant-polymorphism-answer"
+    "answerProjectPath" : "project-answer/restaurant-polymorphism-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3669,7 +3669,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/restaurant-strategy-question",
-    "answerProjectPath" : "answer-projects/restaurant-strategy-answer"
+    "answerProjectPath" : "project-answer/restaurant-strategy-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3681,7 +3681,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/restaurant-exceptions-question",
-    "answerProjectPath" : "answer-projects/restaurant-exceptions-answer"
+    "answerProjectPath" : "project-answer/restaurant-exceptions-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3693,7 +3693,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/restaurant-collections-question",
-    "answerProjectPath" : "answer-projects/restaurant-collections-answer"
+    "answerProjectPath" : "project-answer/restaurant-collections-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3717,7 +3717,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/restaurant-fileio-question",
-    "answerProjectPath" : "answer-projects/restaurant-fileio-answer"
+    "answerProjectPath" : "project-answer/restaurant-fileio-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3729,7 +3729,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/restaurant-multithreading-question",
-    "answerProjectPath" : "answer-projects/restaurant-multithreading-answer"
+    "answerProjectPath" : "project-answer/restaurant-multithreading-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3741,7 +3741,7 @@
     "defaultScore" : 10,
     "source" : "原创",
     "projectPath" : "projects/school-encapsulation-question",
-    "answerProjectPath" : "answer-projects/school-encapsulation-answer"
+    "answerProjectPath" : "project-answer/school-encapsulation-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3753,7 +3753,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/school-polymorphism-question",
-    "answerProjectPath" : "answer-projects/school-polymorphism-answer"
+    "answerProjectPath" : "project-answer/school-polymorphism-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3765,7 +3765,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/school-strategy-question",
-    "answerProjectPath" : "answer-projects/school-strategy-answer"
+    "answerProjectPath" : "project-answer/school-strategy-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3777,7 +3777,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/school-exceptions-question",
-    "answerProjectPath" : "answer-projects/school-exceptions-answer"
+    "answerProjectPath" : "project-answer/school-exceptions-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3789,7 +3789,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/school-collections-question",
-    "answerProjectPath" : "answer-projects/school-collections-answer"
+    "answerProjectPath" : "project-answer/school-collections-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3813,7 +3813,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/school-fileio-question",
-    "answerProjectPath" : "answer-projects/school-fileio-answer"
+    "answerProjectPath" : "project-answer/school-fileio-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3825,7 +3825,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/school-multithreading-question",
-    "answerProjectPath" : "answer-projects/school-multithreading-answer"
+    "answerProjectPath" : "project-answer/school-multithreading-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3837,7 +3837,7 @@
     "defaultScore" : 10,
     "source" : "原创",
     "projectPath" : "projects/logistics-encapsulation-question",
-    "answerProjectPath" : "answer-projects/logistics-encapsulation-answer"
+    "answerProjectPath" : "project-answer/logistics-encapsulation-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3849,7 +3849,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/logistics-polymorphism-question",
-    "answerProjectPath" : "answer-projects/logistics-polymorphism-answer"
+    "answerProjectPath" : "project-answer/logistics-polymorphism-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3861,7 +3861,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/logistics-strategy-question",
-    "answerProjectPath" : "answer-projects/logistics-strategy-answer"
+    "answerProjectPath" : "project-answer/logistics-strategy-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3873,7 +3873,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/logistics-exceptions-question",
-    "answerProjectPath" : "answer-projects/logistics-exceptions-answer"
+    "answerProjectPath" : "project-answer/logistics-exceptions-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3885,7 +3885,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/logistics-collections-question",
-    "answerProjectPath" : "answer-projects/logistics-collections-answer"
+    "answerProjectPath" : "project-answer/logistics-collections-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3909,7 +3909,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/logistics-fileio-question",
-    "answerProjectPath" : "answer-projects/logistics-fileio-answer"
+    "answerProjectPath" : "project-answer/logistics-fileio-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3921,7 +3921,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/logistics-multithreading-question",
-    "answerProjectPath" : "answer-projects/logistics-multithreading-answer"
+    "answerProjectPath" : "project-answer/logistics-multithreading-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3933,7 +3933,7 @@
     "defaultScore" : 10,
     "source" : "原创",
     "projectPath" : "projects/rental-encapsulation-question",
-    "answerProjectPath" : "answer-projects/rental-encapsulation-answer"
+    "answerProjectPath" : "project-answer/rental-encapsulation-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3945,7 +3945,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/rental-polymorphism-question",
-    "answerProjectPath" : "answer-projects/rental-polymorphism-answer"
+    "answerProjectPath" : "project-answer/rental-polymorphism-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3957,7 +3957,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/rental-strategy-question",
-    "answerProjectPath" : "answer-projects/rental-strategy-answer"
+    "answerProjectPath" : "project-answer/rental-strategy-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3969,7 +3969,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/rental-exceptions-question",
-    "answerProjectPath" : "answer-projects/rental-exceptions-answer"
+    "answerProjectPath" : "project-answer/rental-exceptions-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -3981,7 +3981,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/rental-collections-question",
-    "answerProjectPath" : "answer-projects/rental-collections-answer"
+    "answerProjectPath" : "project-answer/rental-collections-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -4005,7 +4005,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/rental-fileio-question",
-    "answerProjectPath" : "answer-projects/rental-fileio-answer"
+    "answerProjectPath" : "project-answer/rental-fileio-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -4017,7 +4017,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/rental-multithreading-question",
-    "answerProjectPath" : "answer-projects/rental-multithreading-answer"
+    "answerProjectPath" : "project-answer/rental-multithreading-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -4029,7 +4029,7 @@
     "defaultScore" : 10,
     "source" : "原创",
     "projectPath" : "projects/smarthome-encapsulation-question",
-    "answerProjectPath" : "answer-projects/smarthome-encapsulation-answer"
+    "answerProjectPath" : "project-answer/smarthome-encapsulation-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -4041,7 +4041,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/smarthome-polymorphism-question",
-    "answerProjectPath" : "answer-projects/smarthome-polymorphism-answer"
+    "answerProjectPath" : "project-answer/smarthome-polymorphism-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -4053,7 +4053,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/smarthome-strategy-question",
-    "answerProjectPath" : "answer-projects/smarthome-strategy-answer"
+    "answerProjectPath" : "project-answer/smarthome-strategy-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -4065,7 +4065,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/smarthome-exceptions-question",
-    "answerProjectPath" : "answer-projects/smarthome-exceptions-answer"
+    "answerProjectPath" : "project-answer/smarthome-exceptions-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -4077,7 +4077,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/smarthome-collections-question",
-    "answerProjectPath" : "answer-projects/smarthome-collections-answer"
+    "answerProjectPath" : "project-answer/smarthome-collections-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -4089,7 +4089,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/smarthome-hashmap-question",
-    "answerProjectPath" : "answer-projects/smarthome-hashmap-answer"
+    "answerProjectPath" : "project-answer/smarthome-hashmap-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -4101,7 +4101,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/smarthome-fileio-question",
-    "answerProjectPath" : "answer-projects/smarthome-fileio-answer"
+    "answerProjectPath" : "project-answer/smarthome-fileio-answer"
   },
   {
     "type" : "PROGRAMMING",
@@ -4113,7 +4113,7 @@
     "defaultScore" : 20,
     "source" : "原创",
     "projectPath" : "projects/smarthome-multithreading-question",
-    "answerProjectPath" : "answer-projects/smarthome-multithreading-answer"
+    "answerProjectPath" : "project-answer/smarthome-multithreading-answer"
   },
   {
     "type" : "PROGRAMMING",

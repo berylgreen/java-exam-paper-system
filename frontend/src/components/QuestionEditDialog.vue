@@ -50,7 +50,7 @@
         <el-input v-model="formData.projectPath" placeholder="如: projects/payment-system-question"/>
       </el-form-item>
       <el-form-item label="答案工程" v-if="formData.type === 'PROGRAMMING' || formData.type === 'CODE_READING'">
-        <el-input v-model="formData.answerProjectPath" placeholder="如: answer-projects/payment-system-answer"/>
+        <el-input v-model="formData.answerProjectPath" placeholder="如: project-answer/payment-system-answer"/>
       </el-form-item>
 
       <el-row :gutter="20">
