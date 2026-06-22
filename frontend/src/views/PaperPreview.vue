@@ -6,13 +6,14 @@
         <h2 class="page-title" style="margin-bottom:0">试卷预览</h2>
       </div>
       <div style="display:flex;gap:8px;align-items:center">
+        <el-switch v-model="allowReorder" active-text="允许调序" inactive-text="禁止调序" style="--el-switch-on-color:#e6a23c; margin-right: 8px;"/>
         <el-switch v-model="showAnswer" active-text="显示答案" inactive-text="隐藏答案" style="--el-switch-on-color:#667eea"/>
         <el-button type="success" @click="handleExportClick"><el-icon><Download /></el-icon> 导出试卷</el-button>
       </div>
     </div>
 
     <div v-loading="loading" class="paper-preview">
-      <PaperViewer v-if="paper" :paper="paper" :show-answer="showAnswer" allow-replace allow-edit allow-reorder @replace-question="handleReplace" @edit-question="handleEdit" @reorder="handleReorder" @update-title="handleUpdateTitle" />
+      <PaperViewer v-if="paper" :paper="paper" :show-answer="showAnswer" allow-replace allow-edit :allow-reorder="allowReorder" @replace-question="handleReplace" @edit-question="handleEdit" @reorder="handleReorder" @update-title="handleUpdateTitle" />
     </div>
 
     <!-- 题目编辑对话框 -->
@@ -49,6 +50,7 @@ const route = useRoute()
 const paper = ref(null)
 const loading = ref(false)
 const showAnswer = ref(false)
+const allowReorder = ref(false)
 const exportDialogVisible = ref(false)
 
 // 编辑题目相关数据

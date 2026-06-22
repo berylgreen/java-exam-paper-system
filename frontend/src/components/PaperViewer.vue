@@ -17,7 +17,7 @@
       <div v-for="(section, idx) in sections" :key="idx">
         <div class="section-title">{{ sectionNum(idx) }}、{{ section.type === 'CODE_READING' ? section.typeLabel + ' （需要写出分析过程）' : section.typeLabel }} (共{{ section.questions.length }}题，共{{ section.totalScore }}分)</div>
         <div v-for="(pq, qi) in section.questions" :key="pq.question.id || qi" class="question-item"
-             :draggable="allowReorder || allowEdit"
+             :draggable="allowReorder"
              @dragstart="onDragStart($event, pq, section.type, qi)"
              @dragenter="onDragEnter($event, section.type, qi)"
              @dragend="onDragEnd"
@@ -25,7 +25,7 @@
              @drop="onDrop($event, section.type, qi)"
              :class="{ 'dragging': dragState.dragging && dragState.type === section.type && dragState.fromIndex === qi, 'drag-over': dragState.dragging && dragState.type === section.type && dragState.toIndex === qi && dragState.fromIndex !== qi }">
           <div class="question-content" style="display:flex;align-items:flex-start;">
-            <div v-if="allowReorder || allowEdit" class="drag-handle" style="cursor: grab; margin-right: 8px; color: #909399;">
+            <div v-if="allowReorder" class="drag-handle" style="cursor: grab; margin-right: 8px; color: #909399;">
               <el-icon><Rank /></el-icon>
             </div>
             <span style="margin-right: 4px;">{{ qi + 1 }}. ({{ pq.score }}分) </span>
