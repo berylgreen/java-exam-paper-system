@@ -1437,16 +1437,24 @@ public class ExamPaperService {
                      continue;
                 }
                 
+                boolean isHeading = false;
+                String processedLine = line;
+                if (processedLine.trim().startsWith("#")) {
+                    processedLine = processedLine.replaceFirst("^#+\\s*", "");
+                    isHeading = true;
+                }
+                
                 java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("(\\*\\*(.*?)\\*\\*)|(`(.*?)`)|(\\*([^\\*]+)\\*)");
-                java.util.regex.Matcher matcher = pattern.matcher(line);
+                java.util.regex.Matcher matcher = pattern.matcher(processedLine);
 
                 int lastEnd = 0;
                 while (matcher.find()) {
                     if (matcher.start() > lastEnd) {
                         XWPFRun run = currentPara.createRun();
-                        run.setText(line.substring(lastEnd, matcher.start()));
+                        run.setText(processedLine.substring(lastEnd, matcher.start()));
                         run.setFontFamily("宋体");
-                        run.setFontSize(10.5);
+                        run.setFontSize(isHeading ? 12 : 10.5);
+                        if (isHeading) run.setBold(true);
                         if (defaultColor != null) run.setColor(defaultColor);
                     }
 
@@ -1458,22 +1466,25 @@ public class ExamPaperService {
                     } else if (matcher.group(3) != null) {
                         run.setText(matcher.group(4));
                         run.setFontFamily("Consolas");
+                        if (isHeading) run.setBold(true);
                     } else if (matcher.group(5) != null) {
                         run.setText(matcher.group(6));
                         run.setItalic(true);
                         run.setFontFamily("宋体");
+                        if (isHeading) run.setBold(true);
                     }
-                    run.setFontSize(10.5);
+                    run.setFontSize(isHeading ? 12 : 10.5);
                     if (defaultColor != null) run.setColor(defaultColor);
                     
                     lastEnd = matcher.end();
                 }
 
-                if (lastEnd < line.length()) {
+                if (lastEnd < processedLine.length()) {
                     XWPFRun run = currentPara.createRun();
-                    run.setText(line.substring(lastEnd));
+                    run.setText(processedLine.substring(lastEnd));
                     run.setFontFamily("宋体");
-                    run.setFontSize(10.5);
+                    run.setFontSize(isHeading ? 12 : 10.5);
+                    if (isHeading) run.setBold(true);
                     if (defaultColor != null) run.setColor(defaultColor);
                 }
             }
