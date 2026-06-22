@@ -29,8 +29,6 @@ import java.util.stream.Collectors;
 public class DataInitializer implements CommandLineRunner {
 
     private final QuestionRepository qRepo;
-    private final ExamPaperRepository paperRepo;
-    private final PaperQuestionRepository pqRepo;
     private final ChapterRepository chapterRepository;
     private final ObjectMapper objectMapper;
     private final MetadataConfig metadataConfig;
@@ -39,23 +37,6 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         if (qRepo.count() > 0) {
             log.info("题库已存在，跳过题库初始化");
-            if (paperRepo.count() == 0) {
-                log.info("试卷列表为空，开始初始化预置试卷...");
-                List<Question> allQuestions = qRepo.findAll();
-                List<Question> paperQuestions = allQuestions.stream()
-                        .filter(q -> {
-                            if (q.getChapter() == null || q.getChapter().getName() == null) return false;
-                            java.util.regex.Matcher m = java.util.regex.Pattern.compile("^第(\\d+)章").matcher(q.getChapter().getName());
-                            if (m.find()) {
-                                int chap = Integer.parseInt(m.group(1));
-                                return chap >= 1 && chap <= 7;
-                            }
-                            return false;
-                        })
-                        .collect(Collectors.toList());
-                initPapers(paperQuestions);
-                log.info("预置试卷初始化完成");
-            }
             return;
         }
         
@@ -71,22 +52,6 @@ public class DataInitializer implements CommandLineRunner {
         List<Question> allQuestions = loadQuestions("questions.json");
         qRepo.saveAll(allQuestions);
         log.info("题库初始化完成，共 {} 道题", allQuestions.size());
-
-        // 默认只考从第1章到第7章
-        List<Question> paperQuestions = allQuestions.stream()
-                .filter(q -> {
-                    if (q.getChapter() == null || q.getChapter().getName() == null) return false;
-                    java.util.regex.Matcher m = java.util.regex.Pattern.compile("^第(\\d+)章").matcher(q.getChapter().getName());
-                    if (m.find()) {
-                        int chap = Integer.parseInt(m.group(1));
-                        return chap >= 1 && chap <= 7;
-                    }
-                    return false;
-                })
-                .collect(Collectors.toList());
-
-        initPapers(paperQuestions);
-        log.info("预置试卷初始化完成");
     }
 
     /**
@@ -138,75 +103,4 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 
-    // ===== 预置试卷初始化 =====
-    private void initPapers(List<Question> all) {
-        Map<QuestionType, List<Question>> byType = new HashMap<>();
-        for (Question q : all) {
-            byType.computeIfAbsent(q.getType(), k -> new ArrayList<>()).add(q);
-        }
-
-        List<Question> scs = byType.getOrDefault(QuestionType.SINGLE_CHOICE, new ArrayList<>());
-        List<Question> mcs = byType.getOrDefault(QuestionType.MULTIPLE_CHOICE, new ArrayList<>());
-        List<Question> tfs = byType.getOrDefault(QuestionType.TRUE_FALSE, new ArrayList<>());
-        List<Question> fbs = byType.getOrDefault(QuestionType.FILL_BLANK, new ArrayList<>());
-        List<Question> sas = byType.getOrDefault(QuestionType.SHORT_ANSWER, new ArrayList<>());
-        List<Question> pgs = byType.getOrDefault(QuestionType.PROGRAMMING, new ArrayList<>());
-        List<Question> crs = byType.getOrDefault(QuestionType.CODE_READING, new ArrayList<>());
-
-        Collections.shuffle(scs); Collections.shuffle(mcs);
-        Collections.shuffle(tfs); Collections.shuffle(fbs);
-        Collections.shuffle(sas); Collections.shuffle(pgs); Collections.shuffle(crs);
-
-        for (int p = 1; p <= 20; p++) {
-            ExamPaper paper = ExamPaper.builder()
-                    .title("Java程序设计基础 第" + p + "套试卷")
-                    .totalScore(100)
-                    .durationMinutes(120)
-                    .description("涵盖Java基础全部知识点的综合测试")
-                    .createdAt(LocalDateTime.now())
-                    .build();
-            paper = paperRepo.save(paper);
-
-            int order = 0;
-            if (!scs.isEmpty()) {
-                for (int i = 0; i < 15; i++) {
-                    addPQ(paper, scs.get((p * 15 + i) % scs.size()), ++order, 2);
-                }
-            }
-            if (!mcs.isEmpty()) {
-                for (int i = 0; i < 5; i++) {
-                    addPQ(paper, mcs.get((p * 5 + i) % mcs.size()), ++order, 4);
-                }
-            }
-            if (!tfs.isEmpty()) {
-                for (int i = 0; i < 5; i++) {
-                    addPQ(paper, tfs.get((p * 5 + i) % tfs.size()), ++order, 2);
-                }
-            }
-            if (!fbs.isEmpty()) {
-                for (int i = 0; i < 5; i++) {
-                    Question q = fbs.get((p * 5 + i) % fbs.size());
-                    int score = q.getDefaultScore() != null ? q.getDefaultScore() : 2;
-                    addPQ(paper, q, ++order, score);
-                }
-            }
-            if (!crs.isEmpty()) {
-                for (int i = 0; i < 2; i++) {
-                    addPQ(paper, crs.get((p * 2 + i) % crs.size()), ++order, 10);
-                }
-            }
-            if (!pgs.isEmpty()) {
-                for (int i = 0; i < 3; i++) {
-                    Question q = pgs.get((p * 3 + i) % pgs.size());
-                    int score = q.getDefaultScore() != null ? q.getDefaultScore() : (i == 0 ? 10 : 20);
-                    addPQ(paper, q, ++order, score);
-                }
-            }
-        }
-    }
-
-    private void addPQ(ExamPaper paper, Question q, int order, int score) {
-        pqRepo.save(PaperQuestion.builder()
-                .paper(paper).question(q).questionOrder(order).score(score).build());
-    }
 }
