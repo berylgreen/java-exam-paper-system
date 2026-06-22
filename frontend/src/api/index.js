@@ -17,7 +17,6 @@ export const questionApi = {
     sources: () => api.get('/questions/sources'),
     stats: () => api.get('/questions/stats'),
     optimizePreview: (data) => api.post('/questions/optimize-preview', data),
-    syncAnswerToProject: (data) => api.post('/questions/sync-answer-to-project', data),
     getProjectCode: (id) => api.get(`/questions/${id}/project-code`),
     exportUrl: '/api/questions/export',
     importFile: (file) => {

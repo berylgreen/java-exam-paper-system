@@ -8,5 +8,4 @@ import lombok.Data;
 @Data
 public class QuestionOptimizeResponse {
     private QuestionDTO optimizedQuestion;
-    private java.util.List<String> updatedProjectFiles;
 }

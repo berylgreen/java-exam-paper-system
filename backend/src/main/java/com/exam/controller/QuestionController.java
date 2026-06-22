@@ -86,17 +86,11 @@ public class QuestionController {
         req.setPrompt(payload.getOrDefault("prompt", "请将题干表述更清晰，并补充更严谨的答案与解析"));
         QuestionOptimizeResponse res = questionOptimizationService.optimizePreview(req);
         QuestionDTO optimized = res.getOptimizedQuestion();
-        autoSyncProjects(optimized);
         QuestionDTO updated = questionService.update(id, optimized);
         log.info("单题 AI 优化成功，题目ID: {}", id);
         return updated;
     }
 
-    /** 同步答案到目标工程 */
-    @PostMapping("/sync-answer-to-project")
-    public SyncAnswerResponse syncAnswerToProject(@RequestBody SyncAnswerRequest request) {
-        return questionOptimizationService.syncAnswerToProject(request);
-    }
 
     /** 删除题目 */
     @DeleteMapping("/{id}")
@@ -159,7 +153,6 @@ public class QuestionController {
                 req.setPrompt(prompt);
                 QuestionOptimizeResponse res = questionOptimizationService.optimizePreview(req);
                 QuestionDTO optimized = res.getOptimizedQuestion();
-                autoSyncProjects(optimized);
                 questionService.update(id, optimized);
                 log.info("批量优化单题成功，题目ID: {}", id);
             } catch (Exception e) {
@@ -176,24 +169,6 @@ public class QuestionController {
         return ResponseEntity.ok().build();
     }
 
-    private void autoSyncProjects(QuestionDTO optimized) {
-        if (optimized.getProjectPath() != null && !optimized.getProjectPath().isBlank() &&
-            optimized.getContent() != null && !optimized.getContent().isBlank()) {
-            try {
-                questionOptimizationService.syncTextToProject(optimized.getContent(), optimized.getProjectPath(), "题干");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        if (optimized.getAnswerProjectPath() != null && !optimized.getAnswerProjectPath().isBlank() &&
-            optimized.getAnswer() != null && !optimized.getAnswer().isBlank()) {
-            try {
-                questionOptimizationService.syncTextToProject(optimized.getAnswer(), optimized.getAnswerProjectPath(), "标准答案");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     /** 下载题目的关联工程或答案工程 ZIP */
     @GetMapping("/{id}/download-project")
