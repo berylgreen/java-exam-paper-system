@@ -130,20 +130,41 @@
           <b style="white-space:nowrap;margin-right:4px;">题目：</b>
           <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(detailQ.content)"></div>
         </div>
-        <p v-if="detailQ.projectPath" style="margin:12px 0; color:#409EFF; display:flex; align-items:center; gap:10px">
-          <span><b>📁 题目工程：</b><a href="javascript:void(0)" @click="downloadProject(detailQ.id, 'project')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载工程">{{ detailQ.projectPath }}</a></span>
-        </p>
-
-        <p v-if="detailQ.answerProjectPath" style="margin:12px 0; color:#67C23A; display:flex; align-items:center; gap:10px">
-          <span><b>📁 答案工程：</b><a href="javascript:void(0)" @click="downloadProject(detailQ.id, 'answer')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载答案工程">{{ detailQ.answerProjectPath }}</a></span>
-        </p>
+        <div v-if="detailQ.projectPath" style="margin-top:8px; padding:8px; background:#f5f7fa; border-radius:4px; font-size: 13px; color: #409EFF; border: 1px solid #d9ecff;">
+          <div style="display: flex; align-items: center;">
+            <b>📁 题目工程:</b> <a href="javascript:void(0)" @click="downloadProject(detailQ.id, 'project')" style="text-decoration:none; color:inherit; cursor:pointer; margin-left: 4px;" title="点击下载工程">{{ detailQ.projectPath }}</a>
+            <el-button type="primary" link size="small" @click="toggleProjectCode" style="margin-left: 10px;">{{ detailQ.showCode ? '隐藏代码' : '查看代码' }}</el-button>
+          </div>
+        </div>
 
         <!-- 题目代码展示区 -->
-        <div v-if="projectCodes && Object.keys(projectCodes).length > 0" style="margin: 12px 0;">
-          <b style="color: #409EFF; display: block; margin-bottom: 8px;">题目代码：</b>
-          <div v-for="(code, path) in projectCodes" :key="path" style="margin-bottom: 12px;">
-            <div style="background: #e6f0fa; padding: 4px 12px; font-size: 13px; font-weight: bold; border-top-left-radius: 4px; border-top-right-radius: 4px; color: #333; border: 1px solid #d9ecff; border-bottom: none;">📄 {{ path }}</div>
-            <pre style="margin: 0; padding: 12px; background: #f5f7fa; border: 1px solid #d9ecff; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; font-size: 13px; overflow-x: auto;"><code>{{ code }}</code></pre>
+        <div v-if="detailQ.showCode" style="margin-top: 12px;">
+          <div v-if="!projectCodes" style="color: #909399; font-size: 12px;">正在加载代码...</div>
+          <div v-else-if="Object.keys(projectCodes).length === 0" style="color: #909399; font-size: 12px;">工程中没有代码文件</div>
+          <div v-else>
+            <div v-for="(code, path) in projectCodes" :key="path" style="margin-bottom: 12px;">
+              <div style="background: #e6f0fa; padding: 4px 12px; font-size: 13px; font-weight: bold; border-top-left-radius: 4px; border-top-right-radius: 4px; color: #333; border: 1px solid #d9ecff; border-bottom: none;">📄 {{ path }}</div>
+              <pre style="margin: 0; padding: 12px; background: #fcfcfc; border: 1px solid #d9ecff; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; font-size: 13px; overflow-x: auto;"><code>{{ code }}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="detailQ.answerProjectPath" style="margin-top:8px; padding:8px; background:#f0f9eb; border-radius:4px; font-size: 13px; color: #67C23A; border: 1px solid #e1f3d8;">
+          <div style="display: flex; align-items: center;">
+            <b>📁 答案工程:</b> <a href="javascript:void(0)" @click="downloadProject(detailQ.id, 'answer')" style="text-decoration:none; color:inherit; cursor:pointer; margin-left: 4px;" title="点击下载答案工程">{{ detailQ.answerProjectPath }}</a>
+            <el-button type="success" link size="small" @click="toggleAnswerProjectCode" style="margin-left: 10px;">{{ detailQ.showAnswerCode ? '隐藏代码' : '查看代码' }}</el-button>
+          </div>
+        </div>
+
+        <!-- 答案代码展示区 -->
+        <div v-if="detailQ.showAnswerCode" style="margin-top: 12px;">
+          <div v-if="!answerProjectCodes" style="color: #909399; font-size: 12px;">正在加载代码...</div>
+          <div v-else-if="Object.keys(answerProjectCodes).length === 0" style="color: #909399; font-size: 12px;">工程中没有代码文件</div>
+          <div v-else>
+            <div v-for="(code, path) in answerProjectCodes" :key="path" style="margin-bottom: 12px;">
+              <div style="background: #f0f9eb; padding: 4px 12px; font-size: 13px; font-weight: bold; border-top-left-radius: 4px; border-top-right-radius: 4px; color: #333; border: 1px solid #e1f3d8; border-bottom: none;">📄 {{ path }}</div>
+              <pre style="margin: 0; padding: 12px; background: #fcfcfc; border: 1px solid #e1f3d8; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; font-size: 13px; overflow-x: auto;"><code>{{ code }}</code></pre>
+            </div>
           </div>
         </div>
         <div v-if="detailQ.options" style="margin:8px 0">
@@ -228,6 +249,7 @@ const showDetail = ref(false)
 const detailQ = ref({})
 const currentQIndex = ref(-1)
 const projectCodes = ref(null)
+const answerProjectCodes = ref(null)
 const showAdd = ref(false)
 const isEdit = ref(false)
 const importInput = ref(null)
@@ -269,16 +291,41 @@ const loadMeta = async () => {
 }
 
 const viewQ = async (row) => { 
-  detailQ.value = row; 
+  detailQ.value = { ...row, showCode: false, showAnswerCode: false }; 
   currentQIndex.value = questions.value.findIndex(q => q.id === row.id);
   projectCodes.value = null;
+  answerProjectCodes.value = null;
   showDetail.value = true; 
-  if (row.projectPath) {
-    try {
-      const res = await questionApi.getProjectCode(row.id);
-      projectCodes.value = res.data;
-    } catch (e) {
-      console.error('获取题目工程代码失败', e);
+}
+
+const toggleProjectCode = async () => {
+  if (detailQ.value.showCode) {
+    detailQ.value.showCode = false;
+  } else {
+    detailQ.value.showCode = true;
+    if (!projectCodes.value) {
+      try {
+        const res = await questionApi.getProjectCode(detailQ.value.id, 'project');
+        projectCodes.value = res.data;
+      } catch (e) {
+        console.error('获取题目工程代码失败', e);
+      }
+    }
+  }
+}
+
+const toggleAnswerProjectCode = async () => {
+  if (detailQ.value.showAnswerCode) {
+    detailQ.value.showAnswerCode = false;
+  } else {
+    detailQ.value.showAnswerCode = true;
+    if (!answerProjectCodes.value) {
+      try {
+        const res = await questionApi.getProjectCode(detailQ.value.id, 'answer');
+        answerProjectCodes.value = res.data;
+      } catch (e) {
+        console.error('获取答案工程代码失败', e);
+      }
     }
   }
 }

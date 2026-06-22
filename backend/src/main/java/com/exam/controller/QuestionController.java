@@ -192,9 +192,9 @@ public class QuestionController {
 
     /** 获取题目工程中的所有代码 */
     @GetMapping("/{id}/project-code")
-    public ResponseEntity<Map<String, String>> getProjectCode(@PathVariable("id") Long id) {
+    public ResponseEntity<Map<String, String>> getProjectCode(@PathVariable("id") Long id, @RequestParam(value = "type", defaultValue = "project") String type) {
         QuestionDTO q = questionService.findById(id);
-        String path = q.getProjectPath();
+        String path = "answer".equals(type) ? q.getAnswerProjectPath() : q.getProjectPath();
         if (path == null || path.trim().isEmpty()) {
             return ResponseEntity.ok(java.util.Collections.emptyMap());
         }

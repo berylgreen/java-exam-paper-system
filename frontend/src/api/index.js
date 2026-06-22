@@ -17,7 +17,7 @@ export const questionApi = {
     sources: () => api.get('/questions/sources'),
     stats: () => api.get('/questions/stats'),
     optimizePreview: (data) => api.post('/questions/optimize-preview', data),
-    getProjectCode: (id) => api.get(`/questions/${id}/project-code`),
+    getProjectCode: (id, type = 'project') => api.get(`/questions/${id}/project-code`, { params: { type } }),
     exportUrl: '/api/questions/export',
     importFile: (file) => {
         const formData = new FormData()

@@ -48,9 +48,6 @@
               <el-button type="primary" link size="small" @click="toggleProjectCode(pq.question)" style="margin-left: 10px;">{{ pq.question.showCode ? '隐藏代码' : '查看代码' }}</el-button>
             </div>
           </div>
-          <div v-if="pq.question.answerProjectPath" style="margin-top:8px; padding:8px; background:#f0f9eb; border-radius:4px; font-size: 13px; color: #67C23A; border: 1px solid #e1f3d8;">
-            <b>📁 答案工程:</b> <a href="javascript:void(0)" @click="downloadProject(pq.question.id, 'answer')" style="text-decoration:none; color:inherit; cursor:pointer;" title="点击下载答案工程">{{ pq.question.answerProjectPath }}</a>
-          </div>
 
           <!-- 代码展示区 -->
           <div v-if="pq.question.showCode" style="margin-top: 12px;">
@@ -60,6 +57,25 @@
               <div v-for="(code, path) in pq.question.projectCodes" :key="path" style="margin-bottom: 12px;">
                 <div style="background: #e6f0fa; padding: 4px 12px; font-size: 13px; font-weight: bold; border-top-left-radius: 4px; border-top-right-radius: 4px; color: #333; border: 1px solid #d9ecff; border-bottom: none;">📄 {{ path }}</div>
                 <pre style="margin: 0; padding: 12px; background: #fcfcfc; border: 1px solid #d9ecff; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; font-size: 13px; overflow-x: auto;"><code>{{ code }}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div v-if="pq.question.answerProjectPath" style="margin-top:8px; padding:8px; background:#f0f9eb; border-radius:4px; font-size: 13px; color: #67C23A; border: 1px solid #e1f3d8;">
+            <div style="display: flex; align-items: center;">
+              <b>📁 答案工程:</b> <a href="javascript:void(0)" @click="downloadProject(pq.question.id, 'answer')" style="text-decoration:none; color:inherit; cursor:pointer; margin-left: 4px;" title="点击下载答案工程">{{ pq.question.answerProjectPath }}</a>
+              <el-button type="success" link size="small" @click="toggleAnswerProjectCode(pq.question)" style="margin-left: 10px;">{{ pq.question.showAnswerCode ? '隐藏代码' : '查看代码' }}</el-button>
+            </div>
+          </div>
+
+          <!-- 答案代码展示区 -->
+          <div v-if="pq.question.showAnswerCode" style="margin-top: 12px;">
+            <div v-if="!pq.question.answerProjectCodes" style="color: #909399; font-size: 12px;">正在加载代码...</div>
+            <div v-else-if="Object.keys(pq.question.answerProjectCodes).length === 0" style="color: #909399; font-size: 12px;">工程中没有代码文件</div>
+            <div v-else>
+              <div v-for="(code, path) in pq.question.answerProjectCodes" :key="path" style="margin-bottom: 12px;">
+                <div style="background: #f0f9eb; padding: 4px 12px; font-size: 13px; font-weight: bold; border-top-left-radius: 4px; border-top-right-radius: 4px; color: #333; border: 1px solid #e1f3d8; border-bottom: none;">📄 {{ path }}</div>
+                <pre style="margin: 0; padding: 12px; background: #fcfcfc; border: 1px solid #e1f3d8; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; font-size: 13px; overflow-x: auto;"><code>{{ code }}</code></pre>
               </div>
             </div>
           </div>
@@ -206,6 +222,23 @@ const toggleProjectCode = async (question) => {
       } catch (e) {
         console.error('获取题目工程代码失败', e);
         question.projectCodes = {};
+      }
+    }
+  }
+}
+
+const toggleAnswerProjectCode = async (question) => {
+  if (question.showAnswerCode) {
+    question.showAnswerCode = false;
+  } else {
+    question.showAnswerCode = true;
+    if (!question.answerProjectCodes) {
+      try {
+        const res = await questionApi.getProjectCode(question.id, 'answer');
+        question.answerProjectCodes = res.data;
+      } catch (e) {
+        console.error('获取答案工程代码失败', e);
+        question.answerProjectCodes = {};
       }
     }
   }
