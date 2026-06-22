@@ -1375,7 +1375,7 @@ public class ExamPaperService {
                         doc.createParagraph().createRun().setText("");
                     } else {
                         if (type == QuestionType.SHORT_ANSWER || type == QuestionType.CODE_READING || type == QuestionType.PROGRAMMING) {
-                            for (int i = 0; i < 5; i++) {
+                            for (int i = 0; i < 1; i++) {
                                 doc.createParagraph().createRun().setText("");
                             }
                         }
