@@ -1,17 +1,19 @@
 package com.exam.lambda;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        List<Integer> data = Arrays.asList(-5, -2, 0, 3, 4, 8, 10);
-        DataFilter filter = new DataFilter();
+        System.out.println("启动 lambda 模块测试...");
+        Storage storage = new Storage();
+        storage.add(new Element("101", "元素1"));
+        storage.add(new Element("102", "元素2"));
+        storage.add(new Element("103", "元素3"));
         
-        System.out.println("偶数: " + filter.filterEvenNumbers(data));
-        System.out.println("正数: " + filter.filterPositiveNumbers(data));
+        Element item = storage.get("102");
+        System.out.println("查询到: " + (item != null ? item.getName() : "null"));
         
-        // TODO: 重构后，要求可以使用下面类似的 Lambda 语法
-        // System.out.println("大于5: " + filter.filter(data, n -> n > 5));
+        // TODO: 使用 HashMap 优化存储结构，提升查询效率
     }
 }

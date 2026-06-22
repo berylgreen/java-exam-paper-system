@@ -1,14 +1,24 @@
 package com.exam.ecommerce;
 
 public class Order {
-    // 原始设计：共享变量未做同步控制
-    private int stock = 100;
-
-    public int getStock() {
-        return stock;
+    public String id;
+    public String name;
+    public double value;
+    
+    public Order() {}
+    
+    public Order(String id, String name) {
+        this.id = id;
+        this.name = name;
     }
-
-    public void setStock(int stock) {
-        this.stock = stock;
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Order{id='" + id + "', name='" + name + "'}";
     }
 }

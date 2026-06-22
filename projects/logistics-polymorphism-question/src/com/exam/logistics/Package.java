@@ -1,11 +1,24 @@
 package com.exam.logistics;
 
-// 原始设计：仅作为标记类，没有统一的处理方法
 public class Package {
-}
-
-class RegularPackage extends Package {
-}
-
-class VIPPackage extends Package {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Package() {}
+    
+    public Package(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Package{id='" + id + "', name='" + name + "'}";
+    }
 }

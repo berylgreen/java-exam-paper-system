@@ -2,14 +2,21 @@ package com.exam.hotel;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("启动 酒店管理系统 模块测试...");
-        Manager manager = new Manager();
-        manager.add(new Room("001"));
-        manager.add(new Room("002"));
-        manager.add(new Room("001")); // 重复数据
+        System.out.println("启动 hotel 模块测试...");
         
-        manager.printAll();
+        // 原始设计：使用定长数组，无法动态扩容，也难以去重
+        Room[] array = new Room[3];
+        array[0] = new Room("103", "标准间");
+        array[1] = new Room("101", "总统套房");
+        array[2] = new Room("102", "豪华大床房");
         
-        // TODO: 使用 ArrayList 或 HashSet 替代定长数组，并实现去重和排序
+        // 尝试添加重复元素会抛出异常或覆盖
+        // array[3] = new Room("102", "豪华大床房"); // ArrayIndexOutOfBoundsException
+        
+        for (Room item : array) {
+            System.out.println(item);
+        }
+        
+        // TODO: 使用 ArrayList 或 HashSet 替代原有数组来管理对象，实现去重和排序
     }
 }

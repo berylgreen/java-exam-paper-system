@@ -1,11 +1,24 @@
 package com.exam.rental;
 
-// 原始设计：仅作为标记类，没有统一的处理方法
 public class Vehicle {
-}
-
-class RegularVehicle extends Vehicle {
-}
-
-class VIPVehicle extends Vehicle {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Vehicle() {}
+    
+    public Vehicle(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Vehicle{id='" + id + "', name='" + name + "'}";
+    }
 }

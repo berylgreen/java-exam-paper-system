@@ -2,14 +2,21 @@ package com.exam.school;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("启动 教务系统 模块测试...");
-        Manager manager = new Manager();
-        manager.add(new Student("001"));
-        manager.add(new Student("002"));
-        manager.add(new Student("001")); // 重复数据
+        System.out.println("启动 school 模块测试...");
         
-        manager.printAll();
+        // 原始设计：使用定长数组，无法动态扩容，也难以去重
+        Student[] array = new Student[3];
+        array[0] = new Student("103", "小刚");
+        array[1] = new Student("101", "小明");
+        array[2] = new Student("102", "小红");
         
-        // TODO: 使用 ArrayList 或 HashSet 替代定长数组，并实现去重和排序
+        // 尝试添加重复元素会抛出异常或覆盖
+        // array[3] = new Student("102", "小红"); // ArrayIndexOutOfBoundsException
+        
+        for (Student item : array) {
+            System.out.println(item);
+        }
+        
+        // TODO: 使用 ArrayList 或 HashSet 替代原有数组来管理对象，实现去重和排序
     }
 }

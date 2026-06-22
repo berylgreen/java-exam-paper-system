@@ -1,20 +1,24 @@
 package com.exam.hospital;
 
 public class Patient {
-    private String id;
+    public String id;
+    public String name;
+    public double value;
     
-    public Patient(String id) {
+    public Patient() {}
+    
+    public Patient(String id, String name) {
         this.id = id;
+        this.name = name;
     }
     
-    // TODO: 1. 重写 equals() 和 hashCode() 以实现去重
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Patient{id='" + id + "', name='" + name + "'}";
     }
 }

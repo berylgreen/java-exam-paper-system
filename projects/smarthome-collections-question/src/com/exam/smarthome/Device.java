@@ -1,20 +1,24 @@
 package com.exam.smarthome;
 
 public class Device {
-    private String id;
+    public String id;
+    public String name;
+    public double value;
     
-    public Device(String id) {
+    public Device() {}
+    
+    public Device(String id, String name) {
         this.id = id;
+        this.name = name;
     }
     
-    // TODO: 1. 重写 equals() 和 hashCode() 以实现去重
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Device{id='" + id + "', name='" + name + "'}";
     }
 }

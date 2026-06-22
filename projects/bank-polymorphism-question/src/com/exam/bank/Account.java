@@ -1,11 +1,24 @@
 package com.exam.bank;
 
-// 原始设计：仅作为标记类，没有统一的处理方法
 public class Account {
-}
-
-class RegularAccount extends Account {
-}
-
-class VIPAccount extends Account {
+    public String id;
+    public String name;
+    public double value;
+    
+    public Account() {}
+    
+    public Account(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    @Override
+    public String toString() {
+        return "Account{id='" + id + "', name='" + name + "'}";
+    }
 }

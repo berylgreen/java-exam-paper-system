@@ -2,10 +2,12 @@ package com.exam.payment;
 
 public class Main {
     public static void main(String[] args) {
-        Order order1 = new Order("ORD001", 100.0);
-        PaymentProcessor processor = new PaymentProcessor();
-        processor.processPayment(order1);
+        System.out.println("启动 payment 模块测试...");
+        Processor processor = new Processor();
+        Object[] items = { new TypeA(), new TypeB() };
         
-        // TODO: 根据 README.md 的要求重构代码并添加新的测试逻辑
+        processor.processAll(items);
+        
+        // TODO: 使用多态重构，消除 Processor 中的 instanceof 判断
     }
 }
