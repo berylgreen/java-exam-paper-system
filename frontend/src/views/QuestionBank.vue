@@ -171,13 +171,21 @@
           <b>选项：</b>
           <div v-for="opt in parseOpts(detailQ.options)" :key="opt.label" style="margin-left:16px">{{ opt.label }}. {{ opt.text }}</div>
         </div>
-        <div style="color:#6dd49e; display:flex;">
-          <b style="white-space:nowrap;margin-right:4px;">答案：</b>
-          <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(detailQ.answer)"></div>
+        <div style="margin-top: 12px; border-top: 1px dashed #ebeef5; padding-top: 12px;">
+          <el-button size="small" type="primary" plain @click="detailQ.showAnswerAndExplanation = !detailQ.showAnswerAndExplanation">
+            {{ detailQ.showAnswerAndExplanation ? '隐藏答案与解析' : '查看答案与解析' }}
+          </el-button>
         </div>
-        <div v-if="detailQ.explanation" style="color:#aaa;margin-top:8px; display:flex;">
-          <b style="white-space:nowrap;margin-right:4px;">解析：</b>
-          <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(detailQ.explanation)"></div>
+
+        <div v-if="detailQ.showAnswerAndExplanation" style="margin-top: 12px; background: #f9f9f9; padding: 12px; border-radius: 4px; border: 1px solid #ebeef5;">
+          <div style="color:#6dd49e; display:flex;">
+            <b style="white-space:nowrap;margin-right:4px;">答案：</b>
+            <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(detailQ.answer)"></div>
+          </div>
+          <div v-if="detailQ.explanation" style="color:#aaa;margin-top:8px; display:flex;">
+            <b style="white-space:nowrap;margin-right:4px;">解析：</b>
+            <div class="markdown-body" style="flex:1;" v-html="renderMarkdown(detailQ.explanation)"></div>
+          </div>
         </div>
       </div>
       <template #footer>
@@ -291,7 +299,7 @@ const loadMeta = async () => {
 }
 
 const viewQ = async (row) => { 
-  detailQ.value = { ...row, showCode: false, showAnswerCode: false }; 
+  detailQ.value = { ...row, showCode: false, showAnswerCode: false, showAnswerAndExplanation: false }; 
   currentQIndex.value = questions.value.findIndex(q => q.id === row.id);
   projectCodes.value = null;
   answerProjectCodes.value = null;
