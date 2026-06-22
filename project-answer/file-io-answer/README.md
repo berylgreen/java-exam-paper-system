@@ -1,9 +1,13 @@
 # 文件 I/O (日志备份工具)
 
-项目中需要一个日志备份功能，将临时生成的文本文件安全、高效地复制到备份目录下。当前只提供了空的方法存根。
+项目中需要实现一个日志文件备份功能：将临时生成的文本日志文件复制到指定的备份文件中。
 
-**任务要求**：
-1. 使用 Java 字节流 (`FileInputStream` 和 `FileOutputStream`) 实现文件的复制。
-2. 为了提高读写效率，要求使用 `BufferedInputStream` 和 `BufferedOutputStream` 进行包装。
-3. 在复制过程中正确处理 `IOException`，并在 `finally` 块中（或使用 `try-with-resources` 语法）确保输入输出流被正确关闭。
-4. 编写 `Main` 类生成测试文件，并调用备份工具完成复制。
+请补全程序，要求如下：
+
+1. 使用 `FileInputStream` 和 `FileOutputStream` 完成文件复制。
+2. 为提高读写效率，必须分别使用 `BufferedInputStream` 和 `BufferedOutputStream` 对字节流进行包装。
+3. 复制时应按字节数组分批读取和写入，直到源文件末尾。
+4. 必须正确处理 `IOException` 异常，并使用 `try-with-resources` 或 `finally` 确保流被正常关闭。
+5. 编写 `Main` 类：先创建一个测试日志文件并写入示例内容，再调用备份方法完成复制。
+
+请给出完整实现。

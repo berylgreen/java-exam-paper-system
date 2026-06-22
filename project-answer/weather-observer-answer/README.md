@@ -1,9 +1,19 @@
 # 设计模式 (气象站通知系统)
 
-当前气象站 (`WeatherStation`) 的气象数据更新时，代码直接硬编码去调用特定设备的显示方法（如 `PhoneApp` 和 `DisplayPanel`）。这种紧耦合导致系统很难增加新设备。
+某气象站系统 `WeatherStation` 在气象数据发生变化时，原先通过硬编码方式直接调用具体显示设备（如 `PhoneApp`、`DisplayPanel`）的方法。这种实现方式使 `WeatherStation` 与具体设备强耦合，导致系统难以扩展：每增加一种新设备，都需要修改气象站代码。
 
-**任务要求**：
-1. 提取观察者接口 `Observer`，包含方法 `void update(float temp, float humidity, float pressure)`。
-2. 定义主题接口 `Subject`（包含 register, remove, notify 方法）。
-3. 重构 `WeatherStation` 实现 `Subject`，并维护一个订阅者列表 `List<Observer>`。
-4. 让各个显示设备实现 `Observer` 接口。测试动态注册和数据通知。
+请使用**观察者模式（Observer Pattern）**对该系统进行重构，要求如下：
+
+1. 定义观察者接口 `Observer`，包含方法：`void update(float temp, float humidity, float pressure)`。
+2. 定义主题接口 `Subject`，至少包含以下方法：
+   - `void registerObserver(Observer o)`
+   - `void removeObserver(Observer o)`
+   - `void notifyObservers()`
+3. 重构 `WeatherStation` 类，使其实现 `Subject` 接口，并在类中维护一个 `List<Observer>` 类型的订阅者列表。
+4. 让不同的显示设备（如 `PhoneApp`、`DisplayPanel`）实现 `Observer` 接口。
+5. 编写测试代码，演示：
+   - 观察者的动态注册；
+   - 气象数据更新后自动通知所有已订阅设备；
+   - 移除某个观察者后，该设备不再接收更新。
+
+请给出完整实现代码。
