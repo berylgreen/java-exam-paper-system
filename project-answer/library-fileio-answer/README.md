@@ -7,3 +7,50 @@
 2. 写入时采用追加模式，避免覆盖原有记录。
 3. 正确处理可能出现的 `IOException` 异常。
 4. 使用 `try-with-resources` 或 `finally` 确保流对象被安全关闭。
+
+
+---
+
+## 解决方案
+
+```java
+try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true)))
+```
+这行代码同时完成了两件事：
+1. `new FileWriter(file, true)`：以追加模式打开文件，`true` 表示新内容会写到文件末尾，不会覆盖原有内容。
+2. `new BufferedWriter(...)`：使用缓冲字符输出流包装 `FileWriter`，可以提高写入效率。
+
+```java
+bw.write(record);
+bw.newLine();
+```
+- `write(record)` 用于写入一条记录。
+- `newLine()` 用于换行，使每条记录单独占一行，便于后续查看和处理。
+
+```java
+catch (IOException e) {
+    System.err.println("写入失败：" + e.getMessage());
+}
+```
+文件写入过程中可能因路径错误、权限不足或磁盘问题抛出 `IOException`，因此需要进行异常处理，防止程序异常终止。
+
+使用 `try-with-resources` 的好处是：无论写入成功还是发生异常，流对象都会被自动关闭，避免资源泄露。这也是 Java 中处理 I/O 流的推荐写法。
+
+### 参考代码
+
+```java
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class FileWriterLogger {
+    public void logRecord(String file, String record) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
+            bw.write(record);
+            bw.newLine();
+        } catch (IOException e) {
+            System.err.println("写入失败：" + e.getMessage());
+        }
+    }
+}
+```

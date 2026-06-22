@@ -7,3 +7,100 @@
 2. 针对不同的业务类型，分别创建实现该接口的具体策略类；
 3. 定义一个订单处理上下文类，在运行时动态注入具体策略对象；
 4. 通过策略模式替换原有的 `switch-case` 逻辑，体现“对扩展开放、对修改关闭”的设计思想。
+
+
+---
+
+## 解决方案
+
+策略模式的核心思想是：**将可变的业务逻辑封装为独立的策略类，并通过统一接口对外提供服务**。
+
+### 1. 原问题分析
+如果在订单处理类中直接使用大量 `switch-case` 或 `if-else` 判断不同订单类型，例如：
+
+```java
+switch(orderType) {
+    case "NORMAL":
+        // 普通订单处理
+        break;
+    case "URGENT":
+        // 加急订单处理
+        break;
+}
+```
+
+这种写法虽然直观，但存在明显缺点：
+- 新增一种订单类型时，需要修改原有核心类；
+- 业务逻辑集中在一个类中，职责不清晰；
+- 分支过多时，可读性和可维护性较差。
+
+### 2. 使用策略模式后的改进
+通过策略模式：
+- `OrderStrategy` 作为统一策略接口，定义订单处理的规范；
+- `NormalOrderStrategy`、`UrgentOrderStrategy` 等类分别封装不同业务逻辑；
+- `OrderProcessor` 作为上下文类，负责持有并调用具体策略；
+- 客户端可以在运行时自由切换策略，而不需要修改处理器内部代码。
+
+### 3. 设计优势
+这种设计具有以下优点：
+- **消除冗长条件分支**：避免大量 `switch-case`；
+- **符合开闭原则**：新增策略时只需增加新类，不必修改原有核心处理代码；
+- **便于维护与扩展**：每种订单处理逻辑独立封装，结构更清晰；
+- **支持运行时切换行为**：可以根据实际业务动态注入不同策略。
+
+### 4. 总结
+本题通过策略模式将“订单处理方式”抽象为可替换的算法族，使系统在面对业务变化时更加灵活，是面向对象设计中替代复杂条件分支的典型做法。
+
+### 参考代码
+
+```java
+// 1. 策略接口
+interface OrderStrategy {
+    void processOrder();
+}
+
+// 2. 具体策略：普通订单处理
+class NormalOrderStrategy implements OrderStrategy {
+    @Override
+    public void processOrder() {
+        System.out.println("普通订单处理流程");
+    }
+}
+
+// 3. 具体策略：加急订单处理
+class UrgentOrderStrategy implements OrderStrategy {
+    @Override
+    public void processOrder() {
+        System.out.println("加急订单优先处理流程");
+    }
+}
+
+// 4. 上下文类
+class OrderProcessor {
+    private OrderStrategy strategy;
+
+    public void setStrategy(OrderStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void process() {
+        if (strategy == null) {
+            throw new IllegalStateException("未设置订单处理策略");
+        }
+        strategy.processOrder();
+    }
+}
+
+// 5. 测试示例
+public class Main {
+    public static void main(String[] args) {
+        OrderProcessor processor = new OrderProcessor();
+
+        processor.setStrategy(new NormalOrderStrategy());
+        processor.process();
+
+        processor.setStrategy(new UrgentOrderStrategy());
+        processor.process();
+    }
+}
+```

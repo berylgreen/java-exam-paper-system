@@ -6,3 +6,47 @@
 1. 自定义一个受检异常 `BookException`，用于表示图书数据格式错误。
 2. 在解析过程中使用 `try-catch` 捕获异常。
 3. 当某条数据解析失败时，输出错误信息并继续处理下一条数据，保证批量解析流程不中断。
+
+
+---
+
+## 解决方案
+
+本题考查**自定义受检异常**和**异常捕获处理**。
+
+1. `BookException` 继承 `Exception`，因此它是一个**受检异常**，调用相关方法时必须显式处理或继续抛出。
+2. 将单条数据的解析逻辑封装到 `parseBook` 方法中，当数据为空或格式非法时，通过 `throw new BookException(...)` 主动抛出异常。
+3. 在 `parseList` 方法中使用 `for` 循环逐条处理数据，并在每次循环中用 `try-catch` 捕获 `BookException`。
+4. 这样即使某一条数据出错，也只会记录当前错误，不会影响后续数据的解析，从而提高系统的健壮性。
+
+这种处理方式适用于批量导入、日志分析、文件解析等场景，能够避免“单条错误导致整体失败”的问题。
+
+### 参考代码
+
+```java
+class BookException extends Exception {
+    public BookException(String message) {
+        super(message);
+    }
+}
+
+public class BookParser {
+    public void parseList(String[] data) {
+        for (String item : data) {
+            try {
+                parseBook(item);
+                System.out.println("解析成功: " + item);
+            } catch (BookException e) {
+                System.err.println("图书数据解析失败: " + e.getMessage());
+            }
+        }
+    }
+
+    private void parseBook(String item) throws BookException {
+        if (item == null || item.trim().isEmpty()) {
+            throw new BookException("图书数据为空或格式不正确");
+        }
+        // 这里可继续补充更具体的解析逻辑
+    }
+}
+```

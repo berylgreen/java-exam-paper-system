@@ -10,3 +10,86 @@
    - 数值属性不能为负数。
 
 请给出改造后的 `Device` 类代码实现。
+
+
+---
+
+## 解决方案
+
+```java
+public class Device {
+    private String id;
+    private double amount;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("id 不能为空");
+        }
+        this.id = id;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("amount 不能为负数");
+        }
+        this.amount = amount;
+    }
+}
+```
+
+本题考查面向对象中的**封装**思想，核心改造点如下：
+
+1. **属性私有化**  
+   将 `id` 和 `amount` 声明为 `private`，可以防止外部对象直接访问和随意修改成员变量。
+
+2. **通过方法控制访问**  
+   使用 Getter 方法读取属性值，使用 Setter 方法修改属性值，这样类可以统一控制数据的读写过程。
+
+3. **在 Setter 中进行合法性校验**  
+   - `id` 不能为 `null`，也不能是空字符串或只包含空格；
+   - `amount` 不能小于 0。  
+   如果传入非法数据，抛出 `IllegalArgumentException`，可以及时发现错误并阻止无效状态进入对象。
+
+4. **封装的意义**  
+   封装不仅是“把属性设为 private”，更重要的是通过公开的方法对数据进行约束，保证对象始终处于合理、可用的状态。
+
+因此，该实现既满足了题目对访问权限的要求，也体现了封装与数据校验的基本设计思想。
+
+### 参考代码
+
+```java
+public class Device {
+    private String id;
+    private double amount;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        if (id == null || id.trim().isEmpty()) {
+            throw new IllegalArgumentException("id 不能为空");
+        }
+        this.id = id;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("amount 不能为负数");
+        }
+        this.amount = amount;
+    }
+}
+```

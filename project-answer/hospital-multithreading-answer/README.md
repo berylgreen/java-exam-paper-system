@@ -10,3 +10,106 @@
 **说明：**
 - 共享数据的典型危险操作通常是“判断 + 修改”这样的复合逻辑，例如 `if (count > 0) { count--; }`，该过程不是原子操作。
 - 请给出线程安全的实现，并通过测试说明其正确性。
+
+
+---
+
+## 解决方案
+
+本题考查多线程环境下共享数据的同步控制。
+
+在未加锁的情况下，下面这类代码会出现线程安全问题：
+
+```java
+if (count > 0) {
+    count--;
+}
+```
+
+原因在于这并不是一个原子操作，而是包含了多个步骤：
+1. 读取 `count` 的值；
+2. 判断 `count > 0` 是否成立；
+3. 对 `count` 执行减 1；
+4. 将结果写回内存。
+
+当多个线程同时执行这段代码时，可能在判断完成后还未来得及修改，另一个线程也进入该逻辑，导致多个线程基于同一个旧值进行更新，从而产生数据错乱。
+
+使用 `synchronized` 后，线程进入同步方法或同步代码块前必须先获得对象锁，因此同一时刻只能有一个线程执行这段关键代码。这样就保证了“判断 + 修改”作为一个整体执行，避免竞态条件。
+
+本题中：
+- `public synchronized void update()` 表示对当前对象加锁；
+- `synchronized(this)` 与同步实例方法的锁对象相同，都是当前对象；
+- `join()` 的作用是让主线程等待所有子线程执行结束，再输出最终结果，便于验证并发更新后的数据是否正确。
+
+如果初始值为 `100`，4 个线程各执行 30 次更新，总共尝试更新 120 次。由于代码中限制了 `count > 0` 才能继续减少，因此加锁后最终结果应稳定为 `0`，不会出现负数或中间过程不一致的问题。
+
+因此，本题的关键在于识别共享变量上的复合操作不是原子操作，并使用 `synchronized` 保证线程安全。
+
+### 参考代码
+
+```java
+class PatientRecord {
+    private int count = 100;
+
+    // 使用 synchronized 修饰方法，保证整个“判断 + 修改”过程具有原子性
+    public synchronized void update() {
+        if (count > 0) {
+            count--;
+            System.out.println(Thread.currentThread().getName() + " 更新后剩余：" + count);
+        }
+    }
+
+    public int getCount() {
+        return count;
+    }
+}
+
+public class TestPatientRecord {
+    public static void main(String[] args) throws InterruptedException {
+        PatientRecord record = new PatientRecord();
+
+        Runnable task = () -> {
+            for (int i = 0; i < 30; i++) {
+                record.update();
+            }
+        };
+
+        Thread t1 = new Thread(task, "线程1");
+        Thread t2 = new Thread(task, "线程2");
+        Thread t3 = new Thread(task, "线程3");
+        Thread t4 = new Thread(task, "线程4");
+
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+
+        t1.join();
+        t2.join();
+        t3.join();
+        t4.join();
+
+        System.out.println("最终结果：" + record.getCount());
+    }
+}
+```
+
+也可以使用同步代码块实现：
+
+```java
+class PatientRecord {
+    private int count = 100;
+
+    public void update() {
+        synchronized (this) {
+            if (count > 0) {
+                count--;
+            }
+        }
+    }
+
+    public int getCount() {
+        return count;
+    }
+}
+```

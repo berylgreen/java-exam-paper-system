@@ -8,3 +8,98 @@
 3. 重构统计类，使其只依赖 `Patient` 抽象类型完成统一处理，不再出现任何 `instanceof` 或类型强制转换。
 
 请给出完整的示例代码，并体现多态调用的实现方式。
+
+
+---
+
+## 解决方案
+
+本题的核心是使用**继承（或实现接口）+ 方法重写 + 父类引用指向子类对象**来实现多态，从而替代大量的类型判断。
+
+### 设计思路
+1. **抽象父类 `Patient`**
+   - 提取所有病患类型的共同行为，定义抽象方法 `process()`。
+   - 这样统计类只需要面向 `Patient` 编程，而不需要关心具体是哪个子类。
+
+2. **具体子类分别实现业务逻辑**
+   - `RegularPatient`、`VIPPatient`、`EmergencyPatient` 等子类根据自身特点重写 `process()` 方法。
+   - 不同对象在调用同一个方法时，会表现出不同的行为，这就是多态。
+
+3. **统计类中消除类型判断**
+   - 原来可能写成：
+
+```java
+if (obj instanceof RegularPatient) {
+    ...
+} else if (obj instanceof VIPPatient) {
+    ...
+} else if (obj instanceof EmergencyPatient) {
+    ...
+}
+```
+
+   - 重构后只需：
+
+```java
+patient.process();
+```
+
+   - 具体执行哪个版本的方法，由对象的实际类型决定。
+
+### 这样设计的优点
+- **提高可维护性**：避免冗长的 `if...else if...` 结构。
+- **符合开闭原则**：如果将来新增 `ChildPatient`、`SeniorPatient` 等类型，只需新增子类并实现 `process()`，无需修改统计类。
+- **增强可扩展性**：调用方代码更稳定，系统结构更清晰。
+
+### 总结
+本题通过将“不同病患的处理逻辑”下放到各自的子类中，实现了“统一接口、不同实现”的多态效果。统计类不再依赖具体类型判断，而是通过调用抽象方法完成处理，这正是面向对象设计中消除分支判断、提升扩展性的常见做法。
+
+### 参考代码
+
+```java
+abstract class Patient {
+    // 抽象方法：不同类型的病患有不同的处理逻辑
+    public abstract void process();
+}
+
+class RegularPatient extends Patient {
+    @Override
+    public void process() {
+        System.out.println("处理普通病患的统计逻辑");
+    }
+}
+
+class VIPPatient extends Patient {
+    @Override
+    public void process() {
+        System.out.println("处理 VIP 病患的统计逻辑");
+    }
+}
+
+class EmergencyPatient extends Patient {
+    @Override
+    public void process() {
+        System.out.println("处理急诊病患的统计逻辑");
+    }
+}
+
+public class PatientStatistics {
+    // 统一处理所有病患对象，只面向抽象类型编程
+    public void processAll(Patient[] patients) {
+        for (Patient patient : patients) {
+            patient.process();   // 多态调用
+        }
+    }
+
+    public static void main(String[] args) {
+        Patient[] patients = {
+            new RegularPatient(),
+            new VIPPatient(),
+            new EmergencyPatient()
+        };
+
+        PatientStatistics statistics = new PatientStatistics();
+        statistics.processAll(patients);
+    }
+}
+```

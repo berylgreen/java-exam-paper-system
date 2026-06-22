@@ -11,3 +11,128 @@
 2. 定义 `Book` 类，并根据图书唯一标识（如 `id`）重写 `equals()` 和 `hashCode()` 方法，以实现业务上的去重；
 3. 为 `Book` 类提供排序能力，可通过实现 `Comparable<Book>`接口或创建 `Comparator`，按照某一业务规则（例如按图书编号升序）进行排序；
 4. 编写测试代码，演示图书的添加、去重与排序过程。
+
+
+---
+
+## 解决方案
+
+本题的核心是使用**集合框架**替代定长数组，并结合 `equals()`、`hashCode()` 和排序机制完成图书管理。
+
+### 1. 为什么要使用集合替代数组
+- 数组长度固定，新增元素不方便，容易出现越界问题；
+- `ArrayList` 可以动态扩容，适合存储数量不断变化的数据；
+- `HashSet` 不允许存放重复元素，适合做去重处理。
+
+因此，本题可以先使用 `HashSet<Book>` 保存图书，实现自动去重；再转换为 `ArrayList<Book>` 进行排序。
+
+### 2. 为什么要重写 `equals()` 和 `hashCode()`
+在 `HashSet` 中，判断对象是否重复时，不仅会用到 `hashCode()`，还会在必要时调用 `equals()`。
+
+如果不重写这两个方法，即使两个 `Book` 对象的 `id` 相同，系统也会认为它们是不同对象，无法实现业务上的“同一本书去重”。
+
+本题中用图书编号 `id` 作为唯一标识，因此：
+- `equals()`：判断两个图书对象的 `id` 是否相同；
+- `hashCode()`：根据 `id` 生成哈希值，保证相等对象具有相同哈希值。
+
+### 3. 为什么实现 `Comparable<Book>`
+为了让图书对象可以直接排序，可以让 `Book` 类实现 `Comparable<Book>`接口或创建 `Comparator`，并重写 `compareTo()` 方法。
+
+本答案中按照图书编号 `id` 升序排序：
+
+```java
+@Override
+public int compareTo(Book other) {
+    return this.id.compareTo(other.id);
+}
+```
+
+之后即可使用：
+
+```java
+Collections.sort(bookList);
+```
+
+### 4. 程序执行过程说明
+1. 创建 `HashSet<Book>` 存放图书；
+2. 向集合中加入 3 本图书，其中两本图书 `id` 相同；
+3. 由于重写了 `equals()` 和 `hashCode()`，重复的图书不会被重复保存；
+4. 将 `HashSet` 转为 `ArrayList`；
+5. 使用 `Collections.sort()` 按 `id` 排序；
+6. 输出排序后的图书信息。
+
+### 5. 结果特点
+最终输出中：
+- 不会出现 `id` 相同的重复图书；
+- 图书会按照编号升序排列。
+
+这说明程序同时完成了**动态存储、去重和排序**三个要求，符合题目要求。
+
+### 参考代码
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+class Book implements Comparable<Book> {
+    private String id;
+    private String name;
+
+    public Book(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(id, book.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public int compareTo(Book other) {
+        return this.id.compareTo(other.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Book{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Set<Book> bookSet = new HashSet<>();
+
+        bookSet.add(new Book("B002", "Java 程序设计"));
+        bookSet.add(new Book("B001", "数据结构"));
+        bookSet.add(new Book("B002", "Java 编程思想")); // id 相同，视为重复图书
+
+        List<Book> bookList = new ArrayList<>(bookSet);
+        Collections.sort(bookList);
+
+        for (Book book : bookList) {
+            System.out.println(book);
+        }
+    }
+}
+```

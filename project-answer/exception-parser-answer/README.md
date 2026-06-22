@@ -10,3 +10,86 @@
 4. 无论本次解析是否成功，都必须在 `finally` 块中输出“解析过程结束”。
 
 请给出一个符合上述要求的实现示例。
+
+
+---
+
+## 解决方案
+
+本题考查自定义受检异常、异常捕获与转换，以及 `finally` 的使用。
+
+1. **自定义受检异常**  
+   `InvalidDataException` 继承自 `Exception`，因此它属于受检异常，通常用于表示业务层面可预期但需要显式处理的错误。
+
+2. **捕获底层异常**  
+   在解析字符串为整数时，可能出现两类问题：
+   - `NumberFormatException`：字符串内容不是合法整数；
+   - `NullPointerException`：当前元素为 `null`。
+
+3. **异常转换**  
+   题目要求在出现非法数据时，可以抛出 `InvalidDataException`。因此示例中先捕获底层异常，再将其转换为更有业务含义的 `InvalidDataException`，最后在外层统一处理。这样做的好处是：
+   - 隐藏底层实现细节；
+   - 提高异常语义的清晰度；
+   - 便于后续统一管理错误信息。
+
+4. **继续处理后续数据**  
+   每次循环只处理一个元素，即使当前数据解析失败，也只是输出错误信息，不会影响后续元素的解析，从而提升程序健壮性。
+
+5. **finally 的作用**  
+   `finally` 中的代码无论是否发生异常都会执行，因此适合放置日志输出、资源释放等操作。本题中要求输出“解析过程结束”，所以应放在 `finally` 块中。
+
+示例运行逻辑如下：
+
+```java
+String[] arr = {"90", "abc", null, "100"};
+new DataParser().parseScores(arr);
+```
+
+可能输出：
+
+```java
+Parsed: 90
+解析过程结束
+解析失败：数据格式非法：abc
+解析过程结束
+解析失败：数据不能为空
+解析过程结束
+Parsed: 100
+解析过程结束
+```
+
+该实现满足题目四项要求，并体现了异常处理在提升程序稳定性方面的作用。
+
+### 参考代码
+
+```java
+class InvalidDataException extends Exception {
+    public InvalidDataException(String message) {
+        super(message);
+    }
+}
+
+public class DataParser {
+    public void parseScores(String[] data) {
+        for (String s : data) {
+            try {
+                try {
+                    if (s == null) {
+                        throw new NullPointerException("数据为 null");
+                    }
+                    int score = Integer.parseInt(s);
+                    System.out.println("Parsed: " + score);
+                } catch (NumberFormatException e) {
+                    throw new InvalidDataException("数据格式非法：" + s);
+                } catch (NullPointerException e) {
+                    throw new InvalidDataException("数据不能为空");
+                }
+            } catch (InvalidDataException e) {
+                System.err.println("解析失败：" + e.getMessage());
+            } finally {
+                System.out.println("解析过程结束");
+            }
+        }
+    }
+}
+```

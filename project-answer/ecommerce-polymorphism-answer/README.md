@@ -9,3 +9,103 @@
 3. 编写统计处理类，基于多态调用订单对象的方法，彻底消除显式的类型判断语句（如 `instanceof`）。
 
 请给出核心代码实现，并体现出“新增订单类型时，原有统计处理类无需修改”的设计思想。
+
+
+---
+
+## 解决方案
+
+本题的核心是使用**继承（或接口）+ 方法重写 + 多态**来替代大量的类型判断。
+
+### 设计思路
+1. **抽象父类 `Order`**
+   - 把所有订单共有的“处理行为”抽取为统一方法 `process()`；
+   - 父类只规定规范，不关心具体实现。
+
+2. **具体子类分别实现自己的逻辑**
+   - `RegularOrder`、`VIPOrder`、`GroupOrder` 等子类各自重写 `process()`；
+   - 不同订单的差异化行为由各自子类负责完成。
+
+3. **统计处理类只面向父类编程**
+   - `OrderStatistics` 中的方法参数使用 `Order[]`；
+   - 遍历时直接调用 `order.process()`，Java 会在运行时根据对象真实类型执行对应子类的方法，这就是多态。
+
+### 为什么这种写法优于 `instanceof`
+若使用下面这种方式：
+
+```java
+if (obj instanceof RegularOrder) {
+    // ...
+} else if (obj instanceof VIPOrder) {
+    // ...
+} else if (obj instanceof GroupOrder) {
+    // ...
+}
+```
+
+会带来以下问题：
+- 每增加一种订单类型，都要修改原有统计类；
+- 条件分支越来越多，代码臃肿；
+- 不符合**开闭原则**（对扩展开放、对修改关闭）。
+
+而使用多态后：
+- 新增订单类型时，只需新增一个继承 `Order` 的子类；
+- `OrderStatistics` 无需修改；
+- 程序结构更清晰，职责划分更合理。
+
+### 总结
+本题通过将“不同订单的不同处理逻辑”分散到各自子类中，实现了：
+- 消除 `instanceof` 和大量 `if...else`；
+- 提高代码可维护性与扩展性；
+- 更好地体现面向对象编程中的多态特性。
+
+### 参考代码
+
+```java
+abstract class Order {
+    /**
+     * 订单处理的统一入口
+     */
+    public abstract void process();
+}
+
+class RegularOrder extends Order {
+    @Override
+    public void process() {
+        System.out.println("处理普通订单");
+    }
+}
+
+class VIPOrder extends Order {
+    @Override
+    public void process() {
+        System.out.println("处理 VIP 订单");
+    }
+}
+
+class GroupOrder extends Order {
+    @Override
+    public void process() {
+        System.out.println("处理团购订单");
+    }
+}
+
+public class OrderStatistics {
+    public void processAll(Order[] orders) {
+        for (Order order : orders) {
+            order.process(); // 利用多态调用具体子类的实现
+        }
+    }
+
+    public static void main(String[] args) {
+        Order[] orders = {
+            new RegularOrder(),
+            new VIPOrder(),
+            new GroupOrder()
+        };
+
+        OrderStatistics statistics = new OrderStatistics();
+        statistics.processAll(orders);
+    }
+}
+```

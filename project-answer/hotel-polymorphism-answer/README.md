@@ -6,3 +6,96 @@
 1. 定义一个通用的 `Room` 抽象类或接口，并声明统一的处理方法；
 2. 为不同类型的房间创建对应的子类，并在子类中实现各自的处理逻辑；
 3. 编写统计类，在不使用 `instanceof` 或类型强制转换判断的前提下，统一处理所有房间对象。
+
+
+---
+
+## 解决方案
+
+本题的核心是用**多态**替代大量的 `instanceof` 分支判断。
+
+### 重构思路
+1. **抽象父类 `Room`**
+   将所有房间共有的“处理行为”抽象为 `process()` 方法。
+2. **子类分别实现**
+   不同房间类型如 `RegularRoom`、`VIPRoom`、`SuiteRoom` 在各自类中重写 `process()`，实现自己的业务逻辑。
+3. **调用方统一处理**
+   统计类只需要面向 `Room` 类型编程，遍历房间数组时直接调用 `room.process()`，无需再关心对象的实际类型。
+
+### 这样做的优点
+- **消除类型判断**：不再需要 `if...else if...` 或 `instanceof`；
+- **提高可维护性**：每种房间的逻辑放在自己的类中，职责更清晰；
+- **符合开闭原则**：如果以后新增 `DeluxeRoom`，只需新增一个子类并实现 `process()`，统计类代码无需修改；
+- **体现面向对象思想**：把“做什么”交给对象自己决定，而不是由外部统一判断类型后再处理。
+
+### 对比说明
+原来的写法通常类似：
+
+```java
+if (obj instanceof RegularRoom) {
+    // 处理普通房间
+} else if (obj instanceof VIPRoom) {
+    // 处理 VIP 房间
+} else if (obj instanceof SuiteRoom) {
+    // 处理套房
+}
+```
+
+这种方式每增加一种房间类型，就要修改原有统计类。
+
+重构后：
+
+```java
+room.process();
+```
+
+同一条语句即可完成不同类型对象的处理，这正是多态的典型应用。
+
+### 参考代码
+
+```java
+abstract class Room {
+    // 统一的处理方法，由子类分别实现
+    public abstract void process();
+}
+
+class RegularRoom extends Room {
+    @Override
+    public void process() {
+        System.out.println("处理普通房间的统计逻辑");
+    }
+}
+
+class VIPRoom extends Room {
+    @Override
+    public void process() {
+        System.out.println("处理 VIP 房间的统计逻辑");
+    }
+}
+
+class SuiteRoom extends Room {
+    @Override
+    public void process() {
+        System.out.println("处理套房的统计逻辑");
+    }
+}
+
+public class RoomStatistics {
+    public void processAll(Room[] rooms) {
+        for (Room room : rooms) {
+            room.process(); // 通过多态调用子类自己的实现
+        }
+    }
+
+    public static void main(String[] args) {
+        Room[] rooms = {
+            new RegularRoom(),
+            new VIPRoom(),
+            new SuiteRoom()
+        };
+
+        RoomStatistics statistics = new RoomStatistics();
+        statistics.processAll(rooms);
+    }
+}
+```

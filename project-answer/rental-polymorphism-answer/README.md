@@ -7,3 +7,92 @@
 2. 创建若干具体车辆子类，并在各自类中实现对应的处理逻辑。
 3. 编写统计类，对一组车辆对象进行统一处理，不能再使用 `instanceof` 或类型强制转换来区分车辆类型。
 4. 给出完整示例代码，体现“调用方只面向父类，具体行为由子类决定”的多态特性。
+
+
+---
+
+## 解决方案
+
+```java
+// 传统写法示意
+if (obj instanceof RegularVehicle) {
+    // 处理普通车辆
+} else if (obj instanceof VIPVehicle) {
+    // 处理VIP车辆
+} else if (obj instanceof TruckVehicle) {
+    // 处理货运车辆
+}
+```
+
+上述写法的问题在于：
+1. **耦合度高**：统计类必须知道所有具体车辆类型。
+2. **扩展性差**：每新增一种车辆类型，都要修改原有的判断代码。
+3. **不符合开闭原则**：对扩展开放、对修改关闭这一原则没有得到体现。
+
+重构后的核心思想是把“不同车辆的不同处理逻辑”下放到各自子类中：
+- 父类 `Vehicle` 定义统一的抽象方法 `process()`；
+- 各子类分别重写 `process()`，实现自己的业务逻辑；
+- 统计类 `VehicleStatistics` 只需要面向 `Vehicle` 编程，循环调用 `vehicle.process()` 即可。
+
+这样做的优点是：
+1. **消除了 `instanceof` 判断**，代码更简洁；
+2. **体现了多态性**：同一个方法调用，根据对象实际类型表现出不同的行为；
+3. **便于扩展**：如果新增 `BusVehicle` 类，只需继承 `Vehicle` 并实现 `process()`，统计类代码无需修改。
+
+因此，本题的关键不只是“定义继承结构”，更重要的是通过**抽象 + 方法重写 + 父类引用指向子类对象**来实现真正的多态重构。
+
+### 参考代码
+
+```java
+abstract class Vehicle {
+    /**
+     * 车辆统计处理方法，不同车辆有不同实现
+     */
+    public abstract void process();
+}
+
+class RegularVehicle extends Vehicle {
+    @Override
+    public void process() {
+        System.out.println("普通车辆：执行常规统计逻辑");
+    }
+}
+
+class VIPVehicle extends Vehicle {
+    @Override
+    public void process() {
+        System.out.println("VIP车辆：执行VIP统计逻辑");
+    }
+}
+
+class TruckVehicle extends Vehicle {
+    @Override
+    public void process() {
+        System.out.println("货运车辆：执行货运统计逻辑");
+    }
+}
+
+class VehicleStatistics {
+    /**
+     * 统一处理所有车辆对象
+     */
+    public void processAll(Vehicle[] vehicles) {
+        for (Vehicle vehicle : vehicles) {
+            vehicle.process();
+        }
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Vehicle[] vehicles = {
+            new RegularVehicle(),
+            new VIPVehicle(),
+            new TruckVehicle()
+        };
+
+        VehicleStatistics statistics = new VehicleStatistics();
+        statistics.processAll(vehicles);
+    }
+}
+```

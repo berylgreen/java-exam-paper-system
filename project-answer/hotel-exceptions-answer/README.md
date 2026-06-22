@@ -10,3 +10,46 @@
 **说明：**
 - 受检异常应继承 `Exception`。
 - 可将 `null`、空字符串等情况视为非法房间数据。
+
+
+---
+
+## 解决方案
+
+本题考查**自定义受检异常**和**异常捕获后继续执行程序**的处理方式。
+
+1. `RoomException` 继承自 `Exception`，因此它属于**受检异常**，调用方必须通过 `try-catch` 处理，或继续使用 `throws` 声明抛出。
+2. 将具体的校验逻辑封装到 `parseRoom()` 方法中，如果房间数据为 `null` 或空字符串，就抛出 `RoomException`。
+3. 在 `parseList()` 中遍历数组时，对每条数据分别进行 `try-catch` 处理。这样即使某一条数据异常，也只会记录错误，不会影响后续数据继续解析。
+4. `System.err.println(...)` 用于输出错误日志，体现“记录异常并继续执行”的要求。
+
+这种写法比直接抛出未处理的 `RuntimeException` 更安全，能够提升系统的健壮性，避免因为单条错误数据导致整个批处理流程中断。
+
+### 参考代码
+
+```java
+class RoomException extends Exception {
+    public RoomException(String message) {
+        super(message);
+    }
+}
+
+public class RoomParser {
+    public void parseList(String[] data) {
+        for (String item : data) {
+            try {
+                parseRoom(item);
+                System.out.println("Parsed: " + item);
+            } catch (RoomException e) {
+                System.err.println("Error: " + e.getMessage());
+            }
+        }
+    }
+
+    private void parseRoom(String item) throws RoomException {
+        if (item == null || item.trim().isEmpty()) {
+            throw new RoomException("Invalid room data format");
+        }
+    }
+}
+```

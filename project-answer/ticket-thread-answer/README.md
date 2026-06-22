@@ -10,3 +10,93 @@
 4. 修改完成后，多次运行 `Main` 程序，要求总售出票数始终与初始票数严格一致，且不能出现余票为负数或重复售票的情况。
 
 请给出修改后的 `TicketWindow` 核心实现代码。
+
+
+---
+
+## 解决方案
+
+```java
+if (tickets > 0) {
+    System.out.println(Thread.currentThread().getName() + " sold ticket: " + tickets);
+    tickets--;
+}
+```
+
+上述代码在多线程环境下是不安全的，因为 `tickets` 是多个线程共享的数据，而“判断是否有票”“输出当前票号”“票数减 1”这三个步骤如果不加同步，就可能被多个线程交叉执行：
+
+- 线程 A 判断 `tickets > 0` 成立；
+- 在线程 A 还未来得及减票时，线程 B 也判断 `tickets > 0` 成立；
+- 两个线程可能卖出同一张票，造成**重票**；
+- 还可能在票数接近 0 时继续减票，造成**超卖**。
+
+因此，必须把这几个步骤放入同一个同步区域中，使其成为**原子操作**。`synchronized (this)` 或同步方法都可以起到互斥作用，保证同一时刻只有一个线程能执行售票逻辑。
+
+另外，程序不能在票卖完后继续无意义地循环，因此当 `tickets <= 0` 时应立即 `break` 或返回 `false`，让线程正常结束。
+
+对于 `Thread.sleep(10)`，它只是用于模拟真实售票延时，不负责线程同步；即使加入 `sleep`，如果没有 `synchronized`，线程安全问题仍然会存在。
+
+完成修改后，只要多个线程共享的是同一个 `TicketWindow` 对象，那么对同一把锁进行同步控制，就可以保证：
+
+1. 每张票只会被卖出一次；
+2. 不会出现余票为负数；
+3. 所有线程在票售罄后都能安全退出；
+4. 多次运行程序，最终总售出票数都与初始票数严格一致。```
+
+### 参考代码
+
+```java
+public class TicketWindow implements Runnable {
+    private int tickets = 100; // 共享票数
+
+    @Override
+    public void run() {
+        while (true) {
+            synchronized (this) {
+                // 判断、打印、减票必须作为一个原子操作执行
+                if (tickets <= 0) {
+                    break;
+                }
+                System.out.println(Thread.currentThread().getName() + " sold ticket: " + tickets);
+                tickets--;
+            }
+
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+    }
+}
+```
+
+也可以将售票逻辑封装为同步方法，例如：
+
+```java
+public class TicketWindow implements Runnable {
+    private int tickets = 100;
+
+    @Override
+    public void run() {
+        while (sellTicket()) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
+    }
+
+    private synchronized boolean sellTicket() {
+        if (tickets <= 0) {
+            return false;
+        }
+        System.out.println(Thread.currentThread().getName() + " sold ticket: " + tickets);
+        tickets--;
+        return true;
+    }
+}
+```

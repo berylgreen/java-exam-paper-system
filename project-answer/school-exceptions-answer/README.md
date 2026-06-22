@@ -8,3 +8,60 @@
 3. 在批量解析过程中使用 `try-catch` 捕获异常，输出错误日志后继续处理下一条数据，保证整体流程不中断。
 
 要求体现“单条数据出错不影响其余数据处理”的异常处理思想。
+
+
+---
+
+## 解决方案
+
+```java
+// 处理思路：
+// 1. 自定义 StudentException，并继承 Exception，说明它是受检异常。
+// 2. 在解析单条数据的方法 parseStudent 中，发现格式问题时使用 throw 主动抛出异常。
+// 3. 在批量处理方法 parseList 中，使用 try-catch 捕获 StudentException。
+// 4. 某条数据解析失败时，只记录错误信息，不结束整个 for 循环，因此后续数据仍会继续处理。
+```
+
+本题重点是区分“受检异常”和“运行时异常”的处理方式：
+- `StudentException` 继承 `Exception`，属于受检异常，调用者必须显式处理或继续抛出。
+- 通过将单条数据解析封装到 `parseStudent` 方法中，可以让异常职责更清晰。
+- 在循环内部捕获异常，而不是在循环外统一捕获，这样才能保证某一条数据出错时，不会影响后续数据的解析。
+
+这种写法能够提高系统健壮性，避免因个别脏数据导致整个批处理任务崩溃。
+
+### 参考代码
+
+```java
+class StudentException extends Exception {
+    public StudentException(String message) {
+        super(message);
+    }
+}
+
+public class StudentParser {
+
+    public void parseList(String[] data) {
+        for (String item : data) {
+            try {
+                parseStudent(item);
+            } catch (StudentException e) {
+                System.err.println("学生数据解析失败：" + e.getMessage());
+            }
+        }
+    }
+
+    private void parseStudent(String item) throws StudentException {
+        if (item == null || item.trim().isEmpty()) {
+            throw new StudentException("数据为空");
+        }
+
+        // 示例：此处假设学生数据至少应包含逗号分隔的两个字段
+        String[] parts = item.split(",");
+        if (parts.length < 2) {
+            throw new StudentException("数据格式不正确：" + item);
+        }
+
+        System.out.println("解析成功：" + item);
+    }
+}
+```

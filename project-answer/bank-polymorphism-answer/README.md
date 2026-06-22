@@ -10,3 +10,106 @@
 **要求说明：**
 - 代码应体现“统一抽象 + 子类实现 + 多态调用”的设计思想。
 - 统计类只负责遍历和调用账户对象的行为，不负责判断具体类型。
+
+
+---
+
+## 解决方案
+
+本题的核心是使用**多态**替代原先基于 `instanceof` 的类型判断。
+
+### 1. 原实现的问题
+如果统计类中写成如下形式：
+
+```java
+if (obj instanceof RegularAccount) {
+    // 处理普通账户
+} else if (obj instanceof VIPAccount) {
+    // 处理 VIP 账户
+} else if (obj instanceof EnterpriseAccount) {
+    // 处理企业账户
+}
+```
+
+会带来以下问题：
+- **可维护性差**：账户类型一多，分支会越来越长。
+- **扩展性差**：每新增一种账户类型，都必须修改统计类代码。
+- **违背开闭原则**：对扩展不够开放，对修改不够封闭。
+
+### 2. 重构思路
+先抽取所有账户共有的抽象行为，例如 `process()`，然后让不同账户子类分别实现自己的处理逻辑：
+- `RegularAccount` 实现普通账户的处理；
+- `VIPAccount` 实现 VIP 账户的处理；
+- `EnterpriseAccount` 实现企业账户的处理。
+
+这样，统计类只需要面向父类 `Account` 编程：
+
+```java
+for (Account account : accounts) {
+    account.process();
+}
+```
+
+程序在运行时会根据对象的实际类型自动调用对应子类的方法，这就是**多态**。
+
+### 3. 重构后的优点
+- **消除了类型判断**：不再需要 `instanceof`。
+- **提高扩展性**：新增账户类型时，只需新增一个子类并实现 `process()` 方法，无需修改统计类。
+- **符合面向对象设计原则**：体现了抽象、封装和多态，也更符合开闭原则。
+
+### 4. 总结
+本题重构的关键在于：
+- 把“不同账户的不同处理逻辑”下放到各自子类中；
+- 把“遍历并调用处理方法”保留在统计类中；
+- 用多态机制替代分支判断，使系统结构更清晰、可维护性更强。
+
+### 参考代码
+
+```java
+abstract class Account {
+    /**
+     * 账户统计处理行为，不同账户类型有不同实现
+     */
+    public abstract void process();
+}
+
+class RegularAccount extends Account {
+    @Override
+    public void process() {
+        System.out.println("处理普通账户的统计逻辑");
+    }
+}
+
+class VIPAccount extends Account {
+    @Override
+    public void process() {
+        System.out.println("处理 VIP 账户的统计逻辑");
+    }
+}
+
+class EnterpriseAccount extends Account {
+    @Override
+    public void process() {
+        System.out.println("处理企业账户的统计逻辑");
+    }
+}
+
+public class AccountStatistics {
+    public void processAll(Account[] accounts) {
+        for (Account account : accounts) {
+            account.process();
+        }
+    }
+
+    public static void main(String[] args) {
+        Account[] accounts = {
+            new RegularAccount(),
+            new VIPAccount(),
+            new EnterpriseAccount()
+        };
+
+        AccountStatistics statistics = new AccountStatistics();
+        statistics.processAll(accounts);
+    }
+}
+```

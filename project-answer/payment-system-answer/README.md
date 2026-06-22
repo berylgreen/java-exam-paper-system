@@ -17,3 +17,92 @@
 - 如果尚未设置支付策略，应输出提示信息，例如：`未设置支付方式！`
 
 （4）在 `Main` 类中编写测试代码，演示同一个 `PaymentProcessor` 对象如何针对不同订单动态切换为微信支付和支付宝支付。
+
+
+---
+
+## 解决方案
+
+```java
+// 本题的核心是将“支付方式”从 PaymentProcessor 中抽离出来，
+// 通过接口统一行为，再利用多态在运行时决定具体采用哪一种支付方式。
+```
+
+重构前，如果 `PaymentProcessor` 内部写死现金支付逻辑，那么每增加一种支付方式，都需要直接修改处理器代码。这种做法会导致类之间耦合严重，也不利于后续扩展。
+
+重构后的设计思路如下：
+
+1. `PaymentStrategy` 接口定义统一的支付行为 `pay(Order order)`，表示“任何支付方式都必须具备支付功能”。
+
+2. `WechatPay` 和 `Alipay` 分别实现该接口，各自给出具体的支付实现。这样，不同支付方式之间遵循同一套调用规范。
+
+3. `PaymentProcessor` 不再依赖具体类，而是依赖抽象接口 `PaymentStrategy`。这体现了“面向接口编程”的思想。通过 `setPaymentStrategy()` 方法，可以在程序运行过程中灵活切换支付方式。
+
+4. `processPayment(Order order)` 中只负责调用 `paymentStrategy.pay(order)`。如果尚未设置策略，则进行必要的空值判断并输出提示信息，避免程序出错。
+
+5. 在 `Main` 中，同一个 `PaymentProcessor` 对象先后设置为 `WechatPay` 和 `Alipay`，说明策略可以动态替换，这正是策略模式的典型应用。
+
+这种重构的优点是：
+
+- 降低 `PaymentProcessor` 与具体支付方式之间的耦合；
+- 新增支付方式时，只需新增实现类，不必修改原有处理器逻辑；
+- 代码更符合开闭原则，即“对扩展开放，对修改关闭”。
+
+如果后续还要支持银行卡支付、云闪付支付等，只需继续实现 `PaymentStrategy` 接口即可。
+
+### 参考代码
+
+```java
+// PaymentStrategy.java
+public interface PaymentStrategy {
+    void pay(Order order);
+}
+
+// WechatPay.java
+public class WechatPay implements PaymentStrategy {
+    @Override
+    public void pay(Order order) {
+        System.out.println("订单 " + order.getOrderId() + " 使用微信支付了 " + order.getAmount() + " 元");
+    }
+}
+
+// Alipay.java
+public class Alipay implements PaymentStrategy {
+    @Override
+    public void pay(Order order) {
+        System.out.println("订单 " + order.getOrderId() + " 使用支付宝支付了 " + order.getAmount() + " 元");
+    }
+}
+
+// PaymentProcessor.java
+public class PaymentProcessor {
+    private PaymentStrategy paymentStrategy;
+
+    public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
+    }
+
+    public void processPayment(Order order) {
+        if (paymentStrategy == null) {
+            System.out.println("未设置支付方式！");
+            return;
+        }
+        paymentStrategy.pay(order);
+    }
+}
+
+// Main.java
+public class Main {
+    public static void main(String[] args) {
+        PaymentProcessor processor = new PaymentProcessor();
+
+        Order order1 = new Order("ORD002", 200.0);
+        processor.setPaymentStrategy(new WechatPay());
+        processor.processPayment(order1);
+
+        Order order2 = new Order("ORD003", 300.0);
+        processor.setPaymentStrategy(new Alipay());
+        processor.processPayment(order2);
+    }
+}
+```

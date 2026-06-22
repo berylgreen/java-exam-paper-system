@@ -7,3 +7,115 @@
 2. 定义 `Device` 类，并根据业务标识（如设备编号 `id`）重写 `equals()` 和 `hashCode()`，以保证集合中的重复设备能够被正确识别。
 3. 提供设备排序功能，可让 `Device` 实现 `Comparable<Device>` 接口或创建 `Comparator`，并按照某一业务规则（如设备编号升序）排序。
 4. 编写测试代码，演示：添加多个设备、自动去重、排序后输出结果。
+
+
+---
+
+## 解决方案
+
+```java
+// 运行结果示例：
+// 去重并排序后的设备列表：
+// Device{id='A001', name='智能灯'}
+// Device{id='A002', name='智能门锁'}
+// Device{id='A003', name='智能空调'}
+```
+
+本题考查集合框架中 `List`、`Set`、对象去重规则以及排序机制的综合应用。
+
+1. **为什么要用集合替代数组**
+   - 数组长度固定，元素数量增长后容易出现容量不足的问题。
+   - `ArrayList` 支持动态扩容，适合按顺序存储和遍历元素。
+   - `HashSet` 不允许存放重复元素，适合做去重处理。
+
+2. **为什么要重写 `equals()` 和 `hashCode()`**
+   - `HashSet` 判断两个对象是否重复时，依赖 `hashCode()` 和 `equals()`。
+   - 如果不重写，系统默认比较的是对象地址，即使两个设备的 `id` 相同，也会被当作不同对象。
+   - 本题中以设备编号 `id` 作为业务上的唯一标识，因此应根据 `id` 来重写这两个方法。
+
+3. **为什么实现 `Comparable<Device>`**
+   - 实现该接口或创建 `Comparator`后，可以定义对象的“自然顺序”。
+   - 本题中在 `compareTo()` 中按 `id` 升序比较，因此调用 `Collections.sort()` 后可完成排序。
+
+4. **程序实现思路**
+   - 先将 `Device` 对象加入 `HashSet`，自动过滤重复设备。
+   - 再将 `Set` 转换为 `ArrayList`。
+   - 使用 `Collections.sort()` 对列表排序。
+   - 最后输出排序后的设备列表。
+
+5. **原答案中的问题已修正**
+   - 原代码错误地将自定义类命名为 `ArrayList`，与 Java 集合类重名，容易造成编译和理解问题。
+   - 现在改为定义业务类 `Device`，更符合题意，也避免与标准库类冲突。
+   - 同时补充了设备名称字段和 `toString()` 方法，使测试结果更清晰。
+
+### 参考代码
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+class Device implements Comparable<Device> {
+    private String id;
+    private String name;
+
+    public Device(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Device device = (Device) o;
+        return Objects.equals(id, device.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public int compareTo(Device other) {
+        return this.id.compareTo(other.id);
+    }
+
+    @Override
+    public String toString() {
+        return "Device{id='" + id + "', name='" + name + "'}";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        // 使用 HashSet 去重
+        Set<Device> deviceSet = new HashSet<>();
+        deviceSet.add(new Device("A002", "智能门锁"));
+        deviceSet.add(new Device("A001", "智能灯"));
+        deviceSet.add(new Device("A003", "智能空调"));
+        deviceSet.add(new Device("A002", "重复的智能门锁")); // id 相同，视为重复
+
+        // 转为 List 后排序
+        List<Device> deviceList = new ArrayList<>(deviceSet);
+        Collections.sort(deviceList);
+
+        System.out.println("去重并排序后的设备列表：");
+        for (Device device : deviceList) {
+            System.out.println(device);
+        }
+    }
+}
+```
