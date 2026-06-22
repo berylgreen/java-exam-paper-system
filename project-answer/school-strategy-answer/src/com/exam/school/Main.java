@@ -1,52 +1,25 @@
 package com.exam.school;
-
-// 策略接口
-interface StudentStrategy {
-    void execute();
+interface Strategy { void execute(String data); }
+class StrategyA implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略A：处理 " + data); }
 }
-
-// 具体策略：普通业务处理
-class NormalStudentStrategy implements StudentStrategy {
-    @Override
-    public void execute() {
-        System.out.println("执行普通学生业务处理");
-    }
+class StrategyB implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略B：处理 " + data); }
 }
-
-// 具体策略：紧急业务处理
-class UrgentStudentStrategy implements StudentStrategy {
-    @Override
-    public void execute() {
-        System.out.println("执行紧急学生业务处理");
-    }
+class Context {
+    private Strategy strategy;
+    public void setStrategy(Strategy strategy) { this.strategy = strategy; }
+    public void executeStrategy(String data) { if (strategy != null) strategy.execute(data); }
 }
-
-// 上下文类
-class StudentProcessor {
-    private StudentStrategy strategy;
-
-    public void setStrategy(StudentStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public void process() {
-        if (strategy == null) {
-            throw new IllegalStateException("未设置学生业务处理策略");
-        }
-        strategy.execute();
-    }
-}
-
-// 测试类
-
 public class Main {
     public static void main(String[] args) {
-        StudentProcessor processor = new StudentProcessor();
-
-        processor.setStrategy(new NormalStudentStrategy());
-        processor.process();
-
-        processor.setStrategy(new UrgentStudentStrategy());
-        processor.process();
+        System.out.println("--- 执行测试用例 ---");
+        Context context = new Context();
+        System.out.println("切换到策略A");
+        context.setStrategy(new StrategyA());
+        context.executeStrategy("高等数学");
+        System.out.println("切换到策略B");
+        context.setStrategy(new StrategyB());
+        context.executeStrategy("大学物理");
     }
 }

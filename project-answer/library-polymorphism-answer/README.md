@@ -68,48 +68,24 @@ for (Book book : books) {
 ### 参考代码
 
 ```java
-abstract class Book {
-    // 统一的处理方法，由各子类分别实现
-    public abstract void process();
+package com.exam.library;
+interface BookProcessor { void process(); }
+class Textbook implements BookProcessor {
+    private String name;
+    public Textbook(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础图书：" + name); }
 }
-
-class RegularBook extends Book {
-    @Override
-    public void process() {
-        System.out.println("处理普通图书的统计逻辑");
-    }
+class Magazine implements BookProcessor {
+    private String name;
+    public Magazine(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级图书：" + name); }
 }
-
-class VIPBook extends Book {
-    @Override
-    public void process() {
-        System.out.println("处理 VIP 图书的统计逻辑");
-    }
-}
-
-class ReferenceBook extends Book {
-    @Override
-    public void process() {
-        System.out.println("处理参考图书的统计逻辑");
-    }
-}
-
-public class BookStatistics {
-    public void processAll(Book[] books) {
-        for (Book book : books) {
-            book.process(); // 利用多态调用实际子类的方法
-        }
-    }
-
+public class Main {
     public static void main(String[] args) {
-        Book[] books = {
-            new RegularBook(),
-            new VIPBook(),
-            new ReferenceBook()
-        };
-
-        BookStatistics statistics = new BookStatistics();
-        statistics.processAll(books);
+        System.out.println("--- 执行测试用例 ---");
+        BookProcessor[] processors = { new Textbook("Java编程思想"), new Magazine("算法导论") };
+        for (BookProcessor p : processors) { p.process(); }
     }
 }
+
 ```

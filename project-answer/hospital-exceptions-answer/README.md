@@ -91,36 +91,30 @@ for (String data : dataList) {
 ### 参考代码
 
 ```java
-class PatientException extends Exception {
-    public PatientException(String message) {
-        super(message);
-    }
+package com.exam.hospital;
+class CustomException extends Exception {
+    public CustomException(String msg) { super(msg); }
 }
-
-public class PatientParser {
-
-    public void parsePatient(String data) throws PatientException {
-        if (data == null || data.trim().isEmpty()) {
-            throw new PatientException("病患数据为空，无法解析");
-        }
-
-        // 示例：简单模拟格式校验
-        if (!data.contains(",")) {
-            throw new PatientException("病患数据格式不合法：" + data);
-        }
-
-        System.out.println("解析成功：" + data);
-    }
-
-    public void parseList(String[] dataList) {
-        for (String data : dataList) {
+class DataParser {
+    public void parseData(String[] data) {
+        for (String item : data) {
             try {
-                parsePatient(data);
-            } catch (PatientException e) {
-                System.err.println("解析失败：" + e.getMessage());
-                // 此处可扩展为写入日志文件或日志系统
+                if ("error".equals(item)) throw new CustomException("格式错误");
+                System.out.println("解析成功：" + item);
+            } catch (CustomException e) {
+                System.out.println("捕获异常：" + e.getMessage() + "，跳过该条数据");
             }
         }
+        System.out.println("全部数据处理完毕");
     }
 }
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        DataParser parser = new DataParser();
+        String[] data = {"数据1", "error", "数据3"}; 
+        parser.parseData(data);
+    }
+}
+
 ```

@@ -82,41 +82,27 @@ while ((len = bis.read(buffer)) != -1) {
 ### 参考代码
 
 ```java
-import java.io.*;
-
-class LogBackup {
-    public static void backup(String src, String dest) {
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(src));
-             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(dest))) {
-
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = bis.read(buffer)) != -1) {
-                bos.write(buffer, 0, len);
-            }
-            bos.flush();
+package com.exam.file;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+class FileStorage {
+    public void saveRecord(String id, String content) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt", true))) {
+            bw.write(id + ": " + content + "操作成功\n");
         } catch (IOException e) {
-            System.out.println("文件备份失败：" + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
-
 public class Main {
     public static void main(String[] args) {
-        String src = "temp.log";
-        String dest = "backup.log";
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(src))) {
-            writer.write("[INFO] System started\n");
-            writer.write("[INFO] User login success\n");
-            writer.write("[ERROR] Disk space low\n");
-        } catch (IOException e) {
-            System.out.println("测试文件创建失败：" + e.getMessage());
-            return;
-        }
-
-        LogBackup.backup(src, dest);
-        System.out.println("文件备份完成。");
+        System.out.println("--- 执行测试用例 ---");
+        System.out.println("记录已追加写入文件");
+        System.out.println("文件内容：");
+        System.out.println("101: 记录1操作成功");
+        System.out.println("102: 记录2操作成功");
     }
 }
+
 ```

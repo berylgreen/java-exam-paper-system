@@ -41,28 +41,30 @@
 ### 参考代码
 
 ```java
-class RoomException extends Exception {
-    public RoomException(String message) {
-        super(message);
-    }
+package com.exam.hotel;
+class CustomException extends Exception {
+    public CustomException(String msg) { super(msg); }
 }
-
-public class RoomParser {
-    public void parseList(String[] data) {
+class DataParser {
+    public void parseData(String[] data) {
         for (String item : data) {
             try {
-                parseRoom(item);
-                System.out.println("Parsed: " + item);
-            } catch (RoomException e) {
-                System.err.println("Error: " + e.getMessage());
+                if ("error".equals(item)) throw new CustomException("格式错误");
+                System.out.println("解析成功：" + item);
+            } catch (CustomException e) {
+                System.out.println("捕获异常：" + e.getMessage() + "，跳过该条数据");
             }
         }
-    }
-
-    private void parseRoom(String item) throws RoomException {
-        if (item == null || item.trim().isEmpty()) {
-            throw new RoomException("Invalid room data format");
-        }
+        System.out.println("全部数据处理完毕");
     }
 }
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        DataParser parser = new DataParser();
+        String[] data = {"数据1", "error", "数据3"}; 
+        parser.parseData(data);
+    }
+}
+
 ```

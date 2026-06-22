@@ -37,29 +37,30 @@
 ### 参考代码
 
 ```java
-class BookException extends Exception {
-    public BookException(String message) {
-        super(message);
-    }
+package com.exam.library;
+class CustomException extends Exception {
+    public CustomException(String msg) { super(msg); }
 }
-
-public class BookParser {
-    public void parseList(String[] data) {
+class DataParser {
+    public void parseData(String[] data) {
         for (String item : data) {
             try {
-                parseBook(item);
-                System.out.println("解析成功: " + item);
-            } catch (BookException e) {
-                System.err.println("图书数据解析失败: " + e.getMessage());
+                if ("error".equals(item)) throw new CustomException("格式错误");
+                System.out.println("解析成功：" + item);
+            } catch (CustomException e) {
+                System.out.println("捕获异常：" + e.getMessage() + "，跳过该条数据");
             }
         }
-    }
-
-    private void parseBook(String item) throws BookException {
-        if (item == null || item.trim().isEmpty()) {
-            throw new BookException("图书数据为空或格式不正确");
-        }
-        // 这里可继续补充更具体的解析逻辑
+        System.out.println("全部数据处理完毕");
     }
 }
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        DataParser parser = new DataParser();
+        String[] data = {"数据1", "error", "数据3"}; 
+        parser.parseData(data);
+    }
+}
+
 ```

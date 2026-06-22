@@ -59,48 +59,24 @@ if (obj instanceof RegularStudent) {
 ### 参考代码
 
 ```java
-abstract class Student {
-    // 统一的处理行为，由子类分别实现
-    public abstract void process();
+package com.exam.school;
+interface StudentProcessor { void process(); }
+class Undergraduate implements StudentProcessor {
+    private String name;
+    public Undergraduate(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础课程：" + name); }
 }
-
-class RegularStudent extends Student {
-    @Override
-    public void process() {
-        System.out.println("处理普通学生的统计逻辑");
-    }
+class Graduate implements StudentProcessor {
+    private String name;
+    public Graduate(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级课程：" + name); }
 }
-
-class VIPStudent extends Student {
-    @Override
-    public void process() {
-        System.out.println("处理 VIP 学生的统计逻辑");
-    }
-}
-
-class ExchangeStudent extends Student {
-    @Override
-    public void process() {
-        System.out.println("处理交换生的统计逻辑");
-    }
-}
-
-public class StudentStatistics {
-    public void processAll(Student[] students) {
-        for (Student student : students) {
-            student.process(); // 多态调用，无需 instanceof 判断
-        }
-    }
-
+public class Main {
     public static void main(String[] args) {
-        Student[] students = {
-            new RegularStudent(),
-            new VIPStudent(),
-            new ExchangeStudent()
-        };
-
-        StudentStatistics statistics = new StudentStatistics();
-        statistics.processAll(students);
+        System.out.println("--- 执行测试用例 ---");
+        StudentProcessor[] processors = { new Undergraduate("高等数学"), new Graduate("大学物理") };
+        for (StudentProcessor p : processors) { p.process(); }
     }
 }
+
 ```

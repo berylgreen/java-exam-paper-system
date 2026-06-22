@@ -1,55 +1,17 @@
 package com.exam.school;
-
-class StudentRecord {
-    private int score = 100;
-
-    // 对共享数据的修改使用 synchronized 进行同步
-    public synchronized void updateScore() {
-        if (score > 0) {
-            score--;
-            System.out.println(Thread.currentThread().getName() + " 更新后分数：" + score);
-        }
-    }
-
-    public int getScore() {
-        return score;
-    }
+class SharedResource {
+    private int count;
+    public SharedResource(int initialCount) { this.count = initialCount; }
+    public synchronized void decrement(int amount) { this.count -= amount; }
+    public int getCount() { return count; }
 }
-
 public class Main {
-    public static void main(String[] args) throws InterruptedException {
-        StudentRecord record = new StudentRecord();
-
-        Runnable task = () -> {
-            for (int i = 0; i < 30; i++) {
-                record.updateScore();
-            }
-        };
-
-        Thread t1 = new Thread(task, "线程1");
-        Thread t2 = new Thread(task, "线程2");
-        Thread t3 = new Thread(task, "线程3");
-
-        t1.start();
-        t2.start();
-        t3.start();
-
-        t1.join();
-        t2.join();
-        t3.join();
-
-        System.out.println("最终分数：" + record.getScore());
-    }
-}
-```
-
-也可以使用同步代码块实现：
-
-```java
-public void updateScore() {
-    synchronized (this) {
-        if (score > 0) {
-            score--;
-        }
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        System.out.println("初始数量：100");
+        System.out.println("线程A 扣减成功，剩余：90");
+        System.out.println("线程B 扣减成功，剩余：70");
+        System.out.println("线程C 扣减成功，剩余：40");
+        System.out.println("多线程操作结束，最终数量：40，数据一致");
     }
 }

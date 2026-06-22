@@ -55,55 +55,30 @@ switch (type) {
 ### 参考代码
 
 ```java
-// 策略接口
-interface RoomStrategy {
-    void execute();
+package com.exam.hotel;
+interface Strategy { void execute(String data); }
+class StrategyA implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略A：处理 " + data); }
 }
-
-// 具体策略：普通入住处理
-class NormalCheckInStrategy implements RoomStrategy {
-    @Override
-    public void execute() {
-        System.out.println("执行普通入住处理");
-    }
+class StrategyB implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略B：处理 " + data); }
 }
-
-// 具体策略：加急清洁处理
-class UrgentCleaningStrategy implements RoomStrategy {
-    @Override
-    public void execute() {
-        System.out.println("执行加急清洁处理");
-    }
+class Context {
+    private Strategy strategy;
+    public void setStrategy(Strategy strategy) { this.strategy = strategy; }
+    public void executeStrategy(String data) { if (strategy != null) strategy.execute(data); }
 }
-
-// 上下文类
-class RoomProcessor {
-    private RoomStrategy strategy;
-
-    public void setStrategy(RoomStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public void process() {
-        if (strategy == null) {
-            throw new IllegalStateException("未设置房间处理策略");
-        }
-        strategy.execute();
-    }
-}
-
-// 测试类
 public class Main {
     public static void main(String[] args) {
-        RoomProcessor processor = new RoomProcessor();
-
-        // 使用普通入住策略
-        processor.setStrategy(new NormalCheckInStrategy());
-        processor.process();
-
-        // 切换为加急清洁策略
-        processor.setStrategy(new UrgentCleaningStrategy());
-        processor.process();
+        System.out.println("--- 执行测试用例 ---");
+        Context context = new Context();
+        System.out.println("切换到策略A");
+        context.setStrategy(new StrategyA());
+        context.executeStrategy("总统套房");
+        System.out.println("切换到策略B");
+        context.setStrategy(new StrategyB());
+        context.executeStrategy("豪华大床房");
     }
 }
+
 ```

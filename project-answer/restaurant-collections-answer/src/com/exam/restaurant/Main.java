@@ -1,62 +1,23 @@
 package com.exam.restaurant;
-
-import java.util.*;
-
-class Dish implements Comparable<Dish> {
-    private String id;
-    private String name;
-
-    public Dish(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Dish dish = (Dish) o;
-        return Objects.equals(id, dish.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public int compareTo(Dish other) {
-        return this.id.compareTo(other.id);
-    }
-
-    @Override
-    public String toString() {
-        return "Dish{id='" + id + "', name='" + name + "'}";
-    }
-}
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 public class Main {
     public static void main(String[] args) {
-        Set<Dish> dishSet = new HashSet<>();
-
-        dishSet.add(new Dish("D002", "宫保鸡丁"));
-        dishSet.add(new Dish("D001", "鱼香肉丝"));
-        dishSet.add(new Dish("D003", "麻婆豆腐"));
-        dishSet.add(new Dish("D002", "宫保鸡丁（重复）"));
-
-        List<Dish> dishList = new ArrayList<>(dishSet);
-        Collections.sort(dishList);
-
-        for (Dish dish : dishList) {
-            System.out.println(dish);
+        System.out.println("--- 执行测试用例 ---");
+        Set<Dish> set = new HashSet<>();
+        set.add(new Dish("103", "红烧肉"));
+        set.add(new Dish("101", "宫保鸡丁"));
+        set.add(new Dish("102", "鱼香肉丝"));
+        set.add(new Dish("102", "鱼香肉丝")); // 重复对象
+        System.out.println("添加后去重的菜品数量：" + set.size());
+        List<Dish> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (Dish item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
         }
     }
 }

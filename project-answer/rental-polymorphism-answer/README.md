@@ -55,55 +55,24 @@ if (obj instanceof RegularVehicle) {
 ### 参考代码
 
 ```java
-abstract class Vehicle {
-    /**
-     * 车辆统计处理方法，不同车辆有不同实现
-     */
-    public abstract void process();
+package com.exam.rental;
+interface VehicleProcessor { void process(); }
+class Car implements VehicleProcessor {
+    private String name;
+    public Car(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础车辆：" + name); }
 }
-
-class RegularVehicle extends Vehicle {
-    @Override
-    public void process() {
-        System.out.println("普通车辆：执行常规统计逻辑");
-    }
+class Truck implements VehicleProcessor {
+    private String name;
+    public Truck(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级车辆：" + name); }
 }
-
-class VIPVehicle extends Vehicle {
-    @Override
-    public void process() {
-        System.out.println("VIP车辆：执行VIP统计逻辑");
-    }
-}
-
-class TruckVehicle extends Vehicle {
-    @Override
-    public void process() {
-        System.out.println("货运车辆：执行货运统计逻辑");
-    }
-}
-
-class VehicleStatistics {
-    /**
-     * 统一处理所有车辆对象
-     */
-    public void processAll(Vehicle[] vehicles) {
-        for (Vehicle vehicle : vehicles) {
-            vehicle.process();
-        }
-    }
-}
-
-public class Test {
+public class Main {
     public static void main(String[] args) {
-        Vehicle[] vehicles = {
-            new RegularVehicle(),
-            new VIPVehicle(),
-            new TruckVehicle()
-        };
-
-        VehicleStatistics statistics = new VehicleStatistics();
-        statistics.processAll(vehicles);
+        System.out.println("--- 执行测试用例 ---");
+        VehicleProcessor[] processors = { new Car("丰田卡罗拉"), new Truck("本田雅阁") };
+        for (VehicleProcessor p : processors) { p.process(); }
     }
 }
+
 ```

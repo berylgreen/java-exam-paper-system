@@ -45,36 +45,30 @@
 ### 参考代码
 
 ```java
-class StudentException extends Exception {
-    public StudentException(String message) {
-        super(message);
-    }
+package com.exam.school;
+class CustomException extends Exception {
+    public CustomException(String msg) { super(msg); }
 }
-
-public class StudentParser {
-
-    public void parseList(String[] data) {
+class DataParser {
+    public void parseData(String[] data) {
         for (String item : data) {
             try {
-                parseStudent(item);
-            } catch (StudentException e) {
-                System.err.println("学生数据解析失败：" + e.getMessage());
+                if ("error".equals(item)) throw new CustomException("格式错误");
+                System.out.println("解析成功：" + item);
+            } catch (CustomException e) {
+                System.out.println("捕获异常：" + e.getMessage() + "，跳过该条数据");
             }
         }
-    }
-
-    private void parseStudent(String item) throws StudentException {
-        if (item == null || item.trim().isEmpty()) {
-            throw new StudentException("数据为空");
-        }
-
-        // 示例：此处假设学生数据至少应包含逗号分隔的两个字段
-        String[] parts = item.split(",");
-        if (parts.length < 2) {
-            throw new StudentException("数据格式不正确：" + item);
-        }
-
-        System.out.println("解析成功：" + item);
+        System.out.println("全部数据处理完毕");
     }
 }
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        DataParser parser = new DataParser();
+        String[] data = {"数据1", "error", "数据3"}; 
+        parser.parseData(data);
+    }
+}
+
 ```

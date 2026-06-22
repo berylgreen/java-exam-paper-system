@@ -96,48 +96,30 @@ private void parseDevice(String data) throws DeviceException {
 ### 参考代码
 
 ```java
-class DeviceException extends Exception {
-    public DeviceException(String message) {
-        super(message);
-    }
+package com.exam.smarthome;
+class CustomException extends Exception {
+    public CustomException(String msg) { super(msg); }
 }
-
-public class DeviceParser {
-
-    public void parseList(String[] dataList) {
-        for (String data : dataList) {
+class DataParser {
+    public void parseData(String[] data) {
+        for (String item : data) {
             try {
-                parseDevice(data);
-                System.out.println("解析成功：" + data);
-            } catch (DeviceException e) {
-                System.err.println("设备数据解析失败：" + e.getMessage());
-                // 这里可以进一步记录日志，例如写入文件或日志系统
+                if ("error".equals(item)) throw new CustomException("格式错误");
+                System.out.println("解析成功：" + item);
+            } catch (CustomException e) {
+                System.out.println("捕获异常：" + e.getMessage() + "，跳过该条数据");
             }
         }
-    }
-
-    private void parseDevice(String data) throws DeviceException {
-        if (data == null || data.trim().isEmpty()) {
-            throw new DeviceException("设备数据为空或格式非法");
-        }
-
-        // 模拟更严格的格式校验
-        if (!data.contains(":")) {
-            throw new DeviceException("设备数据缺少必要分隔符: " + data);
-        }
-    }
-
-    public static void main(String[] args) {
-        String[] devices = {
-            "light:ON",
-            "",
-            "airConditioner-OFF",
-            null,
-            "door:OPEN"
-        };
-
-        DeviceParser parser = new DeviceParser();
-        parser.parseList(devices);
+        System.out.println("全部数据处理完毕");
     }
 }
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        DataParser parser = new DataParser();
+        String[] data = {"数据1", "error", "数据3"}; 
+        parser.parseData(data);
+    }
+}
+
 ```

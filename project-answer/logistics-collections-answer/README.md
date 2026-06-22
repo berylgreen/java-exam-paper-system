@@ -69,68 +69,68 @@ id=103: 衣物包裹
 ### 参考代码
 
 ```java
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
+// Object.java 等实体类
+package com.exam.logistics;
 import java.util.Objects;
-import java.util.Set;
-
-class Package {
+public class Package implements Comparable<Package> {
     private String id;
-
-    public Package(String id) {
+    private String name;
+    private double value;
+    public Package() {}
+    public Package(String id, String name) { this.id = id; this.name = name; }
+    public String getId() { return id; }
+    public void setId(String id) {
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("编号不能为空");
         this.id = id;
     }
-
-    public String getId() {
-        return id;
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public double getValue() { return value; }
+    public void setValue(double value) {
+        if (value < 0) throw new IllegalArgumentException("数值不能为负数");
+        this.value = value;
     }
-
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        Package other = (Package) obj;
-        return Objects.equals(this.id, other.id);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Package that = (Package) o;
+        return Objects.equals(id, that.id);
     }
-
     @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
+    public int hashCode() { return Objects.hash(id); }
     @Override
-    public String toString() {
-        return "Package{id='" + id + "'}";
-    }
+    public int compareTo(Package other) { return this.id.compareTo(other.id); }
+    @Override
+    public String toString() { return "Package{id='" + id + "', name='" + name + "'}"; }
 }
 
+```
+
+```java
+// Main.java 等核心逻辑
+package com.exam.logistics;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 public class Main {
     public static void main(String[] args) {
-        Set<Package> packageSet = new HashSet<Package>();
-
-        packageSet.add(new Package("A002"));
-        packageSet.add(new Package("A001"));
-        packageSet.add(new Package("A003"));
-        packageSet.add(new Package("A002"));
-
-        List<Package> packageList = new ArrayList<Package>(packageSet);
-
-        packageList.sort(new Comparator<Package>() {
-            @Override
-            public int compare(Package p1, Package p2) {
-                return p1.getId().compareTo(p2.getId());
-            }
-        });
-
-        for (Package pkg : packageList) {
-            System.out.println(pkg);
+        System.out.println("--- 执行测试用例 ---");
+        Set<Package> set = new HashSet<>();
+        set.add(new Package("103", "衣物包裹"));
+        set.add(new Package("101", "电子产品包裹"));
+        set.add(new Package("102", "书籍包裹"));
+        set.add(new Package("102", "书籍包裹")); // 重复对象
+        System.out.println("添加后去重的包裹数量：" + set.size());
+        List<Package> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (Package item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
         }
     }
 }
+
 ```

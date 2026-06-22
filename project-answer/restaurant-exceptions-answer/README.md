@@ -89,36 +89,30 @@ for (String item : data) {
 ### 参考代码
 
 ```java
-class DishException extends Exception {
-    public DishException(String message) {
-        super(message);
-    }
+package com.exam.restaurant;
+class CustomException extends Exception {
+    public CustomException(String msg) { super(msg); }
 }
-
-public class DishParser {
-
-    public void parseDish(String item) throws DishException {
-        if (item == null || item.trim().isEmpty()) {
-            throw new DishException("菜品数据为空");
-        }
-
-        // 示例：约定菜品数据格式为“菜名:价格”
-        if (!item.contains(":")) {
-            throw new DishException("菜品数据格式错误：" + item);
-        }
-
-        System.out.println("解析成功：" + item);
-    }
-
-    public void parseList(String[] data) {
+class DataParser {
+    public void parseData(String[] data) {
         for (String item : data) {
             try {
-                parseDish(item);
-            } catch (DishException e) {
-                System.err.println("[ERROR] 解析失败：" + e.getMessage());
-                // 此处可扩展为写入日志文件或数据库
+                if ("error".equals(item)) throw new CustomException("格式错误");
+                System.out.println("解析成功：" + item);
+            } catch (CustomException e) {
+                System.out.println("捕获异常：" + e.getMessage() + "，跳过该条数据");
             }
         }
+        System.out.println("全部数据处理完毕");
     }
 }
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        DataParser parser = new DataParser();
+        String[] data = {"数据1", "error", "数据3"}; 
+        parser.parseData(data);
+    }
+}
+
 ```

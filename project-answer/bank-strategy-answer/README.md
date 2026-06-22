@@ -59,56 +59,30 @@ switch (type) {
 ### 参考代码
 
 ```java
-// 策略接口：定义统一的业务处理方法
-interface AccountStrategy {
-    void execute();
+package com.exam.bank;
+interface Strategy { void execute(String data); }
+class StrategyA implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略A：处理 " + data); }
 }
-
-// 具体策略1：普通账户业务处理
-class NormalStrategy implements AccountStrategy {
-    @Override
-    public void execute() {
-        System.out.println("普通账户业务处理");
-    }
+class StrategyB implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略B：处理 " + data); }
 }
-
-// 具体策略2：紧急账户业务处理
-class UrgentStrategy implements AccountStrategy {
-    @Override
-    public void execute() {
-        System.out.println("紧急账户业务处理");
-    }
+class Context {
+    private Strategy strategy;
+    public void setStrategy(Strategy strategy) { this.strategy = strategy; }
+    public void executeStrategy(String data) { if (strategy != null) strategy.execute(data); }
 }
-
-// 上下文类：持有策略对象，并在运行时调用具体策略
-class AccountProcessor {
-    private AccountStrategy strategy;
-
-    public void setStrategy(AccountStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public void process() {
-        if (strategy == null) {
-            System.out.println("未设置账户处理策略");
-            return;
-        }
-        strategy.execute();
-    }
-}
-
-// 测试类
 public class Main {
     public static void main(String[] args) {
-        AccountProcessor processor = new AccountProcessor();
-
-        // 使用普通账户策略
-        processor.setStrategy(new NormalStrategy());
-        processor.process();
-
-        // 切换为紧急账户策略
-        processor.setStrategy(new UrgentStrategy());
-        processor.process();
+        System.out.println("--- 执行测试用例 ---");
+        Context context = new Context();
+        System.out.println("切换到策略A");
+        context.setStrategy(new StrategyA());
+        context.executeStrategy("张三的账户");
+        System.out.println("切换到策略B");
+        context.setStrategy(new StrategyB());
+        context.executeStrategy("李四的账户");
     }
 }
+
 ```

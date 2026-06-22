@@ -53,33 +53,30 @@
 ### 参考代码
 
 ```java
-class VehicleException extends Exception {
-    public VehicleException(String message) {
-        super(message);
-    }
+package com.exam.rental;
+class CustomException extends Exception {
+    public CustomException(String msg) { super(msg); }
 }
-
-public class VehicleParser {
-
-    public void parseList(String[] data) {
+class DataParser {
+    public void parseData(String[] data) {
         for (String item : data) {
             try {
-                parseVehicle(item);
-                System.out.println("Parsed: " + item);
-            } catch (VehicleException e) {
-                System.err.println("车辆数据解析失败：" + e.getMessage());
-                // 此处可进一步写入日志文件或监控系统
+                if ("error".equals(item)) throw new CustomException("格式错误");
+                System.out.println("解析成功：" + item);
+            } catch (CustomException e) {
+                System.out.println("捕获异常：" + e.getMessage() + "，跳过该条数据");
             }
         }
-    }
-
-    private void parseVehicle(String item) throws VehicleException {
-        if (item == null || item.trim().isEmpty()) {
-            throw new VehicleException("数据为空或格式非法");
-        }
-
-        // 这里可以补充更具体的解析逻辑
-        // 例如按约定格式拆分字段、校验车辆编号、品牌、租金等
+        System.out.println("全部数据处理完毕");
     }
 }
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        DataParser parser = new DataParser();
+        String[] data = {"数据1", "error", "数据3"}; 
+        parser.parseData(data);
+    }
+}
+
 ```

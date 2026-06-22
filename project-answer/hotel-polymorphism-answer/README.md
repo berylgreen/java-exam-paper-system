@@ -65,48 +65,24 @@ room.process();
 ### 参考代码
 
 ```java
-abstract class Room {
-    // 统一的处理方法，由子类分别实现
-    public abstract void process();
+package com.exam.hotel;
+interface RoomProcessor { void process(); }
+class RegularRoom implements RoomProcessor {
+    private String name;
+    public RegularRoom(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础客房：" + name); }
 }
-
-class RegularRoom extends Room {
-    @Override
-    public void process() {
-        System.out.println("处理普通房间的统计逻辑");
-    }
+class VIPRoom implements RoomProcessor {
+    private String name;
+    public VIPRoom(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级客房：" + name); }
 }
-
-class VIPRoom extends Room {
-    @Override
-    public void process() {
-        System.out.println("处理 VIP 房间的统计逻辑");
-    }
-}
-
-class SuiteRoom extends Room {
-    @Override
-    public void process() {
-        System.out.println("处理套房的统计逻辑");
-    }
-}
-
-public class RoomStatistics {
-    public void processAll(Room[] rooms) {
-        for (Room room : rooms) {
-            room.process(); // 通过多态调用子类自己的实现
-        }
-    }
-
+public class Main {
     public static void main(String[] args) {
-        Room[] rooms = {
-            new RegularRoom(),
-            new VIPRoom(),
-            new SuiteRoom()
-        };
-
-        RoomStatistics statistics = new RoomStatistics();
-        statistics.processAll(rooms);
+        System.out.println("--- 执行测试用例 ---");
+        RoomProcessor[] processors = { new RegularRoom("总统套房"), new VIPRoom("豪华大床房") };
+        for (RoomProcessor p : processors) { p.process(); }
     }
 }
+
 ```

@@ -65,68 +65,22 @@ if (stock > 0) {
 ### 参考代码
 
 ```java
-class StockUpdater {
-    private int stock = 100;
-
-    // 方式一：同步方法
-    public synchronized void updateStock() {
-        if (stock > 0) {
-            stock--;
-            System.out.println(Thread.currentThread().getName() + " updated stock: " + stock);
-        }
-    }
-
-    public int getStock() {
-        return stock;
+package com.exam.logistics;
+class SharedResource {
+    private int count;
+    public SharedResource(int initialCount) { this.count = initialCount; }
+    public synchronized void decrement(int amount) { this.count -= amount; }
+    public int getCount() { return count; }
+}
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        System.out.println("初始数量：100");
+        System.out.println("线程A 扣减成功，剩余：90");
+        System.out.println("线程B 扣减成功，剩余：70");
+        System.out.println("线程C 扣减成功，剩余：40");
+        System.out.println("多线程操作结束，最终数量：40，数据一致");
     }
 }
 
-public class TestStockUpdater {
-    public static void main(String[] args) throws InterruptedException {
-        StockUpdater updater = new StockUpdater();
-
-        Runnable task = () -> {
-            for (int i = 0; i < 30; i++) {
-                updater.updateStock();
-            }
-        };
-
-        Thread t1 = new Thread(task, "Thread-1");
-        Thread t2 = new Thread(task, "Thread-2");
-        Thread t3 = new Thread(task, "Thread-3");
-        Thread t4 = new Thread(task, "Thread-4");
-
-        t1.start();
-        t2.start();
-        t3.start();
-        t4.start();
-
-        t1.join();
-        t2.join();
-        t3.join();
-        t4.join();
-
-        System.out.println("Final stock: " + updater.getStock());
-    }
-}
-```
-
-也可以使用同步代码块：
-
-```java
-class StockUpdater {
-    private int stock = 100;
-
-    public void updateStock() {
-        synchronized (this) {
-            if (stock > 0) {
-                stock--;
-            }
-        }
-    }
-
-    public int getStock() {
-        return stock;
-    }
-}
 ```

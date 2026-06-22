@@ -81,53 +81,24 @@ dish.process();
 ### 参考代码
 
 ```java
-// 抽象父类：定义所有菜品的统一行为
-public abstract class Dish {
-    // 统计类只关心“如何处理菜品”，不关心具体是什么类型
-    public abstract void process();
+package com.exam.restaurant;
+interface DishProcessor { void process(); }
+class ColdDish implements DishProcessor {
+    private String name;
+    public ColdDish(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础菜品：" + name); }
 }
-
-// 普通菜品
-class RegularDish extends Dish {
-    @Override
-    public void process() {
-        System.out.println("处理普通菜品的统计逻辑");
-    }
+class HotDish implements DishProcessor {
+    private String name;
+    public HotDish(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级菜品：" + name); }
 }
-
-// VIP 菜品
-class VIPDish extends Dish {
-    @Override
-    public void process() {
-        System.out.println("处理 VIP 菜品的统计逻辑");
-    }
-}
-
-// 特价菜品
-class DiscountDish extends Dish {
-    @Override
-    public void process() {
-        System.out.println("处理特价菜品的统计逻辑");
-    }
-}
-
-// 重构后的统计类：不再使用 instanceof
-public class DishStatistics {
-    public void processAll(Dish[] dishes) {
-        for (Dish dish : dishes) {
-            dish.process(); // 多态调用
-        }
-    }
-
+public class Main {
     public static void main(String[] args) {
-        Dish[] dishes = {
-            new RegularDish(),
-            new VIPDish(),
-            new DiscountDish()
-        };
-
-        DishStatistics statistics = new DishStatistics();
-        statistics.processAll(dishes);
+        System.out.println("--- 执行测试用例 ---");
+        DishProcessor[] processors = { new ColdDish("宫保鸡丁"), new HotDish("鱼香肉丝") };
+        for (DishProcessor p : processors) { p.process(); }
     }
 }
+
 ```

@@ -76,33 +76,30 @@ Parsed: 100
 ### 参考代码
 
 ```java
-class InvalidDataException extends Exception {
-    public InvalidDataException(String message) {
-        super(message);
+package com.exam.exception;
+class CustomException extends Exception {
+    public CustomException(String msg) { super(msg); }
+}
+class DataParser {
+    public void parseData(String[] data) {
+        for (String item : data) {
+            try {
+                if ("error".equals(item)) throw new CustomException("格式错误");
+                System.out.println("解析成功：" + item);
+            } catch (CustomException e) {
+                System.out.println("捕获异常：" + e.getMessage() + "，跳过该条数据");
+            }
+        }
+        System.out.println("全部数据处理完毕");
+    }
+}
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        DataParser parser = new DataParser();
+        String[] data = {"数据1", "error", "数据3"}; 
+        parser.parseData(data);
     }
 }
 
-public class DataParser {
-    public void parseScores(String[] data) {
-        for (String s : data) {
-            try {
-                try {
-                    if (s == null) {
-                        throw new NullPointerException("数据为 null");
-                    }
-                    int score = Integer.parseInt(s);
-                    System.out.println("Parsed: " + score);
-                } catch (NumberFormatException e) {
-                    throw new InvalidDataException("数据格式非法：" + s);
-                } catch (NullPointerException e) {
-                    throw new InvalidDataException("数据不能为空");
-                }
-            } catch (InvalidDataException e) {
-                System.err.println("解析失败：" + e.getMessage());
-            } finally {
-                System.out.println("解析过程结束");
-            }
-        }
-    }
-}
 ```

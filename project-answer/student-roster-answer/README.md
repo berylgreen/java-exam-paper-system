@@ -89,79 +89,68 @@ public int compareTo(Student other) {
 ### 参考代码
 
 ```java
+// Object.java 等实体类
+package com.exam.student;
+import java.util.Objects;
+public class Student implements Comparable<Student> {
+    private String id;
+    private String name;
+    private double value;
+    public Student() {}
+    public Student(String id, String name) { this.id = id; this.name = name; }
+    public String getId() { return id; }
+    public void setId(String id) {
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("编号不能为空");
+        this.id = id;
+    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public double getValue() { return value; }
+    public void setValue(double value) {
+        if (value < 0) throw new IllegalArgumentException("数值不能为负数");
+        this.value = value;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student that = (Student) o;
+        return Objects.equals(id, that.id);
+    }
+    @Override
+    public int hashCode() { return Objects.hash(id); }
+    @Override
+    public int compareTo(Student other) { return this.id.compareTo(other.id); }
+    @Override
+    public String toString() { return "Student{id='" + id + "', name='" + name + "'}"; }
+}
+
+```
+
+```java
+// Main.java 等核心逻辑
+package com.exam.student;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-
-class Student implements Comparable<Student> {
-    private String studentId;
-
-    public Student(String studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getStudentId() {
-        return studentId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Student student = (Student) o;
-        return Objects.equals(studentId, student.studentId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(studentId);
-    }
-
-    @Override
-    public int compareTo(Student other) {
-        return this.studentId.compareTo(other.studentId);
-    }
-
-    @Override
-    public String toString() {
-        return "Student{studentId='" + studentId + "'}";
-    }
-}
-
-class StudentManager {
-    private Set<Student> students = new HashSet<>();
-
-    public void addStudent(Student student) {
-        students.add(student);
-    }
-
-    public List<Student> getSortedStudents() {
-        List<Student> list = new ArrayList<>(students);
-        Collections.sort(list);
-        return list;
-    }
-}
-
 public class Main {
     public static void main(String[] args) {
-        StudentManager manager = new StudentManager();
-
-        manager.addStudent(new Student("1002"));
-        manager.addStudent(new Student("1001"));
-        manager.addStudent(new Student("1003"));
-        manager.addStudent(new Student("1002"));
-
-        List<Student> result = manager.getSortedStudents();
-        for (Student student : result) {
-            System.out.println(student);
+        System.out.println("--- 执行测试用例 ---");
+        Set<Student> set = new HashSet<>();
+        set.add(new Student("103", "小刚"));
+        set.add(new Student("101", "小明"));
+        set.add(new Student("102", "小红"));
+        set.add(new Student("102", "小红")); // 重复对象
+        System.out.println("添加后去重的学生数量：" + set.size());
+        List<Student> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (Student item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
         }
     }
 }
+
 ```

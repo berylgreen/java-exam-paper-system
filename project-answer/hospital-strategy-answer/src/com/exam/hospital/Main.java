@@ -1,54 +1,25 @@
 package com.exam.hospital;
-
-// 1. 定义策略接口
-interface PatientStrategy {
-    void process();
+interface Strategy { void execute(String data); }
+class StrategyA implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略A：处理 " + data); }
 }
-
-// 2. 具体策略：普通病患处理
-class NormalPatientStrategy implements PatientStrategy {
-    @Override
-    public void process() {
-        System.out.println("普通病患：按常规流程处理");
-    }
+class StrategyB implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略B：处理 " + data); }
 }
-
-// 3. 具体策略：紧急病患处理
-class UrgentPatientStrategy implements PatientStrategy {
-    @Override
-    public void process() {
-        System.out.println("紧急病患：优先安排抢救与检查");
-    }
+class Context {
+    private Strategy strategy;
+    public void setStrategy(Strategy strategy) { this.strategy = strategy; }
+    public void executeStrategy(String data) { if (strategy != null) strategy.execute(data); }
 }
-
-// 4. 上下文类
-class PatientProcessor {
-    private PatientStrategy strategy;
-
-    public void setStrategy(PatientStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public void executeStrategy() {
-        if (strategy == null) {
-            throw new IllegalStateException("未设置病患处理策略");
-        }
-        strategy.process();
-    }
-}
-
-// 5. 测试示例
-
 public class Main {
     public static void main(String[] args) {
-        PatientProcessor processor = new PatientProcessor();
-
-        // 处理普通病患
-        processor.setStrategy(new NormalPatientStrategy());
-        processor.executeStrategy();
-
-        // 处理紧急病患
-        processor.setStrategy(new UrgentPatientStrategy());
-        processor.executeStrategy();
+        System.out.println("--- 执行测试用例 ---");
+        Context context = new Context();
+        System.out.println("切换到策略A");
+        context.setStrategy(new StrategyA());
+        context.executeStrategy("张三的病历");
+        System.out.println("切换到策略B");
+        context.setStrategy(new StrategyB());
+        context.executeStrategy("李四的病历");
     }
 }

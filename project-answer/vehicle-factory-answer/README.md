@@ -66,47 +66,24 @@ new Truck();
 ### 参考代码
 
 ```java
-interface Vehicle {
-    void drive();
+package com.exam.vehicle;
+interface VehicleProcessor { void process(); }
+class Car implements VehicleProcessor {
+    private String name;
+    public Car(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础交通工具：" + name); }
 }
-
-class Car implements Vehicle {
-    @Override
-    public void drive() {
-        System.out.println("Driving a car");
-    }
+class Truck implements VehicleProcessor {
+    private String name;
+    public Truck(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级交通工具：" + name); }
 }
-
-class Truck implements Vehicle {
-    @Override
-    public void drive() {
-        System.out.println("Driving a truck");
-    }
-}
-
-class VehicleFactory {
-    public static Vehicle createVehicle(String type) {
-        if (type == null) {
-            throw new IllegalArgumentException("Vehicle type cannot be null");
-        }
-
-        if ("car".equalsIgnoreCase(type)) {
-            return new Car();
-        } else if ("truck".equalsIgnoreCase(type)) {
-            return new Truck();
-        }
-
-        throw new IllegalArgumentException("Unknown vehicle type: " + type);
-    }
-}
-
 public class Main {
     public static void main(String[] args) {
-        Vehicle vehicle1 = VehicleFactory.createVehicle("car");
-        vehicle1.drive();
-
-        Vehicle vehicle2 = VehicleFactory.createVehicle("truck");
-        vehicle2.drive();
+        System.out.println("--- 执行测试用例 ---");
+        VehicleProcessor[] processors = { new Car("汽车"), new Truck("卡车") };
+        for (VehicleProcessor p : processors) { p.process(); }
     }
 }
+
 ```

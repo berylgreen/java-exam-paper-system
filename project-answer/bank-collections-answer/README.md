@@ -69,62 +69,68 @@ A003
 ### 参考代码
 
 ```java
+// Object.java 等实体类
+package com.exam.bank;
+import java.util.Objects;
+public class Account implements Comparable<Account> {
+    private String id;
+    private String name;
+    private double value;
+    public Account() {}
+    public Account(String id, String name) { this.id = id; this.name = name; }
+    public String getId() { return id; }
+    public void setId(String id) {
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("编号不能为空");
+        this.id = id;
+    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public double getValue() { return value; }
+    public void setValue(double value) {
+        if (value < 0) throw new IllegalArgumentException("数值不能为负数");
+        this.value = value;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account that = (Account) o;
+        return Objects.equals(id, that.id);
+    }
+    @Override
+    public int hashCode() { return Objects.hash(id); }
+    @Override
+    public int compareTo(Account other) { return this.id.compareTo(other.id); }
+    @Override
+    public String toString() { return "Account{id='" + id + "', name='" + name + "'}"; }
+}
+
+```
+
+```java
+// Main.java 等核心逻辑
+package com.exam.bank;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-
-class Account implements Comparable<Account> {
-    private String id;
-
-    public Account(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Account account = (Account) o;
-        return Objects.equals(id, account.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public int compareTo(Account other) {
-        return this.id.compareTo(other.id);
-    }
-}
-
 public class Main {
     public static void main(String[] args) {
-        Set<Account> accountSet = new HashSet<>();
-
-        accountSet.add(new Account("A002"));
-        accountSet.add(new Account("A001"));
-        accountSet.add(new Account("A003"));
-        accountSet.add(new Account("A002")); // 重复账户，无法重复加入
-
-        List<Account> accountList = new ArrayList<>(accountSet);
-        Collections.sort(accountList);
-
-        for (Account account : accountList) {
-            System.out.println(account.getId());
+        System.out.println("--- 执行测试用例 ---");
+        Set<Account> set = new HashSet<>();
+        set.add(new Account("103", "王五的账户"));
+        set.add(new Account("101", "张三的账户"));
+        set.add(new Account("102", "李四的账户"));
+        set.add(new Account("102", "李四的账户")); // 重复对象
+        System.out.println("添加后去重的账户数量：" + set.size());
+        List<Account> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (Account item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
         }
     }
 }
+
 ```

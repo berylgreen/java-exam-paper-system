@@ -75,77 +75,24 @@ shape.calculateArea()
 ### 参考代码
 
 ```java
-abstract class Shape {
-    public abstract double calculateArea();
+package com.exam.shape;
+interface ShapeProcessor { void process(); }
+class Circle implements ShapeProcessor {
+    private String name;
+    public Circle(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础图形：" + name); }
 }
-
-class Circle extends Shape {
-    private double radius;
-
-    public Circle(double radius) {
-        this.radius = radius;
-    }
-
-    @Override
-    public double calculateArea() {
-        return Math.PI * radius * radius;
-    }
+class Rectangle implements ShapeProcessor {
+    private String name;
+    public Rectangle(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级图形：" + name); }
 }
-
-class Rectangle extends Shape {
-    private double width;
-    private double height;
-
-    public Rectangle(double width, double height) {
-        this.width = width;
-        this.height = height;
-    }
-
-    @Override
-    public double calculateArea() {
-        return width * height;
-    }
-}
-
-class Triangle extends Shape {
-    private double base;
-    private double height;
-
-    public Triangle(double base, double height) {
-        this.base = base;
-        this.height = height;
-    }
-
-    @Override
-    public double calculateArea() {
-        return 0.5 * base * height;
-    }
-}
-
-class ShapeCalculator {
-    public double calculateTotalArea(Shape[] shapes) {
-        double totalArea = 0;
-        for (Shape shape : shapes) {
-            totalArea += shape.calculateArea();
-        }
-        return totalArea;
-    }
-}
-
 public class Main {
     public static void main(String[] args) {
-        Shape[] shapes = {
-            new Circle(3),
-            new Rectangle(4, 5),
-            new Triangle(6, 2)
-        };
-
-        for (Shape shape : shapes) {
-            System.out.println("面积：" + shape.calculateArea());
-        }
-
-        ShapeCalculator calculator = new ShapeCalculator();
-        System.out.println("总面积：" + calculator.calculateTotalArea(shapes));
+        System.out.println("--- 执行测试用例 ---");
+        ShapeProcessor[] processors = { new Circle("圆形"), new Rectangle("矩形") };
+        for (ShapeProcessor p : processors) { p.process(); }
     }
 }
+
 ```

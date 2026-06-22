@@ -1,66 +1,23 @@
 package com.exam.library;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-
-class Book implements Comparable<Book> {
-    private String id;
-    private String name;
-
-    public Book(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return Objects.equals(id, book.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public int compareTo(Book other) {
-        return this.id.compareTo(other.id);
-    }
-
-    @Override
-    public String toString() {
-        return "Book{id='" + id + "', name='" + name + "'}";
-    }
-}
-
 public class Main {
     public static void main(String[] args) {
-        Set<Book> bookSet = new HashSet<>();
-
-        bookSet.add(new Book("B002", "Java 程序设计"));
-        bookSet.add(new Book("B001", "数据结构"));
-        bookSet.add(new Book("B002", "Java 编程思想")); // id 相同，视为重复图书
-
-        List<Book> bookList = new ArrayList<>(bookSet);
-        Collections.sort(bookList);
-
-        for (Book book : bookList) {
-            System.out.println(book);
+        System.out.println("--- 执行测试用例 ---");
+        Set<Book> set = new HashSet<>();
+        set.add(new Book("103", "计算机网络"));
+        set.add(new Book("101", "Java编程思想"));
+        set.add(new Book("102", "算法导论"));
+        set.add(new Book("102", "算法导论")); // 重复对象
+        System.out.println("添加后去重的图书数量：" + set.size());
+        List<Book> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (Book item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
         }
     }
 }

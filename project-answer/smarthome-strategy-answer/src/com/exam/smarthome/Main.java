@@ -1,52 +1,25 @@
 package com.exam.smarthome;
-
-// 策略接口：定义统一的设备处理行为
-interface DeviceStrategy {
-    void execute();
+interface Strategy { void execute(String data); }
+class StrategyA implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略A：处理 " + data); }
 }
-
-// 具体策略：普通处理策略
-class NormalStrategy implements DeviceStrategy {
-    @Override
-    public void execute() {
-        System.out.println("Normal processing");
-    }
+class StrategyB implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略B：处理 " + data); }
 }
-
-// 具体策略：紧急处理策略
-class UrgentStrategy implements DeviceStrategy {
-    @Override
-    public void execute() {
-        System.out.println("Urgent processing");
-    }
+class Context {
+    private Strategy strategy;
+    public void setStrategy(Strategy strategy) { this.strategy = strategy; }
+    public void executeStrategy(String data) { if (strategy != null) strategy.execute(data); }
 }
-
-// 上下文类：负责持有并调用具体策略
-class DeviceProcessor {
-    private DeviceStrategy strategy;
-
-    public void setStrategy(DeviceStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public void process() {
-        if (strategy == null) {
-            throw new IllegalStateException("Strategy has not been set.");
-        }
-        strategy.execute();
-    }
-}
-
-// 测试示例
-
 public class Main {
     public static void main(String[] args) {
-        DeviceProcessor processor = new DeviceProcessor();
-
-        processor.setStrategy(new NormalStrategy());
-        processor.process();
-
-        processor.setStrategy(new UrgentStrategy());
-        processor.process();
+        System.out.println("--- 执行测试用例 ---");
+        Context context = new Context();
+        System.out.println("切换到策略A");
+        context.setStrategy(new StrategyA());
+        context.executeStrategy("智能灯");
+        System.out.println("切换到策略B");
+        context.setStrategy(new StrategyB());
+        context.executeStrategy("智能空调");
     }
 }

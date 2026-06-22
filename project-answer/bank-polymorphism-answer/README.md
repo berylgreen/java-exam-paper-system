@@ -77,50 +77,24 @@ for (Account account : accounts) {
 ### 参考代码
 
 ```java
-abstract class Account {
-    /**
-     * 账户统计处理行为，不同账户类型有不同实现
-     */
-    public abstract void process();
+package com.exam.bank;
+interface AccountProcessor { void process(); }
+class NormalAccount implements AccountProcessor {
+    private String name;
+    public NormalAccount(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础账户：" + name); }
 }
-
-class RegularAccount extends Account {
-    @Override
-    public void process() {
-        System.out.println("处理普通账户的统计逻辑");
-    }
+class VIPAccount implements AccountProcessor {
+    private String name;
+    public VIPAccount(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级账户：" + name); }
 }
-
-class VIPAccount extends Account {
-    @Override
-    public void process() {
-        System.out.println("处理 VIP 账户的统计逻辑");
-    }
-}
-
-class EnterpriseAccount extends Account {
-    @Override
-    public void process() {
-        System.out.println("处理企业账户的统计逻辑");
-    }
-}
-
-public class AccountStatistics {
-    public void processAll(Account[] accounts) {
-        for (Account account : accounts) {
-            account.process();
-        }
-    }
-
+public class Main {
     public static void main(String[] args) {
-        Account[] accounts = {
-            new RegularAccount(),
-            new VIPAccount(),
-            new EnterpriseAccount()
-        };
-
-        AccountStatistics statistics = new AccountStatistics();
-        statistics.processAll(accounts);
+        System.out.println("--- 执行测试用例 ---");
+        AccountProcessor[] processors = { new NormalAccount("张三的账户"), new VIPAccount("李四的账户") };
+        for (AccountProcessor p : processors) { p.process(); }
     }
 }
+
 ```

@@ -1,58 +1,23 @@
 package com.exam.hotel;
-
-import java.util.*;
-
-class Room implements Comparable<Room> {
-    private String roomId;
-
-    public Room(String roomId) {
-        this.roomId = roomId;
-    }
-
-    public String getRoomId() {
-        return roomId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Room room = (Room) o;
-        return Objects.equals(roomId, room.roomId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(roomId);
-    }
-
-    @Override
-    public int compareTo(Room other) {
-        return this.roomId.compareTo(other.roomId);
-    }
-
-    @Override
-    public String toString() {
-        return "Room{" +
-                "roomId='" + roomId + '\'' +
-                '}';
-    }
-}
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 public class Main {
     public static void main(String[] args) {
-        Set<Room> roomSet = new HashSet<>();
-
-        roomSet.add(new Room("A002"));
-        roomSet.add(new Room("A001"));
-        roomSet.add(new Room("A003"));
-        roomSet.add(new Room("A002")); // 重复房间，不能重复加入
-
-        List<Room> roomList = new ArrayList<>(roomSet);
-        Collections.sort(roomList);
-
-        for (Room room : roomList) {
-            System.out.println(room);
+        System.out.println("--- 执行测试用例 ---");
+        Set<Room> set = new HashSet<>();
+        set.add(new Room("103", "标准间"));
+        set.add(new Room("101", "总统套房"));
+        set.add(new Room("102", "豪华大床房"));
+        set.add(new Room("102", "豪华大床房")); // 重复对象
+        System.out.println("添加后去重的客房数量：" + set.size());
+        List<Room> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (Room item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
         }
     }
 }

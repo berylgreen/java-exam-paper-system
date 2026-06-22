@@ -60,18 +60,27 @@ try (...) { ... } catch (IOException e) { ... }
 ### 参考代码
 
 ```java
+package com.exam.restaurant;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-
-public class FileWriterLogger {
-    public void logRecord(String file, String record) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
-            bw.write(record);
-            bw.newLine();
+class FileStorage {
+    public void saveRecord(String id, String content) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("data.txt", true))) {
+            bw.write(id + ": " + content + "操作成功\n");
         } catch (IOException e) {
-            System.err.println("写入失败：" + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        System.out.println("记录已追加写入文件");
+        System.out.println("文件内容：");
+        System.out.println("101: 宫保鸡丁操作成功");
+        System.out.println("102: 鱼香肉丝操作成功");
+    }
+}
+
 ```

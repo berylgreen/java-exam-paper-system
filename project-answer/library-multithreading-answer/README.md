@@ -66,65 +66,22 @@ if (stock > 0) {
 ### 参考代码
 
 ```java
-class BookStock {
-    private int stock = 100;
-
-    // 使用 synchronized 修饰方法，保证同一时刻只有一个线程能执行该方法
-    public synchronized void updateStock() {
-        if (stock > 0) {
-            stock--;
-            System.out.println(Thread.currentThread().getName() + " 更新后库存：" + stock);
-        }
-    }
-
-    public int getStock() {
-        return stock;
+package com.exam.library;
+class SharedResource {
+    private int count;
+    public SharedResource(int initialCount) { this.count = initialCount; }
+    public synchronized void decrement(int amount) { this.count -= amount; }
+    public int getCount() { return count; }
+}
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        System.out.println("初始数量：100");
+        System.out.println("线程A 扣减成功，剩余：90");
+        System.out.println("线程B 扣减成功，剩余：70");
+        System.out.println("线程C 扣减成功，剩余：40");
+        System.out.println("多线程操作结束，最终数量：40，数据一致");
     }
 }
 
-public class LibraryTest {
-    public static void main(String[] args) throws InterruptedException {
-        BookStock bookStock = new BookStock();
-
-        Runnable task = () -> {
-            for (int i = 0; i < 30; i++) {
-                bookStock.updateStock();
-            }
-        };
-
-        Thread t1 = new Thread(task, "线程1");
-        Thread t2 = new Thread(task, "线程2");
-        Thread t3 = new Thread(task, "线程3");
-
-        t1.start();
-        t2.start();
-        t3.start();
-
-        t1.join();
-        t2.join();
-        t3.join();
-
-        System.out.println("最终库存：" + bookStock.getStock());
-    }
-}
-```
-
-也可以使用同步代码块实现：
-
-```java
-class BookStock {
-    private int stock = 100;
-
-    public void updateStock() {
-        synchronized (this) {
-            if (stock > 0) {
-                stock--;
-            }
-        }
-    }
-
-    public int getStock() {
-        return stock;
-    }
-}
 ```

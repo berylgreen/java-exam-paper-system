@@ -94,27 +94,68 @@ integerBox.set(100);
 ### 参考代码
 
 ```java
-class Box<T> {
-    private T item;
-
-    public void set(T item) {
-        this.item = item;
+// MyObject.java 等实体类
+package com.exam.generic;
+import java.util.Objects;
+public class MyObject implements Comparable<MyObject> {
+    private String id;
+    private String name;
+    private double value;
+    public MyObject() {}
+    public MyObject(String id, String name) { this.id = id; this.name = name; }
+    public String getId() { return id; }
+    public void setId(String id) {
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("编号不能为空");
+        this.id = id;
     }
-
-    public T get() {
-        return item;
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public double getValue() { return value; }
+    public void setValue(double value) {
+        if (value < 0) throw new IllegalArgumentException("数值不能为负数");
+        this.value = value;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MyObject that = (MyObject) o;
+        return Objects.equals(id, that.id);
+    }
+    @Override
+    public int hashCode() { return Objects.hash(id); }
+    @Override
+    public int compareTo(MyObject other) { return this.id.compareTo(other.id); }
+    @Override
+    public String toString() { return "Object{id='" + id + "', name='" + name + "'}"; }
 }
 
+```
+
+```java
+// Main.java 等核心逻辑
+package com.exam.generic;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 public class Main {
     public static void main(String[] args) {
-        Box<String> stringBox = new Box<>();
-        stringBox.set("Hello, Generics");
-        System.out.println("StringBox 中的数据：" + stringBox.get());
-
-        Box<Integer> integerBox = new Box<>();
-        integerBox.set(100);
-        System.out.println("IntegerBox 中的数据：" + integerBox.get());
+        System.out.println("--- 执行测试用例 ---");
+        Set<MyObject> set = new HashSet<>();
+        set.add(new MyObject("103", "对象C"));
+        set.add(new MyObject("101", "对象A"));
+        set.add(new MyObject("102", "对象B"));
+        set.add(new MyObject("102", "对象B")); // 重复对象
+        System.out.println("添加后去重的对象数量：" + set.size());
+        List<MyObject> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (MyObject item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
+        }
     }
 }
+
 ```

@@ -70,69 +70,68 @@ Vehicle{id='A003', brand='BMW'}
 ### 参考代码
 
 ```java
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+// Object.java 等实体类
+package com.exam.rental;
 import java.util.Objects;
-import java.util.Set;
-
-class Vehicle implements Comparable<Vehicle> {
+public class Vehicle implements Comparable<Vehicle> {
     private String id;
-    private String brand;
-
-    public Vehicle(String id, String brand) {
+    private String name;
+    private double value;
+    public Vehicle() {}
+    public Vehicle(String id, String name) { this.id = id; this.name = name; }
+    public String getId() { return id; }
+    public void setId(String id) {
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("编号不能为空");
         this.id = id;
-        this.brand = brand;
     }
-
-    public String getId() {
-        return id;
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public double getValue() { return value; }
+    public void setValue(double value) {
+        if (value < 0) throw new IllegalArgumentException("数值不能为负数");
+        this.value = value;
     }
-
-    public String getBrand() {
-        return brand;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Vehicle vehicle = (Vehicle) o;
-        return Objects.equals(id, vehicle.id);
+        Vehicle that = (Vehicle) o;
+        return Objects.equals(id, that.id);
     }
-
     @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
+    public int hashCode() { return Objects.hash(id); }
     @Override
-    public int compareTo(Vehicle other) {
-        return this.id.compareTo(other.id);
-    }
-
+    public int compareTo(Vehicle other) { return this.id.compareTo(other.id); }
     @Override
-    public String toString() {
-        return "Vehicle{id='" + id + "', brand='" + brand + "'}";
-    }
+    public String toString() { return "Vehicle{id='" + id + "', name='" + name + "'}"; }
 }
 
+```
+
+```java
+// Main.java 等核心逻辑
+package com.exam.rental;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 public class Main {
     public static void main(String[] args) {
-        Set<Vehicle> vehicleSet = new HashSet<>();
-
-        vehicleSet.add(new Vehicle("A002", "Toyota"));
-        vehicleSet.add(new Vehicle("A001", "Honda"));
-        vehicleSet.add(new Vehicle("A002", "Toyota")); // 重复车辆，无法再次加入
-        vehicleSet.add(new Vehicle("A003", "BMW"));
-
-        List<Vehicle> vehicleList = new ArrayList<>(vehicleSet);
-        Collections.sort(vehicleList);
-
-        for (Vehicle vehicle : vehicleList) {
-            System.out.println(vehicle);
+        System.out.println("--- 执行测试用例 ---");
+        Set<Vehicle> set = new HashSet<>();
+        set.add(new Vehicle("103", "宝马X5"));
+        set.add(new Vehicle("101", "丰田卡罗拉"));
+        set.add(new Vehicle("102", "本田雅阁"));
+        set.add(new Vehicle("102", "本田雅阁")); // 重复对象
+        System.out.println("添加后去重的车辆数量：" + set.size());
+        List<Vehicle> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (Vehicle item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
         }
     }
 }
+
 ```

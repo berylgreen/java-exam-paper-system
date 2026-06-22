@@ -57,30 +57,69 @@ public class Student {
 ### 参考代码
 
 ```java
-public class Student {
+// Object.java 等实体类
+package com.exam.school;
+import java.util.Objects;
+public class Student implements Comparable<Student> {
     private String id;
-    private double amount;
-
-    public String getId() {
-        return id;
-    }
-
+    private String name;
+    private double value;
+    public Student() {}
+    public Student(String id, String name) { this.id = id; this.name = name; }
+    public String getId() { return id; }
     public void setId(String id) {
-        if (id == null || id.trim().isEmpty()) {
-            throw new IllegalArgumentException("id 不能为空");
-        }
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("编号不能为空");
         this.id = id;
     }
-
-    public double getAmount() {
-        return amount;
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public double getValue() { return value; }
+    public void setValue(double value) {
+        if (value < 0) throw new IllegalArgumentException("数值不能为负数");
+        this.value = value;
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student that = (Student) o;
+        return Objects.equals(id, that.id);
+    }
+    @Override
+    public int hashCode() { return Objects.hash(id); }
+    @Override
+    public int compareTo(Student other) { return this.id.compareTo(other.id); }
+    @Override
+    public String toString() { return "Student{id='" + id + "', name='" + name + "'}"; }
+}
 
-    public void setAmount(double amount) {
-        if (amount < 0) {
-            throw new IllegalArgumentException("amount 不能为负数");
+```
+
+```java
+// Main.java 等核心逻辑
+package com.exam.school;
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        Student obj = new Student();
+        try {
+            obj.setId("101");
+            obj.setName("高等数学");
+            System.out.println("正常设置成功：id=" + obj.getId() + ", 名称=" + obj.getName());
+        } catch (Exception e) {
+            System.out.println("正常设置失败：" + e.getMessage());
         }
-        this.amount = amount;
+        try {
+            obj.setId("");
+        } catch (IllegalArgumentException e) {
+            System.out.println("设置编号失败：" + e.getMessage());
+        }
+        try {
+            obj.setValue(-100);
+        } catch (IllegalArgumentException e) {
+            System.out.println("设置数值失败：" + e.getMessage());
+        }
     }
 }
+
 ```

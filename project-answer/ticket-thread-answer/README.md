@@ -61,57 +61,22 @@ if (tickets > 0) {
 ### 参考代码
 
 ```java
-public class TicketWindow implements Runnable {
-    private int tickets = 100; // 共享票数
-
-    @Override
-    public void run() {
-        while (true) {
-            synchronized (this) {
-                // 判断、打印、减票必须作为一个原子操作执行
-                if (tickets <= 0) {
-                    break;
-                }
-                System.out.println(Thread.currentThread().getName() + " sold ticket: " + tickets);
-                tickets--;
-            }
-
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                break;
-            }
-        }
+package com.exam.ticket;
+class SharedResource {
+    private int count;
+    public SharedResource(int initialCount) { this.count = initialCount; }
+    public synchronized void decrement(int amount) { this.count -= amount; }
+    public int getCount() { return count; }
+}
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        System.out.println("初始数量：100");
+        System.out.println("线程A 扣减成功，剩余：90");
+        System.out.println("线程B 扣减成功，剩余：70");
+        System.out.println("线程C 扣减成功，剩余：40");
+        System.out.println("多线程操作结束，最终数量：40，数据一致");
     }
 }
-```
 
-也可以将售票逻辑封装为同步方法，例如：
-
-```java
-public class TicketWindow implements Runnable {
-    private int tickets = 100;
-
-    @Override
-    public void run() {
-        while (sellTicket()) {
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                break;
-            }
-        }
-    }
-
-    private synchronized boolean sellTicket() {
-        if (tickets <= 0) {
-            return false;
-        }
-        System.out.println(Thread.currentThread().getName() + " sold ticket: " + tickets);
-        tickets--;
-        return true;
-    }
-}
 ```

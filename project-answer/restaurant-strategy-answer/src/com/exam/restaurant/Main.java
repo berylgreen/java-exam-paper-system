@@ -1,63 +1,25 @@
 package com.exam.restaurant;
-
-// 策略接口
-interface DishStrategy {
-    void process(String dishName);
+interface Strategy { void execute(String data); }
+class StrategyA implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略A：处理 " + data); }
 }
-
-// 具体策略：堂食处理
-class DineInStrategy implements DishStrategy {
-    @Override
-    public void process(String dishName) {
-        System.out.println("堂食菜品处理：" + dishName);
-    }
+class StrategyB implements Strategy {
+    @Override public void execute(String data) { System.out.println("执行策略B：处理 " + data); }
 }
-
-// 具体策略：打包处理
-class TakeAwayStrategy implements DishStrategy {
-    @Override
-    public void process(String dishName) {
-        System.out.println("打包菜品处理：" + dishName);
-    }
+class Context {
+    private Strategy strategy;
+    public void setStrategy(Strategy strategy) { this.strategy = strategy; }
+    public void executeStrategy(String data) { if (strategy != null) strategy.execute(data); }
 }
-
-// 具体策略：加急处理
-class UrgentStrategy implements DishStrategy {
-    @Override
-    public void process(String dishName) {
-        System.out.println("加急菜品处理：" + dishName);
-    }
-}
-
-// 上下文类
-class DishContext {
-    private DishStrategy strategy;
-
-    public void setStrategy(DishStrategy strategy) {
-        this.strategy = strategy;
-    }
-
-    public void executeStrategy(String dishName) {
-        if (strategy == null) {
-            throw new IllegalStateException("请先设置菜品处理策略");
-        }
-        strategy.process(dishName);
-    }
-}
-
-// 测试类
-
 public class Main {
     public static void main(String[] args) {
-        DishContext context = new DishContext();
-
-        context.setStrategy(new DineInStrategy());
+        System.out.println("--- 执行测试用例 ---");
+        Context context = new Context();
+        System.out.println("切换到策略A");
+        context.setStrategy(new StrategyA());
         context.executeStrategy("宫保鸡丁");
-
-        context.setStrategy(new TakeAwayStrategy());
+        System.out.println("切换到策略B");
+        context.setStrategy(new StrategyB());
         context.executeStrategy("鱼香肉丝");
-
-        context.setStrategy(new UrgentStrategy());
-        context.executeStrategy("红烧排骨");
     }
 }

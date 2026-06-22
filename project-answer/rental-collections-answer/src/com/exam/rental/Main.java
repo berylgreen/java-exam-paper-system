@@ -1,67 +1,23 @@
 package com.exam.rental;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-
-class Vehicle implements Comparable<Vehicle> {
-    private String id;
-    private String brand;
-
-    public Vehicle(String id, String brand) {
-        this.id = id;
-        this.brand = brand;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vehicle vehicle = (Vehicle) o;
-        return Objects.equals(id, vehicle.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public int compareTo(Vehicle other) {
-        return this.id.compareTo(other.id);
-    }
-
-    @Override
-    public String toString() {
-        return "Vehicle{id='" + id + "', brand='" + brand + "'}";
-    }
-}
-
 public class Main {
     public static void main(String[] args) {
-        Set<Vehicle> vehicleSet = new HashSet<>();
-
-        vehicleSet.add(new Vehicle("A002", "Toyota"));
-        vehicleSet.add(new Vehicle("A001", "Honda"));
-        vehicleSet.add(new Vehicle("A002", "Toyota")); // 重复车辆，无法再次加入
-        vehicleSet.add(new Vehicle("A003", "BMW"));
-
-        List<Vehicle> vehicleList = new ArrayList<>(vehicleSet);
-        Collections.sort(vehicleList);
-
-        for (Vehicle vehicle : vehicleList) {
-            System.out.println(vehicle);
+        System.out.println("--- 执行测试用例 ---");
+        Set<Vehicle> set = new HashSet<>();
+        set.add(new Vehicle("103", "宝马X5"));
+        set.add(new Vehicle("101", "丰田卡罗拉"));
+        set.add(new Vehicle("102", "本田雅阁"));
+        set.add(new Vehicle("102", "本田雅阁")); // 重复对象
+        System.out.println("添加后去重的车辆数量：" + set.size());
+        List<Vehicle> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (Vehicle item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
         }
     }
 }

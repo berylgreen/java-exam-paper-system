@@ -78,50 +78,24 @@ for (Package p : packages) {
 ### 参考代码
 
 ```java
-abstract class Package {
-    // 统一的抽象处理方法
-    public abstract void process();
+package com.exam.logistics;
+interface PackageProcessor { void process(); }
+class StandardPackage implements PackageProcessor {
+    private String name;
+    public StandardPackage(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础包裹：" + name); }
 }
-
-class RegularPackage extends Package {
-    @Override
-    public void process() {
-        System.out.println("处理普通包裹：按标准流程入库、分拣、出库");
-    }
+class FragilePackage implements PackageProcessor {
+    private String name;
+    public FragilePackage(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级包裹：" + name); }
 }
-
-class ExpressPackage extends Package {
-    @Override
-    public void process() {
-        System.out.println("处理加急包裹：优先分拣并优先配送");
-    }
-}
-
-class ColdChainPackage extends Package {
-    @Override
-    public void process() {
-        System.out.println("处理冷链包裹：检查温控后进行冷链运输");
-    }
-}
-
-class PackageStatistics {
-    public void processAll(Package[] packages) {
-        for (Package p : packages) {
-            p.process();  // 多态调用：实际执行的是子类重写后的方法
-        }
-    }
-}
-
-public class Test {
+public class Main {
     public static void main(String[] args) {
-        Package[] packages = {
-            new RegularPackage(),
-            new ExpressPackage(),
-            new ColdChainPackage()
-        };
-
-        PackageStatistics statistics = new PackageStatistics();
-        statistics.processAll(packages);
+        System.out.println("--- 执行测试用例 ---");
+        PackageProcessor[] processors = { new StandardPackage("电子产品包裹"), new FragilePackage("书籍包裹") };
+        for (PackageProcessor p : processors) { p.process(); }
     }
 }
+
 ```

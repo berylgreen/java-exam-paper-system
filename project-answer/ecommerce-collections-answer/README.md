@@ -68,56 +68,68 @@ A002
 ### 参考代码
 
 ```java
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+// Object.java 等实体类
+package com.exam.ecommerce;
 import java.util.Objects;
-import java.util.Set;
-
-class Order implements Comparable<Order> {
+public class Order implements Comparable<Order> {
     private String id;
-
-    public Order(String id) {
+    private String name;
+    private double value;
+    public Order() {}
+    public Order(String id, String name) { this.id = id; this.name = name; }
+    public String getId() { return id; }
+    public void setId(String id) {
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("编号不能为空");
         this.id = id;
     }
-
-    public String getId() {
-        return id;
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public double getValue() { return value; }
+    public void setValue(double value) {
+        if (value < 0) throw new IllegalArgumentException("数值不能为负数");
+        this.value = value;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Order order = (Order) o;
-        return Objects.equals(id, order.id);
+        Order that = (Order) o;
+        return Objects.equals(id, that.id);
     }
-
     @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
+    public int hashCode() { return Objects.hash(id); }
     @Override
-    public int compareTo(Order other) {
-        return this.id.compareTo(other.id);
-    }
+    public int compareTo(Order other) { return this.id.compareTo(other.id); }
+    @Override
+    public String toString() { return "Order{id='" + id + "', name='" + name + "'}"; }
 }
 
+```
+
+```java
+// Main.java 等核心逻辑
+package com.exam.ecommerce;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 public class Main {
     public static void main(String[] args) {
-        Set<Order> orderSet = new HashSet<>();
-        orderSet.add(new Order("A002"));
-        orderSet.add(new Order("A001"));
-        orderSet.add(new Order("A002")); // 重复订单，不会重复加入
-
-        List<Order> orderList = new ArrayList<>(orderSet);
-        Collections.sort(orderList);
-
-        for (Order order : orderList) {
-            System.out.println(order.getId());
+        System.out.println("--- 执行测试用例 ---");
+        Set<Order> set = new HashSet<>();
+        set.add(new Order("103", "蓝牙耳机"));
+        set.add(new Order("101", "笔记本电脑"));
+        set.add(new Order("102", "智能手机"));
+        set.add(new Order("102", "智能手机")); // 重复对象
+        System.out.println("添加后去重的商品数量：" + set.size());
+        List<Order> list = new ArrayList<>(set);
+        Collections.sort(list);
+        System.out.println("排序后输出：");
+        for (Order item : list) {
+            System.out.println("id=" + item.getId() + ": " + item.getName());
         }
     }
 }
+
 ```

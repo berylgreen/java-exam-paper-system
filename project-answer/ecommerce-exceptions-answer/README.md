@@ -39,30 +39,30 @@
 ### 参考代码
 
 ```java
-class OrderException extends Exception {
-    public OrderException(String message) {
-        super(message);
-    }
+package com.exam.ecommerce;
+class CustomException extends Exception {
+    public CustomException(String msg) { super(msg); }
 }
-
-public class OrderParser {
-
-    public void parseList(String[] data) {
+class DataParser {
+    public void parseData(String[] data) {
         for (String item : data) {
             try {
-                parse(item);
-            } catch (OrderException e) {
-                System.err.println("订单解析失败：" + e.getMessage());
+                if ("error".equals(item)) throw new CustomException("格式错误");
+                System.out.println("解析成功：" + item);
+            } catch (CustomException e) {
+                System.out.println("捕获异常：" + e.getMessage() + "，跳过该条数据");
             }
         }
-    }
-
-    private void parse(String item) throws OrderException {
-        if (item == null || item.trim().isEmpty()) {
-            throw new OrderException("订单数据为空或格式不合法");
-        }
-
-        System.out.println("解析成功：" + item);
+        System.out.println("全部数据处理完毕");
     }
 }
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("--- 执行测试用例 ---");
+        DataParser parser = new DataParser();
+        String[] data = {"数据1", "error", "数据3"}; 
+        parser.parseData(data);
+    }
+}
+
 ```

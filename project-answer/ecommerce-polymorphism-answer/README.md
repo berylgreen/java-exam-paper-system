@@ -73,50 +73,24 @@ if (obj instanceof RegularOrder) {
 ### 参考代码
 
 ```java
-abstract class Order {
-    /**
-     * 订单处理的统一入口
-     */
-    public abstract void process();
+package com.exam.ecommerce;
+interface OrderProcessor { void process(); }
+class StandardOrder implements OrderProcessor {
+    private String name;
+    public StandardOrder(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理基础商品：" + name); }
 }
-
-class RegularOrder extends Order {
-    @Override
-    public void process() {
-        System.out.println("处理普通订单");
-    }
+class ExpressOrder implements OrderProcessor {
+    private String name;
+    public ExpressOrder(String name) { this.name = name; }
+    @Override public void process() { System.out.println("统一处理高级商品：" + name); }
 }
-
-class VIPOrder extends Order {
-    @Override
-    public void process() {
-        System.out.println("处理 VIP 订单");
-    }
-}
-
-class GroupOrder extends Order {
-    @Override
-    public void process() {
-        System.out.println("处理团购订单");
-    }
-}
-
-public class OrderStatistics {
-    public void processAll(Order[] orders) {
-        for (Order order : orders) {
-            order.process(); // 利用多态调用具体子类的实现
-        }
-    }
-
+public class Main {
     public static void main(String[] args) {
-        Order[] orders = {
-            new RegularOrder(),
-            new VIPOrder(),
-            new GroupOrder()
-        };
-
-        OrderStatistics statistics = new OrderStatistics();
-        statistics.processAll(orders);
+        System.out.println("--- 执行测试用例 ---");
+        OrderProcessor[] processors = { new StandardOrder("笔记本电脑"), new ExpressOrder("智能手机") };
+        for (OrderProcessor p : processors) { p.process(); }
     }
 }
+
 ```

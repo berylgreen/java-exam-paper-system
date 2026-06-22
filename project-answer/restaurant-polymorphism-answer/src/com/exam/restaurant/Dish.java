@@ -1,34 +1,34 @@
 package com.exam.restaurant;
-
-// 抽象父类：定义所有菜品的统一行为
-
-public abstract class Dish {
-    // 统计类只关心“如何处理菜品”，不关心具体是什么类型
-    public abstract void process();
-}
-
-// 普通菜品
-class RegularDish extends Dish {
-    @Override
-    public void process() {
-        System.out.println("处理普通菜品的统计逻辑");
+import java.util.Objects;
+public class Dish implements Comparable<Dish> {
+    private String id;
+    private String name;
+    private double value;
+    public Dish() {}
+    public Dish(String id, String name) { this.id = id; this.name = name; }
+    public String getId() { return id; }
+    public void setId(String id) {
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("编号不能为空");
+        this.id = id;
     }
-}
-
-// VIP 菜品
-class VIPDish extends Dish {
-    @Override
-    public void process() {
-        System.out.println("处理 VIP 菜品的统计逻辑");
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public double getValue() { return value; }
+    public void setValue(double value) {
+        if (value < 0) throw new IllegalArgumentException("数值不能为负数");
+        this.value = value;
     }
-}
-
-// 特价菜品
-class DiscountDish extends Dish {
     @Override
-    public void process() {
-        System.out.println("处理特价菜品的统计逻辑");
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dish that = (Dish) o;
+        return Objects.equals(id, that.id);
     }
+    @Override
+    public int hashCode() { return Objects.hash(id); }
+    @Override
+    public int compareTo(Dish other) { return this.id.compareTo(other.id); }
+    @Override
+    public String toString() { return "Dish{id='" + id + "', name='" + name + "'}"; }
 }
-
-// 重构后的统计类：不再使用 instanceof
