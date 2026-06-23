@@ -340,10 +340,14 @@ public class ExamPaperService {
         }
 
         byte[] answerSheetBytes = null;
+        byte[] answerSheetWithAnswersBytes = null;
         String answerSheetFilename = "完整学号_姓名_答题纸.docx";
         
         if ("generate".equals(answerSheetType)) {
-            answerSheetBytes = generateAnswerSheetBytes(paper);
+            answerSheetBytes = generateAnswerSheetBytes(paper, false);
+            if (withAnswer) {
+                answerSheetWithAnswersBytes = generateAnswerSheetBytes(paper, true);
+            }
         } else if ("template".equals(answerSheetType)) {
             org.springframework.core.io.Resource resource = new org.springframework.core.io.ClassPathResource("学号_姓名_答题纸A卷.docx");
             if (resource.exists()) {
@@ -361,6 +365,7 @@ public class ExamPaperService {
         }
         
         boolean hasAnswerSheet = (answerSheetBytes != null);
+        boolean hasAnswerSheetWithAnswers = (answerSheetWithAnswersBytes != null);
 
         // 如果只选了一种格式，且没有答案版，且没有工程代码，且没有答题纸，则直接返回单文件
         if (!withAnswer && projectPaths.isEmpty() && !hasAnswerSheet) {
@@ -442,6 +447,12 @@ public class ExamPaperService {
                 zos.write(answerSheetBytes);
                 zos.closeEntry();
             }
+            if (hasAnswerSheetWithAnswers) {
+                java.util.zip.ZipEntry sheetAnsEntry = new java.util.zip.ZipEntry("参考答案_答题纸.docx");
+                zos.putNextEntry(sheetAnsEntry);
+                zos.write(answerSheetWithAnswersBytes);
+                zos.closeEntry();
+            }
         }
 
         String zipFilename = paper.getTitle() + (withAnswer ? "_含答案" : "") + (projectPaths.isEmpty() && answerProjectPaths.isEmpty() ? "" : "_含代码工程") + ".zip";
@@ -451,7 +462,7 @@ public class ExamPaperService {
     /**
      * 根据试卷内容动态生成答题纸 — 保留原模板的页眉、密封线、考生信息栏，动态替换题目区域
      */
-    private byte[] generateAnswerSheetBytes(PaperDTO paper) {
+    private byte[] generateAnswerSheetBytes(PaperDTO paper, boolean withAnswer) {
         try {
             org.springframework.core.io.Resource resource = new org.springframework.core.io.ClassPathResource("学号_姓名_答题纸A卷.docx");
             if (!resource.exists()) {
@@ -666,17 +677,17 @@ public class ExamPaperService {
                         case SINGLE_CHOICE:
                         case MULTIPLE_CHOICE:
                         case TRUE_FALSE:
-                            generateChoiceAnswerArea(doc, questions);
+                            generateChoiceAnswerArea(doc, questions, withAnswer);
                             break;
                         case FILL_BLANK:
-                            generateFillBlankAnswerArea(doc, questions);
+                            generateFillBlankAnswerArea(doc, questions, withAnswer);
                             break;
                         case SHORT_ANSWER:
                         case CODE_READING:
-                            generateWrittenAnswerArea(doc, questions, false);
+                            generateWrittenAnswerArea(doc, questions, false, withAnswer);
                             break;
                         case PROGRAMMING:
-                            generateWrittenAnswerArea(doc, questions, true);
+                            generateWrittenAnswerArea(doc, questions, true, withAnswer);
                             break;
                     }
 
@@ -695,7 +706,7 @@ public class ExamPaperService {
     }
 
     /** 选择题/判断题答题区：题号 + 格式化下划线的空格，每行5个 */
-    private void generateChoiceAnswerArea(XWPFDocument doc, List<PaperDTO.PaperQuestionDTO> questions) {
+    private void generateChoiceAnswerArea(XWPFDocument doc, List<PaperDTO.PaperQuestionDTO> questions, boolean withAnswer) {
         int perRow = 5;
         int total = questions.size();
         for (int i = 0; i < total; i += perRow) {
@@ -711,7 +722,20 @@ public class ExamPaperService {
 
                 // 2. 下划线空格部分 (提供打字的下划线效果)
                 XWPFRun blankRun = rowPara.createRun();
-                blankRun.setText("    "); // 4个空格
+                if (withAnswer) {
+                    String ans = questions.get(j).getQuestion().getAnswer();
+                    if (ans == null) ans = "";
+                    ans = ans.trim();
+                    if (ans.length() < 4) {
+                        int pad = 4 - ans.length();
+                        for (int k = 0; k < pad / 2; k++) ans = " " + ans;
+                        while (ans.length() < 4) ans = ans + " ";
+                    }
+                    blankRun.setText(ans);
+                    blankRun.setColor("FF0000");
+                } else {
+                    blankRun.setText("    "); // 4个空格
+                }
                 blankRun.setUnderline(UnderlinePatterns.SINGLE);
                 blankRun.setFontSize(12);
                 blankRun.setFontFamily("宋体");
@@ -727,7 +751,7 @@ public class ExamPaperService {
     }
 
     /** 填空题答题区：每题一行编号 + 格式化下划线的空格 */
-    private void generateFillBlankAnswerArea(XWPFDocument doc, List<PaperDTO.PaperQuestionDTO> questions) {
+    private void generateFillBlankAnswerArea(XWPFDocument doc, List<PaperDTO.PaperQuestionDTO> questions, boolean withAnswer) {
         for (int i = 0; i < questions.size(); i++) {
             XWPFParagraph p = doc.createParagraph();
             p.setSpacingBetween(2.0);
@@ -744,7 +768,20 @@ public class ExamPaperService {
 
             // 2. 下划线空格部分
             XWPFRun blankRun = p.createRun();
-            blankRun.setText("                                   "); // 35个空格（半行左右）
+            if (withAnswer) {
+                String ans = questions.get(i).getQuestion().getAnswer();
+                if (ans == null) ans = "";
+                ans = ans.trim();
+                if (ans.length() < 35) {
+                    int pad = 35 - ans.length();
+                    for (int k = 0; k < pad / 2; k++) ans = " " + ans;
+                    while (ans.length() < 35) ans = ans + " ";
+                }
+                blankRun.setText(ans);
+                blankRun.setColor("FF0000");
+            } else {
+                blankRun.setText("                                   "); // 35个空格（半行左右）
+            }
             blankRun.setUnderline(UnderlinePatterns.SINGLE);
             blankRun.setFontSize(12);
             blankRun.setFontFamily("宋体");
@@ -753,7 +790,7 @@ public class ExamPaperService {
     }
 
     /** 简答/程序分析/编程题答题区 */
-    private void generateWrittenAnswerArea(XWPFDocument doc, List<PaperDTO.PaperQuestionDTO> questions, boolean isProgramming) {
+    private void generateWrittenAnswerArea(XWPFDocument doc, List<PaperDTO.PaperQuestionDTO> questions, boolean isProgramming, boolean withAnswer) {
         for (int i = 0; i < questions.size(); i++) {
             PaperDTO.PaperQuestionDTO pq = questions.get(i);
 
@@ -810,10 +847,34 @@ public class ExamPaperService {
                 }
                 
                 doc.createParagraph(); // 题与题之间的留空
+                
+                if (withAnswer) {
+                    String ans = pq.getQuestion().getAnswer();
+                    if (ans != null && !ans.isEmpty()) {
+                        XWPFParagraph ansPara = doc.createParagraph();
+                        XWPFRun ansRun = ansPara.createRun();
+                        ansRun.setText("【答案】：");
+                        ansRun.setColor("FF0000");
+                        ansRun.setBold(true);
+                        renderMarkdownBlocksToWord(doc, ansPara, ans, "FF0000");
+                    }
+                }
             } else {
-                // 简答/程序分析：留8行空白
-                for (int k = 0; k < 8; k++) {
-                    doc.createParagraph();
+                if (withAnswer) {
+                    String ans = pq.getQuestion().getAnswer();
+                    if (ans != null && !ans.isEmpty()) {
+                        XWPFParagraph ansPara = doc.createParagraph();
+                        XWPFRun ansRun = ansPara.createRun();
+                        ansRun.setText("【答案】：");
+                        ansRun.setColor("FF0000");
+                        ansRun.setBold(true);
+                        renderMarkdownBlocksToWord(doc, ansPara, ans, "FF0000");
+                    }
+                } else {
+                    // 简答/程序分析：留8行空白
+                    for (int k = 0; k < 8; k++) {
+                        doc.createParagraph();
+                    }
                 }
             }
         }

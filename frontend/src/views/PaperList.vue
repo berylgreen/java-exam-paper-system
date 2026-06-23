@@ -126,8 +126,8 @@ const handleExport = (id) => {
   exportDialogVisible.value = true
 }
 
-const onExportConfirm = ({ types, withAnswer }) => {
-  window.open(paperApi.exportUrl(currentExportId.value, withAnswer, types), '_blank')
+const onExportConfirm = ({ types, withAnswer, answerSheetType }) => {
+  window.open(paperApi.exportUrl(currentExportId.value, withAnswer, types, answerSheetType), '_blank')
 }
 
 const formatTime = (t) => t ? t.substring(0, 16).replace('T', ' ') : ''
