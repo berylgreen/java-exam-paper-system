@@ -340,7 +340,7 @@ public class ExamPaperService {
         }
 
         byte[] answerSheetBytes = null;
-        String answerSheetFilename = paper.getTitle() + "答题纸.docx";
+        String answerSheetFilename = "完整学号_姓名_答题纸.docx";
         
         if ("generate".equals(answerSheetType)) {
             answerSheetBytes = generateAnswerSheetBytes(paper);
@@ -356,7 +356,7 @@ public class ExamPaperService {
                     }
                     answerSheetBytes = baos.toByteArray();
                 }
-                answerSheetFilename = paper.getTitle() + "空白答题纸模板.docx";
+                answerSheetFilename = "完整学号_姓名_空白答题纸模板.docx";
             }
         }
         
