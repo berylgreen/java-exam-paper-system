@@ -297,9 +297,9 @@
     "type": "FILL_BLANK",
     "chapter": "第2章 JAVA编程基本功",
     "difficulty": "EASY",
-    "content": "选择结构也称______，其根据条件的成立与否来决定要执行哪些语句。",
+    "content": "程序的三种基本控制结构包括顺序结构、选择结构和循环结构。其中，选择结构也称______。",
     "answer": "分支结构",
-    "explanation": "分支=选择",
+    "explanation": "本题限定使用教材中的标准术语“分支结构”。",
     "defaultScore": 2,
     "source": "课后习题",
     "projectPath": null,
@@ -1665,9 +1665,9 @@
     "type": "FILL_BLANK",
     "chapter": "第7章 集合框架",
     "difficulty": "EASY",
-    "content": "______集合中元素是无序、不可重复的。",
+    "content": "Java 集合框架中，______接口所表示的集合，其元素具有无序、不可重复的特点。",
     "answer": "Set",
-    "explanation": "Set无序不重复",
+    "explanation": "Set 接口表示元素无序且不可重复的集合。",
     "defaultScore": 2,
     "source": "课后习题",
     "projectPath": null,
@@ -1701,7 +1701,7 @@
     "type": "SINGLE_CHOICE",
     "chapter": "第7章 集合框架",
     "difficulty": "EASY",
-    "content": "在Java中，（ ）类对象可以使用值对的形式保存数据。",
+    "content": "在 Java 中，（ ）类对象可以使用键值对（key-value pair）的形式保存数据。",
     "options": [
       {
         "label": "A",
@@ -1721,7 +1721,7 @@
       }
     ],
     "answer": "D",
-    "explanation": "HashMap存储键值对",
+    "explanation": "HashMap 以键值对形式存储数据。",
     "defaultScore": 2,
     "source": "课后习题",
     "projectPath": null,
@@ -4888,7 +4888,7 @@
         "text": "throws ServiceException"
       }
     ],
-    "answer": "正确答案：B\n\n在 Java 中，抛出异常对象应使用 `throw` 语句，并且通常需要先创建异常类的实例。因此，`throw new ServiceException()` 是正确写法。",
+    "answer": "B",
     "explanation": "在 Java 中，抛出异常对象应使用 `throw` 语句，并且通常需要先创建异常对象实例。因此，`throw new ServiceException()` 是正确写法。\n\n- `raise ServiceException`：不是 Java 语法。\n- `throw ServiceException`：缺少 `new`，不是合法的抛出语句。\n- `throws ServiceException`：`throws` 用于方法声明中，表示该方法可能抛出该异常，不是实际抛出异常的语句。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
@@ -5188,7 +5188,7 @@
         "text": "Error 类和 Exception 类都实现了 Throwable 接口"
       }
     ],
-    "answer": "A。Error 类和 Exception 类都是 Throwable 类的子类。",
+    "answer": "A",
     "explanation": "在 Java 中，`Throwable` 是所有错误与异常的父类，`Error` 和 `Exception` 都直接或间接继承自 `Throwable`。其中，`Error` 通常表示程序无法处理的严重错误，`Exception` 表示程序可以捕获并处理的异常。`Error` 和 `Exception` 都不是接口，因此 D 错误；它们也都不是 final 类，因此 B、C 错误。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
@@ -5589,7 +5589,7 @@
     "type": "MULTIPLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "关于try…catch…finally结构，描述正确的是些？",
+    "content": "关于 try-catch-finally 结构，描述正确的是？",
     "options": [
       {
         "label": "A",
@@ -5609,7 +5609,7 @@
       }
     ],
     "answer": "A、C",
-    "explanation": "",
+    "explanation": "A 正确：一个 try 语句后可以跟多个 catch。C 正确：try 后可以只跟 finally，不一定必须有 catch。B 错在“只能有一个 catch”，D 错在 finally 不是必须存在。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5619,7 +5619,7 @@
     "type": "MULTIPLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "当fragile()方法抛出一个IllegalArgumentException异常时，下列代码的运行结果是什么？\npublic static void main(String[] args) throws IOException {\ntry {\nfragile();\n} catch (NullPointerException e) {\nSystem.out.println(\"NullPointerException thrown\");\n} catch (Exception e) {\nSystem.out.println(\"Exception thrown\");\n} finally {\nSystem.out.println(\"Done with exceptions\");\n}\nSystem.out.println(\"myMethod is done\");\n}\n｝",
+    "content": "当 fragile() 方法抛出一个 IllegalArgumentException 异常时，下列代码的运行结果是什么？\npublic static void main(String[] args) throws IOException {\ntry {\nfragile();\n} catch (NullPointerException e) {\nSystem.out.println(\"NullPointerException thrown\");\n} catch (Exception e) {\nSystem.out.println(\"Exception thrown\");\n} finally {\nSystem.out.println(\"Done with exceptions\");\n}\nSystem.out.println(\"myMethod is done\");\n}\n}",
     "options": [
       {
         "label": "A",
@@ -5631,7 +5631,7 @@
       },
       {
         "label": "C",
-        "text": "输出Done with Exception"
+        "text": "输出Done with exceptions"
       },
       {
         "label": "D",
@@ -5639,7 +5639,7 @@
       }
     ],
     "answer": "B、C、D",
-    "explanation": "",
+    "explanation": "IllegalArgumentException 会被 catch (Exception e) 捕获，因此先输出 Exception thrown；finally 一定会执行，输出 Done with exceptions；异常被处理后程序继续向下执行，再输出 myMethod is done。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5661,7 +5661,7 @@
       },
       {
         "label": "C",
-        "text": "} catch (NumbelFormatException n) {"
+        "text": "} catch (NumberFormatException n) {"
       },
       {
         "label": "D",
@@ -5669,7 +5669,7 @@
       }
     ],
     "answer": "A、C",
-    "explanation": "",
+    "explanation": "Integer.parseInt(\"42a\") 会抛出 NumberFormatException。由于 NumberFormatException 是 IllegalArgumentException 的子类，因此 A 和 C 都能捕获该异常，从而使后续的 System.out.println(\"oops\") 得以执行。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5699,7 +5699,7 @@
       }
     ],
     "answer": "C、D",
-    "explanation": "",
+    "explanation": "i++ 后 i=2，j-- 后 j=0，条件 i == j 不成立，因此不会抛出异常。finally 一定执行并输出 3，随后继续输出 4，所以正确选项是 C、D。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5729,7 +5729,7 @@
       }
     ],
     "answer": "A、C、D",
-    "explanation": "",
+    "explanation": "i++ 后 i=2，j-- 后 j=0，执行 i / j 时发生 ArithmeticException，因此先输出 0。finally 仍会执行并输出 3，异常被处理后程序继续执行，最后输出 4，所以正确选项是 A、C、D。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5739,7 +5739,7 @@
     "type": "MULTIPLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "现有如下代码：\npublic class Example {\npublic static void main(String[] args) {\ntry {\nSystem.out.println(\"before\");\ndoRisyThing();\nSystem.out.println(\"after\");\n} catch (Exception e) {\nSystem.out.println(\"catch\");\n}\nSystem.out.println(\"done\");\n}\npublic static void doRisyThing() throws Exception{\n//this code returns unless it throws an Exception\n}\n}\n该代码可能的执行结果有哪些？",
+    "content": "现有如下代码：\npublic class Example {\npublic static void main(String[] args) {\ntry {\nSystem.out.println(\"before\");\ndoRiskyThing();\nSystem.out.println(\"after\");\n} catch (Exception e) {\nSystem.out.println(\"catch\");\n}\nSystem.out.println(\"done\");\n}\npublic static void doRiskyThing() throws Exception{\n// this code returns unless it throws an Exception\n}\n}\n该代码可能的执行结果有哪些？",
     "options": [
       {
         "label": "A",
@@ -5759,7 +5759,7 @@
       }
     ],
     "answer": "B、C",
-    "explanation": "",
+    "explanation": "如果 doRiskyThing() 正常返回，输出顺序为 before、after、done；如果它抛出异常，输出顺序为 before、catch、done。因此正确选项是 B、C。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5769,7 +5769,7 @@
     "type": "MULTIPLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "以下有关java.lang.Exception异常类的正确描述有？",
+    "content": "以下有关 java.lang.Exception 异常类的正确描述有？",
     "options": [
       {
         "label": "A",
@@ -5789,7 +5789,7 @@
       }
     ],
     "answer": "A、B、D",
-    "explanation": "",
+    "explanation": "Exception 是 public 类，继承自 Throwable，而 Throwable 又实现了 Serializable，因此 Exception 也可以序列化。Throwable 不是接口，所以“实现了 Throwable 接口”这一说法错误。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5799,7 +5799,7 @@
     "type": "MULTIPLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "给出以下代码：\n1. public void aMethod(){\n2.\n3.  if(Condition){\n4.\n5.  }\n6.\n7. }\n当if条件表达式为true时，插入哪些语句可以抛出MyException异常？",
+    "content": "给出以下代码：\n1. public void aMethod(){\n2.\n3.  if(Condition){\n4.\n5.  }\n6.\n7. }\n若希望程序仅在 if 条件表达式为 true 时，由该分支合法地抛出 MyException 异常，应插入哪些语句？",
     "options": [
       {
         "label": "A",
@@ -5819,7 +5819,7 @@
       }
     ],
     "answer": "B、D",
-    "explanation": "",
+    "explanation": "要在 if 分支内真正抛出异常，应在第 4 行写 throw new MyException();；由于 MyException 是受检异常，方法签名处还需要声明 throws MyException。因此正确选项是 B、D。第 6 行位于 if 外部，不符合“由该分支触发”的限定。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5849,7 +5849,7 @@
       }
     ],
     "answer": "A、B、C",
-    "explanation": "Error也是可以被catch捕获的",
+    "explanation": "catch 参数类型必须是 Throwable 或其子类。Throwable、Error 和 Exception 都符合要求，而 String 不是异常体系中的类型，因此不能作为 catch 参数。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5879,7 +5879,7 @@
       }
     ],
     "answer": "C、D",
-    "explanation": "",
+    "explanation": "Java 语法要求 try 后至少跟 catch 或 finally 之一，因此 C 正确。若 catch 和 finally 同时存在，catch 必须位于 finally 之前，因此 D 也正确。A 错在忽略了“只有 finally”的合法写法，B 错在 finally 最多只能有一个。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5949,9 +5949,9 @@
     "type": "SHORT_ANSWER",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "给出常见的RuntimeException",
-    "answer": "",
-    "explanation": "常见的运行时异常有如下这些ArithmeticException, ArrayStoreException, BufferOverflowException, BufferUnderflowException, CannotRedoException, CannotUndoException, ClassCastException, CMMException, ConcurrentModificationException, DOMException, EmptyStackException, IllegalArgumentException, IllegalMonitorStateException, IllegalPathStateException, IllegalStateException, ImagingOpException, IndexOutOfBoundsException, MissingResourceException, NegativeArraySizeException, NoSuchElementException, NullPointerException, ProfileDataException, ProviderException, RasterFormatException, SecurityException, SystemException, UndeclaredThrowableException, UnmodifiableSetException, UnsupportedOperationException\n50.error和exception有什么区别\nerror 表示恢复不是不可能但很困难的情况下的一种严重问题。比如说内存溢出。不可能指望程序能处理这样的情况\nexception 表示一种设计或实现问题。也就是说，它表示如果程序运行正常，从不会发生的情况",
+    "content": "请列举常见的 RuntimeException。",
+    "answer": "常见的 RuntimeException 包括 NullPointerException、ArithmeticException、IndexOutOfBoundsException、ClassCastException、IllegalArgumentException、NumberFormatException 等。",
+    "explanation": "RuntimeException 表示运行时异常，常见示例有空指针、算术错误、下标越界、类型转换错误、非法参数和数字格式错误等。",
     "defaultScore": 10,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5962,8 +5962,8 @@
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
     "content": "以下代码的执行结果是？\npublic static int fun() {\nint result = 5;\ntry {\nresult = result / 0;\nreturn result;\n} catch (Exception e) {\nSystem.out.println(\"Exception\");\nresult = -1;\nreturn result;\n} finally {\nresult = 10;\nSystem.out.println(\"i am in finally\");\n}\n}\npublic static void main(String[] args) {\nint x=fun();\nSystem.out.println(x);\n}",
-    "answer": "",
-    "explanation": "Exception\nI am in finally\n-1",
+    "answer": "控制台依次输出：Exception、i am in finally、-1。",
+    "explanation": "先发生除零异常，进入 catch 输出 Exception，并将返回值设为 -1。虽然 finally 中把局部变量 result 改成了 10，但基本类型返回值在进入 finally 前已经确定，因此最终返回的仍是 -1。",
     "defaultScore": 10,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5974,8 +5974,8 @@
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
     "content": "以下代码的执行结果是？\npublic class Example {\npublic static StringBuffer fun() {\nStringBuffer result = new StringBuffer(\"Hello\");\nInteger i = new Integer(5);\ntry {\nif (true)\nthrow new RuntimeException();\nreturn result;\n} catch (Exception e) {\nSystem.out.println(\"Exception\");\nresult.append(\" World\");\nreturn result;\n} finally {\nresult.append(\" Java\");\nSystem.out.println(\"i am in finally\");\n}\n}\npublic static void main(String[] args) {\nStringBuffer x = fun();\nSystem.out.println(x);\n}",
-    "answer": "",
-    "explanation": "Exception\ni am in finally\nHello World Java",
+    "answer": "控制台依次输出：Exception、i am in finally、Hello World Java。",
+    "explanation": "catch 中返回的是同一个 StringBuffer 引用，finally 在方法真正返回前继续向该对象追加 \" Java\"，因此最终打印结果是 Hello World Java。",
     "defaultScore": 10,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -5985,8 +5985,8 @@
     "type": "SHORT_ANSWER",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "什么时候用assert?",
-    "answer": "",
+    "content": "什么时候使用 assert？",
+    "answer": "assert 主要用于开发和调试阶段验证程序内部不变量、前置条件、后置条件以及理论上不应发生的分支；不适合用于处理用户输入或公有方法参数校验。",
     "explanation": "断言是一个包含布尔表达式的语句，在执行这个语句时假定该表达式为 true。如果表达式计算为 false，那么系统会报告一个 Assertionerror。它用于调试目的：\nassert(a > 0); // throws anAssertionerror if a <= 0\n断言可以有两种形式：\nassert Expression1 ;\nassert Expression1 :Expression2 ;\nExpression1 应该总是产生一个布尔值。\nExpression2 可以是得出一个值的任意表达式。这个值用于生成显示更多调试信息的 String 消息。\n断言在默认情况下是禁用的。要在编译时启用断言，需要使用 source 1.4 标记：\njavac -source 1.4 Test.java\n要在运行时启用断言，可使用 -enableassertions 或者 -ea 标记。\n要在运行时选择禁用断言，可使用 -da 或者 -disableassertions 标记。\n要系统类中启用断言，可使用 -esa 或者 -dsa 标记。还可以在包的基础上启用或者禁用断言。\n可以在预计正常情况下不会到达的任何位置上放置断言。断言可以用于验证传递给私有方法的参数。不过，断言不应该用于验证传递给公有方法的参数，因为不管是否启用了断言，公有方法都必须检查其参数。不过，既可以在公有方法中，也可以在非公有方法中利用断言测试后置条件。另外，断言不应该以任何方式改变程序的状态。",
     "defaultScore": 10,
     "source": "59174-Java程序设计基础与实战-题库",
@@ -5997,9 +5997,9 @@
     "type": "SHORT_ANSWER",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "给我一个你最常见到的runtime exception",
-    "answer": "",
-    "explanation": "常见的运行时异常有如下这些ArithmeticException, ArrayStoreException, BufferOverflowException, BufferUnderflowException, CannotRedoException, CannotUndoException, ClassCastException, CMMException, ConcurrentModificationException, DOMException, EmptyStackException, IllegalArgumentException, IllegalMonitorStateException, IllegalPathStateException, IllegalStateException, ImagingOpException, IndexOutOfBoundsException, MissingResourceException, NegativeArraySizeException, NoSuchElementException, NullPointerException, ProfileDataException, ProviderException, RasterFormatException, SecurityException, SystemException, UndeclaredThrowableException, UnmodifiableSetException, UnsupportedOperationException",
+    "content": "请举一个你最常见到的 RuntimeException。",
+    "answer": "例如 NullPointerException，它通常在访问空引用成员或调用空引用方法时出现。",
+    "explanation": "NullPointerException 是最常见的运行时异常之一，另外还有 ArithmeticException、ClassCastException、IllegalArgumentException、IndexOutOfBoundsException 等。",
     "defaultScore": 10,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -6009,9 +6009,9 @@
     "type": "SHORT_ANSWER",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "谈谈final, finally, finalize的区别",
-    "answer": "",
-    "explanation": "final—修饰符（关键字）如果一个类被声明为final，意味着它不能再派生出新的子类，不能作为父类被继承。因此一个类不能既被声明为 abstract的，又被声明为final的。将变量或方法声明为final，可以保证它们在使用中不被改变。被声明为final的变量必须在声明时给定初值，而在以后的引用中只能读取，不可修改。被声明为final的方法也同样只能使用，不能重载\nfinally—再异常处理时提供 finally 块来执行任何清除操作。如果抛出一个异常，那么相匹配的 catch 子句就会执行，然后控制就会进入 finally 块（如果有的话）\nfinalize—方法名。Java 技术允许使用 finalize() 方法在垃圾收集器将对象从内存中清除出去之前做必要的清理工作。这个方法是由垃圾收集器在确定这个对象没有被引用时对这个对象调用的。它是在 Object 类中定义的，因此所有的类都继承了它。子类覆盖 finalize() 方法以整理系统资源或者执行其他清理工作。finalize() 方法是在垃圾收集器删除对象之前对这个对象调用的",
+    "content": "谈谈 final、finally、finalize 的区别。",
+    "answer": "final 用于修饰类、方法和变量，表示不可继承、不可重写、不可再次赋值；finally 是异常处理结构中的收尾代码块；finalize() 是 Object 提供的垃圾回收前回调方法，但现代 Java 中已不推荐依赖它。",
+    "explanation": "final 是关键字，控制“不可变”语义；finally 是异常处理结构的一部分，用于保证收尾逻辑执行；finalize() 是对象方法，历史上用于回收前清理资源，但由于时机不确定且已被废弃，不应作为资源释放的主要手段。",
     "defaultScore": 10,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -6981,7 +6981,7 @@
     "type": "MULTIPLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "以下那些关于String类的描述是正确的？",
+    "content": "以下哪些关于 String 类的描述是正确的？",
     "options": [
       {
         "label": "A",
@@ -6997,11 +6997,11 @@
       },
       {
         "label": "D",
-        "text": "该类有一个一StringBuffer实例作为参数的构造器"
+        "text": "该类有一个以 StringBuffer 实例作为参数的构造器"
       }
     ],
     "answer": "A、B、C、D",
-    "explanation": "",
+    "explanation": "String 是 public final 类，并且实现了 Serializable 接口；它还提供了以 StringBuffer 作为参数的构造器，因此四个选项都正确。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -7015,7 +7015,7 @@
     "options": [
       {
         "label": "A",
-        "text": "length（）"
+        "text": "length()"
       },
       {
         "label": "B",
@@ -7031,7 +7031,7 @@
       }
     ],
     "answer": "A、C、D",
-    "explanation": "",
+    "explanation": "String 中定义了 length()、toString() 和 equals() 等方法；toUpper() 不是 String 的方法，正确方法名应为 toUpperCase()。因此正确选项是 A、C、D。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -7061,7 +7061,7 @@
       }
     ],
     "answer": "A、B、C",
-    "explanation": "",
+    "explanation": "Java 的包装类都位于 java.lang 包中，均为 public、final，并且实现了 Serializable。并非所有包装类都是 Number 的子类，例如 Character 和 Boolean 就不是，因此正确选项是 A、B、C。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -7091,7 +7091,7 @@
       }
     ],
     "answer": "A、B、D",
-    "explanation": "",
+    "explanation": "Object 类中定义了 toString()、equals(Object) 和 wait() 等方法；println() 属于 PrintStream，不属于 Object。因此正确选项是 A、B、D。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -7121,7 +7121,7 @@
       }
     ],
     "answer": "C、D",
-    "explanation": "",
+    "explanation": "Class 不是 Object 的超类，而是 Object 的子类，因此 A 错误；Object 也不是 final 类，因此 B 错误。Class 可以通过反射表示并获取类信息，ClassLoader 则负责类加载，因此 C、D 正确。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -7151,7 +7151,7 @@
       }
     ],
     "answer": "A、D",
-    "explanation": "",
+    "explanation": "Math.round(-4.4) 的结果是 -4，Math.ceil(-4.4) 的结果也是 -4.0；Math.floor(-4.4) 得到 -5.0，而 Java 中也不存在 trunc() 方法。因此正确选项是 A、D。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -7161,9 +7161,9 @@
     "type": "SHORT_ANSWER",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "下面这条语句一共创建了多少个对象：String s=\"a\"+\"b\"+\"c\"+\"d\";\n一个字符串对象和一个指向这个对象的引用\n对于如下代码：\nStrings1 = \"a\";\nStrings2 = s1 + \"b\";\nStrings3 = \"a\" + \"b\";\nSystem.out.println(s2== \"ab\");\nSystem.out.println(s3== \"ab\");",
-    "answer": "",
-    "explanation": "第一条语句打印的结果为false，第二条语句打印的结果为true，这说明javac编译可以对字符串常量直接相加的表达式进行优化，不必要等到运行期去进行加法运算处理，而是在编译时去掉其中的加号，直接将其编译成一个这些常量相连的结果。\n题目中的第一行代码被编译器在编译时优化后，相当于直接定义了一个”abcd”的字符串，所以，上面的代码应该只创建了一个String对象和一个指向该对象的饮用。写如下两行代码，\nString s = \"a\" +\"b\" + \"c\" + \"d\";\nSystem.out.println(s ==\"abcd\");  最终打印的结果应该为true。",
+    "content": "1. 下面这条语句一共创建了多少个对象？\n`String s = \"a\" + \"b\" + \"c\" + \"d\";`\n2. 对于如下代码：\n`String s1 = \"a\";`\n`String s2 = s1 + \"b\";`\n`String s3 = \"a\" + \"b\";`\n`System.out.println(s2 == \"ab\");`\n`System.out.println(s3 == \"ab\");`\n请分别说明对象创建情况与两个比较表达式的输出结果。",
+    "answer": "第 1 问通常只创建 1 个字符串常量对象 \"abcd\"。第 2 问中，`s2 == \"ab\"` 的结果是 false，`s3 == \"ab\"` 的结果是 true。",
+    "explanation": "编译器会对纯字符串常量拼接做常量折叠，因此 `\"a\" + \"b\" + \"c\" + \"d\"` 会在编译期直接变成 `\"abcd\"`。而 `s2 = s1 + \"b\"` 涉及变量，拼接发生在运行期，结果对象不直接复用常量池中的 `\"ab\"`；`s3 = \"a\" + \"b\"` 则会在编译期折叠成常量 `\"ab\"`。",
     "defaultScore": 10,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -7174,8 +7174,8 @@
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
     "content": "以下代码的执行结果是？\nclass ShadowClone implements Cloneable {\nprivate int a;\nprivate int[] b;\n@Override\npublic Object clone() {\nShadowClone sc = null;\ntry {\nsc = (ShadowClone) super.clone();\n} catch (CloneNotSupportedException e) {\ne.printStackTrace();\n}\nreturn sc;\n}\npublic int getA() {\nreturn a;\n}\npublic void setA(int a) {\nthis.a = a;\n}\npublic int[] getB() {\nreturn b;\n}\npublic void setB(int[] b) {\nthis.b = b;\n}\n}\npublic class Example {\npublic static void main(String[] args) {\nShadowClone c1 = new ShadowClone();\nc1.setA(100);\nc1.setB(new int[] { 1000 });\nSystem.out.println(\"克隆前c1:  a=\" + c1.getA() + \" b[0]=\" + c1.getB()[0]);\nShadowClone c2 = (ShadowClone) c1.clone();\nc2.setA(50);\nint[] a = c2.getB();\na[0] = 5;\nc2.setB(a);\nSystem.out.println(\"克隆后c1:  a=\" + c1.getA() + \" b[0]=\" + c1.getB()[0]);\nSystem.out.println(\"克隆后c2:  a=\" + c2.getA() + \" b[0]=\" + c2.getB()[0]);\n}\n}",
-    "answer": "",
-    "explanation": "克隆前c1:  a=100 b[0]=1000\n克隆后c1:  a=100 b[0]=5\n克隆后c2:  a=50 b[0]=5\nJava中Object类提供的克隆方法默认为浅克隆，因此克隆后的引用属性和原始对象中的引用属性引用了同一对象，对克隆对象中引用数据的变更就直接反映到原始对象中",
+    "answer": "输出结果为：克隆前 c1: a=100 b[0]=1000；克隆后 c1: a=100 b[0]=5；克隆后 c2: a=50 b[0]=5。",
+    "explanation": "Object.clone() 默认执行浅克隆，基本类型字段会复制值，但引用类型字段会复制引用地址。这里 c1 和 c2 的 b 数组指向同一个数组，因此修改 c2.getB()[0] 也会影响 c1。",
     "defaultScore": 10,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -7186,8 +7186,8 @@
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
     "content": "以下代码的执行结果是？\nclass DeepClone implements Cloneable {\nprivate int a;\nprivate int[] b;\n@Override\npublic Object clone() {\nDeepClone sc = null;\ntry {\nsc = (DeepClone) super.clone();\nint[] t = sc.getB();\nint[] b1 = new int[t.length];\nfor (int i = 0; i < b1.length; i++) {\nb1[i] = t[i];\n}\nsc.setB(b1);\n} catch (CloneNotSupportedException e) {\ne.printStackTrace();\n}\nreturn sc;\n}\npublic int getA() {\nreturn a;\n}\npublic void setA(int a) {\nthis.a = a;\n}\npublic int[] getB() {\nreturn b;\n}\npublic void setB(int[] b) {\nthis.b = b;\n}\n}\npublic class Example {\npublic static void main(String[] args) {\nDeepClone c1 = new DeepClone();\nc1.setA(100);\nc1.setB(new int[] { 1000 });\nSystem.out.println(\"克隆前c1:  a=\" + c1.getA() + \" b[0]=\" + c1.getB()[0]);\nDeepClone c2 = (DeepClone) c1.clone();\nc2.setA(50);\nint[] a = c2.getB();\na[0] = 5;\nc2.setB(a);\nSystem.out.println(\"克隆后c1:  a=\" + c1.getA() + \" b[0]=\" + c1.getB()[0]);\nSystem.out.println(\"克隆后c2:  a=\" + c2.getA() + \" b[0]=\" + c2.getB()[0]);\n}\n}",
-    "answer": "",
-    "explanation": "克隆前c1:  a=100 b[0]=1000\n克隆后c1:  a=100 b[0]=1000\n克隆后c2:  a=50 b[0]=5\n自定义的深度克隆",
+    "answer": "输出结果为：克隆前 c1: a=100 b[0]=1000；克隆后 c1: a=100 b[0]=1000；克隆后 c2: a=50 b[0]=5。",
+    "explanation": "该 clone() 方法在调用 super.clone() 后又复制了一份新的数组，因此 c1 和 c2 的 b 不再共享同一引用。修改 c2 中数组元素不会影响 c1，这就是深克隆的效果。",
     "defaultScore": 10,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -7198,8 +7198,8 @@
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
     "content": "两个对象值相同(x.equals(y) == true)，但却可有不同的hash code，这句话对不对",
-    "answer": "",
-    "explanation": "不对，有相同的hash code",
+    "answer": "这句话不对。如果 `x.equals(y) == true`，则根据 `equals` 与 `hashCode` 的契约，`x` 和 `y` 的 `hashCode()` 必须相同。",
+    "explanation": "相等对象必须具有相同的 hashCode，这是 Java 集合框架正确工作的基础约定；反过来，hashCode 相同并不一定表示 equals 为 true。",
     "defaultScore": 10,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -7210,8 +7210,8 @@
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
     "content": "覆盖equals()方法时需要注意的设计原则有哪些？",
-    "answer": "",
-    "explanation": "对称性：如果x.equals(y)返回是“true”，那么y.equals(x)也应该返回是“true”。\n反射性：x.equals(x)必须返回是“true”。\n类推性：如果x.equals(y)返回是“true”，而且y.equals(z)返回是“true”，那么z.equals(x)也应该返回是“true”。\n一致性：如果x.equals(y)返回是“true”，只要x和y内容一直不变，不管你重复x.equals(y)多少次，返回都是“true”。\n任何情况下，x.equals(null)，永远返回是“false”；x.equals(和x不同类型的对象)永远返回是“false”。\n100.equals方法和==的区别",
+    "answer": "重写 equals() 时应满足自反性、对称性、传递性、一致性，并保证与 null 比较时返回 false；同时通常应与 hashCode() 一起重写，以保持两者契约一致。",
+    "explanation": "equals() 的设计原则包括：自反性、对称性、传递性和一致性；任意对象与 null 比较都应返回 false。由于哈希容器依赖 equals/hashCode 协同工作，因此重写 equals() 时通常必须同步重写 hashCode()。",
     "defaultScore": 10,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -7221,19 +7221,19 @@
     "type": "SHORT_ANSWER",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "基本数据类型，也称原始数据类型。byte,short,char,int,long,float,double,boolean\n他们之间的比较，应用双等号（==）,比较的是他们的值。\n2.复合数据类型(类)\n当他们用（==）进行比较的时候，比较的是他们在内存中的存放地址，所以，除非是同一个new出来的对象，他们的比较后的结果为true，否则比较后结果为false。 JAVA当中所有的类都是继承于Object这个基类的，在Object中的基类中定义了一个equals的方法，这个方法的初始行为是比较对象的内存地 址，但在一些类库当中这个方法被覆盖掉了，如String,Integer,Date在这些类当中equals有其自身的实现，而不再是比较类在堆内存中的存放地址了。\n对于复合数据类型之间进行equals比较，在没有覆写equals方法的情况下，他们之间的比较还是基于他们在内存中的存放位置的地址值的，因为Object的equals方法也是用双等号（==）进行比较的，所以比较后的结果跟双等号（==）的结果相同。\n101.String、StringBuffer、StringBuilder有什么区别？",
-    "answer": "",
-    "explanation": "String类表示内容不可改变的字符串。\n而StringBuffer类表示内容可以被修改的字符串。当你知道字符数据要改变的时候你就可以使用StringBuffer。典型地，你可以使用StringBuffers来动态构造字符数据。\n另外，String实现了equals方法，new String(“abc”).equals(new String(“abc”)的结果为true,\n而StringBuffer没有实现equals方法，所以，new StringBuffer(“abc”).equals(new StringBuffer(“abc”)的结果为false。\nStringBuffer和StringBuilder类都表示内容可以被修改的字符串，StringBuilder是线程不安全的，运行效率高，如果一个字符串变量是在方法里面定义，这种情况只可能有一个线程访问它，不存在不安全的因素了，则用StringBuilder。\n如果要在类里面定义成员变量，并且这个类的实例对象会在多线程环境下使用，那么最好用StringBuffer。\n经典选择题",
+    "content": "请说明 String、StringBuffer 和 StringBuilder 的区别。",
+    "answer": "String 是不可变字符串；StringBuffer 和 StringBuilder 都是可变字符串。StringBuffer 线程安全但性能相对较低，StringBuilder 线程不安全但性能更高，适合单线程场景。",
+    "explanation": "String 的内容一旦创建就不能修改；频繁拼接字符串时通常使用可变字符序列。若存在多线程共享修改需求，优先考虑 StringBuffer；若在单线程中进行大量字符串拼接，StringBuilder 更高效。",
     "defaultScore": 10,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
     "answerProjectPath": null
   },
   {
-    "type": "SINGLE_CHOICE",
+    "type": "MULTIPLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "以下属于面向对象的特征的是(C,D)。(两项)",
+    "content": "以下属于面向对象核心特征的是（两项）：",
     "options": [
       {
         "label": "A",
@@ -7252,8 +7252,8 @@
         "text": "继承"
       }
     ],
-    "answer": "",
-    "explanation": "",
+    "answer": "C、D",
+    "explanation": "面向对象的核心特征通常包括封装、继承和多态。本题给出的选项中，只有“封装”和“继承”属于核心特征；重载和重写是语言机制，不是核心特征本身。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -7410,10 +7410,10 @@
     "answerProjectPath": null
   },
   {
-    "type": "SINGLE_CHOICE",
+    "type": "MULTIPLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "以下关于 final 关键字说法错误的是（）。",
+    "content": "以下关于 final 关键字说法错误的是（两项）：",
     "options": [
       {
         "label": "A",
@@ -7653,7 +7653,7 @@
     "type": "SINGLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "以下代码，描述正确的有：\n\n```java\ninterface IDemo {\n    public static final String name; // 1\n    void print();                    // 2\n    public void getInfo();           // 3\n}\n\nabstract class Person implements IDemo { // 4\n    public void print() {\n    }\n}\n```",
+    "content": "以下代码中，描述正确的是：\n\n```java\ninterface IDemo {\n    public static final String name; // 1\n    void print();                    // 2\n    public void getInfo();           // 3\n}\n\nabstract class Person implements IDemo { // 4\n    public void print() {\n    }\n}\n```",
     "options": [
       {
         "label": "A",
@@ -7680,7 +7680,7 @@
     "answerProjectPath": null
   },
   {
-    "type": "SINGLE_CHOICE",
+    "type": "MULTIPLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
     "content": "关于接口和抽象类的说法，正确的是（ ）（两项）",
@@ -8103,7 +8103,7 @@
     "type": "MULTIPLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "使用JDBC事务的步骤是",
+    "content": "以下属于 JDBC 事务处理中常见关键操作的有（ ）",
     "options": [
       {
         "label": "A",
@@ -8122,8 +8122,8 @@
         "text": "操作完毕提交事务"
       }
     ],
-    "answer": "CABD",
-    "explanation": "",
+    "answer": "A、B、C、D",
+    "explanation": "JDBC 事务处理通常包括：先获取 Connection，对其关闭自动提交，业务成功后提交事务，发生异常时执行回滚。因此四个选项都属于事务处理中的关键操作。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -8313,7 +8313,7 @@
     "type": "MULTIPLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "以下可以正确获取结果集的有\nResultSet rst=sta.executeQuery(“select * from book”);\nResultSet rst=sta.executeQuery();\nResultSet rst=pst.executeQuery(“select * from book”);\nResultSet rst=pst.executeQuery();",
+    "content": "以下可以正确获取结果集的有：\nResultSet rst = sta.executeQuery(\"select * from book\");\nResultSet rst = sta.executeQuery();\nResultSet rst = pst.executeQuery(\"select * from book\");\nResultSet rst = pst.executeQuery();",
     "options": [
       {
         "label": "A",
@@ -8321,19 +8321,19 @@
       },
       {
         "label": "B",
-        "text": "Statement sta=con.createStatement(“select * from book”);"
+        "text": "Statement sta = con.createStatement();"
       },
       {
         "label": "C",
-        "text": "PreparedStatement pst=con.preparedStatement();"
+        "text": "PreparedStatement pst = con.prepareStatement();"
       },
       {
         "label": "D",
-        "text": "PreparedStatement pst=con.preparedStatement(“select * from book”);"
+        "text": "PreparedStatement pst = con.prepareStatement(\"select * from book\");"
       }
     ],
-    "answer": "AD",
-    "explanation": "",
+    "answer": "A、D",
+    "explanation": "Statement 需要先创建 Statement 对象，再通过 executeQuery(sql) 传入 SQL，因此 A 正确。PreparedStatement 应在创建时就绑定 SQL，后续直接调用 executeQuery()，因此 D 正确。B 和 C 都不是合法的 JDBC API 用法。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
@@ -8373,7 +8373,7 @@
     "type": "MULTIPLE_CHOICE",
     "chapter": "综合题库",
     "difficulty": "MEDIUM",
-    "content": "使用JDBC连接数据库的顺序是",
+    "content": "使用 JDBC 连接数据库并完成一次基本数据库操作时，通常包括以下哪些步骤？",
     "options": [
       {
         "label": "A",
@@ -8396,8 +8396,8 @@
         "text": "关闭连接"
       }
     ],
-    "answer": "BADCE",
-    "explanation": "",
+    "answer": "A、B、C、D、E",
+    "explanation": "一次完整的 JDBC 基本使用流程通常包括：导入驱动包、加载驱动、建立连接、发送并处理 SQL、最后关闭连接。题目这里考查的是流程组成，而不是将其编码为单一顺序字符串。",
     "defaultScore": 2,
     "source": "59174-Java程序设计基础与实战-题库",
     "projectPath": null,
