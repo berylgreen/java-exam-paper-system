@@ -2,7 +2,7 @@
 
 现有一个用于计算图形面积的程序，最初在 `ShapeCalculator` 中通过一组冗长的 `if-else if` 语句分别判断 `Circle`、`Rectangle` 和 `Triangle` 的类型，再执行对应的面积计算逻辑。这种做法在新增图形类型时需要频繁修改原有代码，不利于程序扩展，违反了开闭原则。
 
-请按照面向对象设计思想对程序进行重构，完成以下任务：  
+请按照面向对象设计思想对程序进行重构，改造重构以下功能：  
 
 (1) 定义一个抽象类 `Shape`，其中声明抽象方法 `double calculateArea()`，用于计算图形面积。  
 (2) 编写 `Circle`、`Rectangle` 和 `Triangle` 三个具体图形类，使其继承 `Shape` 并分别实现 `calculateArea()` 方法。  
