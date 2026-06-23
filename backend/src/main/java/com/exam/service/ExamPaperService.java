@@ -618,6 +618,49 @@ public class ExamPaperService {
                     titleRun.setFontSize(12);
                     titleRun.setFontFamily("黑体");
 
+                    if (type == QuestionType.PROGRAMMING) {
+                        String[] prompts = {
+                            "测试时所需的数据可直接定义，无需使用 Scanner 进行键盘输入。",
+                            "所有代码统一以文本格式粘贴在答题卡上的源代码框格中，如有需要可自行添加表格行数",
+                            "Windows 10 截图快捷键 Win+Shift+S，选矩形截图。"
+                        };
+                        for (int i = 0; i < prompts.length; i++) {
+                            XWPFParagraph p = doc.createParagraph();
+                            p.setIndentationLeft(480);
+                            p.setIndentationHanging(240);
+                            
+                            XWPFRun bulletRun = p.createRun();
+                            bulletRun.setText("● ");
+                            bulletRun.setColor("FF0000"); // Red
+                            bulletRun.setFontFamily("宋体");
+                            bulletRun.setFontSize(10);
+    
+                            String prompt = prompts[i];
+                            if (i == 2) {
+                                XWPFRun run1 = p.createRun();
+                                run1.setText("Windows 10 截图快捷键 ");
+                                run1.setFontFamily("宋体");
+                                run1.setFontSize(10.5);
+                                
+                                XWPFRun run2 = p.createRun();
+                                run2.setText("Win+Shift+S");
+                                run2.setColor("FF0000");
+                                run2.setFontFamily("宋体");
+                                run2.setFontSize(10.5);
+                                
+                                XWPFRun run3 = p.createRun();
+                                run3.setText("，选矩形截图。");
+                                run3.setFontFamily("宋体");
+                                run3.setFontSize(10.5);
+                            } else {
+                                XWPFRun textRun = p.createRun();
+                                textRun.setText(prompt);
+                                textRun.setFontFamily("宋体");
+                                textRun.setFontSize(10.5);
+                            }
+                        }
+                    }
+
                     // -- 根据题型生成不同的答题区 --
                     switch (type) {
                         case SINGLE_CHOICE:
@@ -1299,6 +1342,49 @@ public class ExamPaperService {
                 sectionRun.setFontSize(12);
                 sectionRun.setFontFamily("黑体");
 
+                if (type == QuestionType.PROGRAMMING) {
+                    String[] prompts = {
+                        "测试时所需的数据可直接定义，无需使用 Scanner 进行键盘输入。",
+                        "所有代码统一以文本格式粘贴在答题卡上的源代码框格中，如有需要可自行添加表格行数",
+                        "Windows 10 截图快捷键 Win+Shift+S，选矩形截图。"
+                    };
+                    for (int i = 0; i < prompts.length; i++) {
+                        XWPFParagraph p = doc.createParagraph();
+                        p.setIndentationLeft(480);
+                        p.setIndentationHanging(240);
+                        
+                        XWPFRun bulletRun = p.createRun();
+                        bulletRun.setText("● ");
+                        bulletRun.setColor("FF0000"); // Red
+                        bulletRun.setFontFamily("宋体");
+                        bulletRun.setFontSize(10); // slightly smaller for bullet
+
+                        String prompt = prompts[i];
+                        if (i == 2) {
+                            XWPFRun run1 = p.createRun();
+                            run1.setText("Windows 10 截图快捷键 ");
+                            run1.setFontFamily("宋体");
+                            run1.setFontSize(10.5);
+                            
+                            XWPFRun run2 = p.createRun();
+                            run2.setText("Win+Shift+S");
+                            run2.setColor("FF0000");
+                            run2.setFontFamily("宋体");
+                            run2.setFontSize(10.5);
+                            
+                            XWPFRun run3 = p.createRun();
+                            run3.setText("，选矩形截图。");
+                            run3.setFontFamily("宋体");
+                            run3.setFontSize(10.5);
+                        } else {
+                            XWPFRun textRun = p.createRun();
+                            textRun.setText(prompt);
+                            textRun.setFontFamily("宋体");
+                            textRun.setFontSize(10.5);
+                        }
+                    }
+                }
+
                 // 逐题输出
                 int qNum = 1;
                 for (PaperDTO.PaperQuestionDTO pq : questions) {
@@ -1372,10 +1458,10 @@ public class ExamPaperService {
                             
                             renderMarkdownBlocksToWord(doc, expPara, q.getExplanation(), "0000FF");
                         }
-                        doc.createParagraph().createRun().setText("");
+                        // doc.createParagraph().createRun().setText("");
                     } else {
                         if (type == QuestionType.SHORT_ANSWER || type == QuestionType.CODE_READING || type == QuestionType.PROGRAMMING) {
-                            for (int i = 0; i < 1; i++) {
+                            for (int i = 0; i < 0; i++) {
                                 doc.createParagraph().createRun().setText("");
                             }
                         }
