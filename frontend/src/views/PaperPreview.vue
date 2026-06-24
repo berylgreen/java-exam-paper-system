@@ -32,6 +32,7 @@
       v-model="exportDialogVisible"
       :show-answer-option="true"
       :default-with-answer="showAnswer"
+      :paper-has-rubric="paper?.gradingRubric != null"
       @confirm="onExportConfirm"
     />
   </div>
@@ -68,8 +69,8 @@ const handleExportClick = () => {
   exportDialogVisible.value = true
 }
 
-const onExportConfirm = ({ types, withAnswer, answerSheetType }) => {
-  window.open(paperApi.exportUrl(route.params.id, withAnswer, types, answerSheetType), '_blank')
+const onExportConfirm = ({ types, withAnswer, answerSheetType, withRubric }) => {
+  window.open(paperApi.exportUrl(route.params.id, withAnswer, types, answerSheetType, withRubric), '_blank')
 }
 
 const loadPaper = async () => {

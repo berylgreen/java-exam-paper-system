@@ -46,6 +46,10 @@ public class ExamPaper {
     @Builder.Default
     private List<PaperQuestion> paperQuestions = new ArrayList<>();
 
+    /** 评分标准细则（AI 生成的 Markdown） */
+    @Column(columnDefinition = "TEXT")
+    private String gradingRubric;
+
     @PrePersist
     public void prePersist() {
         if (createdAt == null) {

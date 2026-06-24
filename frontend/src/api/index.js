@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const api = axios.create({ baseURL: '/api', timeout: 60000 })
+const api = axios.create({ baseURL: '/api', timeout: 600000 })
 
 // ===== 题目 API =====
 export const questionApi = {
@@ -40,7 +40,8 @@ export const paperApi = {
     replaceQuestion: (id, data) => api.put(`/papers/${id}/replace-question`, data),
     reorderQuestions: (id, data) => api.put(`/papers/${id}/reorder`, data),
     updateTitle: (id, title) => api.put(`/papers/${id}/title`, { title }),
-    exportUrl: (id, withAnswer = false, types = ['docx', 'pdf'], answerSheetType = 'generate') => `/api/papers/${id}/export?withAnswer=${withAnswer}&types=${types.join(',')}&answerSheetType=${answerSheetType}`,
+    exportUrl: (id, withAnswer = false, types = ['docx', 'pdf'], answerSheetType = 'generate', withRubric = false) => `/api/papers/${id}/export?withAnswer=${withAnswer}&types=${types.join(',')}&answerSheetType=${answerSheetType}&withRubric=${withRubric}`,
+    generateRubric: (id) => api.post(`/papers/${id}/rubric/generate`),
 }
 
 export default api

@@ -17,6 +17,12 @@
           <el-radio label="none">不导出答题纸</el-radio>
         </el-radio-group>
       </el-form-item>
+      <el-form-item label="AI 评分标准">
+        <el-checkbox v-model="withRubric" :disabled="!paperHasRubric">
+          导出预生成的评分标准细则
+          <span v-if="!paperHasRubric" style="color: #999; font-size: 12px; margin-left: 8px;">(请先在列表页生成)</span>
+        </el-checkbox>
+      </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -33,7 +39,8 @@ import { ref, watch } from 'vue'
 const props = defineProps({
   modelValue: Boolean,
   showAnswerOption: { type: Boolean, default: false },
-  defaultWithAnswer: { type: Boolean, default: false }
+  defaultWithAnswer: { type: Boolean, default: false },
+  paperHasRubric: { type: Boolean, default: false }
 })
 
 const emit = defineEmits(['update:modelValue', 'confirm'])
@@ -42,11 +49,15 @@ const visible = ref(props.modelValue)
 const exportTypes = ref(['docx', 'pdf'])
 const withAnswer = ref(props.defaultWithAnswer)
 const answerSheetType = ref('generate')
+const withRubric = ref(false)
 
 watch(() => props.modelValue, (val) => {
   visible.value = val
   if (val) {
     withAnswer.value = props.defaultWithAnswer
+    if (!props.paperHasRubric) {
+      withRubric.value = false
+    }
   }
 })
 
@@ -58,7 +69,8 @@ const confirm = () => {
   emit('confirm', {
     types: exportTypes.value,
     withAnswer: withAnswer.value,
-    answerSheetType: answerSheetType.value
+    answerSheetType: answerSheetType.value,
+    withRubric: withRubric.value
   })
   visible.value = false
 }

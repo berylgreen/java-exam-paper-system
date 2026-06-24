@@ -170,14 +170,27 @@ public class ExamPaperController {
     public ResponseEntity<byte[]> export(@PathVariable("id") Long id,
                                          @RequestParam(value = "withAnswer", defaultValue = "false") boolean withAnswer,
                                          @RequestParam(value = "types", defaultValue = "docx,pdf") String types,
-                                         @RequestParam(value = "answerSheetType", defaultValue = "generate") String answerSheetType) throws IOException {
+                                         @RequestParam(value = "answerSheetType", defaultValue = "generate") String answerSheetType,
+                                         @RequestParam(value = "withRubric", defaultValue = "false") boolean withRubric) throws IOException {
         List<String> exportTypes = Arrays.asList(types.toLowerCase().split(","));
-        ExportResult exportResult = paperService.exportPaper(id, withAnswer, exportTypes, answerSheetType);
+        ExportResult exportResult = paperService.exportPaper(id, withAnswer, exportTypes, answerSheetType, withRubric);
         String filename = URLEncoder.encode(exportResult.getFilename(), StandardCharsets.UTF_8);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + filename)
                 .contentType(MediaType.parseMediaType(exportResult.getContentType()))
                 .body(exportResult.getData());
+    }
+
+    /** 预生成 AI 评分标准 */
+    @PostMapping("/{id}/rubric/generate")
+    public ResponseEntity<?> generateRubric(@PathVariable("id") Long id) {
+        try {
+            paperService.generateAndSaveRubric(id);
+            return ResponseEntity.ok(java.util.Map.of("message", "生成成功"));
+        } catch (Exception e) {
+            log.error("[API] generateRubric 异常", e);
+            return ResponseEntity.status(500).body(java.util.Map.of("error", e.getMessage()));
+        }
     }
 }

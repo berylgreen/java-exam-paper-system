@@ -37,6 +37,7 @@ public class ExamPaperService {
     private final PaperQuestionRepository paperQuestionRepository;
     private final QuestionRepository questionRepository;
     private final QuestionService questionService;
+    private final GradingRubricAiService gradingRubricAiService;
 
     /** 获取所有试卷 (不含题目详情) */
     @Transactional(readOnly = true)
@@ -45,6 +46,23 @@ public class ExamPaperService {
                 .map(this::toSimpleDTO)
                 .collect(Collectors.toList());
     }
+
+    /**
+     * 调用大模型生成评分标准，并将其保存到数据库
+     */
+    @Transactional
+    public void generateAndSaveRubric(Long id) {
+        ExamPaper paper = paperRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("试卷不存在"));
+        
+        // 构造 DTO 传递给 AI 服务
+        PaperDTO dto = toFullDTO(paper);
+        String rubricMd = gradingRubricAiService.generateRubric(dto);
+        
+        paper.setGradingRubric(rubricMd);
+        paperRepository.save(paper);
+    }
+
 
     /** 获取试卷详情 (含所有题目) */
     @Transactional(readOnly = true)
@@ -313,7 +331,7 @@ public class ExamPaperService {
 
     /** 导出试卷为 PDF/DOCX 文档或 ZIP 包 */
     @Transactional(readOnly = true)
-    public ExportResult exportPaper(Long id, boolean withAnswer, List<String> types, String answerSheetType) throws IOException {
+    public ExportResult exportPaper(Long id, boolean withAnswer, List<String> types, String answerSheetType, boolean withRubric) throws IOException {
         PaperDTO paper = findById(id);
         Set<String> projectPaths = new HashSet<>();
         Set<String> answerProjectPaths = new HashSet<>();
@@ -380,6 +398,38 @@ public class ExamPaperService {
         // 否则打包成包含选定格式和相关工程的 ZIP
         ByteArrayOutputStream zipBaos = new ByteArrayOutputStream();
         try (java.util.zip.ZipOutputStream zos = new java.util.zip.ZipOutputStream(zipBaos)) {
+            
+            // 如果需要生成评分标准，先检查是否已生成
+            if (withRubric) {
+                try {
+                    String rubricMd = paper.getGradingRubric();
+                    if (rubricMd == null || rubricMd.isBlank()) {
+                        throw new RuntimeException("评分标准未生成，请先在列表页生成");
+                    }
+                    // 我们借用一个临时的 XWPFDocument 和 renderMarkdownBlocksToWord 来把大模型生成的 md 写入 word
+                    try (XWPFDocument rubricDoc = new XWPFDocument()) {
+                        XWPFParagraph rubricTitle = rubricDoc.createParagraph();
+                        rubricTitle.setAlignment(ParagraphAlignment.CENTER);
+                        XWPFRun titleRun = rubricTitle.createRun();
+                        titleRun.setText(paper.getTitle() + " 评分标准细则");
+                        titleRun.setBold(true);
+                        titleRun.setFontSize(18);
+                        titleRun.setFontFamily("黑体");
+                        rubricDoc.createParagraph().createRun().addBreak();
+                        
+                        renderMarkdownBlocksToWord(rubricDoc, rubricDoc.createParagraph(), rubricMd, null);
+                        
+                        ByteArrayOutputStream rubricBaos = new ByteArrayOutputStream();
+                        rubricDoc.write(rubricBaos);
+                        java.util.zip.ZipEntry rubricEntry = new java.util.zip.ZipEntry("完整学号_姓名_AI评分标准.docx");
+                        zos.putNextEntry(rubricEntry);
+                        zos.write(rubricBaos.toByteArray());
+                        zos.closeEntry();
+                    }
+                } catch (Exception e) {
+                    System.err.println("导出评分标准失败: " + e.getMessage());
+                }
+            }
             if (exportPdf) {
                 java.util.zip.ZipEntry pdfEntry = new java.util.zip.ZipEntry(paper.getTitle() + ".pdf");
                 zos.putNextEntry(pdfEntry);
@@ -568,49 +618,7 @@ public class ExamPaperService {
                             ? type.getLabel() + " （需要写出分析过程）"
                             : type.getLabel();
 
-                    // -- 1. 独立悬浮得分/评卷人小表格 (排在标题之前，通过悬浮属性与标题上沿对齐) --
-                    XWPFTable scoreTable = doc.createTable(2, 2);
-                    org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr tblPr = scoreTable.getCTTbl().getTblPr();
-                    if (tblPr == null) tblPr = scoreTable.getCTTbl().addNewTblPr();
-                    
-                    // 设置宽度
-                    org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblWidth tblW = tblPr.isSetTblW() ? tblPr.getTblW() : tblPr.addNewTblW();
-                    tblW.setW(java.math.BigInteger.valueOf(2000));
-                    tblW.setType(org.openxmlformats.schemas.wordprocessingml.x2006.main.STTblWidth.DXA);
-
-                    // 使用 XmlCursor 动态注入悬浮属性，避免依赖底层 Schema 枚举类编译报错
-                    // 使其相对于后面的段落（标题）悬浮靠右，并且垂直对齐于文本上沿
-                    org.apache.xmlbeans.XmlCursor cursor = tblPr.newCursor();
-                    cursor.toEndToken(); // 移动到 tblPr 结束标签前
-                    cursor.insertElement(new javax.xml.namespace.QName("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "tblpPr"));
-                    cursor.toPrevToken(); // 进入新创建的 tblpPr 元素内部
-                    cursor.insertAttributeWithValue(new javax.xml.namespace.QName("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "tblpXSpec"), "right");
-                    cursor.insertAttributeWithValue(new javax.xml.namespace.QName("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "tblpY"), "0");
-                    cursor.insertAttributeWithValue(new javax.xml.namespace.QName("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "vertAnchor"), "text");
-                    cursor.insertAttributeWithValue(new javax.xml.namespace.QName("http://schemas.openxmlformats.org/wordprocessingml/2006/main", "horzAnchor"), "margin");
-                    cursor.dispose();
-
-                    scoreTable.getRow(0).getCell(0).setText("得分");
-                    scoreTable.getRow(0).getCell(1).setText("评卷人");
-                    scoreTable.getRow(1).getCell(0).setText("");
-                    scoreTable.getRow(1).getCell(1).setText("");
-
-                    for (int r = 0; r < 2; r++) {
-                        for (int c = 0; c < 2; c++) {
-                            XWPFTableCell cell = scoreTable.getRow(r).getCell(c);
-                            cell.setVerticalAlignment(XWPFTableCell.XWPFVertAlign.CENTER);
-                            if (!cell.getParagraphs().isEmpty()) {
-                                XWPFParagraph cp = cell.getParagraphs().get(0);
-                                cp.setAlignment(ParagraphAlignment.CENTER);
-                                if (!cp.getRuns().isEmpty()) {
-                                    cp.getRuns().get(0).setFontFamily("黑体");
-                                    cp.getRuns().get(0).setFontSize(12); // 小四
-                                }
-                            }
-                        }
-                    }
-                    // 将第二行（留给老师手写填写的空白行）的行高设置为两倍（约 600 缇），提供足够的书写空间
-                    scoreTable.getRow(1).setHeight(600);
+                    // -- 1. 不再生成独立悬浮得分/评卷人小表格 --
 
                     // -- 2. 大题标题段落 --
                     XWPFParagraph titlePara = doc.createParagraph();
@@ -808,46 +816,6 @@ public class ExamPaperService {
             qRun.setFontFamily("宋体");
 
             if (isProgramming) {
-                // 编程题特有：运行结果截图区域
-                XWPFParagraph screenshotLabel = doc.createParagraph();
-                screenshotLabel.setIndentationLeft(240);
-                XWPFRun ssRun = screenshotLabel.createRun();
-                ssRun.setText("运行结果截图：");
-                ssRun.setFontSize(11);
-                ssRun.setFontFamily("宋体");
-
-                // 截图框（用单行单列表格模拟边框）
-                XWPFTable ssTable = doc.createTable(1, 1);
-                ssTable.setWidth("100%");
-                XWPFParagraph ssCell = ssTable.getRow(0).getCell(0).getParagraphArray(0);
-                ssCell.setSpacingBetween(1.0);
-                for (int k = 0; k < 2; k++) {
-                    ssTable.getRow(0).getCell(0).addParagraph();
-                }
-                
-                doc.createParagraph(); // 表格后的留空
-
-                // 相关源代码区域
-                XWPFParagraph codeLabel = doc.createParagraph();
-                codeLabel.setIndentationLeft(240);
-                XWPFRun codeRun = codeLabel.createRun();
-                codeRun.setText("相关源代码：");
-                codeRun.setFontSize(11);
-                codeRun.setFontFamily("宋体");
-
-                // 源代码框（两行框，用表格模拟）
-                XWPFTable codeTable = doc.createTable(2, 1);
-                codeTable.setWidth("100%");
-                for (int r = 0; r < 2; r++) {
-                    XWPFParagraph codeCell = codeTable.getRow(r).getCell(0).getParagraphArray(0);
-                    codeCell.setSpacingBetween(1.0);
-                    for (int k = 0; k < 2; k++) {
-                        codeTable.getRow(r).getCell(0).addParagraph();
-                    }
-                }
-                
-                doc.createParagraph(); // 题与题之间的留空
-                
                 if (withAnswer) {
                     String ans = pq.getQuestion().getAnswer();
                     if (ans != null && !ans.isEmpty()) {
@@ -857,6 +825,10 @@ public class ExamPaperService {
                         ansRun.setColor("FF0000");
                         ansRun.setBold(true);
                         renderMarkdownBlocksToWord(doc, ansPara, ans, "FF0000");
+                    }
+                } else {
+                    for (int k = 0; k < 8; k++) {
+                        doc.createParagraph();
                     }
                 }
             } else {
@@ -869,6 +841,19 @@ public class ExamPaperService {
                         ansRun.setColor("FF0000");
                         ansRun.setBold(true);
                         renderMarkdownBlocksToWord(doc, ansPara, ans, "FF0000");
+                    }
+                    if (pq.getQuestion().getType() == QuestionType.CODE_READING) {
+                        String exp = pq.getQuestion().getExplanation();
+                        if (exp != null && !exp.trim().isEmpty()) {
+                            XWPFParagraph expPara = doc.createParagraph();
+                            XWPFRun expRun = expPara.createRun();
+                            expRun.setColor("0000FF"); // 蓝色
+                            expRun.setBold(true);
+                            expRun.setFontFamily("宋体");
+                            expRun.setFontSize(10.5);
+                            expRun.setText("【解析】：");
+                            renderMarkdownBlocksToWord(doc, expPara, exp, "0000FF");
+                        }
                     }
                 } else {
                     // 简答/程序分析：留8行空白
@@ -1266,6 +1251,7 @@ public class ExamPaperService {
         dto.setDurationMinutes(paper.getDurationMinutes());
         dto.setDescription(paper.getDescription());
         dto.setCreatedAt(paper.getCreatedAt());
+        dto.setGradingRubric(paper.getGradingRubric());
         // 计算题目数量
         dto.setQuestions(paper.getPaperQuestions().stream()
                 .map(pq -> {
@@ -1287,6 +1273,7 @@ public class ExamPaperService {
         dto.setDurationMinutes(paper.getDurationMinutes());
         dto.setDescription(paper.getDescription());
         dto.setCreatedAt(paper.getCreatedAt());
+        dto.setGradingRubric(paper.getGradingRubric());
         dto.setQuestions(paper.getPaperQuestions().stream()
                 .map(pq -> {
                     PaperDTO.PaperQuestionDTO pqDto = new PaperDTO.PaperQuestionDTO();

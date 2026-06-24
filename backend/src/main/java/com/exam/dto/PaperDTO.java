@@ -15,6 +15,7 @@ public class PaperDTO {
     private Integer durationMinutes;
     private String description;
     private LocalDateTime createdAt;
+    private String gradingRubric;
     private List<PaperQuestionDTO> questions;
 
     /**

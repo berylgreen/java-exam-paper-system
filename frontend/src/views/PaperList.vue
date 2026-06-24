@@ -44,7 +44,18 @@
           <el-button size="small" type="success" @click="handleExport(p.id)">
             <el-icon><Download /></el-icon> 导出试卷
           </el-button>
-          <el-button size="small" type="danger" @click="handleDelete(p.id)">
+          
+          <el-button size="small" type="warning" v-if="!p.gradingRubric" :loading="rubricGenerating[p.id]" @click="handleGenerateRubric(p.id)">
+            <el-icon><MagicStick /></el-icon> {{ rubricGenerating[p.id] ? '生成中...' : '生成评分标准' }}
+          </el-button>
+          <template v-else>
+            <el-button size="small" type="info" @click="handleViewRubric(p)">
+              <el-icon><Document /></el-icon> 查看评分标准
+            </el-button>
+            <el-button size="small" type="warning" :loading="rubricGenerating[p.id]" @click="handleGenerateRubric(p.id)">
+              <el-icon><Refresh /></el-icon> {{ rubricGenerating[p.id] ? '生成中...' : '重新生成评分标准' }}
+            </el-button>
+          </template>          <el-button size="small" type="danger" @click="handleDelete(p.id)">
             <el-icon><Delete /></el-icon>
           </el-button>
         </div>
@@ -56,8 +67,16 @@
     <ExportDialog
       v-model="exportDialogVisible"
       :show-answer-option="true"
+      :paper-has-rubric="currentExportPaper?.gradingRubric != null"
       @confirm="onExportConfirm"
     />
+
+    <el-dialog v-model="rubricDialogVisible" title="评分标准预览" width="800px">
+      <div class="markdown-body" v-html="currentRubricHtml" style="max-height: 500px; overflow-y: auto;"></div>
+      <template #footer>
+        <el-button @click="rubricDialogVisible = false">关闭</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -66,12 +85,18 @@ import { ref, computed, onMounted } from 'vue'
 import { paperApi } from '../api'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import ExportDialog from '../components/ExportDialog.vue'
+import { marked } from 'marked'
 
 const papers = ref([])
 const loading = ref(false)
 const exportDialogVisible = ref(false)
 const currentExportId = ref(null)
+const currentExportPaper = ref(null)
 const selectedPaperIds = ref([])
+
+const rubricGenerating = ref({})
+const rubricDialogVisible = ref(false)
+const currentRubricHtml = ref('')
 
 // 排序状态
 const sortBy = ref('createdAt')
@@ -123,11 +148,31 @@ const handleBatchDelete = async () => {
 
 const handleExport = (id) => {
   currentExportId.value = id
+  currentExportPaper.value = papers.value.find(p => p.id === id)
   exportDialogVisible.value = true
 }
 
-const onExportConfirm = ({ types, withAnswer, answerSheetType }) => {
-  window.open(paperApi.exportUrl(currentExportId.value, withAnswer, types, answerSheetType), '_blank')
+const handleGenerateRubric = async (id) => {
+  rubricGenerating.value[id] = true
+  try {
+    await paperApi.generateRubric(id)
+    ElMessage.success('评分标准生成成功')
+    await load()
+  } catch (e) {
+    ElMessage.error(e.response?.data?.error || '生成失败，请重试')
+  } finally {
+    rubricGenerating.value[id] = false
+  }
+}
+
+const handleViewRubric = (paper) => {
+  if (!paper.gradingRubric) return
+  currentRubricHtml.value = marked.parse(paper.gradingRubric)
+  rubricDialogVisible.value = true
+}
+
+const onExportConfirm = ({ types, withAnswer, answerSheetType, withRubric }) => {
+  window.open(paperApi.exportUrl(currentExportId.value, withAnswer, types, answerSheetType, withRubric), '_blank')
 }
 
 const formatTime = (t) => t ? t.substring(0, 16).replace('T', ' ') : ''
