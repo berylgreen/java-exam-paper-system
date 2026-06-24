@@ -411,7 +411,7 @@ public class ExamPaperService {
                         XWPFParagraph rubricTitle = rubricDoc.createParagraph();
                         rubricTitle.setAlignment(ParagraphAlignment.CENTER);
                         XWPFRun titleRun = rubricTitle.createRun();
-                        titleRun.setText(paper.getTitle() + " 评分标准细则");
+                        titleRun.setText(paper.getTitle() + " 参考答案与评分标准");
                         titleRun.setBold(true);
                         titleRun.setFontSize(18);
                         titleRun.setFontFamily("黑体");
@@ -421,7 +421,7 @@ public class ExamPaperService {
                         
                         ByteArrayOutputStream rubricBaos = new ByteArrayOutputStream();
                         rubricDoc.write(rubricBaos);
-                        java.util.zip.ZipEntry rubricEntry = new java.util.zip.ZipEntry("完整学号_姓名_AI评分标准.docx");
+                        java.util.zip.ZipEntry rubricEntry = new java.util.zip.ZipEntry("参考答案与评分标准.docx");
                         zos.putNextEntry(rubricEntry);
                         zos.write(rubricBaos.toByteArray());
                         zos.closeEntry();
