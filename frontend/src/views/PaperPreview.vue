@@ -13,7 +13,10 @@
     </div>
 
     <div v-loading="loading" class="paper-preview">
-      <PaperViewer v-if="paper" :paper="paper" :show-answer="showAnswer" allow-replace allow-edit :allow-reorder="allowReorder" @replace-question="handleReplace" @edit-question="handleEdit" @reorder="handleReorder" @update-title="handleUpdateTitle" />
+      <PaperViewer v-if="paper" :paper="paper" :show-answer="showAnswer" allow-replace allow-edit :allow-reorder="allowReorder" 
+        allow-adjust-count allow-delete
+        @replace-question="handleReplace" @edit-question="handleEdit" @reorder="handleReorder" @update-title="handleUpdateTitle"
+        @add-questions="handleAddQuestions" @remove-questions="handleRemoveQuestions" @remove-specific-question="handleRemoveSpecificQuestion" />
     </div>
 
     <!-- 题目编辑对话框 -->
@@ -129,6 +132,39 @@ const handleUpdateTitle = async (newTitle) => {
     paper.value.title = newTitle
   } catch (e) {
     ElMessage.error('修改标题失败: ' + (e.response?.data?.message || e.message))
+  }
+}
+
+const handleAddQuestions = async ({ type, count }) => {
+  try {
+    await paperApi.adjustCount(route.params.id, type, count)
+    ElMessage.success('成功添加题目')
+    await loadPaper()
+  } catch (e) {
+    ElMessage.error('添加题目失败: ' + (e.response?.data?.message || e.message))
+    await loadPaper()
+  }
+}
+
+const handleRemoveQuestions = async ({ type, count }) => {
+  try {
+    await paperApi.adjustCount(route.params.id, type, -count)
+    ElMessage.success('成功移除题目')
+    await loadPaper()
+  } catch (e) {
+    ElMessage.error('移除题目失败: ' + (e.response?.data?.message || e.message))
+    await loadPaper()
+  }
+}
+
+const handleRemoveSpecificQuestion = async (pq) => {
+  try {
+    await paperApi.removeSpecificQuestion(route.params.id, pq.question.id)
+    ElMessage.success('成功删除题目')
+    await loadPaper()
+  } catch (e) {
+    ElMessage.error('删除题目失败: ' + (e.response?.data?.message || e.message))
+    await loadPaper()
   }
 }
 

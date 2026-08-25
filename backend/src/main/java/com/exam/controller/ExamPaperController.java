@@ -1,6 +1,7 @@
 package com.exam.controller;
 
 import com.exam.dto.*;
+import com.exam.enums.QuestionType;
 import com.exam.service.ExamPaperService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -133,6 +134,30 @@ public class ExamPaperController {
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             log.error("[API] replace-question 异常", e);
+            return ResponseEntity.status(500).body(java.util.Map.of("error", e.getMessage()));
+        }
+    }
+
+    /** 调整某题型的数量 */
+    @PutMapping("/{id}/adjust-count")
+    public ResponseEntity<Object> adjustCount(@PathVariable("id") Long id, @RequestParam("type") QuestionType type, @RequestParam("diff") Integer diff) {
+        try {
+            PaperDTO result = paperService.adjustQuestionCount(id, type, diff);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("[API] adjustCount 异常", e);
+            return ResponseEntity.status(500).body(java.util.Map.of("error", e.getMessage()));
+        }
+    }
+    
+    /** 从试卷中删除指定题目 */
+    @DeleteMapping("/{id}/questions/{questionId}")
+    public ResponseEntity<Object> removeSpecificQuestion(@PathVariable("id") Long id, @PathVariable("questionId") Long questionId) {
+        try {
+            PaperDTO result = paperService.removeSpecificQuestion(id, questionId);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error("[API] removeSpecificQuestion 异常", e);
             return ResponseEntity.status(500).body(java.util.Map.of("error", e.getMessage()));
         }
     }

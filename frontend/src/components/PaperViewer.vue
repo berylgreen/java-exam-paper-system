@@ -15,7 +15,15 @@
 
     <template v-if="paper">
       <div v-for="(section, idx) in sections" :key="idx">
-        <div class="section-title">{{ sectionNum(idx) }}、{{ section.type === 'CODE_READING' ? section.typeLabel + ' （需要写出分析过程）' : section.typeLabel }} (共{{ section.questions.length }}题，共{{ section.totalScore }}分)</div>
+        <div class="section-title">
+          {{ sectionNum(idx) }}、{{ section.type === 'CODE_READING' ? section.typeLabel + ' （需要写出分析过程）' : section.typeLabel }}
+          <span v-if="allowAdjustCount" style="display:inline-block; margin-left: 8px;">
+            (共 <el-input-number size="small" :model-value="section.questions.length" @change="(newVal) => handleCountChange(section.type, section.questions.length, newVal)" :min="0" :max="100" style="width: 100px;"></el-input-number> 题，共{{ section.totalScore }}分)
+          </span>
+          <span v-else>
+            (共{{ section.questions.length }}题，共{{ section.totalScore }}分)
+          </span>
+        </div>
         <div v-for="(pq, qi) in section.questions" :key="pq.question.id || qi" class="question-item"
              :draggable="allowReorder"
              @dragstart="onDragStart($event, pq, section.type, qi)"
@@ -39,6 +47,9 @@
               </el-button>
               <el-button v-if="allowReplace" size="small" type="success" plain @click="autoReplace(pq)">
                 <el-icon><MagicStick /></el-icon> 自动换题
+              </el-button>
+              <el-button v-if="allowDelete" size="small" type="danger" plain @click="emit('remove-specific-question', pq)">
+                <el-icon><Delete /></el-icon> 删除
               </el-button>
             </div>
           </div>
@@ -200,7 +211,15 @@ const renderMarkdown = (text) => {
   return marked.parse(text)
 }
 
-const emit = defineEmits(['replace-question', 'edit-question', 'reorder', 'update-title'])
+const emit = defineEmits(['replace-question', 'edit-question', 'reorder', 'update-title', 'add-questions', 'remove-questions', 'remove-specific-question'])
+
+const handleCountChange = (type, oldVal, newVal) => {
+  if (newVal > oldVal) {
+    emit('add-questions', { type, count: newVal - oldVal })
+  } else if (newVal < oldVal) {
+    emit('remove-questions', { type, count: oldVal - newVal })
+  }
+}
 
 const downloadProject = (id, type = 'project') => {
   window.open(`/api/questions/${id}/download-project?type=${type}`, '_blank')
@@ -279,6 +298,14 @@ const props = defineProps({
     default: false
   },
   allowReorder: {
+    type: Boolean,
+    default: false
+  },
+  allowAdjustCount: {
+    type: Boolean,
+    default: false
+  },
+  allowDelete: {
     type: Boolean,
     default: false
   },

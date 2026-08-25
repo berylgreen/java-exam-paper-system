@@ -131,7 +131,10 @@
       </div>
 
       <div class="paper-preview" style="padding: 24px;">
-        <PaperViewer :paper="previewData" :show-answer="false" allow-replace allow-reorder @replace-question="handleReplace" :allowed-chapters="form.chapters" />
+        <PaperViewer :paper="previewData" :show-answer="false" allow-replace allow-reorder :allowed-chapters="form.chapters" 
+          allow-delete 
+          @replace-question="handleReplace" 
+          @remove-specific-question="handleRemoveSpecificQuestion" />
       </div>
     </div>
 
@@ -292,6 +295,16 @@ const handleReplace = ({ oldPq, newQuestion }) => {
   if (idx !== -1) {
     previewData.value.questions[idx].question = newQuestion
     ElMessage.success('换题成功')
+  }
+}
+
+const handleRemoveSpecificQuestion = (pq) => {
+  const idx = previewData.value.questions.findIndex(item => item.question.id === pq.question.id)
+  if (idx !== -1) {
+    const removedScore = previewData.value.questions[idx].score
+    previewData.value.questions.splice(idx, 1)
+    previewData.value.totalScore -= removedScore
+    ElMessage.success('题目已移除')
   }
 }
 

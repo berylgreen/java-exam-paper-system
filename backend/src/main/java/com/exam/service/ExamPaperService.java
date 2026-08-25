@@ -298,6 +298,87 @@ public class ExamPaperService {
         return toFullDTO(paper);
     }
 
+    /** 调整试卷中某个题型的数量（自动增加或减少） */
+    @Transactional
+    public PaperDTO adjustQuestionCount(Long paperId, QuestionType type, int countDiff) {
+        ExamPaper paper = paperRepository.findById(paperId)
+                .orElseThrow(() -> new RuntimeException("试卷不存在: " + paperId));
+        
+        List<PaperQuestion> pqs = paper.getPaperQuestions();
+        
+        if (countDiff > 0) {
+            // 需要增加题目
+            List<Long> existingIds = pqs.stream().map(pq -> pq.getQuestion().getId()).collect(Collectors.toList());
+            List<Question> candidates = questionRepository.findByType(type).stream()
+                    .filter(q -> !existingIds.contains(q.getId()))
+                    .collect(Collectors.toList());
+            
+            if (candidates.size() < countDiff) {
+                throw new RuntimeException("题库中该题型的剩余可用题目不足以添加 " + countDiff + " 题");
+            }
+            
+            Collections.shuffle(candidates);
+            int maxOrder = pqs.stream().mapToInt(PaperQuestion::getQuestionOrder).max().orElse(0);
+            
+            // 尝试获取该题型当前的分数，如果找不到则使用题目的默认分数
+            Integer scoreToUse = pqs.stream()
+                    .filter(pq -> pq.getQuestion().getType() == type)
+                    .map(PaperQuestion::getScore)
+                    .findFirst()
+                    .orElse(null);
+            
+            for (int i = 0; i < countDiff; i++) {
+                Question q = candidates.get(i);
+                int score = scoreToUse != null ? scoreToUse : (q.getDefaultScore() != null ? q.getDefaultScore() : 2);
+                PaperQuestion newPq = PaperQuestion.builder()
+                        .paper(paper)
+                        .question(q)
+                        .questionOrder(++maxOrder)
+                        .score(score)
+                        .build();
+                paperQuestionRepository.save(newPq);
+                paper.setTotalScore(paper.getTotalScore() + newPq.getScore());
+                pqs.add(newPq);
+            }
+        } else if (countDiff < 0) {
+            // 需要减少题目 (从最后面开始删)
+            int removeCount = -countDiff;
+            List<PaperQuestion> typePqs = pqs.stream()
+                    .filter(pq -> pq.getQuestion().getType() == type)
+                    .sorted(Comparator.comparing(PaperQuestion::getQuestionOrder).reversed())
+                    .collect(Collectors.toList());
+            
+            if (typePqs.size() < removeCount) {
+                throw new RuntimeException("该题型题目不足以删除 " + removeCount + " 题");
+            }
+            
+            for (int i = 0; i < removeCount; i++) {
+                PaperQuestion pqToRemove = typePqs.get(i);
+                paper.setTotalScore(paper.getTotalScore() - pqToRemove.getScore());
+                paperQuestionRepository.delete(pqToRemove);
+                pqs.remove(pqToRemove);
+            }
+        }
+        
+        paperRepository.save(paper);
+        return toFullDTO(paper);
+    }
+    
+    /** 从试卷中删除指定题目 */
+    @Transactional
+    public PaperDTO removeSpecificQuestion(Long paperId, Long questionId) {
+        ExamPaper paper = paperRepository.findById(paperId)
+                .orElseThrow(() -> new RuntimeException("试卷不存在: " + paperId));
+        PaperQuestion pqToRemove = paperQuestionRepository.findByPaperIdAndQuestionId(paperId, questionId)
+                .orElseThrow(() -> new RuntimeException("试卷中没有这道题"));
+                
+        paper.setTotalScore(paper.getTotalScore() - pqToRemove.getScore());
+        paperQuestionRepository.delete(pqToRemove);
+        paper.getPaperQuestions().remove(pqToRemove);
+        paperRepository.save(paper);
+        return toFullDTO(paper);
+    }
+
     /** 更新试卷名称 */
     @Transactional
     public PaperDTO updateTitle(Long paperId, String newTitle) {

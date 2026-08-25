@@ -40,6 +40,8 @@ export const paperApi = {
     replaceQuestion: (id, data) => api.put(`/papers/${id}/replace-question`, data),
     reorderQuestions: (id, data) => api.put(`/papers/${id}/reorder`, data),
     updateTitle: (id, title) => api.put(`/papers/${id}/title`, { title }),
+    adjustCount: (id, type, diff) => api.put(`/papers/${id}/adjust-count`, null, { params: { type, diff } }),
+    removeSpecificQuestion: (id, questionId) => api.delete(`/papers/${id}/questions/${questionId}`),
     exportUrl: (id, withAnswer = false, types = ['docx', 'pdf'], answerSheetType = 'generate', withRubric = false) => `/api/papers/${id}/export?withAnswer=${withAnswer}&types=${types.join(',')}&answerSheetType=${answerSheetType}&withRubric=${withRubric}`,
     generateRubric: (id) => api.post(`/papers/${id}/rubric/generate`),
 }
