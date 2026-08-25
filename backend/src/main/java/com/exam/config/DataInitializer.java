@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 数据初始化器 — 首次启动时从 JSON 文件加载题库和预置试卷
+ * 数据初始化器 — 首次启动时从 JSON 文件加载基础章节和题库
  *
  * 题库数据存放在 resources/questions.json
  * 可直接使用导出的 JSON 文件替换此文件来更新题库，重启即可重新初始化。

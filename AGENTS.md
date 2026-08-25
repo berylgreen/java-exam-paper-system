@@ -4,7 +4,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ## Project Overview
 
-Java Exam Paper Generation System ("Java 程序设计基础 -- 出题组卷系统") -- a full-stack application for managing a question bank and generating exam papers for a Java programming fundamentals course. Pre-loaded with ~150 questions across 10 chapters and 6 question types, with 20 pre-built exam papers initialized on first startup.
+Java Exam Paper Generation System ("Java 程序设计基础 -- 出题组卷系统") -- a full-stack application for managing a question bank and generating exam papers for a Java programming fundamentals course. Pre-loaded with questions across multiple chapters and 6 question types.
 
 ## Tech Stack
 
@@ -88,8 +88,8 @@ The core algorithm in `ExamPaperService.pickQuestions()` works in stages:
 ### Data Initialization (DataInitializer)
 
 Implements `CommandLineRunner`. On first startup (when question count is 0):
-1. Loads all questions from `classpath:questions.json`
-2. Creates 20 pre-built exam papers, each with 28 questions totaling 100 points (10 single-choice x2, 5 multiple-choice x4, 5 true/false x2, 5 fill-blank x4, 2 short-answer x10, 1 programming x10)
+1. Initializes preset chapters from `metadata.json`
+2. Loads all questions from `classpath:questions.json`
 
 The JSON file can be replaced with an exported file from the "export questions" API to update the seed bank.
 
