@@ -337,7 +337,6 @@ public class ExamPaperService {
                         .score(score)
                         .build();
                 paperQuestionRepository.save(newPq);
-                paper.setTotalScore(paper.getTotalScore() + newPq.getScore());
                 pqs.add(newPq);
             }
         } else if (countDiff < 0) {
@@ -354,12 +353,12 @@ public class ExamPaperService {
             
             for (int i = 0; i < removeCount; i++) {
                 PaperQuestion pqToRemove = typePqs.get(i);
-                paper.setTotalScore(paper.getTotalScore() - pqToRemove.getScore());
                 paperQuestionRepository.delete(pqToRemove);
                 pqs.remove(pqToRemove);
             }
         }
         
+        recalculateTotalScore(paper);
         paperRepository.save(paper);
         return toFullDTO(paper);
     }
@@ -372,9 +371,10 @@ public class ExamPaperService {
         PaperQuestion pqToRemove = paperQuestionRepository.findByPaperIdAndQuestionId(paperId, questionId)
                 .orElseThrow(() -> new RuntimeException("试卷中没有这道题"));
                 
-        paper.setTotalScore(paper.getTotalScore() - pqToRemove.getScore());
         paperQuestionRepository.delete(pqToRemove);
         paper.getPaperQuestions().remove(pqToRemove);
+        
+        recalculateTotalScore(paper);
         paperRepository.save(paper);
         return toFullDTO(paper);
     }
@@ -1344,6 +1344,15 @@ public class ExamPaperService {
                 })
                 .collect(Collectors.toList()));
         return dto;
+    }
+
+    private void recalculateTotalScore(ExamPaper paper) {
+        if (paper.getPaperQuestions() != null) {
+            int total = paper.getPaperQuestions().stream()
+                    .mapToInt(PaperQuestion::getScore)
+                    .sum();
+            paper.setTotalScore(total);
+        }
     }
 
     private PaperDTO toFullDTO(ExamPaper paper) {
