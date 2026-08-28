@@ -727,8 +727,8 @@ public class ExamPaperService {
                     if (type == QuestionType.PROGRAMMING) {
                         String[] prompts = {
                             "测试时所需的数据可直接定义，无需使用 Scanner 进行键盘输入。",
-                            "所有代码统一以文本格式粘贴在答题卡上的源代码框格中",
-                            "Windows 10 截图快捷键 Win+Shift+S，选矩形截图。"
+                            "运行结果采用截图格式，源代码采用文本格式复制粘贴",
+                            "截图快捷键按 Win+Shift+S，选择矩形区域截图后，切回当前文档中，按 Ctrl+V 粘贴。"
                         };
                         for (int i = 0; i < prompts.length; i++) {
                             XWPFParagraph p = doc.createParagraph();
@@ -1516,8 +1516,8 @@ public class ExamPaperService {
                 if (type == QuestionType.PROGRAMMING) {
                     String[] prompts = {
                         "测试时所需的数据可直接定义，无需使用 Scanner 进行键盘输入。",
-                        "所有代码统一以文本格式粘贴在答题卡上的源代码框格中。",
-                        "Windows 10 截图快捷键 Win+Shift+S，选矩形截图。"
+                        "运行结果采用截图格式，源代码采用文本格式复制粘贴",
+                        "截图快捷键按 Win+Shift+S，选择矩形区域截图后，切回当前文档中，按 Ctrl+V 粘贴。"
                     };
                     for (int i = 0; i < prompts.length; i++) {
                         XWPFParagraph p = doc.createParagraph();
