@@ -742,9 +742,13 @@ public class ExamPaperService {
                             bulletRun.setFontSize(10);
     
                             String prompt = prompts[i];
-                            if (i == 2) {
+                            if (prompt.contains("Win+Shift+S")) {
+                                int idx = prompt.indexOf("Win+Shift+S");
+                                String prefix = prompt.substring(0, idx);
+                                String suffix = prompt.substring(idx + "Win+Shift+S".length());
+                                
                                 XWPFRun run1 = p.createRun();
-                                run1.setText("Windows 10 截图快捷键 ");
+                                run1.setText(prefix);
                                 run1.setFontFamily("宋体");
                                 run1.setFontSize(10.5);
                                 
@@ -755,7 +759,7 @@ public class ExamPaperService {
                                 run2.setFontSize(10.5);
                                 
                                 XWPFRun run3 = p.createRun();
-                                run3.setText("，选矩形截图。");
+                                run3.setText(suffix);
                                 run3.setFontFamily("宋体");
                                 run3.setFontSize(10.5);
                             } else {
@@ -1531,9 +1535,13 @@ public class ExamPaperService {
                         bulletRun.setFontSize(10); // slightly smaller for bullet
 
                         String prompt = prompts[i];
-                        if (i == 2) {
+                        if (prompt.contains("Win+Shift+S")) {
+                            int idx = prompt.indexOf("Win+Shift+S");
+                            String prefix = prompt.substring(0, idx);
+                            String suffix = prompt.substring(idx + "Win+Shift+S".length());
+                            
                             XWPFRun run1 = p.createRun();
-                            run1.setText("Windows 10 截图快捷键 ");
+                            run1.setText(prefix);
                             run1.setFontFamily("宋体");
                             run1.setFontSize(10.5);
                             
@@ -1544,7 +1552,7 @@ public class ExamPaperService {
                             run2.setFontSize(10.5);
                             
                             XWPFRun run3 = p.createRun();
-                            run3.setText("，选矩形截图。");
+                            run3.setText(suffix);
                             run3.setFontFamily("宋体");
                             run3.setFontSize(10.5);
                         } else {
