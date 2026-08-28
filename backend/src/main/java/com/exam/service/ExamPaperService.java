@@ -602,10 +602,33 @@ public class ExamPaperService {
             try (java.io.InputStream is = resource.getInputStream();
                  XWPFDocument doc = new XWPFDocument(is)) {
 
-                // 1. 尝试将模板中的标题替换为试卷的标题
+                // 1. 提取题目中的学年和年级信息并替换模板中的占位内容，以及替换答题纸主标题
+                String yearRegex = "\\d{4}[-—－]\\d{4}\\s*学年第[一二]学期";
+                String gradeRegex = "\\d{4}\\s*级";
+                String targetYear = null;
+                java.util.regex.Matcher yearMatcher = java.util.regex.Pattern.compile(yearRegex).matcher(paper.getTitle());
+                if (yearMatcher.find()) {
+                    targetYear = yearMatcher.group();
+                }
+                String targetGrade = null;
+                java.util.regex.Matcher gradeMatcher = java.util.regex.Pattern.compile(gradeRegex).matcher(paper.getTitle());
+                if (gradeMatcher.find()) {
+                    targetGrade = gradeMatcher.group();
+                }
+
                 for (XWPFParagraph p : doc.getParagraphs()) {
                     String text = p.getText();
-                    if (text != null && text.contains("答题纸") && (text.contains("A卷") || text.contains("卷"))) {
+                    if (text == null) continue;
+                    
+                    // 替换学年和年级
+                    if (targetYear != null) {
+                        replacePatternInParagraph(p, yearRegex, targetYear);
+                    }
+                    if (targetGrade != null) {
+                        replacePatternInParagraph(p, gradeRegex, targetGrade);
+                    }
+
+                    if (text.contains("答题纸") && (text.contains("A卷") || text.contains("卷"))) {
                         // 提取原有格式
                         String fontFamily = "黑体";
                         int fontSize = 16;
@@ -1776,6 +1799,40 @@ public class ExamPaperService {
                     if (isHeading) run.setBold(true);
                     if (defaultColor != null) run.setColor(defaultColor);
                 }
+            }
+        }
+    }
+
+    private void replacePatternInParagraph(XWPFParagraph p, String regex, String replacement) {
+        if (replacement == null) return;
+        String pText = p.getText();
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile(regex).matcher(pText);
+        if (m.find()) {
+            int matchStart = m.start();
+            int matchEnd = m.end();
+            int currentIdx = 0;
+            
+            for (XWPFRun run : p.getRuns()) {
+                String rText = run.getText(0);
+                if (rText == null || rText.isEmpty()) continue;
+                
+                int rStart = currentIdx;
+                int rEnd = currentIdx + rText.length();
+                
+                if (rStart < matchEnd && rEnd > matchStart) {
+                    StringBuilder sb = new StringBuilder(rText);
+                    int localStart = Math.max(rStart, matchStart) - rStart;
+                    int localEnd = Math.min(rEnd, matchEnd) - rStart;
+                    
+                    sb.delete(localStart, localEnd);
+                    
+                    if (matchStart >= rStart && matchStart < rEnd) {
+                        sb.insert(localStart, replacement);
+                    }
+                    
+                    run.setText(sb.toString(), 0);
+                }
+                currentIdx += rText.length();
             }
         }
     }
