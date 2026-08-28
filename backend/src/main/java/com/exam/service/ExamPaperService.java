@@ -625,7 +625,13 @@ public class ExamPaperService {
                         
                         // 写入新标题
                         XWPFRun newRun = p.createRun();
-                        newRun.setText(paper.getTitle() + "答题纸");
+                        String suffix = "（A卷）";
+                        if (paper.getTitle().contains("B") || paper.getTitle().contains("Ｂ")) {
+                            suffix = "（B卷）";
+                        } else if (paper.getTitle().contains("C") || paper.getTitle().contains("Ｃ")) {
+                            suffix = "（C卷）";
+                        }
+                        newRun.setText("答题纸" + suffix);
                         newRun.setFontFamily(fontFamily);
                         newRun.setFontSize(fontSize);
                         newRun.setBold(isBold);
