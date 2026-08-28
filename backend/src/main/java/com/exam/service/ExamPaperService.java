@@ -630,6 +630,7 @@ public class ExamPaperService {
                 }
 
                 // 3. 截断模板：删除原有的全部题目区域，同时保留段落上悬浮的“密封线”和“姓名栏”
+                org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl scoreBoxCtTbl = null;
                 if (firstSectionParaIdx != -1) {
                     int oldTableIdx = -1;
                     // 检查前一个元素是否是模板自带的"得分/评卷人"小表格
@@ -640,6 +641,7 @@ public class ExamPaperService {
                             String tblText = prevTable.getText();
                             if (tblText != null && tblText.contains("得分") && tblText.contains("评卷人")) {
                                 oldTableIdx = firstSectionParaIdx - 1;
+                                scoreBoxCtTbl = (org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTbl) prevTable.getCTTbl().copy();
                             }
                         }
                     }
@@ -699,7 +701,11 @@ public class ExamPaperService {
                             ? type.getLabel() + " （需要写出分析过程）"
                             : type.getLabel();
 
-                    // -- 1. 不再生成独立悬浮得分/评卷人小表格 --
+                    // -- 1. 生成独立悬浮得分/评卷人小表格 --
+                    if (scoreBoxCtTbl != null) {
+                        XWPFTable scoreTable = doc.createTable();
+                        scoreTable.getCTTbl().set(scoreBoxCtTbl.copy());
+                    }
 
                     // -- 2. 大题标题段落 --
                     XWPFParagraph titlePara = doc.createParagraph();
@@ -721,7 +727,7 @@ public class ExamPaperService {
                     if (type == QuestionType.PROGRAMMING) {
                         String[] prompts = {
                             "测试时所需的数据可直接定义，无需使用 Scanner 进行键盘输入。",
-                            "所有代码统一以文本格式粘贴在答题卡上的源代码框格中，如有需要可自行添加表格行数",
+                            "所有代码统一以文本格式粘贴在答题卡上的源代码框格中",
                             "Windows 10 截图快捷键 Win+Shift+S，选矩形截图。"
                         };
                         for (int i = 0; i < prompts.length; i++) {
@@ -811,19 +817,22 @@ public class ExamPaperService {
 
                 // 2. 下划线空格部分 (提供打字的下划线效果)
                 XWPFRun blankRun = rowPara.createRun();
+                int targetLength = (j + 1 < 10) ? 5 : 4;
                 if (withAnswer) {
                     String ans = questions.get(j).getQuestion().getAnswer();
                     if (ans == null) ans = "";
                     ans = ans.trim();
-                    if (ans.length() < 4) {
-                        int pad = 4 - ans.length();
+                    if (ans.length() < targetLength) {
+                        int pad = targetLength - ans.length();
                         for (int k = 0; k < pad / 2; k++) ans = " " + ans;
-                        while (ans.length() < 4) ans = ans + " ";
+                        while (ans.length() < targetLength) ans = ans + " ";
                     }
                     blankRun.setText(ans);
                     blankRun.setColor("FF0000");
                 } else {
-                    blankRun.setText("    "); // 4个空格
+                    StringBuilder sb = new StringBuilder();
+                    for(int k=0; k<targetLength; k++) sb.append(" ");
+                    blankRun.setText(sb.toString());
                 }
                 blankRun.setUnderline(UnderlinePatterns.SINGLE);
                 blankRun.setFontSize(12);
@@ -908,9 +917,33 @@ public class ExamPaperService {
                         renderMarkdownBlocksToWord(doc, ansPara, ans, "FF0000");
                     }
                 } else {
-                    for (int k = 0; k < 8; k++) {
-                        doc.createParagraph();
+                    XWPFParagraph runResultPara = doc.createParagraph();
+                    XWPFRun runResultText = runResultPara.createRun();
+                    runResultText.setText("运行结果截图：");
+                    runResultText.setFontFamily("宋体");
+                    runResultText.setFontSize(10.5);
+                    
+                    XWPFTable runResultTable = doc.createTable(1, 1);
+                    runResultTable.setWidth("100%");
+                    for (int k = 0; k < 7; k++) {
+                        runResultTable.getRow(0).getCell(0).addParagraph();
                     }
+                    
+                    doc.createParagraph();
+                    
+                    XWPFParagraph sourceCodePara = doc.createParagraph();
+                    XWPFRun sourceCodeText = sourceCodePara.createRun();
+                    sourceCodeText.setText("相关源代码：");
+                    sourceCodeText.setFontFamily("宋体");
+                    sourceCodeText.setFontSize(10.5);
+                    
+                    XWPFTable sourceCodeTable = doc.createTable(1, 1);
+                    sourceCodeTable.setWidth("100%");
+                    for (int k = 0; k < 11; k++) {
+                        sourceCodeTable.getRow(0).getCell(0).addParagraph();
+                    }
+                    
+                    doc.createParagraph();
                 }
             } else {
                 if (withAnswer) {
@@ -1483,7 +1516,7 @@ public class ExamPaperService {
                 if (type == QuestionType.PROGRAMMING) {
                     String[] prompts = {
                         "测试时所需的数据可直接定义，无需使用 Scanner 进行键盘输入。",
-                        "所有代码统一以文本格式粘贴在答题卡上的源代码框格中，如有需要可自行添加表格行数",
+                        "所有代码统一以文本格式粘贴在答题卡上的源代码框格中。",
                         "Windows 10 截图快捷键 Win+Shift+S，选矩形截图。"
                     };
                     for (int i = 0; i < prompts.length; i++) {
