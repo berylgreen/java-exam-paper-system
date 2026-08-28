@@ -789,31 +789,30 @@ public class ExamPaperService {
                             bulletRun.setFontSize(10);
     
                             String prompt = prompts[i];
-                            if (prompt.contains("Win+Shift+S")) {
-                                int idx = prompt.indexOf("Win+Shift+S");
-                                String prefix = prompt.substring(0, idx);
-                                String suffix = prompt.substring(idx + "Win+Shift+S".length());
-                                
-                                XWPFRun run1 = p.createRun();
-                                run1.setText(prefix);
-                                run1.setFontFamily("宋体");
-                                run1.setFontSize(10.5);
-                                
-                                XWPFRun run2 = p.createRun();
-                                run2.setText("Win+Shift+S");
-                                run2.setColor("FF0000");
-                                run2.setFontFamily("宋体");
-                                run2.setFontSize(10.5);
-                                
-                                XWPFRun run3 = p.createRun();
-                                run3.setText(suffix);
-                                run3.setFontFamily("宋体");
-                                run3.setFontSize(10.5);
-                            } else {
-                                XWPFRun textRun = p.createRun();
-                                textRun.setText(prompt);
-                                textRun.setFontFamily("宋体");
-                                textRun.setFontSize(10.5);
+                            String[] redKeywords = {"Win+Shift+S", "Ctrl+V","运行结果","截图格式", "源代码","文本格式"}; // 您可以在这里自由添加更多需要标红的词
+                            String regex = String.join("|", java.util.Arrays.stream(redKeywords).map(java.util.regex.Pattern::quote).toArray(String[]::new));
+                            java.util.regex.Matcher m = java.util.regex.Pattern.compile(regex).matcher(prompt);
+                            
+                            int lastEnd = 0;
+                            while (m.find()) {
+                                if (m.start() > lastEnd) {
+                                    XWPFRun run = p.createRun();
+                                    run.setText(prompt.substring(lastEnd, m.start()));
+                                    run.setFontFamily("宋体");
+                                    run.setFontSize(10.5);
+                                }
+                                XWPFRun run = p.createRun();
+                                run.setText(m.group());
+                                run.setColor("FF0000");
+                                run.setFontFamily("宋体");
+                                run.setFontSize(10.5);
+                                lastEnd = m.end();
+                            }
+                            if (lastEnd < prompt.length()) {
+                                XWPFRun run = p.createRun();
+                                run.setText(prompt.substring(lastEnd));
+                                run.setFontFamily("宋体");
+                                run.setFontSize(10.5);
                             }
                         }
                     }
@@ -1582,31 +1581,30 @@ public class ExamPaperService {
                         bulletRun.setFontSize(10); // slightly smaller for bullet
 
                         String prompt = prompts[i];
-                        if (prompt.contains("Win+Shift+S")) {
-                            int idx = prompt.indexOf("Win+Shift+S");
-                            String prefix = prompt.substring(0, idx);
-                            String suffix = prompt.substring(idx + "Win+Shift+S".length());
-                            
-                            XWPFRun run1 = p.createRun();
-                            run1.setText(prefix);
-                            run1.setFontFamily("宋体");
-                            run1.setFontSize(10.5);
-                            
-                            XWPFRun run2 = p.createRun();
-                            run2.setText("Win+Shift+S");
-                            run2.setColor("FF0000");
-                            run2.setFontFamily("宋体");
-                            run2.setFontSize(10.5);
-                            
-                            XWPFRun run3 = p.createRun();
-                            run3.setText(suffix);
-                            run3.setFontFamily("宋体");
-                            run3.setFontSize(10.5);
-                        } else {
-                            XWPFRun textRun = p.createRun();
-                            textRun.setText(prompt);
-                            textRun.setFontFamily("宋体");
-                            textRun.setFontSize(10.5);
+                        String[] redKeywords = {"Win+Shift+S", "Ctrl+V", "截图"}; // 您可以在这里自由添加更多需要标红的词
+                        String regex = String.join("|", java.util.Arrays.stream(redKeywords).map(java.util.regex.Pattern::quote).toArray(String[]::new));
+                        java.util.regex.Matcher m = java.util.regex.Pattern.compile(regex).matcher(prompt);
+                        
+                        int lastEnd = 0;
+                        while (m.find()) {
+                            if (m.start() > lastEnd) {
+                                XWPFRun run = p.createRun();
+                                run.setText(prompt.substring(lastEnd, m.start()));
+                                run.setFontFamily("宋体");
+                                run.setFontSize(10.5);
+                            }
+                            XWPFRun run = p.createRun();
+                            run.setText(m.group());
+                            run.setColor("FF0000");
+                            run.setFontFamily("宋体");
+                            run.setFontSize(10.5);
+                            lastEnd = m.end();
+                        }
+                        if (lastEnd < prompt.length()) {
+                            XWPFRun run = p.createRun();
+                            run.setText(prompt.substring(lastEnd));
+                            run.setFontFamily("宋体");
+                            run.setFontSize(10.5);
                         }
                     }
                 }
