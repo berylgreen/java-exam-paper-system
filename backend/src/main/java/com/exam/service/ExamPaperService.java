@@ -605,13 +605,31 @@ public class ExamPaperService {
                 // 1. 尝试将模板中的标题替换为试卷的标题
                 for (XWPFParagraph p : doc.getParagraphs()) {
                     String text = p.getText();
-                    if (text != null && text.contains("答题纸")) {
-                        for (XWPFRun run : p.getRuns()) {
-                            String runText = run.getText(0);
-                            if (runText != null && runText.contains("JAVA程序设计机考试卷答题纸（A卷）")) {
-                                run.setText(runText.replace("JAVA程序设计机考试卷答题纸（A卷）", paper.getTitle() + "答题纸"), 0);
-                            }
+                    if (text != null && text.contains("答题纸") && (text.contains("A卷") || text.contains("卷"))) {
+                        // 提取原有格式
+                        String fontFamily = "黑体";
+                        int fontSize = 16;
+                        boolean isBold = true;
+                        if (!p.getRuns().isEmpty()) {
+                            XWPFRun firstRun = p.getRuns().get(0);
+                            if (firstRun.getFontFamily() != null) fontFamily = firstRun.getFontFamily();
+                            if (firstRun.getFontSize() > 0) fontSize = firstRun.getFontSize();
+                            isBold = firstRun.isBold();
                         }
+                        
+                        // 清空原有文本
+                        int runCount = p.getRuns().size();
+                        for (int i = runCount - 1; i >= 0; i--) {
+                            p.removeRun(i);
+                        }
+                        
+                        // 写入新标题
+                        XWPFRun newRun = p.createRun();
+                        newRun.setText(paper.getTitle() + "答题纸");
+                        newRun.setFontFamily(fontFamily);
+                        newRun.setFontSize(fontSize);
+                        newRun.setBold(isBold);
+                        break; // 只替换第一个匹配的大标题
                     }
                 }
 
